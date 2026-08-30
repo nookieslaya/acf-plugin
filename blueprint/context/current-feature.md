@@ -6,10 +6,11 @@
 > Build one thing at a time; `/complete` archives it under
 > `blueprint/history/` and resets this file.
 
-# Feature: Risk classification rules
+# Current Feature
 
-**From build-plan:** feature 4b
-**Status:** in progress
+> **Generated file.** Holds the one feature, fix, or rollback being built right now.
+
+_Nothing in progress. Run `/feature`, `/fix`, or `/rollback` to start._
 
 ## Goal
 
