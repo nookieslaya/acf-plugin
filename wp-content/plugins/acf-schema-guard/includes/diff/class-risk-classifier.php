@@ -1,0 +1,4 @@
+<?php
+namespace AcfSchemaGuard\Diff;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+final class RiskClassifier { public function classify( SchemaDiff $diff ) { $findings=array(); foreach($diff->to_array()['changes'] as $data) { $change=new SchemaChange($data['kind'],$data['node_type'],$data['path'],$data['before'],$data['after']); $severity='warning'; $rationale='Schema node changed.'; if('added'===$data['kind']){$severity='safe';$rationale='Schema node was added.';} elseif('removed'===$data['kind']){$severity='critical';$rationale='Schema node was removed.';} elseif(isset($data['before']['type'],$data['after']['type'])&&$data['before']['type']!==$data['after']['type']){$severity='high';$rationale='Field type changed.';} $findings[]=new RiskFinding($change,$severity,$rationale); } return $findings; } }

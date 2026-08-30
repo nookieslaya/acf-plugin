@@ -6,4 +6,18 @@
 > Build one thing at a time; `/complete` archives it under
 > `blueprint/history/` and resets this file.
 
-_Nothing in progress. Run `/feature`, `/fix`, or `/rollback` to start._
+# Feature: Risk classification rules
+
+**From build-plan:** feature 4b
+**Status:** in progress
+
+## Goal
+
+Classify deterministic schema changes through extensible rules as safe, warning,
+high, or critical without coupling rules to storage or UI.
+
+## Build steps
+
+- [ ] Add risk finding and rule contracts.
+- [ ] Classify baseline ACF changes and add assertions.
+- [ ] Expose the classifier through the plugin service and document it.
