@@ -46,6 +46,10 @@ Future capture code can obtain the append-only repository with
 `$plugin->snapshot_repository()`. It provides `insert()`, `find()`, and
 `latest_for_source()` only; it does not update or delete snapshots.
 
+To capture explicitly, call `$plugin->capture_snapshot( 'acf-runtime' )` after
+the plugin is loaded. It writes one new snapshot only when ACF is available;
+plugin boot and activation never trigger capture.
+
 ## Development checks
 
 Run PHP syntax validation for the plugin files:

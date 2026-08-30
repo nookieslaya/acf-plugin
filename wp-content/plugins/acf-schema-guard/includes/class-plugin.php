@@ -14,6 +14,8 @@ use AcfSchemaGuard\Acf\FullSchemaSource;
 use AcfSchemaGuard\Schema\NormalizedSchema;
 use AcfSchemaGuard\Schema\SchemaNormalizer;
 use AcfSchemaGuard\Snapshots\SnapshotRepository;
+use AcfSchemaGuard\Snapshots\SnapshotCaptureService;
+use AcfSchemaGuard\Snapshots\SchemaSnapshot;
 use AcfSchemaGuard\Snapshots\WordPressSnapshotRepository;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -34,6 +36,7 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-schema-snapshot.p
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/interface-snapshot-repository.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-snapshot-table.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-wordpress-snapshot-repository.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-snapshot-capture-service.php';
 
 /**
  * Coordinates the plugin lifecycle without depending on ACF at load time.
@@ -68,6 +71,9 @@ final class Plugin {
 
 	/** @var SnapshotRepository|null */
 	private $snapshot_repository = null;
+
+	/** @var SnapshotCaptureService|null */
+	private $snapshot_capture_service = null;
 
 	/**
 	 * Gets the plugin instance.
@@ -146,6 +152,25 @@ final class Plugin {
 		}
 
 		return $this->snapshot_repository;
+	}
+
+	/**
+	 * Explicitly captures and persists the current ACF schema.
+	 *
+	 * @param string $source_id Caller-selected snapshot source.
+	 * @return SchemaSnapshot
+	 */
+	public function capture_snapshot( $source_id ) {
+		if ( null === $this->snapshot_capture_service ) {
+			$this->snapshot_capture_service = new SnapshotCaptureService(
+				new AcfEnvironmentProvider(),
+				new AcfSchemaSource(),
+				new SchemaNormalizer(),
+				$this->snapshot_repository()
+			);
+		}
+
+		return $this->snapshot_capture_service->capture( $source_id );
 	}
 
 	/**
