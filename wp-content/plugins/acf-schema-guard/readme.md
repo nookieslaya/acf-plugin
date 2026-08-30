@@ -34,6 +34,18 @@ because ACF's public runtime APIs are the source of truth.
 The providers use only public ACF APIs and perform no writes. They remain safe
 when ACF is inactive or unavailable.
 
+## Snapshot storage
+
+Snapshots are immutable records in the dedicated
+`{$wpdb->prefix}acf_schema_guard_snapshots` table. Plugin activation installs
+or upgrades the table. It stores a UUID, caller-provided source ID, schema
+version, canonical JSON schema, and UTC creation time. No snapshot data is kept
+in `wp_options`.
+
+Future capture code can obtain the append-only repository with
+`$plugin->snapshot_repository()`. It provides `insert()`, `find()`, and
+`latest_for_source()` only; it does not update or delete snapshots.
+
 ## Development checks
 
 Run PHP syntax validation for the plugin files:
@@ -42,4 +54,5 @@ Run PHP syntax validation for the plugin files:
 find wp-content/plugins/acf-schema-guard -name '*.php' -type f -exec php -l {} \;
 php wp-content/plugins/acf-schema-guard/tests/unavailable-acf-assertion.php
 php wp-content/plugins/acf-schema-guard/tests/normalized-schema-assertions.php
+php wp-content/plugins/acf-schema-guard/tests/snapshot-persistence-assertions.php
 ```

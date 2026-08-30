@@ -13,6 +13,8 @@ use AcfSchemaGuard\Acf\AcfSchemaSource;
 use AcfSchemaGuard\Acf\FullSchemaSource;
 use AcfSchemaGuard\Schema\NormalizedSchema;
 use AcfSchemaGuard\Schema\SchemaNormalizer;
+use AcfSchemaGuard\Snapshots\SnapshotRepository;
+use AcfSchemaGuard\Snapshots\WordPressSnapshotRepository;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -28,6 +30,10 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-normalized-field.php
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-normalized-field-group.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-normalized-schema.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-schema-normalizer.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-schema-snapshot.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/interface-snapshot-repository.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-snapshot-table.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-wordpress-snapshot-repository.php';
 
 /**
  * Coordinates the plugin lifecycle without depending on ACF at load time.
@@ -59,6 +65,9 @@ final class Plugin {
 
 	/** @var SchemaNormalizer|null */
 	private $schema_normalizer = null;
+
+	/** @var SnapshotRepository|null */
+	private $snapshot_repository = null;
 
 	/**
 	 * Gets the plugin instance.
@@ -122,6 +131,21 @@ final class Plugin {
 		}
 
 		return $this->schema_normalizer->normalize( $this->schema_source->field_groups() );
+	}
+
+	/**
+	 * Gets the append-only schema snapshot repository.
+	 *
+	 * @return SnapshotRepository
+	 */
+	public function snapshot_repository() {
+		if ( null === $this->snapshot_repository ) {
+			global $wpdb;
+
+			$this->snapshot_repository = new WordPressSnapshotRepository( $wpdb );
+		}
+
+		return $this->snapshot_repository;
 	}
 
 	/**

@@ -26,3 +26,12 @@ add_action(
 	},
 	20
 );
+
+register_activation_hook(
+	ACF_SCHEMA_GUARD_FILE,
+	static function() {
+		global $wpdb;
+
+		\AcfSchemaGuard\Snapshots\SnapshotTable::install( $wpdb );
+	}
+);
