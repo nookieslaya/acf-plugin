@@ -1,0 +1,164 @@
+{
+    "key": "group_acf_schema_guard_flexible_content",
+    "title": "Schema Guard - Flexible Content",
+    "fields": [
+        {
+            "key": "field_acf_schema_guard_page_sections",
+            "label": "Page sections",
+            "name": "page_sections",
+            "type": "flexible_content",
+            "required": 0,
+            "layouts": {
+                "layout_acf_schema_guard_hero": {
+                    "key": "layout_acf_schema_guard_hero",
+                    "name": "hero",
+                    "label": "Hero",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_acf_schema_guard_layout_hero_title",
+                            "label": "Title",
+                            "name": "hero_title",
+                            "type": "text",
+                            "required": 0,
+                            "wrapper": { "width": "", "class": "", "id": "" },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_acf_schema_guard_layout_hero_text",
+                            "label": "Text",
+                            "name": "hero_text",
+                            "type": "textarea",
+                            "required": 0,
+                            "wrapper": { "width": "", "class": "", "id": "" },
+                            "default_value": "",
+                            "maxlength": "",
+                            "rows": 4,
+                            "placeholder": "",
+                            "new_lines": "wpautop"
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_acf_schema_guard_text_section": {
+                    "key": "layout_acf_schema_guard_text_section",
+                    "name": "text_section",
+                    "label": "Text section",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_acf_schema_guard_section_heading",
+                            "label": "Heading",
+                            "name": "section_heading",
+                            "type": "text",
+                            "required": 0,
+                            "wrapper": { "width": "", "class": "", "id": "" },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_acf_schema_guard_section_content",
+                            "label": "Content",
+                            "name": "section_content",
+                            "type": "wysiwyg",
+                            "required": 0,
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_acf_schema_guard_cards": {
+                    "key": "layout_acf_schema_guard_cards",
+                    "name": "cards",
+                    "label": "Cards",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_acf_schema_guard_cards_heading",
+                            "label": "Heading",
+                            "name": "cards_heading",
+                            "type": "text",
+                            "required": 0,
+                            "wrapper": { "width": "", "class": "", "id": "" },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_acf_schema_guard_layout_cards",
+                            "label": "Cards",
+                            "name": "cards",
+                            "type": "repeater",
+                            "required": 0,
+                            "layout": "table",
+                            "pagination": 0,
+                            "min": 0,
+                            "max": 0,
+                            "collapsed": "",
+                            "button_label": "Add card",
+                            "rows_per_page": 20,
+                            "sub_fields": [
+                                {
+                                    "key": "field_acf_schema_guard_layout_card_title",
+                                    "label": "Title",
+                                    "name": "card_title",
+                                    "type": "text",
+                                    "required": 0,
+                                    "wrapper": { "width": "", "class": "", "id": "" },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": ""
+                                },
+                                {
+                                    "key": "field_acf_schema_guard_layout_card_text",
+                                    "label": "Text",
+                                    "name": "card_text",
+                                    "type": "textarea",
+                                    "required": 0,
+                                    "wrapper": { "width": "", "class": "", "id": "" },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "rows": 3,
+                                    "placeholder": "",
+                                    "new_lines": "wpautop"
+                                }
+                            ]
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                }
+            },
+            "button_label": "Add section",
+            "min": "",
+            "max": ""
+        }
+    ],
+    "location": [[{ "param": "post_type", "operator": "==", "value": "page" }]],
+    "menu_order": 3,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Flexible Content layouts used by scanner and schema fixtures.",
+    "show_in_rest": 0,
+    "modified": 1788105600
+}

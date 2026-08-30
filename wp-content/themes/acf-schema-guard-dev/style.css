@@ -1,0 +1,79 @@
+/*
+Theme Name: ACF Schema Guard Dev
+Theme URI: https://example.com/acf-schema-guard-dev
+Author: ACF Schema Guard
+Description: Minimal development theme for testing ACF schemas and code references.
+Version: 0.1.0
+Text Domain: acf-schema-guard-dev
+*/
+
+:root {
+	--guard-ink: #172033;
+	--guard-muted: #5f6c80;
+	--guard-surface: #f6f8fb;
+	--guard-accent: #2359d9;
+	--guard-border: #d9e0eb;
+	--guard-width: 72rem;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--guard-surface);
+	color: var(--guard-ink);
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-size: 1rem;
+	line-height: 1.6;
+}
+
+a {
+	color: var(--guard-accent);
+}
+
+.site-header,
+.site-footer,
+.site-main {
+	margin: 0 auto;
+	max-width: var(--guard-width);
+	padding: 1.5rem;
+}
+
+.site-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.site-title {
+	color: inherit;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.site-main {
+	min-height: 65vh;
+}
+
+.entry,
+.empty-state {
+	padding: 2rem;
+	border: 1px solid var(--guard-border);
+	border-radius: 0.75rem;
+	background: #fff;
+}
+
+.entry + .entry {
+	margin-top: 1.5rem;
+}
+
+.entry-title {
+	margin-top: 0;
+}
+
+.site-footer {
+	color: var(--guard-muted);
+	font-size: 0.875rem;
+}

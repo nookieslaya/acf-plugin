@@ -1,0 +1,21 @@
+# This repository tracks only the ACF Schema Guard product and its workflow.
+*
+
+!.gitignore
+!AGENTS.md
+!.agents/
+!.agents/**
+!blueprint/
+!blueprint/**
+!docs/
+!docs/**
+
+# Product code only. WordPress core, configuration, bundled themes, uploads,
+# caches, and every other plugin remain local to this development installation.
+!wp-content/
+!wp-content/plugins/
+!wp-content/plugins/acf-schema-guard/
+!wp-content/plugins/acf-schema-guard/**
+!wp-content/themes/
+!wp-content/themes/acf-schema-guard-dev/
+!wp-content/themes/acf-schema-guard-dev/**

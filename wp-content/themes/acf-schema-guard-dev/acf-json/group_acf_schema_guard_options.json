@@ -1,0 +1,43 @@
+{
+    "key": "group_acf_schema_guard_options",
+    "title": "Schema Guard - Test Settings",
+    "fields": [
+        {
+            "key": "field_acf_schema_guard_settings_label",
+            "label": "Environment label",
+            "name": "environment_label",
+            "type": "text",
+            "required": 0,
+            "wrapper": { "width": "", "class": "", "id": "" },
+            "default_value": "Development",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_acf_schema_guard_maintenance_message",
+            "label": "Maintenance message",
+            "name": "maintenance_message",
+            "type": "textarea",
+            "required": 0,
+            "wrapper": { "width": "", "class": "", "id": "" },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": "wpautop"
+        }
+    ],
+    "location": [[{ "param": "options_page", "operator": "==", "value": "acf-schema-guard-test-settings" }]],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "ACF PRO options page fixture.",
+    "show_in_rest": 0,
+    "modified": 1788105600
+}
