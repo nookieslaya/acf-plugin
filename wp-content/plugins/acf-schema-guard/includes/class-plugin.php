@@ -16,6 +16,7 @@ use AcfSchemaGuard\Schema\SchemaNormalizer;
 use AcfSchemaGuard\Snapshots\SnapshotRepository;
 use AcfSchemaGuard\Snapshots\SnapshotCaptureService;
 use AcfSchemaGuard\Snapshots\SchemaSnapshot;
+use AcfSchemaGuard\Diff\SchemaDiffer;
 use AcfSchemaGuard\Snapshots\WordPressSnapshotRepository;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -37,6 +38,9 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/interface-snapshot-repo
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-snapshot-table.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-wordpress-snapshot-repository.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-snapshot-capture-service.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-schema-change.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-schema-diff.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-schema-differ.php';
 
 /**
  * Coordinates the plugin lifecycle without depending on ACF at load time.
@@ -74,6 +78,7 @@ final class Plugin {
 
 	/** @var SnapshotCaptureService|null */
 	private $snapshot_capture_service = null;
+	private $schema_differ = null;
 
 	/**
 	 * Gets the plugin instance.
@@ -171,6 +176,10 @@ final class Plugin {
 		}
 
 		return $this->snapshot_capture_service->capture( $source_id );
+	}
+	public function diff_schemas( array $before, array $after ) {
+		if ( null === $this->schema_differ ) { $this->schema_differ = new SchemaDiffer(); }
+		return $this->schema_differ->compare( $before, $after );
 	}
 
 	/**

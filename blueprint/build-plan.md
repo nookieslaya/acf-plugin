@@ -11,7 +11,10 @@
 
 ## Change analysis
 
-- [ ] 4. **Schema diff and extensible risk classification** - compare snapshots and report safe, warning, high, and critical changes without coupling rules to storage.
+- [ ] 4. **Schema diff and extensible risk classification**
+  - [x] 4a. **Schema change model** - compare normalized snapshots and report deterministic added, removed, and modified groups and fields.
+  - [ ] 4b. **Risk classification rules** - classify schema changes as safe, warning, high, or critical through extensible rules.
+  - [ ] 4c. **Snapshot analysis service** - compose schema diff and risk rules into one result for later Admin and CLI features.
 - [ ] 5. **Code-usage scanner architecture** - define exchangeable language strategies and a durable code-reference model without a regex-only parser shortcut.
 - [ ] 6. **PHP ACF usage scanner** - scan supported PHP ACF call sites and connect references to changed fields.
 
