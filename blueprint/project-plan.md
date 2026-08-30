@@ -31,7 +31,8 @@ renamed fields.
 
 - Normalized ACF field-group schemas, including field keys, names, types,
   settings, nested fields, repeater subfields, and flexible-content layouts.
-- Immutable schema snapshots with creation metadata and a source identifier.
+- Immutable schema snapshots with creation metadata and a source identifier,
+  persisted in a dedicated WordPress database table rather than `wp_options`.
 - Schema diffs and classified findings, including severity, rationale, and links
   to affected schema nodes.
 - Code-usage references, including field name, scanner strategy, path, line, and

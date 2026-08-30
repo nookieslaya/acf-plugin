@@ -17,6 +17,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-field-group-descriptor.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-acf-environment.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-acf-environment-provider.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-canonical-value.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-normalized-field.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-normalized-field-group.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-normalized-schema.php';
 
 /**
  * Coordinates the plugin lifecycle without depending on ACF at load time.

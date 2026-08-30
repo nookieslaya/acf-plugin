@@ -4,7 +4,10 @@
 
 - [x] 1. **ACF development test theme** - provide a minimal classic theme with ACF Local JSON, realistic field examples, and documented breaking-change scenarios.
 - [x] 2. **Plugin bootstrap and ACF integration boundary** - create the plugin shell and safely discover ACF, ACF PRO, field groups, and Local JSON sources.
-- [ ] 3. **Schema normalization and snapshots** - define stable normalized schema data and persist comparable snapshots.
+- [ ] 3. **Schema normalization and snapshots**
+  - [ ] 3a. **Normalized schema model** - transform ACF discovery data into stable, deterministic schema contracts without persistence.
+  - [ ] 3b. **Snapshot persistence** - persist and retrieve immutable normalized snapshots in a dedicated WordPress table.
+  - [ ] 3c. **Snapshot capture service** - compose ACF discovery, normalization, and persistence into explicit snapshot capture.
 
 ## Change analysis
 
