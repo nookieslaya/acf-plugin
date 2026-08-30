@@ -9,6 +9,10 @@ namespace AcfSchemaGuard;
 
 use AcfSchemaGuard\Acf\AcfEnvironment;
 use AcfSchemaGuard\Acf\AcfEnvironmentProvider;
+use AcfSchemaGuard\Acf\AcfSchemaSource;
+use AcfSchemaGuard\Acf\FullSchemaSource;
+use AcfSchemaGuard\Schema\NormalizedSchema;
+use AcfSchemaGuard\Schema\SchemaNormalizer;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -17,6 +21,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-field-group-descriptor.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-acf-environment.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-acf-environment-provider.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/interface-full-schema-source.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-acf-schema-source.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-canonical-value.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-normalized-field.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-normalized-field-group.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-normalized-schema.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-schema-normalizer.php';
 
 /**
  * Coordinates the plugin lifecycle without depending on ACF at load time.
@@ -42,6 +53,12 @@ final class Plugin {
 	 * @var AcfEnvironmentProvider|null
 	 */
 	private $acf_environment_provider = null;
+
+	/** @var FullSchemaSource|null */
+	private $schema_source = null;
+
+	/** @var SchemaNormalizer|null */
+	private $schema_normalizer = null;
 
 	/**
 	 * Gets the plugin instance.
@@ -88,6 +105,23 @@ final class Plugin {
 		}
 
 		return $this->acf_environment_provider->discover();
+	}
+
+	/**
+	 * Gets the complete current ACF schema in canonical form.
+	 *
+	 * @return NormalizedSchema
+	 */
+	public function normalized_schema() {
+		if ( null === $this->schema_source ) {
+			$this->schema_source = new AcfSchemaSource();
+		}
+
+		if ( null === $this->schema_normalizer ) {
+			$this->schema_normalizer = new SchemaNormalizer();
+		}
+
+		return $this->schema_normalizer->normalize( $this->schema_source->field_groups() );
 	}
 
 	/**
