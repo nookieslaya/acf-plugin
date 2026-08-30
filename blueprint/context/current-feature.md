@@ -56,12 +56,12 @@ safe when ACF is inactive and must not introduce persistence or user-facing UI.
   field-group, and field value objects with canonical array output and explicit
   schema version. *Done when:* equivalent objects produce the same ordered
   canonical structure without depending on WordPress or ACF globals.
-- [ ] **Step 2 - ACF full-schema source boundary** - add an interface and a
+- [x] **Step 2 - ACF full-schema source boundary** - add an interface and a
   read-only ACF implementation that safely obtains field groups and their full
   fields through `acf_get_field_groups()` and `acf_get_fields()`. *Done when:*
   unavailable ACF returns no groups and the source exposes no raw data outside
   the normalizer boundary.
-- [ ] **Step 3 - Recursive canonical normalizer** - transform full ACF groups
+- [x] **Step 3 - Recursive canonical normalizer** - transform full ACF groups
   into normalized contracts; include repeaters, groups, Flexible Content
   layouts, conditional logic, and generic type settings while excluding volatile
   runtime keys. *Done when:* equivalent input ordering produces identical
