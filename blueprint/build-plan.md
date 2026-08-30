@@ -3,7 +3,7 @@
 ## Foundation
 
 - [x] 1. **ACF development test theme** - provide a minimal classic theme with ACF Local JSON, realistic field examples, and documented breaking-change scenarios.
-- [ ] 2. **Plugin bootstrap and ACF integration boundary** - create the plugin shell and safely discover ACF, ACF PRO, field groups, and Local JSON sources.
+- [x] 2. **Plugin bootstrap and ACF integration boundary** - create the plugin shell and safely discover ACF, ACF PRO, field groups, and Local JSON sources.
 - [ ] 3. **Schema normalization and snapshots** - define stable normalized schema data and persist comparable snapshots.
 
 ## Change analysis
