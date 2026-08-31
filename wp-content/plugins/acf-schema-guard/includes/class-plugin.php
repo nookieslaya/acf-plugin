@@ -95,6 +95,9 @@ final class Plugin {
 	/** @var \AcfSchemaGuard\Cli\CommandRegistrar|null */
 	private $cli_command_registrar = null;
 
+	/** @var \AcfSchemaGuard\Cli\DiffCommand|null */
+	private $cli_diff_command = null;
+
 	private $schema_differ = null;
 
 	/**
@@ -128,8 +131,9 @@ final class Plugin {
 		}
 
 		if ( $this->is_wp_cli() ) {
-			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-command-registrar.php';
+				require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-command-registrar.php';
 			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-scan-command.php';
+			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-diff-command.php';
 
 			$this->cli_command_registrar = new \AcfSchemaGuard\Cli\CommandRegistrar();
 			$this->cli_command_registrar->register(
@@ -142,6 +146,17 @@ final class Plugin {
 					),
 					'scan',
 				)
+			);
+			$this->cli_diff_command = new \AcfSchemaGuard\Cli\DiffCommand(
+				$this->snapshot_repository(),
+				new \AcfSchemaGuard\Diff\SnapshotAnalysisService(
+					new \AcfSchemaGuard\Diff\SchemaDiffer(),
+					new \AcfSchemaGuard\Diff\RiskClassifier()
+				)
+			);
+			$this->cli_command_registrar->register(
+				'acf-schema-guard diff',
+				array( $this->cli_diff_command, 'diff' )
 			);
 		}
 

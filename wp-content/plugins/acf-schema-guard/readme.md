@@ -34,6 +34,17 @@ and `json` output. It reports references from `get_field()`, `the_field()`,
 when their first argument is a literal string. It does not execute or modify the
 scanned files, create snapshots, or change WordPress data.
 
+## WP-CLI diff
+
+Compare two stored snapshot IDs without changing them:
+
+```sh
+wp acf-schema-guard diff <before-id> <after-id>
+wp acf-schema-guard diff <before-id> <after-id> --format=json
+```
+
+The table reports schema change kind, node type, path, severity, and rationale.
+
 ## Integration seam
 
 After all WordPress plugins load, ACF Schema Guard fires:
