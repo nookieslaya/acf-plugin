@@ -57,6 +57,11 @@ Without `--fail-on-breaking`, a valid analysis exits successfully. The flag
 returns a non-zero exit status after printing the analysis when breaking risks
 are found; `safe` and `warning` findings do not fail the command.
 
+## CI templates
+
+Read `docs/ci.md` for GitHub Actions and GitLab CI example templates. They are
+documentation only until copied into the repository that owns the CI pipeline.
+
 ## Integration seam
 
 After all WordPress plugins load, ACF Schema Guard fires:

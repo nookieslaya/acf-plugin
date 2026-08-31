@@ -25,4 +25,4 @@
   - [x] 8a. **WP-CLI command foundation and scan** - register `wp acf-schema-guard scan`, accept explicit source roots, and report deterministic PHP ACF usage references.
   - [x] 8b. **WP-CLI snapshot diff** - compare two stored snapshots and report schema changes with risk classifications.
   - [x] 8c. **WP-CLI breaking-change check** - expose a CI-oriented check with `--fail-on-breaking` and a stable non-zero exit status.
-- [ ] 9. **CI integration guidance and verification** - provide GitHub Actions and GitLab CI examples around the WP-CLI check command.
+- [x] 9. **CI integration guidance and verification** - provide GitHub Actions and GitLab CI examples around the WP-CLI check command.

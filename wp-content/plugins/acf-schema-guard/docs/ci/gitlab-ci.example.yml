@@ -1,0 +1,5 @@
+acf_schema_guard_check:
+  image: wordpress:cli
+  script:
+    - '# Bootstrap WordPress, its database, ACF, and this plugin before this command.'
+    - wp acf-schema-guard check "$ACF_SCHEMA_GUARD_BEFORE_ID" "$ACF_SCHEMA_GUARD_AFTER_ID" --fail-on-breaking
