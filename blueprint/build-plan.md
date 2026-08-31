@@ -20,6 +20,6 @@
 
 ## Developer experience
 
-- [ ] 7. **WordPress Admin foundation** - add the ACF Schema Guard menu and minimal Overview, Changes, Field Groups, Code Usage, History, and Settings screens.
+- [x] 7. **WordPress Admin foundation** - add the ACF Schema Guard menu and minimal Overview, Changes, Field Groups, Code Usage, History, and Settings screens.
 - [ ] 8. **WP-CLI analysis commands** - expose scan, diff, and check commands with a `--fail-on-breaking` exit status.
 - [ ] 9. **CI integration guidance and verification** - provide GitHub Actions and GitLab CI examples around the WP-CLI check command.

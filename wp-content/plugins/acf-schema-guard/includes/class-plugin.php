@@ -10,6 +10,7 @@ namespace AcfSchemaGuard;
 use AcfSchemaGuard\Acf\AcfEnvironment;
 use AcfSchemaGuard\Acf\AcfEnvironmentProvider;
 use AcfSchemaGuard\Acf\AcfSchemaSource;
+use AcfSchemaGuard\Admin\AdminController;
 use AcfSchemaGuard\Acf\FullSchemaSource;
 use AcfSchemaGuard\Schema\NormalizedSchema;
 use AcfSchemaGuard\Schema\SchemaNormalizer;
@@ -49,6 +50,7 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-code-usage-referenc
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/interface-code-usage-scanner.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-code-usage-scanner-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-php-acf-usage-scanner.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/admin/class-admin-controller.php';
 
 /**
  * Coordinates the plugin lifecycle without depending on ACF at load time.
@@ -86,6 +88,10 @@ final class Plugin {
 
 	/** @var SnapshotCaptureService|null */
 	private $snapshot_capture_service = null;
+
+	/** @var AdminController|null */
+	private $admin_controller = null;
+
 	private $schema_differ = null;
 
 	/**
@@ -112,6 +118,12 @@ final class Plugin {
 		}
 
 		$this->acf_environment_provider = new AcfEnvironmentProvider();
+
+		if ( is_admin() ) {
+			$this->admin_controller = new AdminController();
+			$this->admin_controller->register();
+		}
+
 		$this->is_booted = true;
 
 		/**

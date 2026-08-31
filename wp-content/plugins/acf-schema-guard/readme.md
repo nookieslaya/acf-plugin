@@ -5,10 +5,18 @@ schema changes before deployment.
 
 ## Current scope
 
-The current bootstrap intentionally exposes no WordPress Admin screen, WP-CLI
-command, persistence, schema diff, or code scanner. It offers safe, read-only
-ACF environment discovery and a normalized runtime schema for the next
-development layers.
+The plugin offers safe, read-only ACF environment discovery, normalized schemas,
+snapshots, change analysis, and PHP ACF usage scanning. Its WordPress Admin menu
+is currently an information-only foundation: Overview, Changes, Field Groups,
+Code Usage, History, and Settings have no buttons, forms, persistence, or
+automatic work. Later features will connect those screens to explicit actions.
+
+## WordPress Admin foundation
+
+Administrators can open the `ACF Schema Guard` menu to see six stable section
+screens. Each is protected with the `manage_options` capability. The plugin
+loads its small Admin stylesheet only on those screens and does not change data
+when they are viewed.
 
 ## Integration seam
 

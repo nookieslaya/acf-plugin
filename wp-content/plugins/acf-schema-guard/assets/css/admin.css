@@ -1,0 +1,12 @@
+.acf-schema-guard-admin {
+	max-width: 780px;
+}
+
+.acf-schema-guard-admin > p {
+	font-size: 15px;
+	line-height: 1.6;
+}
+
+.acf-schema-guard-admin .notice {
+	margin: 24px 0 0;
+}
