@@ -18,6 +18,22 @@ screens. Each is protected with the `manage_options` capability. The plugin
 loads its small Admin stylesheet only on those screens and does not change data
 when they are viewed.
 
+## WP-CLI scan
+
+When WP-CLI loads the plugin, scan explicit PHP source directories for supported
+literal ACF field references:
+
+```sh
+wp acf-schema-guard scan wp-content/themes/acf-schema-guard-dev
+wp acf-schema-guard scan wp-content/themes/acf-schema-guard-dev --format=json
+```
+
+Provide at least one readable directory. The command supports `table` (default)
+and `json` output. It reports references from `get_field()`, `the_field()`,
+`get_sub_field()`, `the_sub_field()`, `have_rows()`, and `get_field_object()`
+when their first argument is a literal string. It does not execute or modify the
+scanned files, create snapshots, or change WordPress data.
+
 ## Integration seam
 
 After all WordPress plugins load, ACF Schema Guard fires:

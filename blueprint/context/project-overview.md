@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash 7942bbbbf0a0d2d958ebb1be6507ed3508788c8f5ae85ae60a3e491943834b2c -->
+<!-- blueprint:source-hash 75ffa5f8a399535252926b775182a8808af2da1a64d7c9280a6f1491fdd9f933 -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -25,8 +25,14 @@ ACF field changes can silently break WordPress themes and plugins. Developers ne
 7. **Code-usage scanner architecture** - pluggable language strategies and a durable usage-reference model.
 8. **PHP ACF usage scanner** - supported PHP call-site detection linked to changed fields.
 9. **WordPress Admin foundation** - the minimal developer-facing plugin menu and named section screens.
-10. **WP-CLI analysis commands** - scan, diff, and blocking CI checks.
-11. **CI integration guidance and verification** - reusable GitHub Actions and GitLab CI examples based on the CLI.
+10. **WP-CLI command foundation and scan** - register the command group and
+    report deterministic PHP ACF usage references for supplied roots.
+11. **WP-CLI snapshot diff** - compare two stored snapshots and report changes
+    with their risk classifications.
+12. **WP-CLI breaking-change check** - expose a CI-oriented check with an
+    explicit failing exit status.
+13. **CI integration guidance and verification** - reusable GitHub Actions and
+    GitLab CI examples based on the CLI.
 
 ## Data model
 

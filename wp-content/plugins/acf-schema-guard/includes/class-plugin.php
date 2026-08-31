@@ -92,6 +92,9 @@ final class Plugin {
 	/** @var AdminController|null */
 	private $admin_controller = null;
 
+	/** @var \AcfSchemaGuard\Cli\CommandRegistrar|null */
+	private $cli_command_registrar = null;
+
 	private $schema_differ = null;
 
 	/**
@@ -124,6 +127,24 @@ final class Plugin {
 			$this->admin_controller->register();
 		}
 
+		if ( $this->is_wp_cli() ) {
+			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-command-registrar.php';
+			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-scan-command.php';
+
+			$this->cli_command_registrar = new \AcfSchemaGuard\Cli\CommandRegistrar();
+			$this->cli_command_registrar->register(
+				'acf-schema-guard scan',
+				array(
+					new \AcfSchemaGuard\Cli\ScanCommand(
+						new \AcfSchemaGuard\Scanner\CodeUsageScannerService(
+							array( new \AcfSchemaGuard\Scanner\PhpAcfUsageScanner() )
+						)
+					),
+					'scan',
+				)
+			);
+		}
+
 		$this->is_booted = true;
 
 		/**
@@ -145,6 +166,15 @@ final class Plugin {
 		}
 
 		return $this->acf_environment_provider->discover();
+	}
+
+	/**
+	 * Checks whether the current request can safely use WP-CLI.
+	 *
+	 * @return bool
+	 */
+	private function is_wp_cli() {
+		return defined( 'WP_CLI' ) && WP_CLI && class_exists( 'WP_CLI' );
 	}
 
 	/**
