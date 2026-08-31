@@ -45,6 +45,18 @@ wp acf-schema-guard diff <before-id> <after-id> --format=json
 
 The table reports schema change kind, node type, path, severity, and rationale.
 
+## WP-CLI check
+
+Use the same two snapshot IDs in CI and fail only for `high` or `critical` risks:
+
+```sh
+wp acf-schema-guard check <before-id> <after-id> --fail-on-breaking
+```
+
+Without `--fail-on-breaking`, a valid analysis exits successfully. The flag
+returns a non-zero exit status after printing the analysis when breaking risks
+are found; `safe` and `warning` findings do not fail the command.
+
 ## Integration seam
 
 After all WordPress plugins load, ACF Schema Guard fires:

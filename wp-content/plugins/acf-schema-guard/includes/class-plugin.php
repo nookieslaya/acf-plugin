@@ -97,6 +97,7 @@ final class Plugin {
 
 	/** @var \AcfSchemaGuard\Cli\DiffCommand|null */
 	private $cli_diff_command = null;
+	private $cli_check_command = null;
 
 	private $schema_differ = null;
 
@@ -134,6 +135,7 @@ final class Plugin {
 				require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-command-registrar.php';
 			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-scan-command.php';
 			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-diff-command.php';
+			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-check-command.php';
 
 			$this->cli_command_registrar = new \AcfSchemaGuard\Cli\CommandRegistrar();
 			$this->cli_command_registrar->register(
@@ -158,6 +160,8 @@ final class Plugin {
 				'acf-schema-guard diff',
 				array( $this->cli_diff_command, 'diff' )
 			);
+			$this->cli_check_command = new \AcfSchemaGuard\Cli\CheckCommand( $this->snapshot_repository(), new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier() ) );
+			$this->cli_command_registrar->register( 'acf-schema-guard check', array( $this->cli_check_command, 'check' ) );
 		}
 
 		$this->is_booted = true;
