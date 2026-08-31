@@ -16,7 +16,7 @@
   - [x] 4b. **Risk classification rules** - classify schema changes as safe, warning, high, or critical through extensible rules.
   - [x] 4c. **Snapshot analysis service** - compose schema diff and risk rules into one result for later Admin and CLI features.
 - [x] 5. **Code-usage scanner architecture** - define exchangeable language strategies and a durable code-reference model without a regex-only parser shortcut.
-- [ ] 6. **PHP ACF usage scanner** - scan supported PHP ACF call sites and connect references to changed fields.
+- [x] 6. **PHP ACF usage scanner** - scan supported PHP ACF call sites and connect references to changed fields.
 
 ## Developer experience
 
