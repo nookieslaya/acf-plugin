@@ -45,6 +45,9 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-risk-finding.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-risk-classifier.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-snapshot-analysis.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-snapshot-analysis-service.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-code-usage-reference.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/interface-code-usage-scanner.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-code-usage-scanner-service.php';
 
 /**
  * Coordinates the plugin lifecycle without depending on ACF at load time.
