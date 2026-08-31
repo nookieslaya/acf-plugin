@@ -43,6 +43,8 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-schema-diff.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-schema-differ.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-risk-finding.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-risk-classifier.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-snapshot-analysis.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-snapshot-analysis-service.php';
 
 /**
  * Coordinates the plugin lifecycle without depending on ACF at load time.
@@ -182,6 +184,9 @@ final class Plugin {
 	public function diff_schemas( array $before, array $after ) {
 		if ( null === $this->schema_differ ) { $this->schema_differ = new SchemaDiffer(); }
 		return $this->schema_differ->compare( $before, $after );
+	}
+	public function analyze_snapshots( \AcfSchemaGuard\Snapshots\SchemaSnapshot $before, \AcfSchemaGuard\Snapshots\SchemaSnapshot $after ) {
+		return ( new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier() ) )->analyze( $before, $after );
 	}
 
 	/**
