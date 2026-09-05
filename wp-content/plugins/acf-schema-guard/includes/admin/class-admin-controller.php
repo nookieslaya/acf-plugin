@@ -7,6 +7,8 @@
 
 namespace AcfSchemaGuard\Admin;
 
+use AcfSchemaGuard\Snapshots\SnapshotRepository;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -64,6 +66,21 @@ final class AdminController {
 	 */
 	private $page_hooks = array();
 
+	/** @var SnapshotRepository */
+	private $snapshots;
+
+	/** @var callable */
+	private $capture_snapshot_callback;
+
+	/**
+	 * @param SnapshotRepository $snapshots                 Stored schema snapshots.
+	 * @param callable           $capture_snapshot_callback Creates a schema snapshot.
+	 */
+	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback ) {
+		$this->snapshots                 = $snapshots;
+		$this->capture_snapshot_callback = $capture_snapshot_callback;
+	}
+
 	/**
 	 * Registers the WordPress Admin menu hook.
 	 *
@@ -72,6 +89,7 @@ final class AdminController {
 	public function register() {
 		add_action( 'admin_menu', array( $this, 'register_menus' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'admin_post_acf_schema_guard_capture_snapshot', array( $this, 'capture_snapshot' ) );
 	}
 
 	/**
@@ -133,11 +151,18 @@ final class AdminController {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'acf-schema-guard' ) );
 		}
 
-		$screen = $this->current_screen();
+		$page   = $this->current_page();
+		$screen = $this->current_screen( $page );
 
 		if ( null === $screen ) {
 			wp_die( esc_html__( 'The requested ACF Schema Guard page is not available.', 'acf-schema-guard' ) );
 		}
+		if ( 'acf-schema-guard-history' === $page ) {
+			$this->render_history_page( $screen );
+
+			return;
+		}
+
 		?>
 		<div class="wrap acf-schema-guard-admin">
 			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
@@ -154,9 +179,126 @@ final class AdminController {
 	 *
 	 * @return array<string, string>|null
 	 */
-	private function current_screen() {
-		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
-
+	private function current_screen( $page ) {
 		return isset( self::$screens[ $page ] ) ? self::$screens[ $page ] : null;
+	}
+
+	/**
+	 * Gets the requested plugin page slug.
+	 *
+	 * @return string
+	 */
+	private function current_page() {
+		return isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+	}
+
+	/**
+	 * Renders the stored snapshot history.
+	 *
+	 * @param array<string, string> $screen Screen definition.
+	 * @return void
+	 */
+	private function render_history_page( array $screen ) {
+		$snapshots = $this->snapshots->all();
+		?>
+		<div class="wrap acf-schema-guard-admin">
+			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
+			<p><?php echo esc_html( __( 'Stored immutable schema snapshots, newest first.', 'acf-schema-guard' ) ); ?></p>
+			<?php $this->render_history_notice(); ?>
+			<form class="acf-schema-guard-capture-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<input type="hidden" name="action" value="acf_schema_guard_capture_snapshot" />
+				<?php wp_nonce_field( 'acf_schema_guard_capture_snapshot' ); ?>
+				<?php submit_button( __( 'Capture current schema', 'acf-schema-guard' ), 'primary', 'submit', false ); ?>
+			</form>
+			<?php if ( empty( $snapshots ) ) : ?>
+				<div class="notice notice-info inline">
+					<p><?php echo esc_html__( 'No schema snapshots have been captured yet.', 'acf-schema-guard' ); ?></p>
+				</div>
+			<?php else : ?>
+				<table class="widefat striped acf-schema-guard-snapshots">
+					<thead>
+						<tr>
+							<th scope="col"><?php echo esc_html__( 'Snapshot ID', 'acf-schema-guard' ); ?></th>
+							<th scope="col"><?php echo esc_html__( 'Source', 'acf-schema-guard' ); ?></th>
+							<th scope="col"><?php echo esc_html__( 'Captured (UTC)', 'acf-schema-guard' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ( $snapshots as $snapshot ) : ?>
+							<tr>
+								<td><code><?php echo esc_html( $snapshot->id() ); ?></code></td>
+								<td><?php echo esc_html( $snapshot->source_id() ); ?></td>
+								<td><?php echo esc_html( $snapshot->created_at() ); ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Captures the current schema through the protected Admin action.
+	 *
+	 * @return void
+	 */
+	public function capture_snapshot() {
+		if ( ! current_user_can( $this->capability ) ) {
+			wp_die( esc_html__( 'You do not have permission to capture a schema snapshot.', 'acf-schema-guard' ) );
+		}
+
+		check_admin_referer( 'acf_schema_guard_capture_snapshot' );
+
+		$notice = 'capture-failed';
+
+		try {
+			call_user_func( $this->capture_snapshot_callback, 'admin-manual' );
+			$notice = 'capture-success';
+		} catch ( \RuntimeException $exception ) {
+			$notice = 'capture-failed';
+		}
+
+		$this->redirect_to_history( $notice );
+	}
+
+	/**
+	 * Renders the whitelisted capture-result notice.
+	 *
+	 * @return void
+	 */
+	private function render_history_notice() {
+		$notice = isset( $_GET['acf_schema_guard_notice'] ) ? sanitize_key( wp_unslash( $_GET['acf_schema_guard_notice'] ) ) : '';
+
+		if ( 'capture-success' === $notice ) {
+			?>
+			<div class="notice notice-success is-dismissible"><p><?php echo esc_html__( 'Schema snapshot captured.', 'acf-schema-guard' ); ?></p></div>
+			<?php
+		}
+
+		if ( 'capture-failed' === $notice ) {
+			?>
+			<div class="notice notice-error"><p><?php echo esc_html__( 'The schema snapshot could not be captured. Check that ACF is available and try again.', 'acf-schema-guard' ); ?></p></div>
+			<?php
+		}
+	}
+
+	/**
+	 * Redirects to the plugin History screen with a whitelisted notice.
+	 *
+	 * @param string $notice Capture result notice.
+	 * @return void
+	 */
+	private function redirect_to_history( $notice ) {
+		$url = add_query_arg(
+			array(
+				'page'                    => 'acf-schema-guard-history',
+				'acf_schema_guard_notice' => $notice,
+			),
+			admin_url( 'admin.php' )
+		);
+
+		wp_safe_redirect( $url );
+		exit;
 	}
 }

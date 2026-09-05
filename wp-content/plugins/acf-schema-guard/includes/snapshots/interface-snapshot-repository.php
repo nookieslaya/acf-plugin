@@ -38,4 +38,11 @@ interface SnapshotRepository {
 	 * @return SchemaSnapshot|null
 	 */
 	public function latest_for_source( $source_id );
+
+	/**
+	 * Gets all stored snapshots in deterministic newest-first order.
+	 *
+	 * @return SchemaSnapshot[]
+	 */
+	public function all();
 }

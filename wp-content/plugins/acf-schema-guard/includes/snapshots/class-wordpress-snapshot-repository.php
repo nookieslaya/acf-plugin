@@ -79,13 +79,43 @@ final class WordPressSnapshotRepository implements SnapshotRepository {
 	}
 
 	/**
+	 * Gets all stored snapshots in deterministic newest-first order.
+	 *
+	 * @return SchemaSnapshot[]
+	 */
+	public function all() {
+		$sql = 'SELECT id, source_id, schema_version, `schema`, created_at FROM ' . SnapshotTable::table_name( $this->wpdb ) . ' ORDER BY created_at DESC, id DESC';
+		$rows = $this->wpdb->get_results( $sql, ARRAY_A );
+
+		if ( ! is_array( $rows ) ) {
+			return array();
+		}
+
+		$snapshots = array();
+
+		foreach ( $rows as $row ) {
+			$snapshots[] = $this->snapshot_from_row( $row );
+		}
+
+		return $snapshots;
+	}
+
+	/**
 	 * @param string $sql Prepared query.
 	 * @return SchemaSnapshot|null
 	 */
 	private function snapshot_from_query( $sql ) {
 		$row = $this->wpdb->get_row( $sql, ARRAY_A );
 
-		return is_array( $row ) ? SchemaSnapshot::from_row( $row ) : null;
+		return is_array( $row ) ? $this->snapshot_from_row( $row ) : null;
+	}
+
+	/**
+	 * @param array $row Stored snapshot row.
+	 * @return SchemaSnapshot
+	 */
+	private function snapshot_from_row( array $row ) {
+		return SchemaSnapshot::from_row( $row );
 	}
 
 	/**

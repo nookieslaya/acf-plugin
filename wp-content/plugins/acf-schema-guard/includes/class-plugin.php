@@ -127,7 +127,10 @@ final class Plugin {
 		$this->acf_environment_provider = new AcfEnvironmentProvider();
 
 		if ( is_admin() ) {
-			$this->admin_controller = new AdminController();
+			$this->admin_controller = new AdminController(
+				$this->snapshot_repository(),
+				array( $this, 'capture_snapshot' )
+			);
 			$this->admin_controller->register();
 		}
 

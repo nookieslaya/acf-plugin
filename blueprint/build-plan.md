@@ -26,3 +26,9 @@
   - [x] 8b. **WP-CLI snapshot diff** - compare two stored snapshots and report schema changes with risk classifications.
   - [x] 8c. **WP-CLI breaking-change check** - expose a CI-oriented check with `--fail-on-breaking` and a stable non-zero exit status.
 - [x] 9. **CI integration guidance and verification** - provide GitHub Actions and GitLab CI examples around the WP-CLI check command.
+
+## Admin workspace
+
+- [ ] 10. **Admin snapshot workspace**
+  - [x] 10a. **Snapshot history and capture** - show stored snapshots in the History screen and let an administrator capture the current ACF schema with capability and nonce protection.
+  - [ ] 10b. **Snapshot comparison** - let an administrator select two stored snapshots and show classified schema changes in the Changes screen.

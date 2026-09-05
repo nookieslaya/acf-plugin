@@ -6,7 +6,7 @@ define('ABSPATH',__DIR__.'/');
 foreach(array('class-schema-snapshot.php','interface-snapshot-repository.php') as $f){require_once dirname(__DIR__).'/includes/snapshots/'.$f;}
 foreach(array('class-schema-change.php','class-schema-diff.php','class-schema-differ.php','class-risk-finding.php','class-risk-classifier.php','class-snapshot-analysis.php','class-snapshot-analysis-service.php') as $f){require_once dirname(__DIR__).'/includes/diff/'.$f;}
 require_once dirname(__DIR__).'/includes/cli/class-diff-command.php';
-class AcfSchemaGuardDiffRepository implements \AcfSchemaGuard\Snapshots\SnapshotRepository { private $items; public function __construct($items){$this->items=$items;} public function insert(\AcfSchemaGuard\Snapshots\SchemaSnapshot $s){} public function find($id){return isset($this->items[$id])?$this->items[$id]:null;} public function latest_for_source($id){return null;} }
+class AcfSchemaGuardDiffRepository implements \AcfSchemaGuard\Snapshots\SnapshotRepository { private $items; public function __construct($items){$this->items=$items;} public function insert(\AcfSchemaGuard\Snapshots\SchemaSnapshot $s){} public function find($id){return isset($this->items[$id])?$this->items[$id]:null;} public function latest_for_source($id){return null;} public function all(){return array_values($this->items);} }
 function acf_schema_guard_diff_assert($ok,$msg){if(!$ok){throw new \RuntimeException($msg);}}
 $before=new \AcfSchemaGuard\Snapshots\SchemaSnapshot('11111111-1111-1111-1111-111111111111','test',array('schema_version'=>1,'field_groups'=>array()),'2026-01-01 00:00:00');
 $after=new \AcfSchemaGuard\Snapshots\SchemaSnapshot('22222222-2222-2222-2222-222222222222','test',array('schema_version'=>1,'field_groups'=>array()),'2026-01-02 00:00:00');
