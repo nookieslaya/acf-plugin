@@ -36,6 +36,19 @@ final class SnapshotTable {
 		}
 
 		dbDelta( self::create_table_sql( $wpdb ) );
+
+		$table_name = self::table_name( $wpdb );
+		$installed  = $wpdb->get_var(
+			$wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name )
+		);
+
+		if ( $table_name !== $installed ) {
+			$created = $wpdb->query( self::create_table_sql( $wpdb ) );
+
+			if ( false === $created ) {
+				throw new RuntimeException( 'Snapshot table installation failed: ' . $wpdb->last_error );
+			}
+		}
 	}
 
 	/**
@@ -62,7 +75,7 @@ final class SnapshotTable {
 id char(36) NOT NULL,
 source_id varchar(191) NOT NULL,
 schema_version smallint unsigned NOT NULL,
-schema longtext NOT NULL,
+`schema` longtext NOT NULL,
 created_at datetime NOT NULL,
 PRIMARY KEY  (id),
 KEY source_created (source_id, created_at)
