@@ -3,20 +3,30 @@
 ACF Schema Guard is a WordPress plugin for detecting potentially breaking ACF
 schema changes before deployment.
 
-## Current scope
+## What the plugin does
 
-The plugin offers safe, read-only ACF environment discovery, normalized schemas,
-snapshots, change analysis, and PHP ACF usage scanning. Its WordPress Admin menu
-is currently an information-only foundation: Overview, Changes, Field Groups,
-Code Usage, History, and Settings have no buttons, forms, persistence, or
-automatic work. Later features will connect those screens to explicit actions.
+ACF Schema Guard reads ACF's effective runtime schema, normalizes it, compares
+versions, and classifies potentially unsafe changes. It works whether field
+groups come from the database, ACF Local JSON, PHP registration, or a mixture of
+those sources. It does not modify ACF field definitions, post meta, or content.
 
-## WordPress Admin foundation
+The plugin stores its own immutable snapshots in a dedicated WordPress table.
+It also supports a portable baseline JSON file that can be reviewed and tracked
+in Git for CI checks.
 
-Administrators can open the `ACF Schema Guard` menu to see six stable section
-screens. Each is protected with the `manage_options` capability. The plugin
-loads its small Admin stylesheet only on those screens and does not change data
-when they are viewed.
+## WordPress Admin workspace
+
+Administrators with `manage_options` can open **ACF Schema Guard** in the
+WordPress Admin. The available workflow is:
+
+1. Open **History** and choose **Capture current schema**.
+2. Set a known-good snapshot as the approved baseline.
+3. Make and save ACF changes, then capture another snapshot.
+4. Open **Changes** to compare the approved baseline automatically with the
+   newest captured schema.
+
+The Admin baseline is stored as a snapshot ID in WordPress. It is useful for
+local review, but is different from the Git baseline file used by CI.
 
 ## WP-CLI scan
 
@@ -57,28 +67,105 @@ Without `--fail-on-breaking`, a valid analysis exits successfully. The flag
 returns a non-zero exit status after printing the analysis when breaking risks
 are found; `safe` and `warning` findings do not fail the command.
 
-## Git baseline and CI check
+## Git baseline and CI workflow
 
-Export the currently effective ACF schema to an explicitly chosen JSON file,
-review it, and commit it with the project:
+Use the Git baseline when you want a project-wide, reviewable contract that CI
+can compare with the schema loaded by the current checkout.
+
+Run all commands below from the WordPress project root: the directory that
+contains `wp-config.php`. Use a shell where WP-CLI can load the same WordPress,
+PHP, database, ACF, and plugin installation as the site. For Local, the
+site-specific shell supplied by Local is the simplest option.
+
+### 1. Create the first approved baseline
+
+After reviewing a known-good ACF schema, export it to a chosen path and confirm
+that it matches the current runtime schema:
 
 ```sh
 wp acf-schema-guard baseline export acf-schema-baseline.json
-git add acf-schema-baseline.json
+wp acf-schema-guard baseline check acf-schema-baseline.json --fail-on-breaking
 ```
 
-The export refuses to replace an existing file unless `--force` is supplied.
-On a pull request or another checkout, compare the committed baseline with the
-currently loaded ACF schema:
+The expected result is `Success: No schema changes found.`. Then review and
+commit the file:
+
+```sh
+git add acf-schema-baseline.json
+git commit -m "chore: add ACF schema baseline"
+```
+
+If the repository ignores new files at its root, explicitly allow the baseline
+in `.gitignore` or use `git add -f acf-schema-baseline.json` for this initial
+commit. Once Git tracks the file, ordinary `git add` works for later updates.
+
+### 2. Check a change before merging
+
+Make an ACF change in a branch, ensure its Local JSON or PHP definition is
+available to WordPress, then run:
 
 ```sh
 wp acf-schema-guard baseline check acf-schema-baseline.json --fail-on-breaking
 ```
 
-This command does not create snapshots or change ACF data. It reads the baseline
-file and uses ACF's effective runtime schema, so it works with database, Local
-JSON, PHP-registered, or mixed field groups. With `--fail-on-breaking`, only
-`high` and `critical` findings return a non-zero exit status.
+The command always prints findings. With `--fail-on-breaking`, it returns a
+non-zero exit status only for `high` and `critical` findings, which lets a CI job
+block the pull request. Use `--format=json` when another tool needs the complete
+machine-readable analysis.
+
+| Severity | Meaning in the current policy | CI result with `--fail-on-breaking` |
+| --- | --- | --- |
+| `safe` | A schema node was added. | Success |
+| `warning` | A non-breaking schema node change was detected. | Success |
+| `high` | A field type changed. | Failure |
+| `critical` | A field group or field was removed. | Failure |
+
+An exit-code failure is a review signal, not an automatic migration or rollback.
+Inspect the output and any theme/plugin code references before deciding what to
+do.
+
+### 3. Approve an intentional schema change
+
+Only after reviewing the ACF change and updating dependent code, replace the
+baseline deliberately:
+
+```sh
+wp acf-schema-guard baseline export acf-schema-baseline.json --force
+wp acf-schema-guard baseline check acf-schema-baseline.json --fail-on-breaking
+git add acf-schema-baseline.json
+git commit -m "chore: update ACF schema baseline"
+```
+
+`--force` is required because export will not overwrite an existing baseline by
+accident. Never update the baseline merely to silence a CI failure; the baseline
+commit is the explicit approval record for the new schema contract.
+
+### 4. Run the same check in CI
+
+The CI job must first boot the project's real WordPress environment, database,
+ACF, and this plugin. It then runs the same committed-file check:
+
+```sh
+wp acf-schema-guard baseline check acf-schema-baseline.json --fail-on-breaking
+```
+
+See `docs/ci.md` and the GitHub Actions and GitLab CI examples for starter job
+definitions. They are templates only: copying one into a repository does not
+itself provision WordPress, a database, or ACF in the CI runner.
+
+### Git baseline and Admin baseline compared
+
+| Use case | Git baseline file | Admin baseline snapshot |
+| --- | --- | --- |
+| Stored in | A committed JSON file | The plugin snapshot table and a WordPress option |
+| Primary use | Pull-request and CI checks | Interactive local/admin review |
+| Needs historical plugin database in CI | No | Yes |
+| Created with | `baseline export` | **History → Capture current schema** |
+| Updated deliberately with | `baseline export --force` and a Git commit | **Set as baseline** in History |
+
+Both paths are read-only with respect to ACF definitions and content. Baseline
+export writes only the explicitly named JSON file; snapshot capture writes only
+the plugin's own snapshot table.
 
 ## CI templates
 
