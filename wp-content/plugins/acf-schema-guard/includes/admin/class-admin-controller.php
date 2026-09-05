@@ -8,6 +8,7 @@
 namespace AcfSchemaGuard\Admin;
 
 use AcfSchemaGuard\Snapshots\SnapshotRepository;
+use AcfSchemaGuard\Snapshots\BaselineSnapshotService;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -74,16 +75,18 @@ final class AdminController {
 
 	/** @var callable */
 	private $analyze_snapshots_callback;
+	private $baseline;
 
 	/**
 	 * @param SnapshotRepository $snapshots                  Stored schema snapshots.
 	 * @param callable           $capture_snapshot_callback  Creates a schema snapshot.
 	 * @param callable           $analyze_snapshots_callback Analyzes two schema snapshots.
 	 */
-	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback ) {
+	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback, BaselineSnapshotService $baseline ) {
 		$this->snapshots                  = $snapshots;
 		$this->capture_snapshot_callback  = $capture_snapshot_callback;
 		$this->analyze_snapshots_callback = $analyze_snapshots_callback;
+		$this->baseline = $baseline;
 	}
 
 	/**
@@ -95,6 +98,7 @@ final class AdminController {
 		add_action( 'admin_menu', array( $this, 'register_menus' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_post_acf_schema_guard_capture_snapshot', array( $this, 'capture_snapshot' ) );
+		add_action( 'admin_post_acf_schema_guard_set_baseline_snapshot', array( $this, 'set_baseline_snapshot' ) );
 	}
 
 	/**
@@ -211,6 +215,7 @@ final class AdminController {
 	 */
 	private function render_history_page( array $screen ) {
 		$snapshots = $this->snapshots->all();
+		$baseline = $this->baseline->snapshot();
 		?>
 		<div class="wrap acf-schema-guard-admin">
 			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
@@ -232,6 +237,7 @@ final class AdminController {
 							<th scope="col"><?php echo esc_html__( 'Snapshot ID', 'acf-schema-guard' ); ?></th>
 							<th scope="col"><?php echo esc_html__( 'Source', 'acf-schema-guard' ); ?></th>
 							<th scope="col"><?php echo esc_html__( 'Captured (UTC)', 'acf-schema-guard' ); ?></th>
+							<th scope="col"><?php echo esc_html__( 'Baseline', 'acf-schema-guard' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -240,6 +246,7 @@ final class AdminController {
 								<td><code><?php echo esc_html( $snapshot->id() ); ?></code></td>
 								<td><?php echo esc_html( $snapshot->source_id() ); ?></td>
 								<td><?php echo esc_html( $snapshot->created_at() ); ?></td>
+								<td><?php if ( $baseline && $baseline->id() === $snapshot->id() ) { echo esc_html__( 'Approved baseline', 'acf-schema-guard' ); } else { ?><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_set_baseline_snapshot" /><input type="hidden" name="snapshot_id" value="<?php echo esc_attr( $snapshot->id() ); ?>" /><?php wp_nonce_field( 'acf_schema_guard_set_baseline_snapshot' ); submit_button( __( 'Set as baseline', 'acf-schema-guard' ), 'secondary small', 'submit', false ); ?></form><?php } ?></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>
@@ -247,6 +254,15 @@ final class AdminController {
 			<?php endif; ?>
 		</div>
 		<?php
+	}
+
+	public function set_baseline_snapshot() {
+		if ( ! current_user_can( $this->capability ) ) { wp_die( esc_html__( 'You do not have permission to set a baseline.', 'acf-schema-guard' ) ); }
+		check_admin_referer( 'acf_schema_guard_set_baseline_snapshot' );
+		$id = isset( $_POST['snapshot_id'] ) ? sanitize_text_field( wp_unslash( $_POST['snapshot_id'] ) ) : '';
+		$snapshot = $this->snapshots->find( $id );
+		if ( null !== $snapshot ) { $this->baseline->set( $snapshot ); }
+		wp_safe_redirect( admin_url( 'admin.php?page=acf-schema-guard-history' ) ); exit;
 	}
 
 	/**
@@ -257,38 +273,30 @@ final class AdminController {
 	 */
 	private function render_changes_page( array $screen ) {
 		$snapshots = $this->snapshots->all();
-		$selection = $this->comparison_selection();
+		$baseline  = $this->baseline->snapshot();
+		$current   = empty( $snapshots ) ? null : $snapshots[0];
+		if ( null === $baseline ) {
+			$this->render_changes_state( $screen, __( 'Set an approved baseline in History before reviewing changes.', 'acf-schema-guard' ) );
+			return;
+		}
+		if ( null === $current || $baseline->id() === $current->id() ) {
+			$this->render_changes_state( $screen, __( 'Capture a newer schema snapshot after making ACF changes.', 'acf-schema-guard' ) );
+			return;
+		}
 		?>
 		<div class="wrap acf-schema-guard-admin">
 			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
-			<p><?php echo esc_html__( 'Select two stored snapshots to review classified schema changes.', 'acf-schema-guard' ); ?></p>
-			<?php if ( 2 > count( $snapshots ) ) : ?>
-				<div class="notice notice-info inline">
-					<p><?php echo esc_html__( 'Capture at least two schema snapshots before running a comparison.', 'acf-schema-guard' ); ?></p>
-				</div>
-			<?php else : ?>
-				<form class="acf-schema-guard-comparison-form" method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
-					<input type="hidden" name="page" value="acf-schema-guard-changes" />
-					<p>
-						<label for="acf-schema-guard-before-snapshot"><?php echo esc_html__( 'Before snapshot', 'acf-schema-guard' ); ?></label>
-						<select id="acf-schema-guard-before-snapshot" name="before_snapshot">
-							<?php $this->render_snapshot_options( $snapshots, $selection['before_id'] ); ?>
-						</select>
-					</p>
-					<p>
-						<label for="acf-schema-guard-after-snapshot"><?php echo esc_html__( 'After snapshot', 'acf-schema-guard' ); ?></label>
-						<select id="acf-schema-guard-after-snapshot" name="after_snapshot">
-							<?php $this->render_snapshot_options( $snapshots, $selection['after_id'] ); ?>
-						</select>
-					</p>
-					<?php submit_button( __( 'Compare snapshots', 'acf-schema-guard' ), 'primary', 'submit', false ); ?>
-				</form>
-				<?php $this->render_comparison_notice( $selection['notice'] ); ?>
-				<?php if ( '' === $selection['notice'] ) : ?>
-					<?php $this->render_comparison_results( $selection['before_snapshot'], $selection['after_snapshot'] ); ?>
-				<?php endif; ?>
-			<?php endif; ?>
+			<p><?php echo esc_html__( 'Comparing the approved baseline with the newest captured schema.', 'acf-schema-guard' ); ?></p>
+			<p><strong><?php echo esc_html__( 'Baseline:', 'acf-schema-guard' ); ?></strong> <code><?php echo esc_html( $baseline->id() ); ?></code> - <?php echo esc_html( $baseline->created_at() ); ?><br />
+			<strong><?php echo esc_html__( 'Current:', 'acf-schema-guard' ); ?></strong> <code><?php echo esc_html( $current->id() ); ?></code> - <?php echo esc_html( $current->created_at() ); ?></p>
+			<?php $this->render_comparison_results( $baseline, $current ); ?>
 		</div>
+		<?php
+	}
+
+	private function render_changes_state( array $screen, $message ) {
+		?>
+		<div class="wrap acf-schema-guard-admin"><h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1><div class="notice notice-info inline"><p><?php echo esc_html( $message ); ?></p></div></div>
 		<?php
 	}
 

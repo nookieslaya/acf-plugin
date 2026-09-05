@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash c2d2832191a6f96ce461250a5317c0d7d1dca5a5e045081c93364d9bc153a4a8 -->
+<!-- blueprint:source-hash d239df30f9fb0637cce488d19d0aea60b86c2c00d800689db767ef086ae96ff9 -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -42,6 +42,8 @@ code still referring to removed or renamed fields before release.
     snapshot history, and compare stored snapshots in the WordPress Admin.
 11. **Comprehensive schema change explainer** - will provide readable details
     for all supported normalized schema-property changes.
+12. **Baseline comparison workflow** - will provide an approved Admin baseline,
+    automatic current-schema comparison, and later a versioned Git/CI baseline.
 
 ## Data model
 

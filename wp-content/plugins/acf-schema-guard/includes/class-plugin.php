@@ -16,6 +16,7 @@ use AcfSchemaGuard\Schema\NormalizedSchema;
 use AcfSchemaGuard\Schema\SchemaNormalizer;
 use AcfSchemaGuard\Snapshots\SnapshotRepository;
 use AcfSchemaGuard\Snapshots\SnapshotCaptureService;
+use AcfSchemaGuard\Snapshots\BaselineSnapshotService;
 use AcfSchemaGuard\Snapshots\SchemaSnapshot;
 use AcfSchemaGuard\Diff\SchemaDiffer;
 use AcfSchemaGuard\Snapshots\WordPressSnapshotRepository;
@@ -36,6 +37,7 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-normalized-schema.ph
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-schema-normalizer.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-schema-snapshot.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/interface-snapshot-repository.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-baseline-snapshot-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-snapshot-table.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-wordpress-snapshot-repository.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-snapshot-capture-service.php';
@@ -130,7 +132,8 @@ final class Plugin {
 			$this->admin_controller = new AdminController(
 				$this->snapshot_repository(),
 				array( $this, 'capture_snapshot' ),
-				array( $this, 'analyze_snapshots' )
+				array( $this, 'analyze_snapshots' ),
+				new BaselineSnapshotService( $this->snapshot_repository() )
 			);
 			$this->admin_controller->register();
 		}

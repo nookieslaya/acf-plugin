@@ -36,3 +36,9 @@
 ## Future enhancements
 
 - [ ] 11. **Comprehensive schema change explainer** - describe added, removed, and modified field groups and fields with readable before-to-after details for all supported normalized schema properties.
+
+## Deployment workflow
+
+- [ ] 12. **Baseline comparison workflow**
+  - [x] 12a. **Admin baseline workflow** - let an administrator mark a stored snapshot as the approved baseline, capture current schema, and automatically compare baseline to current without selecting UUID pairs.
+  - [ ] 12b. **Git baseline and CI workflow** - export or import a versioned baseline JSON file and add WP-CLI commands that compare the checkout schema to it with CI-safe failure status.
