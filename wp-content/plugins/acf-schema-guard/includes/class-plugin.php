@@ -129,7 +129,8 @@ final class Plugin {
 		if ( is_admin() ) {
 			$this->admin_controller = new AdminController(
 				$this->snapshot_repository(),
-				array( $this, 'capture_snapshot' )
+				array( $this, 'capture_snapshot' ),
+				array( $this, 'analyze_snapshots' )
 			);
 			$this->admin_controller->register();
 		}

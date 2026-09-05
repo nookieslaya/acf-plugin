@@ -18,3 +18,34 @@
 .acf-schema-guard-capture-form {
 	margin-top: 20px;
 }
+
+.acf-schema-guard-comparison-form {
+	margin-top: 24px;
+}
+
+.acf-schema-guard-comparison-form label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 6px;
+}
+
+.acf-schema-guard-comparison-form select {
+	min-width: 420px;
+}
+
+.acf-schema-guard-findings {
+	margin-top: 24px;
+}
+
+.acf-schema-guard-severity {
+	font-weight: 600;
+}
+
+.acf-schema-guard-severity-high,
+.acf-schema-guard-severity-critical {
+	color: #b32d2e;
+}
+
+.acf-schema-guard-severity-warning {
+	color: #996800;
+}
