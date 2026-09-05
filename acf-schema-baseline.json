@@ -1,0 +1,826 @@
+{
+    "format_version": 1,
+    "schema_version": 1,
+    "schema": {
+        "schema_version": 1,
+        "field_groups": [
+            {
+                "key": "group_acf_schema_guard_cards",
+                "title": "Schema Guard - Card",
+                "active": true,
+                "location": [
+                    [
+                        {
+                            "operator": "==",
+                            "param": "post_type",
+                            "value": "page"
+                        }
+                    ]
+                ],
+                "fields": [
+                    {
+                        "key": "field_acf_schema_guard_card_image",
+                        "name": "card_image",
+                        "label": "Card image",
+                        "type": "image",
+                        "required": false,
+                        "instructions": "",
+                        "default_value": null,
+                        "conditional_logic": [],
+                        "settings": {
+                            "_name": "card_image",
+                            "_valid": 1,
+                            "aria-label": "",
+                            "class": "",
+                            "library": "all",
+                            "max_height": "",
+                            "max_size": "",
+                            "max_width": "",
+                            "mime_types": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "min_width": "",
+                            "preview_size": "medium",
+                            "return_format": "array",
+                            "wrapper": {
+                                "class": "",
+                                "id": "",
+                                "width": ""
+                            }
+                        },
+                        "sub_fields": [],
+                        "layouts": []
+                    },
+                    {
+                        "key": "field_acf_schema_guard_card_link",
+                        "name": "card_link",
+                        "label": "Card link",
+                        "type": "link",
+                        "required": false,
+                        "instructions": "",
+                        "default_value": null,
+                        "conditional_logic": [],
+                        "settings": {
+                            "_name": "card_link",
+                            "_valid": 1,
+                            "aria-label": "",
+                            "class": "",
+                            "return_format": "array",
+                            "wrapper": {
+                                "class": "",
+                                "id": "",
+                                "width": ""
+                            }
+                        },
+                        "sub_fields": [],
+                        "layouts": []
+                    },
+                    {
+                        "key": "field_acf_schema_guard_card_text",
+                        "name": "card_text",
+                        "label": "Card text",
+                        "type": "textarea",
+                        "required": false,
+                        "instructions": "",
+                        "default_value": "",
+                        "conditional_logic": [],
+                        "settings": {
+                            "_name": "card_text",
+                            "_valid": 1,
+                            "aria-label": "",
+                            "class": "",
+                            "maxlength": "",
+                            "new_lines": "wpautop",
+                            "placeholder": "",
+                            "rows": 3,
+                            "wrapper": {
+                                "class": "",
+                                "id": "",
+                                "width": ""
+                            }
+                        },
+                        "sub_fields": [],
+                        "layouts": []
+                    },
+                    {
+                        "key": "field_acf_schema_guard_card_title",
+                        "name": "card_title",
+                        "label": "Card title",
+                        "type": "text",
+                        "required": false,
+                        "instructions": "",
+                        "default_value": "",
+                        "conditional_logic": [],
+                        "settings": {
+                            "_name": "card_title",
+                            "_valid": 1,
+                            "append": "",
+                            "aria-label": "",
+                            "class": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "wrapper": {
+                                "class": "",
+                                "id": "",
+                                "width": ""
+                            }
+                        },
+                        "sub_fields": [],
+                        "layouts": []
+                    }
+                ]
+            },
+            {
+                "key": "group_acf_schema_guard_features",
+                "title": "Schema Guard - Features",
+                "active": true,
+                "location": [
+                    [
+                        {
+                            "operator": "==",
+                            "param": "post_type",
+                            "value": "page"
+                        }
+                    ]
+                ],
+                "fields": [
+                    {
+                        "key": "field_acf_schema_guard_features",
+                        "name": "features",
+                        "label": "Features",
+                        "type": "repeater",
+                        "required": false,
+                        "instructions": "",
+                        "default_value": null,
+                        "conditional_logic": [],
+                        "settings": {
+                            "_name": "features",
+                            "_valid": 1,
+                            "aria-label": "",
+                            "button_label": "Add feature",
+                            "class": "",
+                            "collapsed": "",
+                            "layout": "block",
+                            "max": 0,
+                            "min": 0,
+                            "pagination": 0,
+                            "rows_per_page": 20,
+                            "wrapper": {
+                                "class": "",
+                                "id": "",
+                                "width": ""
+                            }
+                        },
+                        "sub_fields": [
+                            {
+                                "key": "field_acf_schema_guard_feature_title",
+                                "name": "feature_title",
+                                "label": "Feature title",
+                                "type": "text",
+                                "required": false,
+                                "instructions": "",
+                                "default_value": "",
+                                "conditional_logic": [],
+                                "settings": {
+                                    "_name": "feature_title",
+                                    "_valid": 1,
+                                    "append": "",
+                                    "aria-label": "",
+                                    "class": "",
+                                    "maxlength": "",
+                                    "parent_repeater": "field_acf_schema_guard_features",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "wrapper": {
+                                        "class": "",
+                                        "id": "",
+                                        "width": ""
+                                    }
+                                },
+                                "sub_fields": [],
+                                "layouts": []
+                            },
+                            {
+                                "key": "field_acf_schema_guard_feature_text",
+                                "name": "feature_text",
+                                "label": "Feature text",
+                                "type": "textarea",
+                                "required": false,
+                                "instructions": "",
+                                "default_value": "",
+                                "conditional_logic": [],
+                                "settings": {
+                                    "_name": "feature_text",
+                                    "_valid": 1,
+                                    "aria-label": "",
+                                    "class": "",
+                                    "maxlength": "",
+                                    "new_lines": "wpautop",
+                                    "parent_repeater": "field_acf_schema_guard_features",
+                                    "placeholder": "",
+                                    "rows": 3,
+                                    "wrapper": {
+                                        "class": "",
+                                        "id": "",
+                                        "width": ""
+                                    }
+                                },
+                                "sub_fields": [],
+                                "layouts": []
+                            },
+                            {
+                                "key": "field_acf_schema_guard_feature_icon",
+                                "name": "feature_icon",
+                                "label": "Feature icon",
+                                "type": "image",
+                                "required": false,
+                                "instructions": "",
+                                "default_value": null,
+                                "conditional_logic": [],
+                                "settings": {
+                                    "_name": "feature_icon",
+                                    "_valid": 1,
+                                    "aria-label": "",
+                                    "class": "",
+                                    "library": "all",
+                                    "max_height": "",
+                                    "max_size": "",
+                                    "max_width": "",
+                                    "mime_types": "",
+                                    "min_height": "",
+                                    "min_size": "",
+                                    "min_width": "",
+                                    "parent_repeater": "field_acf_schema_guard_features",
+                                    "preview_size": "medium",
+                                    "return_format": "array",
+                                    "wrapper": {
+                                        "class": "",
+                                        "id": "",
+                                        "width": ""
+                                    }
+                                },
+                                "sub_fields": [],
+                                "layouts": []
+                            },
+                            {
+                                "key": "field_acf_schema_guard_feature_meta",
+                                "name": "feature_meta",
+                                "label": "Feature metadata",
+                                "type": "group",
+                                "required": false,
+                                "instructions": "",
+                                "default_value": null,
+                                "conditional_logic": [],
+                                "settings": {
+                                    "_name": "feature_meta",
+                                    "_valid": 1,
+                                    "aria-label": "",
+                                    "class": "",
+                                    "layout": "block",
+                                    "parent_repeater": "field_acf_schema_guard_features",
+                                    "wrapper": {
+                                        "class": "",
+                                        "id": "",
+                                        "width": ""
+                                    }
+                                },
+                                "sub_fields": [
+                                    {
+                                        "key": "field_acf_schema_guard_feature_badge",
+                                        "name": "feature_badge",
+                                        "label": "Badge",
+                                        "type": "text",
+                                        "required": false,
+                                        "instructions": "",
+                                        "default_value": "",
+                                        "conditional_logic": [],
+                                        "settings": {
+                                            "_name": "feature_badge",
+                                            "_valid": 1,
+                                            "append": "",
+                                            "aria-label": "",
+                                            "class": "",
+                                            "maxlength": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "wrapper": {
+                                                "class": "",
+                                                "id": "",
+                                                "width": ""
+                                            }
+                                        },
+                                        "sub_fields": [],
+                                        "layouts": []
+                                    }
+                                ],
+                                "layouts": []
+                            }
+                        ],
+                        "layouts": []
+                    }
+                ]
+            },
+            {
+                "key": "group_acf_schema_guard_flexible_content",
+                "title": "Schema Guard - Flexible Content",
+                "active": true,
+                "location": [
+                    [
+                        {
+                            "operator": "==",
+                            "param": "post_type",
+                            "value": "page"
+                        }
+                    ]
+                ],
+                "fields": [
+                    {
+                        "key": "field_acf_schema_guard_page_sections",
+                        "name": "page_sections",
+                        "label": "Page sections",
+                        "type": "flexible_content",
+                        "required": false,
+                        "instructions": "",
+                        "default_value": null,
+                        "conditional_logic": [],
+                        "settings": {
+                            "_name": "page_sections",
+                            "_valid": 1,
+                            "aria-label": "",
+                            "button_label": "Add section",
+                            "class": "",
+                            "max": "",
+                            "min": "",
+                            "wrapper": {
+                                "class": "",
+                                "id": "",
+                                "width": ""
+                            }
+                        },
+                        "sub_fields": [],
+                        "layouts": [
+                            {
+                                "display": "block",
+                                "key": "layout_acf_schema_guard_cards",
+                                "label": "Cards",
+                                "name": "cards",
+                                "settings": {
+                                    "max": "",
+                                    "min": ""
+                                },
+                                "sub_fields": [
+                                    {
+                                        "conditional_logic": [],
+                                        "default_value": "",
+                                        "instructions": "",
+                                        "key": "field_acf_schema_guard_cards_heading",
+                                        "label": "Heading",
+                                        "layouts": [],
+                                        "name": "cards_heading",
+                                        "required": false,
+                                        "settings": {
+                                            "_name": "cards_heading",
+                                            "_valid": 1,
+                                            "append": "",
+                                            "aria-label": "",
+                                            "class": "",
+                                            "maxlength": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "wrapper": {
+                                                "class": "",
+                                                "id": "",
+                                                "width": ""
+                                            }
+                                        },
+                                        "sub_fields": [],
+                                        "type": "text"
+                                    },
+                                    {
+                                        "conditional_logic": [],
+                                        "default_value": null,
+                                        "instructions": "",
+                                        "key": "field_acf_schema_guard_layout_cards",
+                                        "label": "Cards",
+                                        "layouts": [],
+                                        "name": "cards",
+                                        "required": false,
+                                        "settings": {
+                                            "_name": "cards",
+                                            "_valid": 1,
+                                            "aria-label": "",
+                                            "button_label": "Add card",
+                                            "class": "",
+                                            "collapsed": "",
+                                            "layout": "table",
+                                            "max": 0,
+                                            "min": 0,
+                                            "pagination": 0,
+                                            "rows_per_page": 20,
+                                            "wrapper": {
+                                                "class": "",
+                                                "id": "",
+                                                "width": ""
+                                            }
+                                        },
+                                        "sub_fields": [
+                                            {
+                                                "conditional_logic": [],
+                                                "default_value": "",
+                                                "instructions": "",
+                                                "key": "field_acf_schema_guard_layout_card_title",
+                                                "label": "Title",
+                                                "layouts": [],
+                                                "name": "card_title",
+                                                "required": false,
+                                                "settings": {
+                                                    "_name": "card_title",
+                                                    "_valid": 1,
+                                                    "append": "",
+                                                    "aria-label": "",
+                                                    "class": "",
+                                                    "maxlength": "",
+                                                    "parent_repeater": "field_acf_schema_guard_layout_cards",
+                                                    "placeholder": "",
+                                                    "prepend": "",
+                                                    "wrapper": {
+                                                        "class": "",
+                                                        "id": "",
+                                                        "width": ""
+                                                    }
+                                                },
+                                                "sub_fields": [],
+                                                "type": "text"
+                                            },
+                                            {
+                                                "conditional_logic": [],
+                                                "default_value": "",
+                                                "instructions": "",
+                                                "key": "field_acf_schema_guard_layout_card_text",
+                                                "label": "Text",
+                                                "layouts": [],
+                                                "name": "card_text",
+                                                "required": false,
+                                                "settings": {
+                                                    "_name": "card_text",
+                                                    "_valid": 1,
+                                                    "aria-label": "",
+                                                    "class": "",
+                                                    "maxlength": "",
+                                                    "new_lines": "wpautop",
+                                                    "parent_repeater": "field_acf_schema_guard_layout_cards",
+                                                    "placeholder": "",
+                                                    "rows": 3,
+                                                    "wrapper": {
+                                                        "class": "",
+                                                        "id": "",
+                                                        "width": ""
+                                                    }
+                                                },
+                                                "sub_fields": [],
+                                                "type": "textarea"
+                                            }
+                                        ],
+                                        "type": "repeater"
+                                    }
+                                ]
+                            },
+                            {
+                                "display": "block",
+                                "key": "layout_acf_schema_guard_hero",
+                                "label": "Hero",
+                                "name": "hero",
+                                "settings": {
+                                    "max": "",
+                                    "min": ""
+                                },
+                                "sub_fields": [
+                                    {
+                                        "conditional_logic": [],
+                                        "default_value": "",
+                                        "instructions": "",
+                                        "key": "field_acf_schema_guard_layout_hero_title",
+                                        "label": "Title",
+                                        "layouts": [],
+                                        "name": "hero_title",
+                                        "required": false,
+                                        "settings": {
+                                            "_name": "hero_title",
+                                            "_valid": 1,
+                                            "append": "",
+                                            "aria-label": "",
+                                            "class": "",
+                                            "maxlength": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "wrapper": {
+                                                "class": "",
+                                                "id": "",
+                                                "width": ""
+                                            }
+                                        },
+                                        "sub_fields": [],
+                                        "type": "text"
+                                    },
+                                    {
+                                        "conditional_logic": [],
+                                        "default_value": "",
+                                        "instructions": "",
+                                        "key": "field_acf_schema_guard_layout_hero_text",
+                                        "label": "Text",
+                                        "layouts": [],
+                                        "name": "hero_text",
+                                        "required": false,
+                                        "settings": {
+                                            "_name": "hero_text",
+                                            "_valid": 1,
+                                            "aria-label": "",
+                                            "class": "",
+                                            "maxlength": "",
+                                            "new_lines": "wpautop",
+                                            "placeholder": "",
+                                            "rows": 4,
+                                            "wrapper": {
+                                                "class": "",
+                                                "id": "",
+                                                "width": ""
+                                            }
+                                        },
+                                        "sub_fields": [],
+                                        "type": "textarea"
+                                    }
+                                ]
+                            },
+                            {
+                                "display": "block",
+                                "key": "layout_acf_schema_guard_text_section",
+                                "label": "Text section",
+                                "name": "text_section",
+                                "settings": {
+                                    "max": "",
+                                    "min": ""
+                                },
+                                "sub_fields": [
+                                    {
+                                        "conditional_logic": [],
+                                        "default_value": "",
+                                        "instructions": "",
+                                        "key": "field_acf_schema_guard_section_heading",
+                                        "label": "Heading",
+                                        "layouts": [],
+                                        "name": "section_heading",
+                                        "required": false,
+                                        "settings": {
+                                            "_name": "section_heading",
+                                            "_valid": 1,
+                                            "append": "",
+                                            "aria-label": "",
+                                            "class": "",
+                                            "maxlength": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "wrapper": {
+                                                "class": "",
+                                                "id": "",
+                                                "width": ""
+                                            }
+                                        },
+                                        "sub_fields": [],
+                                        "type": "text"
+                                    },
+                                    {
+                                        "conditional_logic": [],
+                                        "default_value": "",
+                                        "instructions": "",
+                                        "key": "field_acf_schema_guard_section_content",
+                                        "label": "Content",
+                                        "layouts": [],
+                                        "name": "section_content",
+                                        "required": false,
+                                        "settings": {
+                                            "_name": "section_content",
+                                            "_valid": 1,
+                                            "aria-label": "",
+                                            "class": "",
+                                            "delay": 0,
+                                            "media_upload": 1,
+                                            "tabs": "all",
+                                            "toolbar": "full",
+                                            "wrapper": {
+                                                "class": "",
+                                                "id": "",
+                                                "width": ""
+                                            }
+                                        },
+                                        "sub_fields": [],
+                                        "type": "wysiwyg"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "group_acf_schema_guard_hero",
+                "title": "Schema Guard - Hero",
+                "active": true,
+                "location": [
+                    [
+                        {
+                            "operator": "==",
+                            "param": "post_type",
+                            "value": "page"
+                        }
+                    ]
+                ],
+                "fields": [
+                    {
+                        "key": "field_acf_schema_guard_hero_cta",
+                        "name": "hero_cta",
+                        "label": "Hero CTA",
+                        "type": "link",
+                        "required": false,
+                        "instructions": "",
+                        "default_value": null,
+                        "conditional_logic": [],
+                        "settings": {
+                            "_name": "hero_cta",
+                            "_valid": 1,
+                            "aria-label": "",
+                            "class": "",
+                            "return_format": "array",
+                            "wrapper": {
+                                "class": "",
+                                "id": "",
+                                "width": ""
+                            }
+                        },
+                        "sub_fields": [],
+                        "layouts": []
+                    },
+                    {
+                        "key": "field_acf_schema_guard_hero_image",
+                        "name": "hero_image",
+                        "label": "Hero image",
+                        "type": "image",
+                        "required": false,
+                        "instructions": "",
+                        "default_value": null,
+                        "conditional_logic": [],
+                        "settings": {
+                            "_name": "hero_image",
+                            "_valid": 1,
+                            "aria-label": "",
+                            "class": "",
+                            "library": "all",
+                            "max_height": "",
+                            "max_size": "",
+                            "max_width": "",
+                            "mime_types": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "min_width": "",
+                            "preview_size": "medium",
+                            "return_format": "array",
+                            "wrapper": {
+                                "class": "",
+                                "id": "",
+                                "width": ""
+                            }
+                        },
+                        "sub_fields": [],
+                        "layouts": []
+                    },
+                    {
+                        "key": "field_acf_schema_guard_hero_text",
+                        "name": "hero_text_new",
+                        "label": "Hero text",
+                        "type": "text",
+                        "required": false,
+                        "instructions": "",
+                        "default_value": "",
+                        "conditional_logic": [],
+                        "settings": {
+                            "_name": "hero_text_new",
+                            "_valid": 1,
+                            "allow_in_bindings": 0,
+                            "append": "",
+                            "aria-label": "",
+                            "class": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "wrapper": {
+                                "class": "",
+                                "id": "",
+                                "width": ""
+                            }
+                        },
+                        "sub_fields": [],
+                        "layouts": []
+                    },
+                    {
+                        "key": "field_acf_schema_guard_hero_title",
+                        "name": "hero_title2",
+                        "label": "Hero title",
+                        "type": "text",
+                        "required": false,
+                        "instructions": "",
+                        "default_value": "",
+                        "conditional_logic": [],
+                        "settings": {
+                            "_name": "hero_title2",
+                            "_valid": 1,
+                            "allow_in_bindings": 1,
+                            "append": "",
+                            "aria-label": "",
+                            "class": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "wrapper": {
+                                "class": "",
+                                "id": "",
+                                "width": ""
+                            }
+                        },
+                        "sub_fields": [],
+                        "layouts": []
+                    }
+                ]
+            },
+            {
+                "key": "group_acf_schema_guard_options",
+                "title": "Schema Guard - Test Settings",
+                "active": true,
+                "location": [
+                    [
+                        {
+                            "operator": "==",
+                            "param": "options_page",
+                            "value": "acf-schema-guard-test-settings"
+                        }
+                    ]
+                ],
+                "fields": [
+                    {
+                        "key": "field_acf_schema_guard_maintenance_message",
+                        "name": "maintenance_message",
+                        "label": "Maintenance message",
+                        "type": "textarea",
+                        "required": false,
+                        "instructions": "",
+                        "default_value": "",
+                        "conditional_logic": [],
+                        "settings": {
+                            "_name": "maintenance_message",
+                            "_valid": 1,
+                            "aria-label": "",
+                            "class": "",
+                            "maxlength": "",
+                            "new_lines": "wpautop",
+                            "placeholder": "",
+                            "rows": 3,
+                            "wrapper": {
+                                "class": "",
+                                "id": "",
+                                "width": ""
+                            }
+                        },
+                        "sub_fields": [],
+                        "layouts": []
+                    },
+                    {
+                        "key": "field_acf_schema_guard_settings_label",
+                        "name": "environment_label",
+                        "label": "Environment label",
+                        "type": "text",
+                        "required": false,
+                        "instructions": "",
+                        "default_value": "Development",
+                        "conditional_logic": [],
+                        "settings": {
+                            "_name": "environment_label",
+                            "_valid": 1,
+                            "append": "",
+                            "aria-label": "",
+                            "class": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "wrapper": {
+                                "class": "",
+                                "id": "",
+                                "width": ""
+                            }
+                        },
+                        "sub_fields": [],
+                        "layouts": []
+                    }
+                ]
+            }
+        ]
+    }
+}
