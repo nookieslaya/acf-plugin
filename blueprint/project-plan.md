@@ -57,7 +57,10 @@ renamed fields.
 The production plugin should provide a compact, developer-first WordPress Admin
 experience that makes the safety of recent ACF changes immediately clear. The
 development theme is intentionally minimal, readable, and easy to debug rather
-than production-oriented.
+than production-oriented. Only ACF Schema Guard change views should use an
+accessible visual severity system: colour supports scanning, while text labels
+and a legend preserve the meaning without relying on colour alone. The plugin
+must not restyle the global WordPress Admin, ACF editor, or other plugins.
 
 ## 8. Deployment - Where and how will this ship?
 

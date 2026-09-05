@@ -36,6 +36,10 @@
 ## Future enhancements
 
 - [ ] 11. **Comprehensive schema change explainer** - describe added, removed, and modified field groups and fields with readable before-to-after details for all supported normalized schema properties.
+  - [x] 11a. **Core change explainer** - produce deterministic, readable descriptions for added, removed, and modified field groups and fields, including core identity properties.
+  - [ ] 11b. **Settings and nested-structure explanations** - explain supported settings, location and conditional rules, repeater/group sub-fields, and Flexible Content layouts.
+  - [ ] 11c. **Shared explanation output** - use one explanation service consistently in Admin change views and WP-CLI JSON/table output.
+  - [ ] 11d. **Plugin Admin change visual system** - make only ACF Schema Guard Admin change views easier to scan with accessible severity colours, text labels, a legend, and readable grouping; colour must never be the only risk signal.
 
 ## Deployment workflow
 

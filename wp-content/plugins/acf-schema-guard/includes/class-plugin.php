@@ -45,6 +45,7 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-snapshot-capture-
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-schema-change.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-schema-diff.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-schema-differ.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-schema-change-explainer.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-risk-finding.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-risk-classifier.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-snapshot-analysis.php';
