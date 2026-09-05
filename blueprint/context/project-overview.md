@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash 33c849b7676986df8f8602b53b6b19d5ecc6cdfbf88141a3d7656ba9763ac0ae -->
+<!-- blueprint:source-hash 5995e355cd22812eefaa790fd41fdef5da8c4cfd067029edc30fb51ad09a3c8a -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -40,9 +40,10 @@ code still referring to removed or renamed fields before release.
    GitLab CI examples around the WP-CLI check command.
 10. **Admin snapshot workspace** - lets administrators capture schemas, review
     snapshot history, and compare stored snapshots in the WordPress Admin.
-11. **Comprehensive schema change explainer** - will add core, setting, and
-    nested-structure details, shared Admin/CLI output, and an accessible visual
-    severity system for ACF Schema Guard Admin change views only.
+11. **Comprehensive schema change explainer** - adds core details first, then
+    rules/settings and nested structures, followed by shared Admin/CLI output
+    and an accessible visual severity system for ACF Schema Guard Admin change
+    views only.
 12. **Baseline comparison workflow** - provides an approved Admin baseline,
     automatic current-schema comparison, and a versioned Git/CI baseline.
 

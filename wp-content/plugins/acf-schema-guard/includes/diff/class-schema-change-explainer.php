@@ -66,7 +66,7 @@ final class SchemaChangeExplainer {
 	 */
 	private function modified_details( $node_type, array $before, array $after ) {
 		$properties = 'field_group' === $node_type
-			? array( 'title' => 'Group title', 'active' => 'Active' )
+			? array( 'title' => 'Group title', 'active' => 'Active', 'location' => 'Location rules' )
 			: array(
 				'name'          => 'Field name',
 				'label'         => 'Field label',
@@ -74,6 +74,7 @@ final class SchemaChangeExplainer {
 				'required'      => 'Required',
 				'instructions'  => 'Instructions',
 				'default_value' => 'Default value',
+				'conditional_logic' => 'Conditional logic',
 			);
 		$details    = array();
 
@@ -83,6 +84,35 @@ final class SchemaChangeExplainer {
 			}
 
 			$details[] = $label . ': ' . $this->format_value( $before[ $property ] ) . ' -> ' . $this->format_value( $after[ $property ] );
+		}
+
+		if ( 'field' === $node_type ) {
+			$details = array_merge(
+				$details,
+				$this->setting_details(
+					isset( $before['settings'] ) && is_array( $before['settings'] ) ? $before['settings'] : array(),
+					isset( $after['settings'] ) && is_array( $after['settings'] ) ? $after['settings'] : array()
+				)
+			);
+		}
+
+		return $details;
+	}
+
+	private function setting_details( array $before, array $after ) {
+		$keys = array_unique( array_merge( array_keys( $before ), array_keys( $after ) ) );
+		sort( $keys, SORT_STRING );
+		$details = array();
+
+		foreach ( $keys as $key ) {
+			$label = 'Setting ' . $this->format_value( (string) $key );
+			if ( ! array_key_exists( $key, $before ) ) {
+				$details[] = $label . ' added: ' . $this->format_value( $after[ $key ] );
+			} elseif ( ! array_key_exists( $key, $after ) ) {
+				$details[] = $label . ' removed: ' . $this->format_value( $before[ $key ] );
+			} elseif ( $before[ $key ] !== $after[ $key ] ) {
+				$details[] = $label . ': ' . $this->format_value( $before[ $key ] ) . ' -> ' . $this->format_value( $after[ $key ] );
+			}
 		}
 
 		return $details;

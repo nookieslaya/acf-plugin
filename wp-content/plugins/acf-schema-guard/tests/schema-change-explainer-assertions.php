@@ -92,4 +92,38 @@ $removed = $explainer->explain(
 );
 acf_schema_guard_explainer_assert( 'Field group removed.' === $removed['summary'] && 'Field group: "Hero".' === $removed['details'][0], 'Removed group explanation is wrong.' );
 
+$rules = $explainer->explain(
+	array(
+		'kind'      => 'modified',
+		'node_type' => 'field_group',
+		'before'    => array( 'location' => array( array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'page' ) ) ) ),
+		'after'     => array( 'location' => array( array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'post' ) ) ) ),
+	)
+);
+acf_schema_guard_explainer_assert( 1 === count( $rules['details'] ) && 0 === strpos( $rules['details'][0], 'Location rules:' ), 'Location rule explanation is wrong.' );
+
+$settings = $explainer->explain(
+	array(
+		'kind'      => 'modified',
+		'node_type' => 'field',
+		'before'    => array(
+			'conditional_logic' => array( array( array( 'field' => 'field_enabled', 'operator' => '==', 'value' => '1' ) ) ),
+			'settings'          => array( 'return_format' => 'array', 'rows' => 4 ),
+		),
+		'after'     => array(
+			'conditional_logic' => array(),
+			'settings'          => array( 'allow_null' => true, 'return_format' => 'id' ),
+		),
+	)
+);
+acf_schema_guard_explainer_assert(
+	array(
+		'Conditional logic: [[{"field":"field_enabled","operator":"==","value":"1"}]] -> []',
+		'Setting "allow_null" added: yes',
+		'Setting "return_format": "array" -> "id"',
+		'Setting "rows" removed: 4',
+	) === $settings['details'],
+	'Conditional logic or setting details are wrong.'
+);
+
 echo "Schema change explainer assertions passed.\n";
