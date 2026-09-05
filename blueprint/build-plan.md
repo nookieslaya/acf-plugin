@@ -21,7 +21,7 @@
 ## Developer experience
 
 - [x] 7. **WordPress Admin foundation** - add the ACF Schema Guard menu and minimal Overview, Changes, Field Groups, Code Usage, History, and Settings screens.
-- [ ] 8. **WP-CLI analysis commands**
+- [x] 8. **WP-CLI analysis commands**
   - [x] 8a. **WP-CLI command foundation and scan** - register `wp acf-schema-guard scan`, accept explicit source roots, and report deterministic PHP ACF usage references.
   - [x] 8b. **WP-CLI snapshot diff** - compare two stored snapshots and report schema changes with risk classifications.
   - [x] 8c. **WP-CLI breaking-change check** - expose a CI-oriented check with `--fail-on-breaking` and a stable non-zero exit status.
