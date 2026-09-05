@@ -409,6 +409,7 @@ final class AdminController {
 				<th scope="col"><?php echo esc_html__( 'Kind', 'acf-schema-guard' ); ?></th>
 				<th scope="col"><?php echo esc_html__( 'Node type', 'acf-schema-guard' ); ?></th>
 				<th scope="col"><?php echo esc_html__( 'Path', 'acf-schema-guard' ); ?></th>
+				<th scope="col"><?php echo esc_html__( 'Change details', 'acf-schema-guard' ); ?></th>
 				<th scope="col"><?php echo esc_html__( 'Severity', 'acf-schema-guard' ); ?></th>
 				<th scope="col"><?php echo esc_html__( 'Rationale', 'acf-schema-guard' ); ?></th>
 			</tr></thead>
@@ -419,6 +420,7 @@ final class AdminController {
 						<td><?php echo esc_html( $change['kind'] ); ?></td>
 						<td><?php echo esc_html( $change['node_type'] ); ?></td>
 						<td><code><?php echo esc_html( implode( '.', $change['path'] ) ); ?></code></td>
+						<td><?php echo esc_html( $this->change_details( $change ) ); ?></td>
 						<td><span class="acf-schema-guard-severity acf-schema-guard-severity-<?php echo esc_attr( $finding['severity'] ); ?>"><?php echo esc_html( $finding['severity'] ); ?></span></td>
 						<td><?php echo esc_html( $finding['rationale'] ); ?></td>
 					</tr>
@@ -426,6 +428,31 @@ final class AdminController {
 			</tbody>
 		</table>
 		<?php
+	}
+
+	/**
+	 * Builds a concise before-to-after description for common modified properties.
+	 *
+	 * @param array $change Schema change data.
+	 * @return string
+	 */
+	private function change_details( array $change ) {
+		$before = isset( $change['before'] ) && is_array( $change['before'] ) ? $change['before'] : array();
+		$after  = isset( $change['after'] ) && is_array( $change['after'] ) ? $change['after'] : array();
+		$labels = array(
+			'type'  => __( 'Field type', 'acf-schema-guard' ),
+			'name'  => __( 'Field name', 'acf-schema-guard' ),
+			'title' => __( 'Group title', 'acf-schema-guard' ),
+		);
+		$details = array();
+
+		foreach ( $labels as $property => $label ) {
+			if ( array_key_exists( $property, $before ) && array_key_exists( $property, $after ) && $before[ $property ] !== $after[ $property ] ) {
+				$details[] = $label . ': ' . $before[ $property ] . ' -> ' . $after[ $property ];
+			}
+		}
+
+		return empty( $details ) ? __( 'Schema node changed.', 'acf-schema-guard' ) : implode( '; ', $details );
 	}
 
 	/**

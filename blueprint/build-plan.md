@@ -32,3 +32,7 @@
 - [x] 10. **Admin snapshot workspace**
   - [x] 10a. **Snapshot history and capture** - show stored snapshots in the History screen and let an administrator capture the current ACF schema with capability and nonce protection.
   - [x] 10b. **Snapshot comparison** - let an administrator select two stored snapshots and show classified schema changes in the Changes screen.
+
+## Future enhancements
+
+- [ ] 11. **Comprehensive schema change explainer** - describe added, removed, and modified field groups and fields with readable before-to-after details for all supported normalized schema properties.
