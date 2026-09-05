@@ -126,4 +126,115 @@ acf_schema_guard_explainer_assert(
 	'Conditional logic or setting details are wrong.'
 );
 
+$nested_modified = $explainer->explain(
+	array(
+		'kind'      => 'modified',
+		'node_type' => 'field',
+		'path'      => array( 'group_content', 'field_rows', 'field_heading' ),
+		'before'    => array( 'name' => 'heading', 'type' => 'text' ),
+		'after'     => array( 'name' => 'heading', 'type' => 'textarea' ),
+	)
+);
+acf_schema_guard_explainer_assert( 'Nested field modified.' === $nested_modified['summary'], 'Nested modified field summary is wrong.' );
+acf_schema_guard_explainer_assert( array( 'Field type: "text" -> "textarea"' ) === $nested_modified['details'], 'Nested modified field details are wrong.' );
+
+$deeply_nested_added = $explainer->explain(
+	array(
+		'kind'      => 'added',
+		'node_type' => 'field',
+		'path'      => array( 'group_content', 'field_sections', 'layout_hero', 'field_cta', 'field_url' ),
+		'before'    => null,
+		'after'     => array( 'label' => 'URL', 'name' => 'url', 'type' => 'url' ),
+	)
+);
+acf_schema_guard_explainer_assert( 'Nested field added.' === $deeply_nested_added['summary'], 'Deeply nested field summary is wrong.' );
+acf_schema_guard_explainer_assert( 'Nested field: "URL" ("url"), type "url".' === $deeply_nested_added['details'][0], 'Deeply nested field description is wrong.' );
+
+$top_level_with_path = $explainer->explain(
+	array(
+		'kind'      => 'removed',
+		'node_type' => 'field',
+		'path'      => array( 'group_content', 'field_title' ),
+		'before'    => array( 'label' => 'Title', 'name' => 'title', 'type' => 'text' ),
+		'after'     => null,
+	)
+);
+acf_schema_guard_explainer_assert( 'Field removed.' === $top_level_with_path['summary'], 'Top-level field summary changed unexpectedly.' );
+acf_schema_guard_explainer_assert( 'Field: "Title" ("title"), type "text".' === $top_level_with_path['details'][0], 'Top-level field description changed unexpectedly.' );
+
+$layouts = $explainer->explain(
+	array(
+		'kind'      => 'modified',
+		'node_type' => 'field',
+		'before'    => array(
+			'layouts' => array(
+				array( 'key' => 'layout_removed', 'name' => 'removed', 'label' => 'Removed', 'display' => 'block' ),
+				array(
+					'key'        => 'layout_modified',
+					'name'       => 'feature',
+					'label'      => 'Feature',
+					'display'    => 'block',
+					'settings'   => array( 'max' => 4, 'min' => 1 ),
+					'sub_fields' => array( array( 'key' => 'field_copy', 'type' => 'text' ) ),
+				),
+				array(
+					'key'        => 'layout_child_only',
+					'name'       => 'child_only',
+					'label'      => 'Child only',
+					'display'    => 'block',
+					'settings'   => array(),
+					'sub_fields' => array( array( 'key' => 'field_child', 'type' => 'text' ) ),
+				),
+				'not-a-layout',
+				array( 'label' => 'Missing key' ),
+			),
+		),
+		'after'     => array(
+			'layouts' => array(
+				array( 'key' => 'layout_added', 'name' => 'added', 'label' => 'Added', 'display' => 'row' ),
+				array(
+					'key'        => 'layout_modified',
+					'name'       => 'feature_new',
+					'label'      => 'Feature updated',
+					'display'    => 'row',
+					'settings'   => array( 'button_label' => 'Add feature', 'max' => 6 ),
+					'sub_fields' => array( array( 'key' => 'field_copy', 'type' => 'textarea' ) ),
+				),
+				array(
+					'key'        => 'layout_child_only',
+					'name'       => 'child_only',
+					'label'      => 'Child only',
+					'display'    => 'block',
+					'settings'   => array(),
+					'sub_fields' => array( array( 'key' => 'field_child', 'type' => 'number' ) ),
+				),
+				array( 'key' => '', 'label' => 'Empty key' ),
+			),
+		),
+	)
+);
+acf_schema_guard_explainer_assert(
+	array(
+		'Layout added: "Added" ("added"), key "layout_added".',
+		'Layout "layout_modified" name: "feature" -> "feature_new"',
+		'Layout "layout_modified" label: "Feature" -> "Feature updated"',
+		'Layout "layout_modified" display: "block" -> "row"',
+		'Layout "layout_modified" setting "button_label" added: "Add feature"',
+		'Layout "layout_modified" setting "max": 4 -> 6',
+		'Layout "layout_modified" setting "min" removed: 1',
+		'Layout removed: "Removed" ("removed"), key "layout_removed".',
+	) === $layouts['details'],
+	'Flexible Content layout details are wrong, unordered, or duplicate child changes.'
+);
+
+$malformed_layouts = $explainer->explain(
+	array(
+		'kind'      => 'modified',
+		'node_type' => 'field',
+		'before'    => array( 'layouts' => 'invalid' ),
+		'after'     => array( 'layouts' => array( null, array(), array( 'key' => 42 ) ) ),
+	)
+);
+acf_schema_guard_explainer_assert( array() === $malformed_layouts['details'], 'Malformed layout collections should be ignored safely.' );
+
 echo "Schema change explainer assertions passed.\n";
