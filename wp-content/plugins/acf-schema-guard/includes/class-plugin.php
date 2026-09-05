@@ -35,6 +35,7 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-normalized-field.php
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-normalized-field-group.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-normalized-schema.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-schema-normalizer.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/baseline/class-schema-baseline-file.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-schema-snapshot.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/interface-snapshot-repository.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-baseline-snapshot-service.php';
@@ -143,6 +144,7 @@ final class Plugin {
 			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-scan-command.php';
 			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-diff-command.php';
 			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-check-command.php';
+			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-baseline-command.php';
 
 			$this->cli_command_registrar = new \AcfSchemaGuard\Cli\CommandRegistrar();
 			$this->cli_command_registrar->register(
@@ -169,6 +171,13 @@ final class Plugin {
 			);
 			$this->cli_check_command = new \AcfSchemaGuard\Cli\CheckCommand( $this->snapshot_repository(), new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier() ) );
 			$this->cli_command_registrar->register( 'acf-schema-guard check', array( $this->cli_check_command, 'check' ) );
+			$baseline_command = new \AcfSchemaGuard\Cli\BaselineCommand(
+				new \AcfSchemaGuard\Baseline\SchemaBaselineFile(),
+				new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier() ),
+				array( $this, 'current_schema_array' )
+			);
+			$this->cli_command_registrar->register( 'acf-schema-guard baseline export', array( $baseline_command, 'export' ) );
+			$this->cli_command_registrar->register( 'acf-schema-guard baseline check', array( $baseline_command, 'check' ) );
 		}
 
 		$this->is_booted = true;
@@ -218,6 +227,15 @@ final class Plugin {
 		}
 
 		return $this->schema_normalizer->normalize( $this->schema_source->field_groups() );
+	}
+
+	/**
+	 * Gets the effective current schema as a portable normalized array.
+	 *
+	 * @return array
+	 */
+	public function current_schema_array() {
+		return $this->normalized_schema()->to_array();
 	}
 
 	/**

@@ -39,6 +39,6 @@
 
 ## Deployment workflow
 
-- [ ] 12. **Baseline comparison workflow**
+- [x] 12. **Baseline comparison workflow**
   - [x] 12a. **Admin baseline workflow** - let an administrator mark a stored snapshot as the approved baseline, capture current schema, and automatically compare baseline to current without selecting UUID pairs.
-  - [ ] 12b. **Git baseline and CI workflow** - export or import a versioned baseline JSON file and add WP-CLI commands that compare the checkout schema to it with CI-safe failure status.
+  - [x] 12b. **Git baseline and CI workflow** - export or import a versioned baseline JSON file and add WP-CLI commands that compare the checkout schema to it with CI-safe failure status.

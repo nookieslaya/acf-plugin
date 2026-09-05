@@ -57,6 +57,29 @@ Without `--fail-on-breaking`, a valid analysis exits successfully. The flag
 returns a non-zero exit status after printing the analysis when breaking risks
 are found; `safe` and `warning` findings do not fail the command.
 
+## Git baseline and CI check
+
+Export the currently effective ACF schema to an explicitly chosen JSON file,
+review it, and commit it with the project:
+
+```sh
+wp acf-schema-guard baseline export acf-schema-baseline.json
+git add acf-schema-baseline.json
+```
+
+The export refuses to replace an existing file unless `--force` is supplied.
+On a pull request or another checkout, compare the committed baseline with the
+currently loaded ACF schema:
+
+```sh
+wp acf-schema-guard baseline check acf-schema-baseline.json --fail-on-breaking
+```
+
+This command does not create snapshots or change ACF data. It reads the baseline
+file and uses ACF's effective runtime schema, so it works with database, Local
+JSON, PHP-registered, or mixed field groups. With `--fail-on-breaking`, only
+`high` and `critical` findings return a non-zero exit status.
+
 ## CI templates
 
 Read `docs/ci.md` for GitHub Actions and GitLab CI example templates. They are

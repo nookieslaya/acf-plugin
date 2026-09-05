@@ -8,10 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run ACF Schema Guard check
-        env:
-          ACF_SCHEMA_GUARD_BEFORE_ID: ${{ secrets.ACF_SCHEMA_GUARD_BEFORE_ID }}
-          ACF_SCHEMA_GUARD_AFTER_ID: ${{ secrets.ACF_SCHEMA_GUARD_AFTER_ID }}
+      - name: Run ACF Schema Guard baseline check
         run: |
           # Bootstrap WordPress, its database, ACF, and this plugin before this step.
-          wp acf-schema-guard check "$ACF_SCHEMA_GUARD_BEFORE_ID" "$ACF_SCHEMA_GUARD_AFTER_ID" --fail-on-breaking
+          wp acf-schema-guard baseline check acf-schema-baseline.json --fail-on-breaking
