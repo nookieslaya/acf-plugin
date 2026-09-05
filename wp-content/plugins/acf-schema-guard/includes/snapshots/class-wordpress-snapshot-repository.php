@@ -55,7 +55,7 @@ final class WordPressSnapshotRepository implements SnapshotRepository {
 	 */
 	public function find( $id ) {
 		$sql = $this->wpdb->prepare(
-			'SELECT id, source_id, schema_version, schema, created_at FROM ' . SnapshotTable::table_name( $this->wpdb ) . ' WHERE id = %s LIMIT 1',
+			'SELECT id, source_id, schema_version, `schema`, created_at FROM ' . SnapshotTable::table_name( $this->wpdb ) . ' WHERE id = %s LIMIT 1',
 			(string) $id
 		);
 
@@ -71,7 +71,7 @@ final class WordPressSnapshotRepository implements SnapshotRepository {
 	public function latest_for_source( $source_id ) {
 		$source_id = $this->valid_source_id( $source_id );
 		$sql       = $this->wpdb->prepare(
-			'SELECT id, source_id, schema_version, schema, created_at FROM ' . SnapshotTable::table_name( $this->wpdb ) . ' WHERE source_id = %s ORDER BY created_at DESC, id DESC LIMIT 1',
+			'SELECT id, source_id, schema_version, `schema`, created_at FROM ' . SnapshotTable::table_name( $this->wpdb ) . ' WHERE source_id = %s ORDER BY created_at DESC, id DESC LIMIT 1',
 			$source_id
 		);
 
