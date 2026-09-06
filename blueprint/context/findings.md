@@ -7,14 +7,6 @@
 > finding is `open` or `fixed`, then archives resolved findings with the work
 > and resets this file.
 
-### F-03 [P2] open - Snapshot history loads and hydrates every stored schema
-
-**File:** wp-content/plugins/acf-schema-guard/includes/snapshots/class-wordpress-snapshot-repository.php:86
-**Found:** 2026-09-06 by /audit (scope: full; lens: quality, security, performance, tests)
-**Why it matters:** `all()` selects every snapshot including each `longtext` schema and constructs every object. Both History and Changes call it. Because captures are append-only and no retention or pagination exists, admin requests will consume progressively more database time and memory.
-**Suggested fix:** Add bounded metadata pagination for History and a dedicated latest-snapshot query for Changes. Load full schema JSON only for snapshots that are actually compared.
-**Resolution:**
-
 ### F-04 [P2] open - Existing assertions are not a declared automated test gate
 
 **File:** AGENTS.md:200

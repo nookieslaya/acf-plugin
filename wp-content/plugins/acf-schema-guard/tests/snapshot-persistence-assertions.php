@@ -28,6 +28,10 @@ $wpdb = new class {
 	}
 
 	public function prepare( $query, $value ) {
+		if ( false !== strpos( $query, '%d' ) ) {
+			return sprintf( $query, (int) $value );
+		}
+
 		return $query;
 	}
 
@@ -42,7 +46,13 @@ $wpdb = new class {
 	public function get_results( $query, $format ) {
 		$this->last_results_query = $query;
 
-		return array_reverse( $this->rows );
+		$rows = array_reverse( $this->rows );
+
+		if ( preg_match( '/LIMIT (\d+)/', $query, $matches ) ) {
+			return array_slice( $rows, 0, (int) $matches[1] );
+		}
+
+		return $rows;
 	}
 };
 
@@ -65,6 +75,8 @@ $wpdb->rows[] = array(
 );
 $found = $repository->find( $snapshot->id() );
 $all   = $repository->all();
+$recent = $repository->recent( 1 );
+$latest = $repository->latest();
 $sql   = \AcfSchemaGuard\Snapshots\SnapshotTable::create_table_sql( $wpdb );
 
 if (
@@ -72,12 +84,26 @@ if (
 	$found->to_row() !== $snapshot->to_row() ||
 	2 !== count( $all ) ||
 	'123e4567-e89b-12d3-a456-426614174001' !== $all[0]->id() ||
+	1 !== count( $recent ) ||
+	'123e4567-e89b-12d3-a456-426614174001' !== $recent[0]->id() ||
+	'123e4567-e89b-12d3-a456-426614174001' !== $latest->id() ||
+	false === strpos( $wpdb->last_results_query, 'LIMIT 1' ) ||
 	false === strpos( $wpdb->last_results_query, 'ORDER BY created_at DESC, id DESC' ) ||
 	false === strpos( $sql, 'PRIMARY KEY  (id)' ) ||
 	false === strpos( $sql, 'KEY source_created (source_id, created_at)' )
 ) {
 	fwrite( STDERR, "Snapshot persistence assertion failed.\n" );
 	exit( 1 );
+}
+
+try {
+	$repository->recent( 0 );
+	fwrite( STDERR, "Snapshot history limit assertion failed.\n" );
+	exit( 1 );
+} catch ( \RuntimeException $exception ) {
+	if ( false === strpos( $exception->getMessage(), 'Snapshot history limit' ) ) {
+		throw $exception;
+	}
 }
 
 echo "Snapshot persistence assertions passed.\n";

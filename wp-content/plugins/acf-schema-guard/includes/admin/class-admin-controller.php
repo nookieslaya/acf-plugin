@@ -15,6 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class AdminController {
+	/** @var int */
+	const HISTORY_SNAPSHOT_LIMIT = 25;
+
 	/**
 	 * Read-only Admin screen definitions keyed by page slug.
 	 *
@@ -214,7 +217,7 @@ final class AdminController {
 	 * @return void
 	 */
 	private function render_history_page( array $screen ) {
-		$snapshots = $this->snapshots->all();
+		$snapshots = $this->snapshots->recent( self::HISTORY_SNAPSHOT_LIMIT );
 		$baseline = $this->baseline->snapshot();
 		?>
 		<div class="wrap acf-schema-guard-admin">
@@ -272,9 +275,8 @@ final class AdminController {
 	 * @return void
 	 */
 	private function render_changes_page( array $screen ) {
-		$snapshots = $this->snapshots->all();
 		$baseline  = $this->baseline->snapshot();
-		$current   = empty( $snapshots ) ? null : $snapshots[0];
+		$current   = $this->snapshots->latest();
 		if ( null === $baseline ) {
 			$this->render_changes_state( $screen, __( 'Set an approved baseline in History before reviewing changes.', 'acf-schema-guard' ) );
 			return;

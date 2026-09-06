@@ -168,7 +168,7 @@ final class SchemaNormalizer {
 	 */
 	private function settings( array $source, array $structural_keys ) {
 		$settings = array();
-		$excluded = array_merge( $structural_keys, array( 'ID', 'id', 'parent', 'parent_layout', 'prefix', 'value', 'menu_order' ) );
+		$excluded = array_merge( $structural_keys, array( 'ID', 'id', '_name', 'parent', 'parent_layout', 'prefix', 'value', 'menu_order' ) );
 
 		foreach ( $source as $key => $value ) {
 			if ( in_array( $key, $excluded, true ) ) {

@@ -38,6 +38,7 @@ function acf_get_fields( $field_group ) {
 		array(
 			'key'        => 'field_repeater',
 			'name'       => 'items',
+			'_name'      => 'items',
 			'type'       => 'repeater',
 			'ID'         => 123,
 			'parent'     => 456,
@@ -76,6 +77,7 @@ if (
 	'page' !== $group_b['location'][0][0]['value'] ||
 	array( 'alpha', 'zebra' ) !== array_keys( $repeater['settings']['custom'] ) ||
 	isset( $repeater['settings']['ID'] ) ||
+	isset( $repeater['settings']['_name'] ) ||
 	'field_second' !== $repeater['sub_fields'][0]['key'] ||
 	'layout_a' !== $flexible['layouts'][0]['key']
 ) {

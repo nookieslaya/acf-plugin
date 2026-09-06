@@ -68,6 +68,7 @@ final class SchemaChangeExplainer {
 	 * @return string[]
 	 */
 	private function modified_details( $node_type, array $before, array $after ) {
+		$type_changed = 'field' === $node_type && $this->field_type_changed( $before, $after );
 		$properties = 'field_group' === $node_type
 			? array( 'title' => 'Group title', 'active' => 'Active', 'location' => 'Location rules' )
 			: array(
@@ -94,7 +95,9 @@ final class SchemaChangeExplainer {
 				$details,
 				$this->setting_details(
 					isset( $before['settings'] ) && is_array( $before['settings'] ) ? $before['settings'] : array(),
-					isset( $after['settings'] ) && is_array( $after['settings'] ) ? $after['settings'] : array()
+					isset( $after['settings'] ) && is_array( $after['settings'] ) ? $after['settings'] : array(),
+					'Setting',
+					$type_changed ? $this->type_generated_setting_keys() : array()
 				)
 			);
 			$details = array_merge(
@@ -107,6 +110,20 @@ final class SchemaChangeExplainer {
 		}
 
 		return $details;
+	}
+
+	/**
+	 * @param array $before Earlier field.
+	 * @param array $after Later field.
+	 * @return bool
+	 */
+	private function field_type_changed( array $before, array $after ) {
+		return array_key_exists( 'type', $before ) && array_key_exists( 'type', $after ) && $before['type'] !== $after['type'];
+	}
+
+	/** @return string[] */
+	private function type_generated_setting_keys() {
+		return array( '_name', 'allow_in_bindings', 'append', 'new_lines', 'prepend', 'rows' );
 	}
 
 	/**
@@ -199,12 +216,16 @@ final class SchemaChangeExplainer {
 		return $map;
 	}
 
-	private function setting_details( array $before, array $after, $prefix = 'Setting' ) {
+	private function setting_details( array $before, array $after, $prefix = 'Setting', array $ignored_keys = array() ) {
 		$keys = array_unique( array_merge( array_keys( $before ), array_keys( $after ) ) );
 		sort( $keys, SORT_STRING );
 		$details = array();
 
 		foreach ( $keys as $key ) {
+			if ( in_array( (string) $key, $ignored_keys, true ) ) {
+				continue;
+			}
+
 			$label = $prefix . ' ' . $this->format_value( (string) $key );
 			if ( ! array_key_exists( $key, $before ) ) {
 				$details[] = $label . ' added: ' . $this->format_value( $after[ $key ] );

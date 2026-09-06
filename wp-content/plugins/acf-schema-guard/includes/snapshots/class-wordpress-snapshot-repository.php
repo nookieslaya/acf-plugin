@@ -17,6 +17,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Persists snapshots in the dedicated WordPress table.
  */
 final class WordPressSnapshotRepository implements SnapshotRepository {
+	/** @var int */
+	const MAX_RECENT_SNAPSHOTS = 100;
+
 	/** @var object */
 	private $wpdb;
 
@@ -79,6 +82,44 @@ final class WordPressSnapshotRepository implements SnapshotRepository {
 	}
 
 	/**
+	 * Finds the newest stored snapshot.
+	 *
+	 * @return SchemaSnapshot|null
+	 */
+	public function latest() {
+		$sql = 'SELECT id, source_id, schema_version, `schema`, created_at FROM ' . SnapshotTable::table_name( $this->wpdb ) . ' ORDER BY created_at DESC, id DESC LIMIT 1';
+
+		return $this->snapshot_from_query( $sql );
+	}
+
+	/**
+	 * Gets a bounded newest-first list of stored snapshots.
+	 *
+	 * @param int $limit Maximum number of snapshots.
+	 * @return SchemaSnapshot[]
+	 */
+	public function recent( $limit ) {
+		$limit = $this->valid_recent_limit( $limit );
+		$sql   = $this->wpdb->prepare(
+			'SELECT id, source_id, schema_version, `schema`, created_at FROM ' . SnapshotTable::table_name( $this->wpdb ) . ' ORDER BY created_at DESC, id DESC LIMIT %d',
+			$limit
+		);
+		$rows  = $this->wpdb->get_results( $sql, ARRAY_A );
+
+		if ( ! is_array( $rows ) ) {
+			return array();
+		}
+
+		$snapshots = array();
+
+		foreach ( $rows as $row ) {
+			$snapshots[] = $this->snapshot_from_row( $row );
+		}
+
+		return $snapshots;
+	}
+
+	/**
 	 * Gets all stored snapshots in deterministic newest-first order.
 	 *
 	 * @return SchemaSnapshot[]
@@ -130,5 +171,19 @@ final class WordPressSnapshotRepository implements SnapshotRepository {
 		}
 
 		return $source_id;
+	}
+
+	/**
+	 * @param int $limit Requested number of snapshots.
+	 * @return int
+	 */
+	private function valid_recent_limit( $limit ) {
+		$limit = (int) $limit;
+
+		if ( 1 > $limit || self::MAX_RECENT_SNAPSHOTS < $limit ) {
+			throw new RuntimeException( 'Snapshot history limit must be between 1 and ' . self::MAX_RECENT_SNAPSHOTS . '.' );
+		}
+
+		return $limit;
 	}
 }

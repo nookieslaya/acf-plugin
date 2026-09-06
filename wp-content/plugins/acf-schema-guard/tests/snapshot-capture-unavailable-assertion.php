@@ -23,6 +23,8 @@ $repository = new class implements \AcfSchemaGuard\Snapshots\SnapshotRepository 
 	public function insert( \AcfSchemaGuard\Snapshots\SchemaSnapshot $snapshot ) { $this->inserts++; }
 	public function find( $id ) { return null; }
 	public function latest_for_source( $source_id ) { return null; }
+	public function latest() { return null; }
+	public function recent( $limit ) { return array(); }
 	public function all() { return array(); }
 };
 $service = new \AcfSchemaGuard\Snapshots\SnapshotCaptureService( new \AcfSchemaGuard\Acf\AcfEnvironmentProvider(), $source, new \AcfSchemaGuard\Schema\SchemaNormalizer(), $repository );

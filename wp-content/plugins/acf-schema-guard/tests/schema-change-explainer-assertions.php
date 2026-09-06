@@ -52,6 +52,54 @@ acf_schema_guard_explainer_assert(
 	'Modified field details are wrong or unordered.'
 );
 
+$type_transition = $explainer->explain(
+	array(
+		'kind'      => 'modified',
+		'node_type' => 'field',
+		'before'    => array(
+			'name'     => 'hero_title2',
+			'type'     => 'text',
+			'settings' => array(
+				'_name'              => 'hero_title2',
+				'allow_in_bindings'  => 1,
+				'append'             => '',
+				'new_lines'          => '',
+				'prepend'            => '',
+			),
+		),
+		'after'     => array(
+			'name'     => 'hero_title21',
+			'type'     => 'textarea',
+			'settings' => array(
+				'_name'              => 'hero_title21',
+				'allow_in_bindings'  => 0,
+				'new_lines'          => '',
+				'rows'               => 4,
+			),
+		),
+	)
+);
+acf_schema_guard_explainer_assert(
+	array(
+		'Field name: "hero_title2" -> "hero_title21"',
+		'Field type: "text" -> "textarea"',
+	) === $type_transition['details'],
+	'Type-generated setting differences should be hidden during a field type change.'
+);
+
+$same_type_settings = $explainer->explain(
+	array(
+		'kind'      => 'modified',
+		'node_type' => 'field',
+		'before'    => array( 'name' => 'hero_copy', 'type' => 'textarea', 'settings' => array( 'rows' => 4 ) ),
+		'after'     => array( 'name' => 'hero_copy', 'type' => 'textarea', 'settings' => array( 'rows' => 8 ) ),
+	)
+);
+acf_schema_guard_explainer_assert(
+	array( 'Setting "rows": 4 -> 8' ) === $same_type_settings['details'],
+	'Same-type setting changes should remain visible.'
+);
+
 $group = $explainer->explain(
 	array(
 		'kind'      => 'modified',

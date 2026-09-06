@@ -40,6 +40,21 @@ interface SnapshotRepository {
 	public function latest_for_source( $source_id );
 
 	/**
+	 * Finds the newest stored snapshot.
+	 *
+	 * @return SchemaSnapshot|null
+	 */
+	public function latest();
+
+	/**
+	 * Gets a bounded newest-first list of stored snapshots.
+	 *
+	 * @param int $limit Maximum number of snapshots.
+	 * @return SchemaSnapshot[]
+	 */
+	public function recent( $limit );
+
+	/**
 	 * Gets all stored snapshots in deterministic newest-first order.
 	 *
 	 * @return SchemaSnapshot[]
