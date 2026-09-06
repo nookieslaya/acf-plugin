@@ -24,6 +24,8 @@ function get_option( $key, $default = false ) { global $acf_schema_guard_options
 require_once dirname( __DIR__ ) . '/includes/snapshots/class-schema-snapshot.php';
 require_once dirname( __DIR__ ) . '/includes/snapshots/interface-snapshot-repository.php';
 require_once dirname( __DIR__ ) . '/includes/snapshots/class-baseline-snapshot-service.php';
+require_once dirname( __DIR__ ) . '/includes/acf/class-source-health-finding.php';
+require_once dirname( __DIR__ ) . '/includes/acf/class-source-health-report.php';
 require_once dirname( __DIR__ ) . '/includes/admin/class-admin-controller.php';
 
 function acf_schema_guard_admin_snapshot_assert( $condition, $message ) {
@@ -66,7 +68,8 @@ $controller = new \AcfSchemaGuard\Admin\AdminController(
 	$repository,
 	static function () {},
 	static function () { return new class() { public function to_array() { return array( 'findings' => array() ); } }; },
-	$baseline
+	$baseline,
+	static function () { return new \AcfSchemaGuard\Acf\SourceHealthReport( true, array( new \AcfSchemaGuard\Acf\SourceHealthFinding( 'group_example', 'Example group', 'divergent', array( 'key' => 'group_example' ), array( 'key' => 'group_example' ) ) ) ); }
 );
 $reflection = new ReflectionClass( $controller );
 
@@ -78,6 +81,15 @@ $history = $reflection->getMethod( 'render_history_page' );
 $history->setAccessible( true );
 $changes = $reflection->getMethod( 'render_changes_page' );
 $changes->setAccessible( true );
+$source_health = $reflection->getMethod( 'render_source_health_page' );
+$source_health->setAccessible( true );
+
+ob_start();
+$source_health->invoke( $controller, array( 'title' => 'Field Groups' ) );
+$source_health_output = ob_get_clean();
+
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $source_health_output, 'Divergent' ), 'Source health status is not rendered.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $source_health_output, 'Do not overwrite either source blindly.' ), 'Source health guidance is not rendered.' );
 $screen = array( 'title' => 'History', 'description' => '' );
 
 ob_start();

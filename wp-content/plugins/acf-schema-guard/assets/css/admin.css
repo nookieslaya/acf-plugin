@@ -122,6 +122,34 @@
 	white-space: normal;
 }
 
+.acf-schema-guard-source-health-page {
+	max-width: 1480px;
+}
+
+.acf-schema-guard-source-health {
+	margin-top: 24px;
+}
+
+.acf-schema-guard-source-health th,
+.acf-schema-guard-source-health td {
+	line-height: 1.5;
+	padding: 14px 12px;
+	vertical-align: top;
+}
+
+.acf-schema-guard-source-status-label {
+	border: 1px solid currentcolor;
+	border-radius: 999px;
+	display: inline-flex;
+	font-weight: 600;
+	padding: 2px 9px;
+}
+
+.acf-schema-guard-source-status-aligned .acf-schema-guard-source-status-label { background: #edfaef; color: #116329; }
+.acf-schema-guard-source-status-database_only .acf-schema-guard-source-status-label { background: #fcf4cf; color: #6c4b00; }
+.acf-schema-guard-source-status-json_only .acf-schema-guard-source-status-label { background: #e7f3ff; color: #135e96; }
+.acf-schema-guard-source-status-divergent .acf-schema-guard-source-status-label { background: #fce8e8; color: #8a2424; }
+
 .acf-schema-guard-changes-page .acf-schema-guard-change-summary {
 	display: block;
 }

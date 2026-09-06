@@ -78,6 +78,10 @@ final class AdminController {
 
 	/** @var callable */
 	private $analyze_snapshots_callback;
+
+	/** @var callable */
+	private $source_health_callback;
+
 	private $baseline;
 
 	/**
@@ -85,11 +89,12 @@ final class AdminController {
 	 * @param callable           $capture_snapshot_callback  Creates a schema snapshot.
 	 * @param callable           $analyze_snapshots_callback Analyzes two schema snapshots.
 	 */
-	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback, BaselineSnapshotService $baseline ) {
+	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback, BaselineSnapshotService $baseline, $source_health_callback ) {
 		$this->snapshots                  = $snapshots;
 		$this->capture_snapshot_callback  = $capture_snapshot_callback;
 		$this->analyze_snapshots_callback = $analyze_snapshots_callback;
-		$this->baseline = $baseline;
+		$this->source_health_callback     = $source_health_callback;
+		$this->baseline                   = $baseline;
 	}
 
 	/**
@@ -181,6 +186,12 @@ final class AdminController {
 			return;
 		}
 
+		if ( 'acf-schema-guard-field-groups' === $page ) {
+			$this->render_source_health_page( $screen );
+
+			return;
+		}
+
 		?>
 		<div class="wrap acf-schema-guard-admin">
 			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
@@ -190,6 +201,48 @@ final class AdminController {
 			</div>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Renders the read-only ACF Local JSON source-health result.
+	 *
+	 * @param array<string, string> $screen Screen definition.
+	 * @return void
+	 */
+	private function render_source_health_page( array $screen ) {
+		$report = call_user_func( $this->source_health_callback );
+		?>
+		<div class="wrap acf-schema-guard-admin acf-schema-guard-source-health-page">
+			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
+			<p><?php echo esc_html__( 'Checks whether each ACF field group is represented consistently in the WordPress database and ACF Local JSON.', 'acf-schema-guard' ); ?></p>
+			<?php if ( ! $report->is_available() ) : ?>
+				<div class="notice notice-warning inline"><p><?php echo esc_html__( 'ACF is unavailable, so Source health cannot inspect field groups.', 'acf-schema-guard' ); ?></p></div>
+			<?php elseif ( empty( $report->findings() ) ) : ?>
+				<div class="notice notice-info inline"><p><?php echo esc_html__( 'No ACF field groups were found in the database or configured Local JSON paths.', 'acf-schema-guard' ); ?></p></div>
+			<?php else : ?>
+				<table class="widefat striped acf-schema-guard-source-health">
+					<thead><tr><th scope="col"><?php echo esc_html__( 'Field group', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Key', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Status', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Database', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Local JSON', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Recommended action', 'acf-schema-guard' ); ?></th></tr></thead>
+					<tbody><?php foreach ( $report->findings() as $finding ) : ?><tr class="acf-schema-guard-source-status-<?php echo esc_attr( $this->source_health_status( $finding->status() ) ); ?>"><td data-label="<?php echo esc_attr__( 'Field group', 'acf-schema-guard' ); ?>"><?php echo esc_html( $finding->title() ); ?></td><td data-label="<?php echo esc_attr__( 'Key', 'acf-schema-guard' ); ?>"><code><?php echo esc_html( $finding->field_group_key() ); ?></code></td><td data-label="<?php echo esc_attr__( 'Status', 'acf-schema-guard' ); ?>"><span class="acf-schema-guard-source-status-label"><?php echo esc_html( $this->source_health_label( $finding->status() ) ); ?></span></td><td data-label="<?php echo esc_attr__( 'Database', 'acf-schema-guard' ); ?>"><?php echo esc_html( null === $finding->database_group() ? __( 'Missing', 'acf-schema-guard' ) : __( 'Present', 'acf-schema-guard' ) ); ?></td><td data-label="<?php echo esc_attr__( 'Local JSON', 'acf-schema-guard' ); ?>"><?php echo esc_html( null === $finding->json_group() ? __( 'Missing', 'acf-schema-guard' ) : __( 'Present', 'acf-schema-guard' ) ); ?></td><td data-label="<?php echo esc_attr__( 'Recommended action', 'acf-schema-guard' ); ?>"><?php echo esc_html( $this->source_health_action( $finding->status() ) ); ?></td></tr><?php endforeach; ?></tbody>
+				</table>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
+
+	private function source_health_status( $status ) {
+		return in_array( $status, array( 'aligned', 'database_only', 'json_only', 'divergent' ), true ) ? $status : 'unknown';
+	}
+
+	private function source_health_label( $status ) {
+		$labels = array( 'aligned' => __( 'Aligned', 'acf-schema-guard' ), 'database_only' => __( 'Database only', 'acf-schema-guard' ), 'json_only' => __( 'Local JSON only', 'acf-schema-guard' ), 'divergent' => __( 'Divergent', 'acf-schema-guard' ) );
+		$status = $this->source_health_status( $status );
+		return isset( $labels[ $status ] ) ? $labels[ $status ] : __( 'Unknown', 'acf-schema-guard' );
+	}
+
+	private function source_health_action( $status ) {
+		$actions = array( 'aligned' => __( 'No action needed.', 'acf-schema-guard' ), 'database_only' => __( 'Save or sync this group so it is written to Local JSON and committed to Git.', 'acf-schema-guard' ), 'json_only' => __( 'Review the JSON definition and import or sync it into the database when appropriate.', 'acf-schema-guard' ), 'divergent' => __( 'Review both definitions before synchronizing. Do not overwrite either source blindly.', 'acf-schema-guard' ) );
+		$status  = $this->source_health_status( $status );
+		return isset( $actions[ $status ] ) ? $actions[ $status ] : __( 'Review this field group manually.', 'acf-schema-guard' );
 	}
 
 	/**
