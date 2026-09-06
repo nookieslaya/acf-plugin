@@ -194,12 +194,14 @@ checks do not make the Blueprint unusable.
 ## Commands
 
 - PHP syntax check: `php -l <path-to-php-file>`
+- Test: `sh wp-content/plugins/acf-schema-guard/tests/run-assertions.sh`
+- Verify: `sh wp-content/plugins/acf-schema-guard/tests/run-assertions.sh`
 - WordPress runtime: managed by the local WordPress environment
 - Theme styles: plain CSS, no build step
 
-There is no configured unit-test runner, browser-test harness, Verify command,
-or GitHub Actions workflow yet. Tests are not a required Blueprint gate until a
-real test command is configured.
+The repository-owned PHP assertion runner is the required automated test gate.
+GitHub Actions runs the same Verify command for pull requests and pushes to
+`main`. There is no browser-test harness yet.
 
 Testing is opt-in. If this project does not already have a unit test runner, run
 `/tests` or `$tests` to add one and update this section with the real test

@@ -3,6 +3,9 @@
 
 !.gitignore
 !AGENTS.md
+!.github/
+!.github/workflows/
+!.github/workflows/verify.yml
 !.agents/
 !.agents/**
 !blueprint/
