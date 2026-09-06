@@ -284,7 +284,7 @@ final class AdminController {
 			return;
 		}
 		?>
-		<div class="wrap acf-schema-guard-admin">
+		<div class="wrap acf-schema-guard-admin acf-schema-guard-changes-page">
 			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
 			<p><?php echo esc_html__( 'Comparing the approved baseline with the newest captured schema.', 'acf-schema-guard' ); ?></p>
 			<p><strong><?php echo esc_html__( 'Baseline:', 'acf-schema-guard' ); ?></strong> <code><?php echo esc_html( $baseline->id() ); ?></code> - <?php echo esc_html( $baseline->created_at() ); ?><br />
@@ -296,7 +296,7 @@ final class AdminController {
 
 	private function render_changes_state( array $screen, $message ) {
 		?>
-		<div class="wrap acf-schema-guard-admin"><h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1><div class="notice notice-info inline"><p><?php echo esc_html( $message ); ?></p></div></div>
+		<div class="wrap acf-schema-guard-admin acf-schema-guard-changes-page"><h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1><div class="notice notice-info inline"><p><?php echo esc_html( $message ); ?></p></div></div>
 		<?php
 	}
 
@@ -411,6 +411,8 @@ final class AdminController {
 
 			return;
 		}
+
+		$this->render_severity_legend();
 		?>
 		<table class="widefat striped acf-schema-guard-findings">
 			<thead><tr>
@@ -423,19 +425,95 @@ final class AdminController {
 			</tr></thead>
 			<tbody>
 				<?php foreach ( $analysis['findings'] as $finding ) : ?>
-					<?php $change = $finding['change']; ?>
-					<tr>
-						<td><?php echo esc_html( $change['kind'] ); ?></td>
-						<td><?php echo esc_html( $change['node_type'] ); ?></td>
-						<td><code><?php echo esc_html( implode( '.', $change['path'] ) ); ?></code></td>
-						<td><?php $this->render_change_explanation( isset( $finding['explanation'] ) ? $finding['explanation'] : array() ); ?></td>
-						<td><span class="acf-schema-guard-severity acf-schema-guard-severity-<?php echo esc_attr( $finding['severity'] ); ?>"><?php echo esc_html( $finding['severity'] ); ?></span></td>
-						<td><?php echo esc_html( $finding['rationale'] ); ?></td>
+					<?php
+					$change   = $finding['change'];
+					$severity = $this->normalize_severity( isset( $finding['severity'] ) ? $finding['severity'] : '' );
+					?>
+					<tr class="acf-schema-guard-finding acf-schema-guard-finding-<?php echo esc_attr( $severity ); ?>">
+						<td data-label="<?php echo esc_attr__( 'Kind', 'acf-schema-guard' ); ?>"><?php echo esc_html( $change['kind'] ); ?></td>
+						<td data-label="<?php echo esc_attr__( 'Node type', 'acf-schema-guard' ); ?>"><?php echo esc_html( $change['node_type'] ); ?></td>
+						<td data-label="<?php echo esc_attr__( 'Path', 'acf-schema-guard' ); ?>"><code><?php echo esc_html( implode( '.', $change['path'] ) ); ?></code></td>
+						<td data-label="<?php echo esc_attr__( 'Change details', 'acf-schema-guard' ); ?>"><?php $this->render_change_explanation( isset( $finding['explanation'] ) ? $finding['explanation'] : array() ); ?></td>
+						<td data-label="<?php echo esc_attr__( 'Severity', 'acf-schema-guard' ); ?>"><?php $this->render_severity_badge( $severity ); ?></td>
+						<td data-label="<?php echo esc_attr__( 'Rationale', 'acf-schema-guard' ); ?>"><?php echo esc_html( $finding['rationale'] ); ?></td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
 		</table>
 		<?php
+	}
+
+	/**
+	 * Renders the visible severity key used by the findings table.
+	 *
+	 * @return void
+	 */
+	private function render_severity_legend() {
+		?>
+		<section class="acf-schema-guard-severity-legend" aria-labelledby="acf-schema-guard-severity-legend-title">
+			<h2 id="acf-schema-guard-severity-legend-title"><?php echo esc_html__( 'Severity guide', 'acf-schema-guard' ); ?></h2>
+			<ul>
+				<?php foreach ( $this->severity_definitions() as $severity => $definition ) : ?>
+					<li>
+						<?php $this->render_severity_badge( $severity ); ?>
+						<span><?php echo esc_html( $definition['description'] ); ?></span>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</section>
+		<?php
+	}
+
+	/**
+	 * Renders one allow-listed severity badge.
+	 *
+	 * @param string $severity Finding severity.
+	 * @return void
+	 */
+	private function render_severity_badge( $severity ) {
+		$severity   = $this->normalize_severity( $severity );
+		$definition = $this->severity_definitions()[ $severity ];
+		?>
+		<span class="acf-schema-guard-severity acf-schema-guard-severity-<?php echo esc_attr( $severity ); ?>"><?php echo esc_html( $definition['label'] ); ?></span>
+		<?php
+	}
+
+	/**
+	 * Returns labels and explanations for supported risk levels.
+	 *
+	 * @return array<string, array<string, string>>
+	 */
+	private function severity_definitions() {
+		return array(
+			'safe'     => array(
+				'label'       => __( 'Safe', 'acf-schema-guard' ),
+				'description' => __( 'No breaking impact is expected.', 'acf-schema-guard' ),
+			),
+			'warning'  => array(
+				'label'       => __( 'Warning', 'acf-schema-guard' ),
+				'description' => __( 'Review the change before deployment.', 'acf-schema-guard' ),
+			),
+			'high'     => array(
+				'label'       => __( 'High', 'acf-schema-guard' ),
+				'description' => __( 'The change is likely to break existing usage.', 'acf-schema-guard' ),
+			),
+			'critical' => array(
+				'label'       => __( 'Critical', 'acf-schema-guard' ),
+				'description' => __( 'Resolve the breaking change before deployment.', 'acf-schema-guard' ),
+			),
+		);
+	}
+
+	/**
+	 * Keeps severity-derived CSS classes within the supported set.
+	 *
+	 * @param mixed $severity Finding severity.
+	 * @return string
+	 */
+	private function normalize_severity( $severity ) {
+		$severity = is_string( $severity ) ? strtolower( $severity ) : '';
+
+		return isset( $this->severity_definitions()[ $severity ] ) ? $severity : 'warning';
 	}
 
 	/**
