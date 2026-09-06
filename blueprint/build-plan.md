@@ -48,3 +48,9 @@
 - [x] 12. **Baseline comparison workflow**
   - [x] 12a. **Admin baseline workflow** - let an administrator mark a stored snapshot as the approved baseline, capture current schema, and automatically compare baseline to current without selecting UUID pairs.
   - [x] 12b. **Git baseline and CI workflow** - export or import a versioned baseline JSON file and add WP-CLI commands that compare the checkout schema to it with CI-safe failure status.
+
+## Source integrity
+
+- [ ] 13. **ACF Local JSON source health**
+  - [x] 13a. **Source-health analyzer** - compare ACF field groups in the database and `acf-json`, then classify each group as aligned, database-only, JSON-only, or divergent.
+  - [ ] 13b. **Admin source-health view** - show source-health findings and a clear next action for every field group in ACF Schema Guard Admin.

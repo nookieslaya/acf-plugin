@@ -10,6 +10,7 @@ namespace AcfSchemaGuard;
 use AcfSchemaGuard\Acf\AcfEnvironment;
 use AcfSchemaGuard\Acf\AcfEnvironmentProvider;
 use AcfSchemaGuard\Acf\AcfSchemaSource;
+use AcfSchemaGuard\Acf\AcfSourceHealthProvider;
 use AcfSchemaGuard\Admin\AdminController;
 use AcfSchemaGuard\Acf\FullSchemaSource;
 use AcfSchemaGuard\Schema\NormalizedSchema;
@@ -28,6 +29,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-field-group-descriptor.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-acf-environment.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-acf-environment-provider.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-source-health-finding.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-source-health-report.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-source-health-analyzer.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-acf-source-health-provider.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/interface-full-schema-source.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-acf-schema-source.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/schema/class-canonical-value.php';
@@ -80,6 +85,9 @@ final class Plugin {
 	 * @var AcfEnvironmentProvider|null
 	 */
 	private $acf_environment_provider = null;
+
+	/** @var AcfSourceHealthProvider|null */
+	private $source_health_provider = null;
 
 	/** @var FullSchemaSource|null */
 	private $schema_source = null;
@@ -204,6 +212,19 @@ final class Plugin {
 		}
 
 		return $this->acf_environment_provider->discover();
+	}
+
+	/**
+	 * Gets a fresh, read-only comparison of ACF database and Local JSON groups.
+	 *
+	 * @return \AcfSchemaGuard\Acf\SourceHealthReport
+	 */
+	public function source_health() {
+		if ( null === $this->source_health_provider ) {
+			$this->source_health_provider = new AcfSourceHealthProvider();
+		}
+
+		return $this->source_health_provider->discover();
 	}
 
 	/**

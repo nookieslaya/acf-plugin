@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash 5995e355cd22812eefaa790fd41fdef5da8c4cfd067029edc30fb51ad09a3c8a -->
+<!-- blueprint:source-hash bfb14c02e570044ab335f0e3a36287ea05daa211bc3792a24dd4737af0e9351c -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -46,6 +46,9 @@ code still referring to removed or renamed fields before release.
     views only.
 12. **Baseline comparison workflow** - provides an approved Admin baseline,
     automatic current-schema comparison, and a versioned Git/CI baseline.
+13. **ACF Local JSON source health** - identifies whether field groups are
+    aligned between the WordPress database and ACF Local JSON, then presents
+    the findings in the Admin workspace.
 
 ## Data model
 
@@ -84,6 +87,14 @@ code still referring to removed or renamed fields before release.
 
 - `scanner_configuration` (array) - enabled strategies and source roots.
 - `risk_rule_policy` (array) - future policy for extensible rules.
+
+### Source-health finding
+
+- `field_group_key` (string) - ACF field-group key used to match database and
+  Local JSON representations.
+- `status` (enum) - `aligned`, `database_only`, `json_only`, or `divergent`.
+- `database_group` and `json_group` (field-group schema or null) - source
+  representations used to determine the status.
 
 ## Tech stack
 

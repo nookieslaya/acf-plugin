@@ -26,6 +26,8 @@ renamed fields.
   Usage, History, and Settings.
 - WP-CLI commands for scan, diff, and CI checks.
 - Git and CI integration that can fail on breaking changes.
+- Source-health diagnostics that identify whether ACF field groups are aligned
+  between the WordPress database and ACF Local JSON.
 
 ## 4. Data - What are we storing?
 
@@ -38,6 +40,8 @@ renamed fields.
 - Code-usage references, including field name, scanner strategy, path, line, and
   source expression.
 - Plugin settings, including scanner configuration and risk-rule policy.
+- Source-health findings for field groups: aligned, database-only, JSON-only, or
+  divergent between ACF Local JSON and the WordPress database.
 
 ## 5. Tech - What stack are we using?
 
