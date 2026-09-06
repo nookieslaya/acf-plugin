@@ -69,6 +69,11 @@ $controller = new \AcfSchemaGuard\Admin\AdminController(
 	$baseline
 );
 $reflection = new ReflectionClass( $controller );
+
+foreach ( array( 'comparison_selection', 'requested_snapshot_id', 'render_snapshot_options', 'render_comparison_notice' ) as $obsolete_method ) {
+	acf_schema_guard_admin_snapshot_assert( ! $reflection->hasMethod( $obsolete_method ), 'Obsolete manual comparison method remains: ' . $obsolete_method );
+}
+
 $history = $reflection->getMethod( 'render_history_page' );
 $history->setAccessible( true );
 $changes = $reflection->getMethod( 'render_changes_page' );

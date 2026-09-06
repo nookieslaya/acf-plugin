@@ -23,10 +23,13 @@
 **Suggested fix:** Format the affected project classes to the existing readable WordPress style while making the functional repairs, without changing public contracts. Add a locally runnable coding-standard check only if the project deliberately adopts one.
 **Resolution:**
 
-### F-06 [P3] open - Obsolete manual-comparison methods remain unreachable
+### F-06 [P3] closed - Obsolete manual-comparison methods remain unreachable
 
 **File:** wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:308
 **Found:** 2026-09-06 by /audit (scope: full; lens: quality, security, performance, tests)
 **Why it matters:** `comparison_selection()`, `requested_snapshot_id()`, `render_snapshot_options()`, and `render_comparison_notice()` are no longer called after Changes switched to automatic baseline/current comparison. They retain unused request-processing and rendering paths that increase maintenance surface.
 **Suggested fix:** Remove the four private methods and confirm the baseline-driven Changes and History flows still pass their focused tests.
-**Resolution:**
+**Resolution:** Removed the four unreachable private methods and added an Admin
+assertion that fails if they return. All 18 assertions and the changed-file lint
+pass. Re-reviewed on 2026-09-06; no production reference remains. Closed by the
+repair audit.
