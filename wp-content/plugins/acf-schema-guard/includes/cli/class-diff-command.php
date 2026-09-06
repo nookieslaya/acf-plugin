@@ -61,13 +61,14 @@ final class DiffCommand {
 			return;
 		}
 
-		$items = $this->table_items( $analysis['findings'] );
+		$formatter = new FindingOutputFormatter();
+		$items     = $formatter->table_items( $analysis['findings'] );
 		if ( empty( $items ) ) {
 			\WP_CLI::success( 'No schema changes found.' );
 			return;
 		}
 
-		\WP_CLI\Utils\format_items( 'table', $items, array( 'kind', 'node_type', 'path', 'severity', 'rationale' ) );
+		\WP_CLI\Utils\format_items( 'table', $items, $formatter->table_fields() );
 	}
 
 	private function output_format( $assoc_args ) {
@@ -78,16 +79,4 @@ final class DiffCommand {
 		return $format;
 	}
 
-	private function table_items( $findings ) {
-		$items = array();
-		foreach ( $findings as $finding ) {
-			$change = $finding['change'];
-			$items[] = array(
-				'kind' => $change['kind'], 'node_type' => $change['node_type'],
-				'path' => implode( '.', $change['path'] ), 'severity' => $finding['severity'],
-				'rationale' => $finding['rationale'],
-			);
-		}
-		return $items;
-	}
 }

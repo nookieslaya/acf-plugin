@@ -7,7 +7,8 @@ $check = new \AcfSchemaGuard\Cli\CheckCommand(
 	new AcfSchemaGuardDiffRepository( array( $before->id() => $before, $after->id() => $after ) ),
 	new \AcfSchemaGuard\Diff\SnapshotAnalysisService(
 		new \AcfSchemaGuard\Diff\SchemaDiffer(),
-		new \AcfSchemaGuard\Diff\RiskClassifier()
+		new \AcfSchemaGuard\Diff\RiskClassifier(),
+		new \AcfSchemaGuard\Diff\SchemaChangeExplainer()
 	)
 );
 $check->check( array( $before->id(), $after->id() ), array( 'fail-on-breaking' => true ) );
@@ -27,7 +28,7 @@ $high_after = new \AcfSchemaGuard\Snapshots\SchemaSnapshot(
 );
 $breaking_check = new \AcfSchemaGuard\Cli\CheckCommand(
 	new AcfSchemaGuardDiffRepository( array( $high_before->id() => $high_before, $high_after->id() => $high_after ) ),
-	new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier() )
+	new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier(), new \AcfSchemaGuard\Diff\SchemaChangeExplainer() )
 );
 try {
 	$breaking_check->check( array( $high_before->id(), $high_after->id() ), array( 'fail-on-breaking' => true ) );
@@ -35,4 +36,13 @@ try {
 } catch ( \RuntimeException $exception ) {
 	acf_schema_guard_diff_assert( false !== strpos( $exception->getMessage(), 'Breaking schema changes found.' ), 'Breaking error is wrong.' );
 }
+$field_item = null;
+foreach ( WP_CLI::$items as $item ) {
+	if ( 'field' === $item['node_type'] ) {
+		$field_item = $item;
+		break;
+	}
+}
+acf_schema_guard_diff_assert( null !== $field_item && 'Field modified.' === $field_item['summary'], 'Check table summary is missing.' );
+acf_schema_guard_diff_assert( 'Field type: "text" -> "number"' === $field_item['details'], 'Check table details are missing.' );
 echo "WP-CLI check assertions passed.\n";

@@ -428,7 +428,7 @@ final class AdminController {
 						<td><?php echo esc_html( $change['kind'] ); ?></td>
 						<td><?php echo esc_html( $change['node_type'] ); ?></td>
 						<td><code><?php echo esc_html( implode( '.', $change['path'] ) ); ?></code></td>
-						<td><?php echo esc_html( $this->change_details( $change ) ); ?></td>
+						<td><?php $this->render_change_explanation( isset( $finding['explanation'] ) ? $finding['explanation'] : array() ); ?></td>
 						<td><span class="acf-schema-guard-severity acf-schema-guard-severity-<?php echo esc_attr( $finding['severity'] ); ?>"><?php echo esc_html( $finding['severity'] ); ?></span></td>
 						<td><?php echo esc_html( $finding['rationale'] ); ?></td>
 					</tr>
@@ -439,28 +439,35 @@ final class AdminController {
 	}
 
 	/**
-	 * Builds a concise before-to-after description for common modified properties.
+	 * Renders one shared schema-change explanation.
 	 *
-	 * @param array $change Schema change data.
-	 * @return string
+	 * @param mixed $explanation Explanation data from snapshot analysis.
+	 * @return void
 	 */
-	private function change_details( array $change ) {
-		$before = isset( $change['before'] ) && is_array( $change['before'] ) ? $change['before'] : array();
-		$after  = isset( $change['after'] ) && is_array( $change['after'] ) ? $change['after'] : array();
-		$labels = array(
-			'type'  => __( 'Field type', 'acf-schema-guard' ),
-			'name'  => __( 'Field name', 'acf-schema-guard' ),
-			'title' => __( 'Group title', 'acf-schema-guard' ),
-		);
+	private function render_change_explanation( $explanation ) {
+		$explanation = is_array( $explanation ) ? $explanation : array();
+		$summary     = isset( $explanation['summary'] ) && is_scalar( $explanation['summary'] ) ? (string) $explanation['summary'] : __( 'Schema change.', 'acf-schema-guard' );
 		$details = array();
 
-		foreach ( $labels as $property => $label ) {
-			if ( array_key_exists( $property, $before ) && array_key_exists( $property, $after ) && $before[ $property ] !== $after[ $property ] ) {
-				$details[] = $label . ': ' . $before[ $property ] . ' -> ' . $after[ $property ];
+		if ( isset( $explanation['details'] ) && is_array( $explanation['details'] ) ) {
+			foreach ( $explanation['details'] as $detail ) {
+				if ( is_scalar( $detail ) && '' !== (string) $detail ) {
+					$details[] = (string) $detail;
+				}
 			}
 		}
-
-		return empty( $details ) ? __( 'Schema node changed.', 'acf-schema-guard' ) : implode( '; ', $details );
+		?>
+		<div class="acf-schema-guard-change-explanation">
+			<strong class="acf-schema-guard-change-summary"><?php echo esc_html( $summary ); ?></strong>
+			<?php if ( ! empty( $details ) ) : ?>
+				<ul class="acf-schema-guard-change-details">
+					<?php foreach ( $details as $detail ) : ?>
+						<li><?php echo esc_html( $detail ); ?></li>
+					<?php endforeach; ?>
+				</ul>
+			<?php endif; ?>
+		</div>
+		<?php
 	}
 
 	/**

@@ -138,19 +138,8 @@ final class BaselineCommand {
 			return;
 		}
 
-		$items = array();
-		foreach ( $findings as $finding ) {
-			$change = $finding['change'];
-			$items[] = array(
-				'kind'      => $change['kind'],
-				'node_type' => $change['node_type'],
-				'path'      => implode( '.', $change['path'] ),
-				'severity'  => $finding['severity'],
-				'rationale' => $finding['rationale'],
-			);
-		}
-
-		\WP_CLI\Utils\format_items( 'table', $items, array( 'kind', 'node_type', 'path', 'severity', 'rationale' ) );
+		$formatter = new FindingOutputFormatter();
+		\WP_CLI\Utils\format_items( 'table', $formatter->table_items( $findings ), $formatter->table_fields() );
 	}
 
 	/**

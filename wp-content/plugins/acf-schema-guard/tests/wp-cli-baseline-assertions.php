@@ -24,10 +24,11 @@ namespace {
 	define( 'ABSPATH', __DIR__ . '/' );
 
 	require_once dirname( __DIR__ ) . '/includes/baseline/class-schema-baseline-file.php';
-	foreach ( array( 'class-schema-change.php', 'class-schema-diff.php', 'class-schema-differ.php', 'class-risk-finding.php', 'class-risk-classifier.php', 'class-snapshot-analysis.php', 'class-snapshot-analysis-service.php' ) as $file ) {
+	foreach ( array( 'class-schema-change.php', 'class-schema-diff.php', 'class-schema-differ.php', 'class-risk-finding.php', 'class-risk-classifier.php', 'class-schema-change-explainer.php', 'class-snapshot-analysis.php', 'class-snapshot-analysis-service.php' ) as $file ) {
 		require_once dirname( __DIR__ ) . '/includes/diff/' . $file;
 	}
 	require_once dirname( __DIR__ ) . '/includes/cli/class-baseline-command.php';
+	require_once dirname( __DIR__ ) . '/includes/cli/class-finding-output-formatter.php';
 
 	function acf_schema_guard_cli_baseline_assert( $condition, $message ) {
 		if ( ! $condition ) {
@@ -38,7 +39,7 @@ namespace {
 	$schema = array( 'schema_version' => 1, 'field_groups' => array( array( 'key' => 'group', 'fields' => array( array( 'key' => 'field', 'type' => 'text' ) ) ) ) );
 	$path   = tempnam( sys_get_temp_dir(), 'acf-schema-baseline-' );
 	unlink( $path );
-	$service = new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier() );
+	$service = new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier(), new \AcfSchemaGuard\Diff\SchemaChangeExplainer() );
 	$command = new \AcfSchemaGuard\Cli\BaselineCommand( new \AcfSchemaGuard\Baseline\SchemaBaselineFile(), $service, function() use ( $schema ) { return $schema; } );
 
 	$command->export( array( $path ), array() );
@@ -54,6 +55,15 @@ namespace {
 	} catch ( \RuntimeException $exception ) {
 		acf_schema_guard_cli_baseline_assert( false !== strpos( $exception->getMessage(), 'Breaking schema changes found.' ), 'Breaking baseline error is wrong.' );
 	}
+	$field_item = null;
+	foreach ( WP_CLI::$items as $item ) {
+		if ( 'field' === $item['node_type'] ) {
+			$field_item = $item;
+			break;
+		}
+	}
+	acf_schema_guard_cli_baseline_assert( null !== $field_item && 'Field modified.' === $field_item['summary'], 'Baseline table summary is missing.' );
+	acf_schema_guard_cli_baseline_assert( 'Field type: "text" -> "number"' === $field_item['details'], 'Baseline table details are missing.' );
 
 	unlink( $path );
 

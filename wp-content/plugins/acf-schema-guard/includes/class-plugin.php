@@ -141,7 +141,8 @@ final class Plugin {
 		}
 
 		if ( $this->is_wp_cli() ) {
-				require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-command-registrar.php';
+			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-command-registrar.php';
+			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-finding-output-formatter.php';
 			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-scan-command.php';
 			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-diff-command.php';
 			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-check-command.php';
@@ -163,18 +164,19 @@ final class Plugin {
 				$this->snapshot_repository(),
 				new \AcfSchemaGuard\Diff\SnapshotAnalysisService(
 					new \AcfSchemaGuard\Diff\SchemaDiffer(),
-					new \AcfSchemaGuard\Diff\RiskClassifier()
+					new \AcfSchemaGuard\Diff\RiskClassifier(),
+					new \AcfSchemaGuard\Diff\SchemaChangeExplainer()
 				)
 			);
 			$this->cli_command_registrar->register(
 				'acf-schema-guard diff',
 				array( $this->cli_diff_command, 'diff' )
 			);
-			$this->cli_check_command = new \AcfSchemaGuard\Cli\CheckCommand( $this->snapshot_repository(), new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier() ) );
+			$this->cli_check_command = new \AcfSchemaGuard\Cli\CheckCommand( $this->snapshot_repository(), new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier(), new \AcfSchemaGuard\Diff\SchemaChangeExplainer() ) );
 			$this->cli_command_registrar->register( 'acf-schema-guard check', array( $this->cli_check_command, 'check' ) );
 			$baseline_command = new \AcfSchemaGuard\Cli\BaselineCommand(
 				new \AcfSchemaGuard\Baseline\SchemaBaselineFile(),
-				new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier() ),
+				new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier(), new \AcfSchemaGuard\Diff\SchemaChangeExplainer() ),
 				array( $this, 'current_schema_array' )
 			);
 			$this->cli_command_registrar->register( 'acf-schema-guard baseline export', array( $baseline_command, 'export' ) );
@@ -277,7 +279,7 @@ final class Plugin {
 		return $this->schema_differ->compare( $before, $after );
 	}
 	public function analyze_snapshots( \AcfSchemaGuard\Snapshots\SchemaSnapshot $before, \AcfSchemaGuard\Snapshots\SchemaSnapshot $after ) {
-		return ( new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier() ) )->analyze( $before, $after );
+		return ( new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier(), new \AcfSchemaGuard\Diff\SchemaChangeExplainer() ) )->analyze( $before, $after );
 	}
 
 	/**
