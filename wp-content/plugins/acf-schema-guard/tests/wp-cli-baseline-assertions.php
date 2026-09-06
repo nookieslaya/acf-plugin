@@ -36,7 +36,7 @@ namespace {
 		}
 	}
 
-	$schema = array( 'schema_version' => 1, 'field_groups' => array( array( 'key' => 'group', 'fields' => array( array( 'key' => 'field', 'type' => 'text' ) ) ) ) );
+	$schema = array( 'schema_version' => 1, 'field_groups' => array( array( 'key' => 'group', 'fields' => array( array( 'key' => 'field', 'name' => 'old_name', 'type' => 'text' ) ) ) ) );
 	$path   = tempnam( sys_get_temp_dir(), 'acf-schema-baseline-' );
 	unlink( $path );
 	$service = new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier(), new \AcfSchemaGuard\Diff\SchemaChangeExplainer() );
@@ -47,7 +47,7 @@ namespace {
 	$command->check( array( $path ), array( 'format' => 'json', 'fail-on-breaking' => true ) );
 	acf_schema_guard_cli_baseline_assert( isset( json_decode( WP_CLI::$lines[0], true )['findings'] ), 'Baseline JSON output is invalid.' );
 
-	$breaking_schema = array( 'schema_version' => 1, 'field_groups' => array( array( 'key' => 'group', 'fields' => array( array( 'key' => 'field', 'type' => 'number' ) ) ) ) );
+	$breaking_schema = array( 'schema_version' => 1, 'field_groups' => array( array( 'key' => 'group', 'fields' => array( array( 'key' => 'field', 'name' => 'old_name', 'type' => 'number' ) ) ) ) );
 	$breaking_command = new \AcfSchemaGuard\Cli\BaselineCommand( new \AcfSchemaGuard\Baseline\SchemaBaselineFile(), $service, function() use ( $breaking_schema ) { return $breaking_schema; } );
 	try {
 		$breaking_command->check( array( $path ), array( 'fail-on-breaking' => true ) );
@@ -64,6 +64,26 @@ namespace {
 	}
 	acf_schema_guard_cli_baseline_assert( null !== $field_item && 'Field modified.' === $field_item['summary'], 'Baseline table summary is missing.' );
 	acf_schema_guard_cli_baseline_assert( 'Field type: "text" -> "number"' === $field_item['details'], 'Baseline table details are missing.' );
+
+	$rename_schema  = array( 'schema_version' => 1, 'field_groups' => array( array( 'key' => 'group', 'fields' => array( array( 'key' => 'field', 'name' => 'new_name', 'type' => 'text' ) ) ) ) );
+	$rename_command = new \AcfSchemaGuard\Cli\BaselineCommand( new \AcfSchemaGuard\Baseline\SchemaBaselineFile(), $service, function() use ( $rename_schema ) { return $rename_schema; } );
+
+	try {
+		$rename_command->check( array( $path ), array( 'fail-on-breaking' => true ) );
+		throw new \RuntimeException( 'Field rename baseline check did not fail.' );
+	} catch ( \RuntimeException $exception ) {
+		acf_schema_guard_cli_baseline_assert( false !== strpos( $exception->getMessage(), 'Breaking schema changes found.' ), 'Field rename baseline error is wrong.' );
+	}
+
+	$rename_item = null;
+	foreach ( WP_CLI::$items as $item ) {
+		if ( 'field' === $item['node_type'] ) {
+			$rename_item = $item;
+			break;
+		}
+	}
+	acf_schema_guard_cli_baseline_assert( null !== $rename_item && 'high' === $rename_item['severity'], 'Field rename baseline severity is wrong.' );
+	acf_schema_guard_cli_baseline_assert( 'Field name changed.' === $rename_item['rationale'], 'Field rename baseline rationale is wrong.' );
 
 	unlink( $path );
 

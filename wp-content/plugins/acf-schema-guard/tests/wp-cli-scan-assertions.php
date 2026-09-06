@@ -50,7 +50,10 @@ namespace {
 
 	$root = sys_get_temp_dir() . '/acf-schema-guard-cli-' . uniqid();
 	mkdir( $root );
-	file_put_contents( $root . '/fixture.php', "<?php\nget_field( 'hero_title' );\n" );
+	file_put_contents(
+		$root . '/fixture.php',
+		"<?php\nget_field( 'hero_title' );\n// get_field( 'comment_only' );\n\$example = \"get_field( 'string_only' )\";\n\$object->get_field( 'object_only' );\n"
+	);
 
 	try {
 		$command = new \AcfSchemaGuard\Cli\ScanCommand(
@@ -68,6 +71,7 @@ namespace {
 		$command->scan( array( $root ), array() );
 		acf_schema_guard_cli_assert( 'table' === WP_CLI::$formatted['format'], 'Table format was not used.' );
 		acf_schema_guard_cli_assert( 'hero_title' === WP_CLI::$formatted['items'][0]['field_name'], 'Table output missed the field.' );
+		acf_schema_guard_cli_assert( 1 === count( WP_CLI::$formatted['items'] ), 'CLI scan should not report non-executable candidates.' );
 
 		$command->scan( array( $root ), array( 'format' => 'json' ) );
 		$json = json_decode( WP_CLI::$lines[0], true );
