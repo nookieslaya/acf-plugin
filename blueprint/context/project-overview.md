@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash bfb14c02e570044ab335f0e3a36287ea05daa211bc3792a24dd4737af0e9351c -->
+<!-- blueprint:source-hash 162ee4edebe51700a36a6da79d3851ae487f09de247fa3450410067b0d8511e6 -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -48,7 +48,8 @@ code still referring to removed or renamed fields before release.
     automatic current-schema comparison, and a versioned Git/CI baseline.
 13. **ACF Local JSON source health** - identifies whether field groups are
     aligned between the WordPress database and ACF Local JSON, then presents
-    the findings in the Admin workspace.
+    the findings in the Admin workspace, including future direction-aware sync
+    guidance.
 
 ## Data model
 

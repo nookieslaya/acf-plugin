@@ -20,21 +20,23 @@ require_once dirname( __DIR__ ) . '/includes/acf/class-acf-source-health-provide
 $analyzer = new \AcfSchemaGuard\Acf\SourceHealthAnalyzer();
 $report   = $analyzer->analyze(
 	array(
-		array( 'key' => 'group_aligned', 'title' => 'Aligned', 'settings' => array( 'beta' => 2, 'alpha' => 1 ) ),
+		array( 'key' => 'group_aligned', 'title' => 'Aligned', 'settings' => array( 'beta' => 2, 'alpha' => 1 ), '_source_modified' => 100 ),
 		array( 'key' => 'group_database', 'title' => 'Database only' ),
-		array( 'key' => 'group_divergent', 'title' => 'Database title', 'fields' => array( array( 'key' => 'field_a', 'type' => 'text' ) ) ),
+		array( 'key' => 'group_divergent', 'title' => 'Database title', 'fields' => array( array( 'key' => 'field_a', 'type' => 'text' ) ), '_source_modified' => 100 ),
 	),
 	array(
-		array( 'title' => 'Aligned', 'settings' => array( 'alpha' => 1, 'beta' => 2 ), 'key' => 'group_aligned' ),
-		array( 'key' => 'group_divergent', 'title' => 'JSON title', 'fields' => array( array( 'key' => 'field_a', 'type' => 'textarea' ) ) ),
+		array( 'title' => 'Aligned', 'settings' => array( 'alpha' => 1, 'beta' => 2 ), 'key' => 'group_aligned', '_source_modified' => 200 ),
+		array( 'key' => 'group_divergent', 'title' => 'JSON title', 'fields' => array( array( 'key' => 'field_a', 'type' => 'textarea' ) ), '_source_modified' => 50 ),
 		array( 'key' => 'group_json', 'title' => 'JSON only' ),
 	)
 );
 
 $statuses = array();
+$directions = array();
 
 foreach ( $report->findings() as $finding ) {
 	$statuses[ $finding->field_group_key() ] = $finding->status();
+	$directions[ $finding->field_group_key() ] = $finding->direction();
 }
 
 $expected = array(
@@ -44,7 +46,7 @@ $expected = array(
 	'group_json'      => \AcfSchemaGuard\Acf\SourceHealthFinding::STATUS_JSON_ONLY,
 );
 
-if ( ! $report->is_available() || $expected !== $statuses ) {
+if ( ! $report->is_available() || $expected !== $statuses || 'json_newer' !== $directions['group_aligned'] || 'database_newer' !== $directions['group_divergent'] || 'unknown' !== $directions['group_database'] ) {
 	fwrite( STDERR, "Source health classification assertion failed.\n" );
 	exit( 1 );
 }

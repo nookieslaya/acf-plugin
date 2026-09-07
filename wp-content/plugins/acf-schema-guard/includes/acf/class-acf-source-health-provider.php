@@ -82,6 +82,7 @@ final class AcfSourceHealthProvider {
 
 			$fields          = acf_get_fields( $post->ID );
 			$group['fields'] = is_array( $fields ) ? $fields : array();
+			$group['_source_modified'] = isset( $post->post_modified_gmt ) ? strtotime( $post->post_modified_gmt ) : null;
 			$groups[]        = $this->normalize_group( $group );
 		}
 
@@ -145,6 +146,8 @@ final class AcfSourceHealthProvider {
 			return null;
 		}
 
+		$group['_source_modified'] = isset( $group['modified'] ) ? (int) $group['modified'] : null;
+
 		return $group;
 	}
 
@@ -155,6 +158,12 @@ final class AcfSourceHealthProvider {
 	private function normalize_group( array $group ) {
 		$schema = $this->normalizer->normalize( array( $group ) )->to_array();
 
-		return isset( $schema['field_groups'][0] ) ? $schema['field_groups'][0] : null;
+		if ( ! isset( $schema['field_groups'][0] ) ) {
+			return null;
+		}
+
+		$normalized = $schema['field_groups'][0];
+		if ( isset( $group['_source_modified'] ) ) { $normalized['_source_modified'] = (int) $group['_source_modified']; }
+		return $normalized;
 	}
 }

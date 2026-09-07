@@ -54,3 +54,4 @@
 - [x] 13. **ACF Local JSON source health**
   - [x] 13a. **Source-health analyzer** - compare ACF field groups in the database and `acf-json`, then classify each group as aligned, database-only, JSON-only, or divergent.
   - [x] 13b. **Admin source-health view** - show source-health findings and a clear next action for every field group in ACF Schema Guard Admin.
+  - [x] 13c. **Directional sync guidance** - distinguish whether the database or Local JSON is newer, then recommend saving the group to JSON or using ACF JSON sync without performing either action automatically.

@@ -37,11 +37,19 @@ final class SourceHealthAnalyzer {
 				$title,
 				$this->status( $database_group, $json_group ),
 				$database_group,
-				$json_group
+				$json_group,
+				$this->direction( $database_group, $json_group )
 			);
 		}
 
 		return new SourceHealthReport( true, $findings );
+	}
+
+	private function direction( $database_group, $json_group ) {
+		if ( null === $database_group || null === $json_group || ! isset( $database_group['_source_modified'], $json_group['_source_modified'] ) ) { return 'unknown'; }
+		if ( (int) $json_group['_source_modified'] > (int) $database_group['_source_modified'] ) { return 'json_newer'; }
+		if ( (int) $json_group['_source_modified'] < (int) $database_group['_source_modified'] ) { return 'database_newer'; }
+		return 'equal';
 	}
 
 	/**
@@ -76,7 +84,12 @@ final class SourceHealthAnalyzer {
 			return SourceHealthFinding::STATUS_DATABASE_ONLY;
 		}
 
-		return $database_group === $json_group ? SourceHealthFinding::STATUS_ALIGNED : SourceHealthFinding::STATUS_DIVERGENT;
+		return $this->schema_group( $database_group ) === $this->schema_group( $json_group ) ? SourceHealthFinding::STATUS_ALIGNED : SourceHealthFinding::STATUS_DIVERGENT;
+	}
+
+	private function schema_group( array $group ) {
+		unset( $group['_source_modified'] );
+		return $group;
 	}
 
 	/**

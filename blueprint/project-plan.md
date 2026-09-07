@@ -28,6 +28,8 @@ renamed fields.
 - Git and CI integration that can fail on breaking changes.
 - Source-health diagnostics that identify whether ACF field groups are aligned
   between the WordPress database and ACF Local JSON.
+- Directional source-health guidance that explains whether a Local JSON change is
+  eligible for ACF sync or a database-side group should be saved back to JSON.
 
 ## 4. Data - What are we storing?
 
