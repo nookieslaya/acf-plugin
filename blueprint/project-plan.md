@@ -30,6 +30,8 @@ renamed fields.
   between the WordPress database and ACF Local JSON.
 - Directional source-health guidance that explains whether a Local JSON change is
   eligible for ACF sync or a database-side group should be saved back to JSON.
+- Code-impact analysis that connects ACF schema changes to concrete PHP field
+  references, then presents actionable repair locations in Admin and CI output.
 
 ## 4. Data - What are we storing?
 

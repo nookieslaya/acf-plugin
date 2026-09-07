@@ -55,3 +55,11 @@
   - [x] 13a. **Source-health analyzer** - compare ACF field groups in the database and `acf-json`, then classify each group as aligned, database-only, JSON-only, or divergent.
   - [x] 13b. **Admin source-health view** - show source-health findings and a clear next action for every field group in ACF Schema Guard Admin.
   - [x] 13c. **Directional sync guidance** - distinguish whether the database or Local JSON is newer, then recommend saving the group to JSON or using ACF JSON sync without performing either action automatically.
+
+## Code impact analysis
+
+- [ ] 14. **ACF code-impact workspace**
+  - [ ] 14a. **Impact analysis engine** - connect detected schema changes to PHP ACF usage references and classify the impact of removed, renamed, and type-changed fields.
+  - [ ] 14b. **Code Usage workspace** - show references with file, line, expression, affected field, risk, filtering, and empty states.
+  - [ ] 14c. **Changes-to-code integration** - show the affected code references directly alongside each schema change.
+  - [ ] 14d. **Scanner configuration and report export** - configure scan roots and export Markdown or JSON reports for PR review and CI.
