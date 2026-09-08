@@ -82,7 +82,8 @@ final class PhpAcfUsageScanner implements CodeUsageScanner {
 				$this->strategy(),
 				$this->relative_path( $path, $root ),
 				$call['line'],
-				$call['expression']
+				$call['expression'],
+				$root
 			);
 		}
 

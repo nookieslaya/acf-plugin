@@ -312,7 +312,7 @@ final class AdminController {
 										<strong><?php echo esc_html( $item['path'] ); ?>:<?php echo esc_html( $item['line'] ); ?></strong>
 										<code><?php echo esc_html( $item['expression'] ); ?></code>
 									</summary>
-									<pre><code><?php echo esc_html( $this->code_snippet( $source_root, $item['path'], $item['line'] ) ); ?></code></pre>
+									<pre><code><?php echo esc_html( $this->code_snippet( isset( $item['root'] ) ? $item['root'] : $source_root, $item['path'], $item['line'] ) ); ?></code></pre>
 								</details>
 							<?php endforeach; ?>
 						</details>
