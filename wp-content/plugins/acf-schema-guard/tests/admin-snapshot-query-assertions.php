@@ -77,9 +77,45 @@ $baseline->set( $baseline_snapshot );
 $controller = new \AcfSchemaGuard\Admin\AdminController(
 	$repository,
 	static function () {},
-	static function () { return new class() { public function to_array() { return array( 'findings' => array() ); } }; },
+	static function () {
+		return new class() {
+			public function to_array() {
+				return array(
+					'findings' => array(
+						array(
+							'change' => array(
+								'kind'      => 'modified',
+								'node_type' => 'field',
+								'path'      => array( 'group_example', 'field_example' ),
+								'before'    => array( 'name' => 'hero_title' ),
+								'after'     => array( 'name' => 'hero_heading' ),
+							),
+							'severity'    => 'high',
+							'rationale'   => 'Field name changed.',
+							'explanation' => array( 'summary' => 'Field modified.', 'details' => array() ),
+						),
+					),
+				);
+			}
+		};
+	},
 	$baseline,
-	static function () { return new \AcfSchemaGuard\Acf\SourceHealthReport( true, array( new \AcfSchemaGuard\Acf\SourceHealthFinding( 'group_example', 'Example group', 'divergent', array( 'key' => 'group_example' ), array( 'key' => 'group_example' ) ) ) ); }
+	static function () { return new \AcfSchemaGuard\Acf\SourceHealthReport( true, array( new \AcfSchemaGuard\Acf\SourceHealthFinding( 'group_example', 'Example group', 'divergent', array( 'key' => 'group_example' ), array( 'key' => 'group_example' ) ) ) ); },
+	static function ( array $changes ) {
+		return array(
+			new class( $changes[0] ) {
+				private $change;
+				public function __construct( array $change ) { $this->change = $change; }
+				public function to_array() {
+					return array(
+						'change'    => $this->change,
+						'reference' => array( 'path' => 'template-parts/acf/hero.php', 'line' => 12, 'expression' => "get_field('hero_title')" ),
+						'severity'  => 'high',
+					);
+				}
+			}
+		);
+	}
 );
 $reflection = new ReflectionClass( $controller );
 
@@ -114,6 +150,8 @@ ob_start();
 $changes->invoke( $controller, array( 'title' => 'Changes', 'description' => '' ) );
 $changes_output = ob_get_clean();
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, $current_snapshot->id() ), 'Changes did not render the newest snapshot.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Affected code references' ), 'Changes did not render code impacts.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'template-parts/acf/hero.php:12' ), 'Changes did not render an affected code location.' );
 acf_schema_guard_admin_snapshot_assert( 1 === $repository->latest_calls, 'Changes did not request exactly one newest snapshot.' );
 acf_schema_guard_admin_snapshot_assert( 0 === $repository->all_calls, 'Admin requested the full snapshot collection.' );
 

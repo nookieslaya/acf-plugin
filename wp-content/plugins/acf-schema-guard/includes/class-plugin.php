@@ -146,7 +146,8 @@ final class Plugin {
 				array( $this, 'capture_snapshot' ),
 				array( $this, 'analyze_snapshots' ),
 				new BaselineSnapshotService( $this->snapshot_repository() ),
-				array( $this, 'source_health' )
+				array( $this, 'source_health' ),
+				array( $this, 'analyze_code_impact' )
 			);
 			$this->admin_controller->register();
 		}

@@ -302,6 +302,44 @@
 	margin-bottom: 5px;
 }
 
+.acf-schema-guard-changes-page .acf-schema-guard-code-impacts td {
+	background: #f6f7f7;
+	padding: 0;
+}
+
+.acf-schema-guard-code-impact-list {
+	border-left: 4px solid #2271b1;
+	padding: 16px 18px;
+}
+
+.acf-schema-guard-code-impact-list h3 {
+	font-size: 14px;
+	margin: 0;
+}
+
+.acf-schema-guard-code-impact-list p {
+	color: #50575e;
+	margin: 6px 0 12px;
+}
+
+.acf-schema-guard-code-impact-list ul {
+	display: grid;
+	gap: 8px;
+	margin: 0;
+}
+
+.acf-schema-guard-code-impact-list li {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 0;
+}
+
+.acf-schema-guard-code-impact-list code {
+	overflow-wrap: anywhere;
+}
+
 .acf-schema-guard-changes-page .acf-schema-guard-finding-safe td:first-child {
 	box-shadow: inset 4px 0 var(--acf-schema-guard-safe-border);
 }
@@ -417,6 +455,14 @@
 		color: #50575e;
 		content: attr(data-label);
 		font-weight: 600;
+	}
+
+	.acf-schema-guard-changes-page .acf-schema-guard-code-impacts {
+		display: block;
+	}
+
+	.acf-schema-guard-changes-page .acf-schema-guard-code-impacts td {
+		display: block;
 	}
 
 	.acf-schema-guard-changes-page .acf-schema-guard-findings td:last-child {

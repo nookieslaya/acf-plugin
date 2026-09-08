@@ -82,18 +82,23 @@ final class AdminController {
 	/** @var callable */
 	private $source_health_callback;
 
+	/** @var callable */
+	private $analyze_code_impact_callback;
+
 	private $baseline;
 
 	/**
 	 * @param SnapshotRepository $snapshots                  Stored schema snapshots.
 	 * @param callable           $capture_snapshot_callback  Creates a schema snapshot.
 	 * @param callable           $analyze_snapshots_callback Analyzes two schema snapshots.
+	 * @param callable           $analyze_code_impact_callback Matches changes to code references.
 	 */
-	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback, BaselineSnapshotService $baseline, $source_health_callback ) {
+	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback, BaselineSnapshotService $baseline, $source_health_callback, $analyze_code_impact_callback = null ) {
 		$this->snapshots                  = $snapshots;
 		$this->capture_snapshot_callback  = $capture_snapshot_callback;
 		$this->analyze_snapshots_callback = $analyze_snapshots_callback;
 		$this->source_health_callback     = $source_health_callback;
+		$this->analyze_code_impact_callback = $analyze_code_impact_callback;
 		$this->baseline                   = $baseline;
 	}
 
@@ -583,6 +588,8 @@ final class AdminController {
 			return;
 		}
 
+		$impacts_by_change = $this->code_impacts_by_change( $analysis['findings'] );
+
 		$this->render_severity_legend();
 		?>
 		<table class="widefat striped acf-schema-guard-findings">
@@ -599,6 +606,7 @@ final class AdminController {
 					<?php
 					$change   = $finding['change'];
 					$severity = $this->normalize_severity( isset( $finding['severity'] ) ? $finding['severity'] : '' );
+					$impacts  = isset( $impacts_by_change[ $this->change_key( $change ) ] ) ? $impacts_by_change[ $this->change_key( $change ) ] : array();
 					?>
 					<tr class="acf-schema-guard-finding acf-schema-guard-finding-<?php echo esc_attr( $severity ); ?>">
 						<td data-label="<?php echo esc_attr__( 'Kind', 'acf-schema-guard' ); ?>"><?php echo esc_html( $change['kind'] ); ?></td>
@@ -608,9 +616,76 @@ final class AdminController {
 						<td data-label="<?php echo esc_attr__( 'Severity', 'acf-schema-guard' ); ?>"><?php $this->render_severity_badge( $severity ); ?></td>
 						<td data-label="<?php echo esc_attr__( 'Rationale', 'acf-schema-guard' ); ?>"><?php echo esc_html( $finding['rationale'] ); ?></td>
 					</tr>
+					<?php if ( ! empty( $impacts ) ) : ?>
+						<tr class="acf-schema-guard-code-impacts">
+							<td colspan="6"><?php $this->render_code_impacts( $impacts ); ?></td>
+						</tr>
+					<?php endif; ?>
 				<?php endforeach; ?>
 			</tbody>
 		</table>
+		<?php
+	}
+
+	private function code_impacts_by_change( array $findings ) {
+		$changes = array();
+
+		foreach ( $findings as $finding ) {
+			if ( isset( $finding['change'] ) && is_array( $finding['change'] ) ) {
+				$changes[] = $finding['change'];
+			}
+		}
+
+		if ( empty( $changes ) ) {
+			return array();
+		}
+		if ( ! is_callable( $this->analyze_code_impact_callback ) ) {
+			return array();
+		}
+
+		$source_root = function_exists( 'get_stylesheet_directory' ) ? get_stylesheet_directory() : '';
+		$references  = $this->scan_theme_references( $source_root );
+		$impacts     = call_user_func( $this->analyze_code_impact_callback, $changes, $references );
+		$grouped     = array();
+
+		foreach ( $impacts as $impact ) {
+			$data = is_object( $impact ) && method_exists( $impact, 'to_array' ) ? $impact->to_array() : array();
+			if ( ! isset( $data['change'], $data['reference'] ) || ! is_array( $data['change'] ) || ! is_array( $data['reference'] ) ) {
+				continue;
+			}
+			$grouped[ $this->change_key( $data['change'] ) ][] = $data;
+		}
+
+		return $grouped;
+	}
+
+	private function change_key( array $change ) {
+		return implode(
+			'|',
+			array(
+				isset( $change['kind'] ) ? $change['kind'] : '',
+				isset( $change['node_type'] ) ? $change['node_type'] : '',
+				isset( $change['path'] ) && is_array( $change['path'] ) ? implode( '.', $change['path'] ) : '',
+				isset( $change['before']['name'] ) ? $change['before']['name'] : '',
+			)
+		);
+	}
+
+	private function render_code_impacts( array $impacts ) {
+		?>
+		<section class="acf-schema-guard-code-impact-list">
+			<h3><?php echo esc_html__( 'Affected code references', 'acf-schema-guard' ); ?></h3>
+			<p><?php echo esc_html__( 'These literal PHP ACF calls still use the field before this schema change.', 'acf-schema-guard' ); ?></p>
+			<ul>
+				<?php foreach ( $impacts as $impact ) : ?>
+					<li>
+						<?php $this->render_severity_badge( $impact['severity'] ); ?>
+						<code><?php echo esc_html( $impact['reference']['path'] ); ?>:<?php echo esc_html( $impact['reference']['line'] ); ?></code>
+						<code><?php echo esc_html( $impact['reference']['expression'] ); ?></code>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</section>
 		<?php
 	}
 
