@@ -10,6 +10,7 @@ define( 'ABSPATH', __DIR__ . '/' );
 $acf_schema_guard_options = array();
 
 function __( $text ) { return $text; }
+function _n( $single, $plural, $number ) { return 1 === (int) $number ? $single : $plural; }
 function esc_html__( $text ) { return esc_html( $text ); }
 function esc_attr__( $text ) { return esc_attr( $text ); }
 function esc_html( $text ) { return htmlspecialchars( (string) $text, ENT_QUOTES, 'UTF-8' ); }
@@ -18,6 +19,11 @@ function esc_url( $url ) { return (string) $url; }
 function admin_url( $path = '' ) { return '/wp-admin/' . ltrim( $path, '/' ); }
 function wp_nonce_field() {}
 function submit_button( $text ) { echo esc_html( $text ); }
+function selected( $selected, $current ) { return $selected === $current ? 'selected="selected"' : ''; }
+function sanitize_text_field( $value ) { return trim( (string) $value ); }
+function wp_unslash( $value ) { return $value; }
+function trailingslashit( $value ) { return rtrim( $value, '/\\' ) . '/'; }
+function get_stylesheet_directory() { return dirname( __DIR__, 4 ) . '/wp-content/themes/acf-schema-guard-dev'; }
 function update_option( $key, $value ) { global $acf_schema_guard_options; $acf_schema_guard_options[ $key ] = $value; return true; }
 function get_option( $key, $default = false ) { global $acf_schema_guard_options; return isset( $acf_schema_guard_options[ $key ] ) ? $acf_schema_guard_options[ $key ] : $default; }
 
@@ -26,6 +32,10 @@ require_once dirname( __DIR__ ) . '/includes/snapshots/interface-snapshot-reposi
 require_once dirname( __DIR__ ) . '/includes/snapshots/class-baseline-snapshot-service.php';
 require_once dirname( __DIR__ ) . '/includes/acf/class-source-health-finding.php';
 require_once dirname( __DIR__ ) . '/includes/acf/class-source-health-report.php';
+require_once dirname( __DIR__ ) . '/includes/scanner/class-code-usage-reference.php';
+require_once dirname( __DIR__ ) . '/includes/scanner/interface-code-usage-scanner.php';
+require_once dirname( __DIR__ ) . '/includes/scanner/class-code-usage-scanner-service.php';
+require_once dirname( __DIR__ ) . '/includes/scanner/class-php-acf-usage-scanner.php';
 require_once dirname( __DIR__ ) . '/includes/admin/class-admin-controller.php';
 
 function acf_schema_guard_admin_snapshot_assert( $condition, $message ) {
@@ -83,6 +93,8 @@ $changes = $reflection->getMethod( 'render_changes_page' );
 $changes->setAccessible( true );
 $source_health = $reflection->getMethod( 'render_source_health_page' );
 $source_health->setAccessible( true );
+$code_usage = $reflection->getMethod( 'render_code_usage_page' );
+$code_usage->setAccessible( true );
 
 ob_start();
 $source_health->invoke( $controller, array( 'title' => 'Field Groups' ) );
@@ -104,5 +116,20 @@ $changes_output = ob_get_clean();
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, $current_snapshot->id() ), 'Changes did not render the newest snapshot.' );
 acf_schema_guard_admin_snapshot_assert( 1 === $repository->latest_calls, 'Changes did not request exactly one newest snapshot.' );
 acf_schema_guard_admin_snapshot_assert( 0 === $repository->all_calls, 'Admin requested the full snapshot collection.' );
+
+$_GET = array();
+ob_start();
+$code_usage->invoke( $controller, array( 'title' => 'Code Usage' ) );
+$code_usage_output = ob_get_clean();
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'card_title' ), 'Code Usage did not render a scanned field.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'template-parts/acf/card.php' ), 'Code Usage did not render a reference path.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'get_field' ), 'Code Usage did not render the ACF expression.' );
+
+$_GET = array( 'acf_schema_guard_field' => 'card_title' );
+ob_start();
+$code_usage->invoke( $controller, array( 'title' => 'Code Usage' ) );
+$filtered_code_usage_output = ob_get_clean();
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $filtered_code_usage_output, 'card_title' ), 'Code Usage field filter did not retain its field.' );
+acf_schema_guard_admin_snapshot_assert( false === strpos( $filtered_code_usage_output, '<code>hero_cta</code>' ), 'Code Usage field filter did not narrow the results.' );
 
 echo "Admin snapshot query assertions passed.\n";

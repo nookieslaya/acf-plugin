@@ -59,7 +59,7 @@
 ## Code impact analysis
 
 - [ ] 14. **ACF code-impact workspace**
-  - [ ] 14a. **Impact analysis engine** - connect detected schema changes to PHP ACF usage references and classify the impact of removed, renamed, and type-changed fields.
-  - [ ] 14b. **Code Usage workspace** - show references with file, line, expression, affected field, risk, filtering, and empty states.
+  - [x] 14a. **Impact analysis engine** - connect detected schema changes to PHP ACF usage references and classify the impact of removed, renamed, and type-changed fields.
+  - [x] 14b. **Code Usage workspace** - show references with file, line, expression, affected field, risk, filtering, and empty states.
   - [ ] 14c. **Changes-to-code integration** - show the affected code references directly alongside each schema change.
   - [ ] 14d. **Scanner configuration and report export** - configure scan roots and export Markdown or JSON reports for PR review and CI.

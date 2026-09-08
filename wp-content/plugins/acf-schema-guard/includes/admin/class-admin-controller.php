@@ -191,6 +191,10 @@ final class AdminController {
 
 			return;
 		}
+		if ( 'acf-schema-guard-code-usage' === $page ) {
+			$this->render_code_usage_page( $screen );
+			return;
+		}
 
 		?>
 		<div class="wrap acf-schema-guard-admin">
@@ -201,6 +205,202 @@ final class AdminController {
 			</div>
 		</div>
 		<?php
+	}
+
+	private function render_code_usage_page( array $screen ) {
+		$source_root         = function_exists( 'get_stylesheet_directory' ) ? get_stylesheet_directory() : '';
+		$references          = $this->scan_theme_references( $source_root );
+		$filters             = $this->code_usage_filters( $references );
+		$filtered            = $this->filter_code_references( $references, $filters );
+		$references_by_field = $this->references_by_field( $filtered );
+
+		?>
+		<div class="wrap acf-schema-guard-admin acf-schema-guard-code-usage-page">
+			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
+			<p><?php echo esc_html__( 'Literal PHP ACF references found in the active theme. Each field groups all of its real call sites together.', 'acf-schema-guard' ); ?></p>
+
+			<form method="get" class="acf-schema-guard-code-usage-filter">
+				<input type="hidden" name="page" value="acf-schema-guard-code-usage" />
+				<label for="acf-schema-guard-field"><?php echo esc_html__( 'Field', 'acf-schema-guard' ); ?></label>
+				<select id="acf-schema-guard-field" name="acf_schema_guard_field">
+					<option value=""><?php echo esc_html__( 'All fields', 'acf-schema-guard' ); ?></option>
+					<?php foreach ( $filters['available_fields'] as $field_name ) : ?>
+						<option value="<?php echo esc_attr( $field_name ); ?>" <?php selected( $filters['field'], $field_name ); ?>><?php echo esc_html( $field_name ); ?></option>
+					<?php endforeach; ?>
+				</select>
+
+				<label for="acf-schema-guard-file"><?php echo esc_html__( 'File', 'acf-schema-guard' ); ?></label>
+				<select id="acf-schema-guard-file" name="acf_schema_guard_file">
+					<option value=""><?php echo esc_html__( 'All files', 'acf-schema-guard' ); ?></option>
+					<?php foreach ( $filters['available_files'] as $path ) : ?>
+						<option value="<?php echo esc_attr( $path ); ?>" <?php selected( $filters['file'], $path ); ?>><?php echo esc_html( $path ); ?></option>
+					<?php endforeach; ?>
+				</select>
+
+				<label for="acf-schema-guard-function"><?php echo esc_html__( 'ACF function', 'acf-schema-guard' ); ?></label>
+				<select id="acf-schema-guard-function" name="acf_schema_guard_function">
+					<option value=""><?php echo esc_html__( 'All supported functions', 'acf-schema-guard' ); ?></option>
+					<?php foreach ( $filters['available_functions'] as $function_name ) : ?>
+						<option value="<?php echo esc_attr( $function_name ); ?>" <?php selected( $filters['function'], $function_name ); ?>><?php echo esc_html( $function_name ); ?></option>
+					<?php endforeach; ?>
+				</select>
+
+				<?php submit_button( __( 'Filter references', 'acf-schema-guard' ), 'secondary', 'submit', false ); ?>
+			</form>
+
+			<p class="acf-schema-guard-code-usage-count">
+				<?php echo esc_html( sprintf( _n( '%d reference shown', '%d references shown', count( $filtered ), 'acf-schema-guard' ), count( $filtered ) ) ); ?>
+			</p>
+
+			<?php if ( empty( $references_by_field ) ) : ?>
+				<div class="notice notice-info inline">
+					<p><?php echo esc_html__( 'No supported ACF field references match these filters.', 'acf-schema-guard' ); ?></p>
+				</div>
+			<?php else : ?>
+				<div class="acf-schema-guard-code-usage-list">
+					<?php foreach ( $references_by_field as $field_name => $items ) : ?>
+						<details class="acf-schema-guard-code-reference">
+							<summary>
+								<span>
+									<code><?php echo esc_html( $field_name ); ?></code>
+									<strong><?php echo esc_html( sprintf( _n( '%d reference', '%d references', count( $items ), 'acf-schema-guard' ), count( $items ) ) ); ?></strong>
+								</span>
+							</summary>
+							<?php foreach ( $items as $item ) : ?>
+								<details class="acf-schema-guard-code-location">
+									<summary>
+										<strong><?php echo esc_html( $item['path'] ); ?>:<?php echo esc_html( $item['line'] ); ?></strong>
+										<code><?php echo esc_html( $item['expression'] ); ?></code>
+									</summary>
+									<pre><code><?php echo esc_html( $this->code_snippet( $source_root, $item['path'], $item['line'] ) ); ?></code></pre>
+								</details>
+							<?php endforeach; ?>
+						</details>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
+
+	private function scan_theme_references( $source_root ) {
+		if (
+			! function_exists( 'get_stylesheet_directory' )
+			|| ! class_exists( '\\AcfSchemaGuard\\Scanner\\CodeUsageScannerService' )
+			|| ! class_exists( '\\AcfSchemaGuard\\Scanner\\PhpAcfUsageScanner' )
+		) {
+			return array();
+		}
+
+		$scanner = new \AcfSchemaGuard\Scanner\CodeUsageScannerService(
+			array( new \AcfSchemaGuard\Scanner\PhpAcfUsageScanner() )
+		);
+
+		return $scanner->scan( array( $source_root ) );
+	}
+
+	private function code_usage_filters( array $references ) {
+		$fields    = array();
+		$files     = array();
+		$functions = array();
+
+		foreach ( $references as $reference ) {
+			$item = $reference->to_array();
+			$fields[]    = $item['field_name'];
+			$files[]     = $item['path'];
+			$functions[] = $this->reference_function( $item['expression'] );
+		}
+
+		return array(
+			'field'               => $this->code_usage_request_value( 'acf_schema_guard_field', $fields ),
+			'file'                => $this->code_usage_request_value( 'acf_schema_guard_file', $files ),
+			'function'            => $this->code_usage_request_value( 'acf_schema_guard_function', $functions ),
+			'available_fields'    => $this->sorted_unique_values( $fields ),
+			'available_files'     => $this->sorted_unique_values( $files ),
+			'available_functions' => $this->sorted_unique_values( $functions ),
+		);
+	}
+
+	private function code_usage_request_value( $key, array $available_values ) {
+		$value = isset( $_GET[ $key ] ) ? sanitize_text_field( wp_unslash( $_GET[ $key ] ) ) : '';
+
+		return in_array( $value, $available_values, true ) ? $value : '';
+	}
+
+	private function sorted_unique_values( array $values ) {
+		$values = array_unique( array_filter( $values ) );
+		sort( $values, SORT_STRING );
+
+		return array_values( $values );
+	}
+
+	private function filter_code_references( array $references, array $filters ) {
+		$filtered = array();
+
+		foreach ( $references as $reference ) {
+			$item = $reference->to_array();
+			if ( '' !== $filters['field'] && $filters['field'] !== $item['field_name'] ) {
+				continue;
+			}
+			if ( '' !== $filters['file'] && $filters['file'] !== $item['path'] ) {
+				continue;
+			}
+			if ( '' !== $filters['function'] && $filters['function'] !== $this->reference_function( $item['expression'] ) ) {
+				continue;
+			}
+			$filtered[] = $item;
+		}
+
+		return $filtered;
+	}
+
+	private function references_by_field( array $references ) {
+		$grouped = array();
+
+		foreach ( $references as $reference ) {
+			$grouped[ $reference['field_name'] ][] = $reference;
+		}
+
+		ksort( $grouped, SORT_STRING );
+
+		return $grouped;
+	}
+
+	private function reference_function( $expression ) {
+		if ( preg_match( '/^([a-z_]+)\\s*\\(/i', $expression, $matches ) ) {
+			return $matches[1];
+		}
+
+		return __( 'Unknown', 'acf-schema-guard' );
+	}
+
+	private function code_snippet( $root, $relative_path, $line ) {
+		$root_path = realpath( $root );
+		$file_path = realpath( trailingslashit( $root ) . ltrim( $relative_path, '/' ) );
+
+		if (
+			false === $root_path
+			|| false === $file_path
+			|| 0 !== strpos( $file_path, $root_path . DIRECTORY_SEPARATOR )
+			|| ! is_readable( $file_path )
+		) {
+			return __( 'Source preview is unavailable.', 'acf-schema-guard' );
+		}
+
+		$lines = file( $file_path );
+		if ( false === $lines ) {
+			return __( 'Source preview is unavailable.', 'acf-schema-guard' );
+		}
+
+		$start  = max( 0, (int) $line - 4 );
+		$end    = min( count( $lines ), (int) $line + 3 );
+		$output = array();
+
+		for ( $index = $start; $index < $end; $index++ ) {
+			$output[] = sprintf( '%4d  %s', $index + 1, rtrim( $lines[ $index ] ) );
+		}
+
+		return implode( "\n", $output );
 	}
 
 	/**

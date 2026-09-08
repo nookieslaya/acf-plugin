@@ -231,6 +231,19 @@ final class Plugin {
 	}
 
 	/**
+	 * Matches classified schema changes to scanned PHP ACF references.
+	 *
+	 * @param array $changes Classified schema changes.
+	 * @param array $references PHP ACF usage references.
+	 * @return array
+	 */
+	public function analyze_code_impact( array $changes, array $references ) {
+		$analyzer = new \AcfSchemaGuard\Impact\CodeImpactAnalyzer();
+
+		return $analyzer->analyze( $changes, $references );
+	}
+
+	/**
 	 * Checks whether the current request can safely use WP-CLI.
 	 *
 	 * @return bool

@@ -150,6 +150,145 @@
 .acf-schema-guard-source-status-json_only .acf-schema-guard-source-status-label { background: #e7f3ff; color: #135e96; }
 .acf-schema-guard-source-status-divergent .acf-schema-guard-source-status-label { background: #fce8e8; color: #8a2424; }
 
+.acf-schema-guard-code-usage-page {
+	max-width: 1180px;
+}
+
+.acf-schema-guard-code-usage-filter {
+	align-items: end;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-top: 24px;
+	padding: 16px;
+}
+
+.acf-schema-guard-code-usage-filter label {
+	display: grid;
+	font-weight: 600;
+	gap: 6px;
+}
+
+.acf-schema-guard-code-usage-filter select {
+	min-width: 180px;
+}
+
+.acf-schema-guard-code-usage-count {
+	color: #50575e;
+	font-weight: 600;
+	margin: 20px 0 0;
+}
+
+.acf-schema-guard-code-usage-list {
+	display: grid;
+	gap: 12px;
+	margin-top: 20px;
+}
+
+.acf-schema-guard-code-reference {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.acf-schema-guard-code-reference[open] {
+	border-color: #2271b1;
+	box-shadow: 0 2px 10px rgb( 34 113 177 / 12% );
+}
+
+.acf-schema-guard-code-reference summary,
+.acf-schema-guard-code-location summary {
+	cursor: pointer;
+}
+
+.acf-schema-guard-code-reference > summary {
+	align-items: center;
+	display: flex;
+	gap: 16px;
+	justify-content: space-between;
+	padding: 16px;
+}
+
+.acf-schema-guard-code-reference > summary span {
+	display: grid;
+	gap: 6px;
+}
+
+.acf-schema-guard-code-reference > summary strong {
+	color: #50575e;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.acf-schema-guard-code-reference > summary code {
+	font-size: 15px;
+	overflow-wrap: anywhere;
+}
+
+.acf-schema-guard-code-location {
+	border-top: 1px solid #dcdcde;
+}
+
+.acf-schema-guard-code-location[open] {
+	background: #f6f7f7;
+}
+
+.acf-schema-guard-code-location summary {
+	align-items: center;
+	display: flex;
+	font-size: 13px;
+	gap: 16px;
+	justify-content: space-between;
+	padding: 12px 16px;
+}
+
+.acf-schema-guard-code-location summary strong {
+	overflow-wrap: anywhere;
+}
+
+.acf-schema-guard-code-location summary code {
+	color: #50575e;
+	font-size: 12px;
+	overflow-wrap: anywhere;
+}
+
+.acf-schema-guard-code-location pre {
+	background: #1d2327;
+	color: #f0f6fc;
+	line-height: 1.55;
+	margin: 0;
+	overflow: auto;
+	padding: 16px;
+}
+
+@media screen and (max-width: 782px) {
+	.acf-schema-guard-code-usage-filter {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.acf-schema-guard-code-usage-filter label,
+	.acf-schema-guard-code-usage-filter select {
+		width: 100%;
+	}
+
+	.acf-schema-guard-code-reference > summary,
+	.acf-schema-guard-code-location summary {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.acf-schema-guard-code-location pre {
+		font-size: 12px;
+		padding: 12px;
+	}
+}
+
 .acf-schema-guard-changes-page .acf-schema-guard-change-summary {
 	display: block;
 }
