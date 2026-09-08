@@ -1,0 +1,13 @@
+<?php
+namespace {
+	class WP_CLI { public static function error( $message ) { throw new \RuntimeException( $message ); } public static function success( $message ) {} }
+	define( 'ABSPATH', __DIR__ . '/' );
+	$acf_schema_guard_options = array();
+	function get_option( $key, $default = false ) { global $acf_schema_guard_options; return isset( $acf_schema_guard_options[ $key ] ) ? $acf_schema_guard_options[ $key ] : $default; }
+	function update_option( $key, $value ) { global $acf_schema_guard_options; $acf_schema_guard_options[ $key ] = $value; return true; }
+	$root = sys_get_temp_dir() . '/acf-schema-guard-report-' . uniqid(); mkdir( $root . '/wp-content/themes/example', 0777, true ); file_put_contents( $root . '/wp-content/themes/example/example.php', "<?php get_field( 'hero_title' );" ); define( 'WP_CONTENT_DIR', $root . '/wp-content' );
+	require_once dirname( __DIR__ ) . '/includes/scanner/class-code-usage-reference.php'; require_once dirname( __DIR__ ) . '/includes/scanner/interface-code-usage-scanner.php'; require_once dirname( __DIR__ ) . '/includes/scanner/class-code-usage-scanner-service.php'; require_once dirname( __DIR__ ) . '/includes/scanner/class-php-acf-usage-scanner.php'; require_once dirname( __DIR__ ) . '/includes/scanner/class-scanner-configuration.php'; require_once dirname( __DIR__ ) . '/includes/cli/class-report-command.php';
+	$configuration = new \AcfSchemaGuard\Scanner\ScannerConfiguration(); $configuration->save( array( $root . '/wp-content/themes/example' ) ); $command = new \AcfSchemaGuard\Cli\ReportCommand( new \AcfSchemaGuard\Scanner\CodeUsageScannerService( array( new \AcfSchemaGuard\Scanner\PhpAcfUsageScanner() ) ) ); $json = $root . '/report.json'; $markdown = $root . '/report.md';
+	try { $command->export( array( $json ), array( 'format' => 'json' ) ); $command->export( array( $markdown ), array( 'format' => 'markdown' ) ); if ( false === strpos( file_get_contents( $json ), 'hero_title' ) || false === strpos( file_get_contents( $markdown ), '# ACF code usage report' ) ) { throw new \RuntimeException( 'Report export content failed.' ); } try { $command->export( array( $json ), array( 'format' => 'json' ) ); throw new \RuntimeException( 'Overwrite protection failed.' ); } catch ( \RuntimeException $exception ) { if ( false === strpos( $exception->getMessage(), 'Use --force' ) ) { throw $exception; } } } finally { @unlink( $json ); @unlink( $markdown ); @unlink( $root . '/wp-content/themes/example/example.php' ); @rmdir( $root . '/wp-content/themes/example' ); @rmdir( $root . '/wp-content/themes' ); @rmdir( $root . '/wp-content' ); @rmdir( $root ); }
+	echo "Report command assertions passed.\n";
+}

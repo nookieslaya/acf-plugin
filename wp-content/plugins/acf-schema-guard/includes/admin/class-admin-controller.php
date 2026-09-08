@@ -112,6 +112,7 @@ final class AdminController {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_post_acf_schema_guard_capture_snapshot', array( $this, 'capture_snapshot' ) );
 		add_action( 'admin_post_acf_schema_guard_set_baseline_snapshot', array( $this, 'set_baseline_snapshot' ) );
+		add_action( 'admin_post_acf_schema_guard_save_scanner_roots', array( $this, 'save_scanner_roots' ) );
 	}
 
 	/**
@@ -200,6 +201,10 @@ final class AdminController {
 			$this->render_code_usage_page( $screen );
 			return;
 		}
+		if ( 'acf-schema-guard-settings' === $page ) {
+			$this->render_settings_page( $screen );
+			return;
+		}
 
 		?>
 		<div class="wrap acf-schema-guard-admin">
@@ -210,6 +215,26 @@ final class AdminController {
 			</div>
 		</div>
 		<?php
+	}
+
+	private function render_settings_page( array $screen ) {
+		$roots = class_exists( '\\AcfSchemaGuard\\Scanner\\ScannerConfiguration' ) ? ( new \AcfSchemaGuard\Scanner\ScannerConfiguration() )->roots() : array();
+		?>
+		<div class="wrap acf-schema-guard-admin"><h1><?php echo esc_html( $screen['title'] ); ?></h1>
+		<p><?php echo esc_html__( 'One readable directory per line. Only directories inside wp-content/themes and wp-content/plugins are accepted.', 'acf-schema-guard' ); ?></p>
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_save_scanner_roots" /><?php wp_nonce_field( 'acf_schema_guard_save_scanner_roots' ); ?>
+		<textarea name="scanner_roots" rows="8" class="large-text code"><?php echo esc_textarea( implode( "\n", $roots ) ); ?></textarea><p><?php submit_button( __( 'Save scanner roots', 'acf-schema-guard' ), 'primary', 'submit', false ); ?></p></form></div>
+		<?php
+	}
+
+	public function save_scanner_roots() {
+		if ( ! current_user_can( $this->capability ) ) { wp_die( esc_html__( 'You do not have permission to update scanner settings.', 'acf-schema-guard' ) ); }
+		check_admin_referer( 'acf_schema_guard_save_scanner_roots' );
+		$raw = isset( $_POST['scanner_roots'] ) ? sanitize_textarea_field( wp_unslash( $_POST['scanner_roots'] ) ) : '';
+		$roots = preg_split( '/\r\n|\r|\n/', $raw );
+		if ( class_exists( '\\AcfSchemaGuard\\Scanner\\ScannerConfiguration' ) ) { ( new \AcfSchemaGuard\Scanner\ScannerConfiguration() )->save( is_array( $roots ) ? $roots : array() ); }
+		wp_safe_redirect( admin_url( 'admin.php?page=acf-schema-guard-settings' ) );
+		exit;
 	}
 
 	private function render_code_usage_page( array $screen ) {
@@ -301,7 +326,11 @@ final class AdminController {
 			array( new \AcfSchemaGuard\Scanner\PhpAcfUsageScanner() )
 		);
 
-		return $scanner->scan( array( $source_root ) );
+		$roots = class_exists( '\\AcfSchemaGuard\\Scanner\\ScannerConfiguration' )
+			? ( new \AcfSchemaGuard\Scanner\ScannerConfiguration() )->roots()
+			: array( $source_root );
+
+		return $scanner->scan( $roots );
 	}
 
 	private function code_usage_filters( array $references ) {
