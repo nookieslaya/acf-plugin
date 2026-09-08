@@ -15,10 +15,10 @@ define( 'WP_CONTENT_DIR', $root . '/wp-content' );
 require_once dirname( __DIR__ ) . '/includes/scanner/class-scanner-configuration.php';
 
 $configuration = new \AcfSchemaGuard\Scanner\ScannerConfiguration();
-$configuration->save( array( $root . '/wp-content/themes/example', $root . '/outside' ) );
+$configuration->save( array( 'theme:example', 'plugin:example', $root . '/outside' ) );
 $roots = $configuration->roots();
 
-if ( array( realpath( $root . '/wp-content/themes/example' ) ) !== $roots ) {
+if ( array( realpath( $root . '/wp-content/plugins/example' ), realpath( $root . '/wp-content/themes/example' ) ) !== $roots ) {
 	fwrite( STDERR, "Scanner configuration assertion failed.\n" );
 	exit( 1 );
 }

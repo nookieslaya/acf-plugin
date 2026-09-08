@@ -221,7 +221,7 @@ final class AdminController {
 		$roots = class_exists( '\\AcfSchemaGuard\\Scanner\\ScannerConfiguration' ) ? ( new \AcfSchemaGuard\Scanner\ScannerConfiguration() )->roots() : array();
 		?>
 		<div class="wrap acf-schema-guard-admin"><h1><?php echo esc_html( $screen['title'] ); ?></h1>
-		<p><?php echo esc_html__( 'One readable directory per line. Only directories inside wp-content/themes and wp-content/plugins are accepted.', 'acf-schema-guard' ); ?></p>
+		<p><?php echo esc_html__( 'One root per line, for example theme:your-theme or plugin:your-plugin. Only WordPress themes and plugins are accepted.', 'acf-schema-guard' ); ?></p>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_save_scanner_roots" /><?php wp_nonce_field( 'acf_schema_guard_save_scanner_roots' ); ?>
 		<textarea name="scanner_roots" rows="8" class="large-text code"><?php echo esc_textarea( implode( "\n", $roots ) ); ?></textarea><p><?php submit_button( __( 'Save scanner roots', 'acf-schema-guard' ), 'primary', 'submit', false ); ?></p></form></div>
 		<?php

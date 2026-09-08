@@ -44,6 +44,28 @@ and `json` output. It reports references from `get_field()`, `the_field()`,
 when their first argument is a literal string. It does not execute or modify the
 scanned files, create snapshots, or change WordPress data.
 
+## WP-CLI report export
+
+Export the current code-usage scan to a named file for a pull request, CI
+artifact, or local review. The report uses scanner roots saved in **ACF Schema
+Guard -> Settings**. Roots are limited to directories inside WordPress themes
+and plugins.
+
+```sh
+wp acf-schema-guard report export acf-code-usage.json --format=json
+wp acf-schema-guard report export acf-code-usage.md --format=markdown
+```
+
+The command writes only the output path you provide. It refuses to replace an
+existing file unless you explicitly add `--force`:
+
+```sh
+wp acf-schema-guard report export acf-code-usage.json --format=json --force
+```
+
+The export is read-only with respect to ACF, WordPress content, snapshots, and
+the scanned source files.
+
 ## WP-CLI diff
 
 Compare two stored snapshot IDs without changing them:
