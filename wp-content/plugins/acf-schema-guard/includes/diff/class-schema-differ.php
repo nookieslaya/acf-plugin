@@ -2,8 +2,46 @@
 namespace AcfSchemaGuard\Diff;
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 final class SchemaDiffer {
-	public function compare( array $before, array $after ) { return new SchemaDiff( $this->compare_nodes( $this->map( isset( $before['field_groups'] ) ? $before['field_groups'] : array() ), $this->map( isset( $after['field_groups'] ) ? $after['field_groups'] : array() ), array(), 'field_group' ) ); }
-	private function compare_nodes( array $left, array $right, array $path, $type ) { $changes=array(); foreach(array_unique(array_merge(array_keys($left),array_keys($right))) as $key){$node_path=array_merge($path,array($key)); if(!isset($left[$key])){$changes[]=new SchemaChange('added',$type,$node_path,null,$right[$key]);}elseif(!isset($right[$key])){$changes[]=new SchemaChange('removed',$type,$node_path,$left[$key],null);}elseif($left[$key]!==$right[$key]){$changes[]=new SchemaChange('modified',$type,$node_path,$left[$key],$right[$key]);$changes=array_merge($changes,$this->children($left[$key],$right[$key],$node_path));}} return $changes; }
-	private function children( array $before, array $after, array $path ) { $changes=$this->compare_nodes($this->map(isset($before['sub_fields'])?$before['sub_fields']:(isset($before['fields'])?$before['fields']:array())),$this->map(isset($after['sub_fields'])?$after['sub_fields']:(isset($after['fields'])?$after['fields']:array())),$path,'field'); $left=$this->map(isset($before['layouts'])?$before['layouts']:array()); $right=$this->map(isset($after['layouts'])?$after['layouts']:array()); foreach(array_intersect_key($left,$right) as $key=>$layout){$changes=array_merge($changes,$this->compare_nodes($this->map(isset($layout['sub_fields'])?$layout['sub_fields']:array()),$this->map(isset($right[$key]['sub_fields'])?$right[$key]['sub_fields']:array()),array_merge($path,array($key)),'field'));} return $changes; }
-	private function map( array $nodes ) { $map=array(); foreach($nodes as $node){if(is_array($node)&&isset($node['key'])){$map[$node['key']]=$node;}} ksort($map,SORT_STRING); return $map; }
+	public function compare( array $before, array $after ) {
+		return new SchemaDiff( $this->compare_nodes( $this->map( isset( $before['field_groups'] ) ? $before['field_groups'] : array() ), $this->map( isset( $after['field_groups'] ) ? $after['field_groups'] : array() ), array(), 'field_group' ) );
+	}
+	private function compare_nodes( array $left, array $right, array $path, $type ) {
+		$changes = array();
+		foreach ( array_unique( array_merge( array_keys( $left ), array_keys( $right ) ) ) as $key ) {
+			$node_path = array_merge( $path, array( $key ) );
+			if ( ! isset( $left[ $key ] ) ) {
+				$changes[] = new SchemaChange( 'added', $type, $node_path, null, $right[ $key ] );
+			} elseif ( ! isset( $right[ $key ] ) ) {
+				$changes[] = new SchemaChange( 'removed', $type, $node_path, $left[ $key ], null );
+			} elseif ( $left[ $key ] !== $right[ $key ] ) {
+				$changes[] = new SchemaChange( 'modified', $type, $node_path, $left[ $key ], $right[ $key ] );
+				$changes = array_merge( $changes, $this->children( $left[ $key ], $right[ $key ], $node_path ) );
+			}
+		}
+		return $changes;
+	}
+	private function children( array $before, array $after, array $path ) {
+		$changes = $this->compare_nodes(
+			$this->map( isset( $before['sub_fields'] ) ? $before['sub_fields'] : ( isset( $before['fields'] ) ? $before['fields'] : array() ) ),
+			$this->map( isset( $after['sub_fields'] ) ? $after['sub_fields'] : ( isset( $after['fields'] ) ? $after['fields'] : array() ) ),
+			$path,
+			'field'
+		);
+		$left = $this->map( isset( $before['layouts'] ) ? $before['layouts'] : array() );
+		$right = $this->map( isset( $after['layouts'] ) ? $after['layouts'] : array() );
+		foreach ( array_intersect_key( $left, $right ) as $key => $layout ) {
+			$changes = array_merge( $changes, $this->compare_nodes( $this->map( isset( $layout['sub_fields'] ) ? $layout['sub_fields'] : array() ), $this->map( isset( $right[ $key ]['sub_fields'] ) ? $right[ $key ]['sub_fields'] : array() ), array_merge( $path, array( $key ) ), 'field' ) );
+		}
+		return $changes;
+	}
+	private function map( array $nodes ) {
+		$map = array();
+		foreach ( $nodes as $node ) {
+			if ( is_array( $node ) && isset( $node['key'] ) ) {
+				$map[ $node['key'] ] = $node;
+			}
+		}
+		ksort( $map, SORT_STRING );
+		return $map;
+	}
 }
