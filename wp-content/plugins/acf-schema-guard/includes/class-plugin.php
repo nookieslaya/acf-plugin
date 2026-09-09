@@ -47,6 +47,7 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-baseline-snapshot
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-snapshot-table.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-wordpress-snapshot-repository.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-snapshot-capture-service.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/snapshots/class-automatic-snapshot-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-schema-change.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-schema-diff.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-schema-differ.php';
@@ -204,6 +205,8 @@ final class Plugin {
 
 		$this->is_booted = true;
 
+		add_action( 'acf/update_field_group', array( $this, 'capture_automatic_snapshot' ), 20 );
+
 		/**
 		 * Fires once the ACF Schema Guard plugin service is ready.
 		 *
@@ -318,6 +321,21 @@ final class Plugin {
 		}
 
 		return $this->snapshot_capture_service->capture( $source_id );
+	}
+
+	public function capture_automatic_snapshot() {
+		if ( ! $this->acf_environment()->is_available() ) {
+			return;
+		}
+
+		$schema  = $this->current_schema_array();
+		$service = new \AcfSchemaGuard\Snapshots\AutomaticSnapshotService( $this->snapshot_repository() );
+
+		if ( ! $service->needs_capture( $schema ) ) {
+			return;
+		}
+
+		$this->capture_snapshot( \AcfSchemaGuard\Snapshots\AutomaticSnapshotService::SOURCE_ID );
 	}
 	public function diff_schemas( array $before, array $after ) {
 		if ( null === $this->schema_differ ) { $this->schema_differ = new SchemaDiffer(); }

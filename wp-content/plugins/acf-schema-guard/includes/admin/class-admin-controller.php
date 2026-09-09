@@ -549,7 +549,7 @@ final class AdminController {
 						<?php foreach ( $snapshots as $snapshot ) : ?>
 							<tr>
 								<td><code><?php echo esc_html( $snapshot->id() ); ?></code></td>
-								<td><?php echo esc_html( $snapshot->source_id() ); ?></td>
+								<td><?php echo esc_html( 'acf-auto' === $snapshot->source_id() ? __( 'Automatic ACF save', 'acf-schema-guard' ) : $snapshot->source_id() ); ?></td>
 								<td><?php echo esc_html( $snapshot->created_at() ); ?></td>
 								<td><?php if ( $baseline && $baseline->id() === $snapshot->id() ) { echo esc_html__( 'Approved baseline', 'acf-schema-guard' ); } else { ?><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_set_baseline_snapshot" /><input type="hidden" name="snapshot_id" value="<?php echo esc_attr( $snapshot->id() ); ?>" /><?php wp_nonce_field( 'acf_schema_guard_set_baseline_snapshot' ); submit_button( __( 'Set as baseline', 'acf-schema-guard' ), 'secondary small', 'submit', false ); ?></form><?php } ?></td>
 							</tr>
