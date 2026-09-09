@@ -25,9 +25,9 @@ WordPress Admin. The available workflow is:
 
 1. Open **History** and choose **Capture current schema**.
 2. Set a known-good snapshot as the approved baseline.
-3. Make and save ACF changes, then capture another snapshot.
+3. Make and save ACF changes.
 4. Open **Changes** to compare the approved baseline automatically with the
-   newest captured schema.
+   current live schema. A separate capture is not required for this review.
 
 The Admin baseline is stored as a snapshot ID in WordPress. It is useful for
 local review, but is different from the Git baseline file used by CI.

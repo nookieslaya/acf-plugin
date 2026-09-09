@@ -115,6 +115,35 @@ $controller = new \AcfSchemaGuard\Admin\AdminController(
 				}
 			}
 		);
+	},
+	static function () use ( $baseline_snapshot ) {
+		return new class( $baseline_snapshot ) {
+			private $baseline;
+
+			public function __construct( $baseline ) {
+				$this->baseline = $baseline;
+			}
+
+			public function is_available() { return true; }
+			public function baseline() { return $this->baseline; }
+			public function message() { return ''; }
+			public function analysis() {
+				return new class() {
+					public function to_array() {
+						return array(
+							'findings' => array(
+								array(
+									'change' => array( 'kind' => 'modified', 'node_type' => 'field', 'path' => array( 'group_example', 'field_example' ), 'before' => array( 'name' => 'hero_title' ), 'after' => array( 'name' => 'hero_heading' ) ),
+									'severity' => 'high',
+									'rationale' => 'Field name changed.',
+									'explanation' => array( 'summary' => 'Field modified.', 'details' => array() ),
+								),
+							),
+						);
+					}
+				};
+			}
+		};
 	}
 );
 $reflection = new ReflectionClass( $controller );
@@ -149,10 +178,11 @@ acf_schema_guard_admin_snapshot_assert( array( 25 ) === $repository->recent_limi
 ob_start();
 $changes->invoke( $controller, array( 'title' => 'Changes', 'description' => '' ) );
 $changes_output = ob_get_clean();
-acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, $current_snapshot->id() ), 'Changes did not render the newest snapshot.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'current live schema' ), 'Changes did not render the live schema label.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'not saved as a snapshot' ), 'Changes did not explain that live schema is not persisted.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Affected code references' ), 'Changes did not render code impacts.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'template-parts/acf/hero.php:12' ), 'Changes did not render an affected code location.' );
-acf_schema_guard_admin_snapshot_assert( 1 === $repository->latest_calls, 'Changes did not request exactly one newest snapshot.' );
+acf_schema_guard_admin_snapshot_assert( 0 === $repository->latest_calls, 'Changes must not request the newest snapshot.' );
 acf_schema_guard_admin_snapshot_assert( 0 === $repository->all_calls, 'Admin requested the full snapshot collection.' );
 
 $_GET = array();

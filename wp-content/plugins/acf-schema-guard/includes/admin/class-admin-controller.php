@@ -85,6 +85,9 @@ final class AdminController {
 	/** @var callable */
 	private $analyze_code_impact_callback;
 
+	/** @var callable */
+	private $analyze_live_baseline_callback;
+
 	private $baseline;
 
 	/**
@@ -93,12 +96,13 @@ final class AdminController {
 	 * @param callable           $analyze_snapshots_callback Analyzes two schema snapshots.
 	 * @param callable           $analyze_code_impact_callback Matches changes to code references.
 	 */
-	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback, BaselineSnapshotService $baseline, $source_health_callback, $analyze_code_impact_callback = null ) {
+	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback, BaselineSnapshotService $baseline, $source_health_callback, $analyze_code_impact_callback = null, $analyze_live_baseline_callback = null ) {
 		$this->snapshots                  = $snapshots;
 		$this->capture_snapshot_callback  = $capture_snapshot_callback;
 		$this->analyze_snapshots_callback = $analyze_snapshots_callback;
 		$this->source_health_callback     = $source_health_callback;
 		$this->analyze_code_impact_callback = $analyze_code_impact_callback;
+		$this->analyze_live_baseline_callback = $analyze_live_baseline_callback;
 		$this->baseline                   = $baseline;
 	}
 
@@ -574,23 +578,27 @@ final class AdminController {
 	 * @return void
 	 */
 	private function render_changes_page( array $screen ) {
-		$baseline  = $this->baseline->snapshot();
-		$current   = $this->snapshots->latest();
-		if ( null === $baseline ) {
-			$this->render_changes_state( $screen, __( 'Set an approved baseline in History before reviewing changes.', 'acf-schema-guard' ) );
+		if ( ! is_callable( $this->analyze_live_baseline_callback ) ) {
+			$this->render_changes_state( $screen, __( 'Live schema comparison is unavailable.', 'acf-schema-guard' ) );
 			return;
 		}
-		if ( null === $current || $baseline->id() === $current->id() ) {
-			$this->render_changes_state( $screen, __( 'Capture a newer schema snapshot after making ACF changes.', 'acf-schema-guard' ) );
+
+		$live = call_user_func( $this->analyze_live_baseline_callback );
+		if ( ! is_object( $live ) || ! method_exists( $live, 'is_available' ) || ! $live->is_available() ) {
+			$message = is_object( $live ) && method_exists( $live, 'message' ) ? $live->message() : __( 'The current ACF schema could not be compared.', 'acf-schema-guard' );
+			$this->render_changes_state( $screen, $message );
 			return;
 		}
+
+		$baseline = $live->baseline();
+		$analysis = $live->analysis();
 		?>
 		<div class="wrap acf-schema-guard-admin acf-schema-guard-changes-page">
 			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
-			<p><?php echo esc_html__( 'Comparing the approved baseline with the newest captured schema.', 'acf-schema-guard' ); ?></p>
+			<p><?php echo esc_html__( 'Comparing the approved baseline with the current live schema.', 'acf-schema-guard' ); ?></p>
 			<p><strong><?php echo esc_html__( 'Baseline:', 'acf-schema-guard' ); ?></strong> <code><?php echo esc_html( $baseline->id() ); ?></code> - <?php echo esc_html( $baseline->created_at() ); ?><br />
-			<strong><?php echo esc_html__( 'Current:', 'acf-schema-guard' ); ?></strong> <code><?php echo esc_html( $current->id() ); ?></code> - <?php echo esc_html( $current->created_at() ); ?></p>
-			<?php $this->render_comparison_results( $baseline, $current ); ?>
+			<strong><?php echo esc_html__( 'Current:', 'acf-schema-guard' ); ?></strong> <?php echo esc_html__( 'Live schema loaded for this request (not saved as a snapshot).', 'acf-schema-guard' ); ?></p>
+			<?php $this->render_comparison_results( $analysis ); ?>
 		</div>
 		<?php
 	}
@@ -602,15 +610,18 @@ final class AdminController {
 	}
 
 	/**
-	 * Renders classified findings for one validated snapshot pair.
+	 * Renders classified findings for one validated schema analysis.
 	 *
-	 * @param \AcfSchemaGuard\Snapshots\SchemaSnapshot $before_snapshot Earlier snapshot.
-	 * @param \AcfSchemaGuard\Snapshots\SchemaSnapshot $after_snapshot Later snapshot.
+	 * @param \AcfSchemaGuard\Diff\SnapshotAnalysis $analysis Classified analysis.
 	 * @return void
 	 */
-	private function render_comparison_results( $before_snapshot, $after_snapshot ) {
+	private function render_comparison_results( $analysis, $after_snapshot = null ) {
 		try {
-			$analysis = call_user_func( $this->analyze_snapshots_callback, $before_snapshot, $after_snapshot )->to_array();
+			if ( null === $analysis || null !== $after_snapshot ) {
+				$analysis = call_user_func( $this->analyze_snapshots_callback, $analysis, $after_snapshot );
+			}
+
+			$analysis = $analysis->to_array();
 		} catch ( \RuntimeException $exception ) {
 			?>
 			<div class="notice notice-error inline"><p><?php echo esc_html__( 'The selected snapshots could not be compared. Try again.', 'acf-schema-guard' ); ?></p></div>

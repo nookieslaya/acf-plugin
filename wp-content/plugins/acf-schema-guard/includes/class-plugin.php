@@ -55,6 +55,8 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-risk-finding.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-risk-classifier.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-snapshot-analysis.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-snapshot-analysis-service.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-live-baseline-analysis.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-live-baseline-analysis-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-code-usage-reference.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-scanner-configuration.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/interface-code-usage-scanner.php';
@@ -148,7 +150,8 @@ final class Plugin {
 				array( $this, 'analyze_snapshots' ),
 				new BaselineSnapshotService( $this->snapshot_repository() ),
 				array( $this, 'source_health' ),
-				array( $this, 'analyze_code_impact' )
+				array( $this, 'analyze_code_impact' ),
+				array( $this, 'analyze_live_baseline' )
 			);
 			$this->admin_controller->register();
 		}
@@ -321,6 +324,39 @@ final class Plugin {
 	}
 	public function analyze_snapshots( \AcfSchemaGuard\Snapshots\SchemaSnapshot $before, \AcfSchemaGuard\Snapshots\SchemaSnapshot $after ) {
 		return ( new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier(), new \AcfSchemaGuard\Diff\SchemaChangeExplainer() ) )->analyze( $before, $after );
+	}
+
+	/**
+	 * Compares the approved baseline against the effective schema in this request.
+	 *
+	 * This is intentionally read-only: it neither creates a snapshot nor changes
+	 * the baseline option.
+	 *
+	 * @return \AcfSchemaGuard\Diff\LiveBaselineAnalysis
+	 */
+	public function analyze_live_baseline() {
+		$service  = new \AcfSchemaGuard\Diff\LiveBaselineAnalysisService(
+			new \AcfSchemaGuard\Diff\SnapshotAnalysisService(
+				new \AcfSchemaGuard\Diff\SchemaDiffer(),
+				new \AcfSchemaGuard\Diff\RiskClassifier(),
+				new \AcfSchemaGuard\Diff\SchemaChangeExplainer()
+			)
+		);
+		$baseline = ( new BaselineSnapshotService( $this->snapshot_repository() ) )->snapshot();
+
+		if ( null === $baseline ) {
+			return $service->unavailable( 'Set an approved baseline in History before reviewing live changes.' );
+		}
+
+		if ( ! $this->acf_environment()->is_available() ) {
+			return $service->unavailable( 'ACF is unavailable, so the live schema cannot be compared.' );
+		}
+
+		try {
+			return $service->analyze( $baseline, $this->current_schema_array() );
+		} catch ( \RuntimeException $exception ) {
+			return $service->unavailable( 'The current ACF schema could not be read. Try again after resolving the ACF error.' );
+		}
 	}
 
 	/**
