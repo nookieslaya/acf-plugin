@@ -55,6 +55,7 @@ try {
 	$expected_names = array( 'hero', 'title', 'sub', 'sub_title', 'items', 'settings', 'explicit_global' );
 	acf_schema_guard_scanner_assert( $expected_names === array_column( $actual, 'field_name' ), 'Only real supported literal calls should be found.' );
 	acf_schema_guard_scanner_assert( 'fixture.php' === $actual[0]['path'], 'Scanner should report the path relative to its root.' );
+	acf_schema_guard_scanner_assert( $root === $actual[0]['root'], 'Scanner should retain the source root for a later code preview.' );
 	acf_schema_guard_scanner_assert( 2 === $actual[0]['line'], 'Scanner should retain 1-based source lines.' );
 	acf_schema_guard_scanner_assert( "get_field('hero'" === $actual[0]['expression'], 'Scanner should retain the call expression.' );
 	acf_schema_guard_scanner_assert( 8 === $actual[6]['line'], 'Explicit global calls should retain their source line.' );

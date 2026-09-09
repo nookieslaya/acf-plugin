@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash 162ee4edebe51700a36a6da79d3851ae487f09de247fa3450410067b0d8511e6 -->
+<!-- blueprint:source-hash a8d730b224b398638a852e7f054b44c390752d51f2e904184ca2fd85ba17ce51 -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -50,6 +50,14 @@ code still referring to removed or renamed fields before release.
     aligned between the WordPress database and ACF Local JSON, then presents
     the findings in the Admin workspace, including future direction-aware sync
     guidance.
+14. **ACF code-impact workspace** - connects ACF changes with supported PHP
+    references, configurable scan roots, and exportable reports.
+15. **Stabilization and release readiness** - establishes quality, compatibility,
+    documentation, and end-to-end release evidence.
+16. **Free and Pro product foundation** - defines edition boundaries before
+    license-aware advanced team workflows are introduced.
+17. **Live schema and code workflow** - removes unnecessary manual captures by
+    comparing current schema and current PHP files at analysis time.
 
 ## Data model
 
@@ -101,7 +109,7 @@ code still referring to removed or renamed fields before release.
 
 - **WordPress** - local plugin runtime and future plugin host.
 - **PHP** - plugin and classic test-theme language.
-- **ACF or ACF PRO** - field-group runtime dependency when available.
+- **ACF or ACF PRO** - ACF Free is supported; ACF PRO is optional.
 - **ACF Local JSON** - primary schema source for development tests.
 - **WP-CLI** - local and CI execution path.
 - **Dedicated WordPress table** - immutable normalized snapshot storage.
@@ -109,7 +117,8 @@ code still referring to removed or renamed fields before release.
 
 ## Monetization
 
-> TODO - licensing and monetization are not decided for v1.
+Free includes core schema safety. Pro will add advanced team workflows without
+blocking access to stored data or Free safety features when a license is absent.
 
 ## UI/UX
 
@@ -131,6 +140,6 @@ WP-CLI checks through GitHub Actions or GitLab CI.
 
 ## Open questions
 
-- The minimum supported PHP version has not been decided.
-- Distribution, release process, CI runtime, PHP matrix, and documentation site
-  are not yet decided.
+- Initial compatibility target: WordPress 6.4+, PHP 8.1+, and current supported
+  ACF or ACF PRO releases.
+- Distribution, release process, CI runtime, and documentation site remain open.

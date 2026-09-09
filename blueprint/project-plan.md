@@ -32,6 +32,13 @@ renamed fields.
   eligible for ACF sync or a database-side group should be saved back to JSON.
 - Code-impact analysis that connects ACF schema changes to concrete PHP field
   references, then presents actionable repair locations in Admin and CI output.
+- A release-readiness workflow with declared compatibility, verification, and
+  distribution documentation.
+- A Free edition with core schema safety and a future Pro edition for advanced
+  team workflows such as configurable risk policies and PR/MR reports.
+- A live local workflow that compares the approved baseline with the current ACF
+  runtime schema and scans the current PHP filesystem state without requiring a
+  manual snapshot after every edit.
 
 ## 4. Data - What are we storing?
 
@@ -54,11 +61,15 @@ renamed fields.
 - ACF or ACF PRO when available, with ACF Local JSON as a primary test source.
 - WP-CLI for local and CI execution.
 - Git-compatible file layout and GitHub Actions or GitLab CI support later.
-- Minimum supported PHP version: > TODO - decide before plugin implementation.
+- Supported starting matrix: WordPress 6.4+, PHP 8.1+, and current supported
+  ACF or ACF PRO releases. The plugin must work with ACF Free; ACF PRO is an
+  optional enhancement, not a requirement.
 
 ## 6. Monetize - How will this make money?
 
-> TODO - monetization and licensing are not decided for v1 planning.
+Free provides core schema safety, Local JSON health, PHP code usage, WP-CLI, and
+reports. Pro will add advanced team workflows without blocking access to stored
+snapshots or Free safety features when a license is absent or expires.
 
 ## 7. UI/UX - How should this look and feel?
 

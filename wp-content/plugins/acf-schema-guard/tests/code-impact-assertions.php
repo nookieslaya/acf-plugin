@@ -35,4 +35,10 @@ if ( array() !== $analyzer->analyze( $removed, array() ) ) {
 	fwrite( STDERR, "Empty reference assertion failed.\n" );
 	exit( 1 );
 }
+
+$removed_group = array( array( 'kind' => 'removed', 'node_type' => 'field_group', 'path' => array( 'group_hero' ), 'before' => array( 'fields' => array( array( 'name' => 'hero_title' ) ) ), 'after' => null ) );
+if ( 1 !== count( $analyzer->analyze( $removed_group, $references ) ) ) {
+	fwrite( STDERR, "Removed-group impact assertion failed.\n" );
+	exit( 1 );
+}
 echo "Code impact assertions passed.\n";

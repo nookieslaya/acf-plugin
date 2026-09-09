@@ -63,3 +63,21 @@
   - [x] 14b. **Code Usage workspace** - show references with file, line, expression, affected field, risk, filtering, and empty states.
   - [x] 14c. **Changes-to-code integration** - show the affected code references directly alongside each schema change.
   - [x] 14d. **Scanner configuration and report export** - configure scan roots and export Markdown or JSON reports for PR review and CI.
+
+## Release and product editions
+
+- [ ] 15. **Stabilization and release readiness**
+  - [x] 15a. **Core quality remediation** - finish the audited readability refactor and re-audit the repaired code.
+  - [x] 15b. **Compatibility and release documentation** - define supported WordPress, PHP, ACF, and ACF PRO versions; add installation, verification, changelog, and release checklist documentation.
+  - [ ] 15c. **End-to-end release verification** - execute and document the complete baseline-to-report workflow in local WordPress.
+- [ ] 16. **Free and Pro product foundation**
+  - [ ] 16a. **Edition policy and feature catalogue** - document Free and Pro capability boundaries, supported plans, and non-disruptive license behaviour.
+  - [ ] 16b. **License-aware capability boundary** - add a testable capability service without payment processing or remote activation.
+  - [ ] 16c. **First Pro workflow** - deliver configurable risk policies and PR/MR-ready reports behind the capability boundary.
+
+## Continuous local analysis
+
+- [ ] 17. **Live schema and code workflow**
+  - [ ] 17a. **Live baseline comparison** - compare the approved baseline with the effective current ACF schema without requiring a manually captured current snapshot.
+  - [ ] 17b. **Current-file code usage** - make Code Usage, Changes, and report export explicitly scan the current filesystem state so PHP additions and removals are visible without creating schema snapshots.
+  - [ ] 17c. **Automatic deduplicated schema history** - create a snapshot after supported ACF save events only when the normalized schema hash is new; retain manual capture as an optional checkpoint.

@@ -75,7 +75,9 @@ final class SourceHealthFinding {
 	}
 
 	/** @return string */
-	public function direction() { return $this->direction; }
+	public function direction() {
+		return $this->direction;
+	}
 
 	/** @return array<string, mixed> */
 	public function to_array() {

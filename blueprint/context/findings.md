@@ -15,18 +15,26 @@
 **Suggested fix:** Use the Blueprint tests workflow to define one deterministic test command for all assertion scripts, then use the CI workflow to make that command the repository's `Verify` check. Add browser coverage separately for stable Admin workflows.
 **Resolution:** Re-examined 2026-09-08: `AGENTS.md` now declares the assertion runner as both Test and Verify, and the repository includes a CI verification workflow. The original finding is no longer accurate.
 
-### F-05 [P2] open - Core domain classes substantially drift from project PHP standards
+### F-05 [P2] closed - Core domain classes substantially drift from project PHP standards
 
 **File:** wp-content/plugins/acf-schema-guard/includes/diff/class-schema-differ.php:4
 **Found:** 2026-09-06 by /audit (scope: full; lens: quality, security, performance, tests)
 **Why it matters:** Several central diff, risk, scanner, and CLI classes compress complete methods or classes onto single lines. This conflicts with the documented WordPress coding conventions, hides branches during review, and makes defects such as F-01 and F-02 harder to see and test safely.
 **Suggested fix:** Format the affected project classes to the existing readable WordPress style while making the functional repairs, without changing public contracts. Add a locally runnable coding-standard check only if the project deliberately adopts one.
-**Resolution:**
+**Resolution:** Re-audited 2026-09-09. The central diff, risk, scanner, and CLI
+classes are now formatted as readable WordPress-style classes without changing
+their public contracts. PHP syntax checks and the complete assertion runner
+pass. The original readability defect is no longer present in the reviewed
+scope.
 
-### F-06 [P2] open - Code previews do not resolve configured plugin roots
+### F-06 [P2] closed - Code previews do not resolve configured plugin roots
 
 **File:** wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:211
 **Found:** 2026-09-08 by /audit (scope: full; lens: quality, security, performance, tests)
 **Why it matters:** Scanner configuration can include plugins, but Code Usage builds its source preview relative to the active theme only. Plugin references list correctly but their expandable preview says it is unavailable, which defeats the locating workflow for one of the supported root types.
 **Suggested fix:** Carry the scanned root with each reference, or resolve each relative path against the configured roots before rendering a preview. Add an assertion for a plugin-root reference.
-**Resolution:**
+**Resolution:** Re-audited 2026-09-09. Each `CodeUsageReference` now retains
+its configured scan root, the PHP scanner supplies that root, and the Admin
+preview resolves the referenced file from it. The scanner assertions cover root
+retention and the full assertion runner passes. The original plugin-root
+preview failure is resolved.

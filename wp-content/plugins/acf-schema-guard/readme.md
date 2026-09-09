@@ -3,6 +3,10 @@
 ACF Schema Guard is a WordPress plugin for detecting potentially breaking ACF
 schema changes before deployment.
 
+Compatibility and release verification are documented in
+[`docs/compatibility.md`](docs/compatibility.md) and
+[`docs/release-checklist.md`](docs/release-checklist.md).
+
 ## What the plugin does
 
 ACF Schema Guard reads ACF's effective runtime schema, normalizes it, compares

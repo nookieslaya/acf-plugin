@@ -17,16 +17,15 @@ final class CodeImpactAnalyzer {
 		$seen    = array();
 
 		foreach ( $changes as $change ) {
-			if ( ! $this->is_supported_field_change( $change ) ) {
+			$field_names = $this->affected_field_names( $change );
+			if ( empty( $field_names ) ) {
 				continue;
 			}
-
-			$field_name = $change['before']['name'];
 
 			foreach ( $references as $reference ) {
 				$reference_data = $this->reference_data( $reference );
 
-				if ( $field_name !== $this->reference_field_name( $reference_data ) ) {
+				if ( ! in_array( $this->reference_field_name( $reference_data ), $field_names, true ) ) {
 					continue;
 				}
 
@@ -46,6 +45,25 @@ final class CodeImpactAnalyzer {
 		}
 
 		return $impacts;
+	}
+
+	private function affected_field_names( $change ) {
+		if ( $this->is_supported_field_change( $change ) ) {
+			return array( $change['before']['name'] );
+		}
+		if ( ! is_array( $change ) || 'removed' !== $change['kind'] || 'field_group' !== $change['node_type'] || empty( $change['before'] ) ) {
+			return array();
+		}
+		return $this->field_names( $change['before'] );
+	}
+
+	private function field_names( array $node ) {
+		$names = ! empty( $node['name'] ) ? array( $node['name'] ) : array();
+		foreach ( array( 'fields', 'sub_fields', 'layouts' ) as $key ) {
+			if ( empty( $node[ $key ] ) || ! is_array( $node[ $key ] ) ) { continue; }
+			foreach ( $node[ $key ] as $child ) { if ( is_array( $child ) ) { $names = array_merge( $names, $this->field_names( $child ) ); } }
+		}
+		return $names;
 	}
 
 	private function is_supported_field_change( $change ) {
@@ -73,7 +91,7 @@ final class CodeImpactAnalyzer {
 			'|',
 			array(
 				(string) $change['kind'],
-				(string) $change['before']['name'],
+				isset( $change['before']['name'] ) ? (string) $change['before']['name'] : implode( '.', $change['path'] ),
 				$this->reference_field_name( $reference ),
 				isset( $reference['path'] ) ? (string) $reference['path'] : '',
 				isset( $reference['line'] ) ? (string) $reference['line'] : '',

@@ -3,6 +3,8 @@
  * Plugin Name:       ACF Schema Guard
  * Description:       Detects potentially breaking Advanced Custom Fields schema changes before deployment.
  * Version:           0.1.0
+ * Requires at least: 6.4
+ * Requires PHP:      8.1
  * Author:            ACF Schema Guard
  * Text Domain:       acf-schema-guard
  *
