@@ -66,10 +66,10 @@
 
 ## Release and product editions
 
-- [ ] 15. **Stabilization and release readiness**
+- [x] 15. **Stabilization and release readiness**
   - [x] 15a. **Core quality remediation** - finish the audited readability refactor and re-audit the repaired code.
   - [x] 15b. **Compatibility and release documentation** - define supported WordPress, PHP, ACF, and ACF PRO versions; add installation, verification, changelog, and release checklist documentation.
-  - [ ] 15c. **End-to-end release verification** - execute and document the complete baseline-to-report workflow in local WordPress.
+  - [x] 15c. **End-to-end release verification** - execute and document the complete baseline-to-report workflow in local WordPress.
 - [ ] 16. **Free and Pro product foundation**
   - [ ] 16a. **Edition policy and feature catalogue** - document Free and Pro capability boundaries, supported plans, and non-disruptive license behaviour.
   - [ ] 16b. **License-aware capability boundary** - add a testable capability service without payment processing or remote activation.

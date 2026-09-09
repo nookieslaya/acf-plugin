@@ -1,20 +1,9 @@
-# Feature: End-to-end release verification
+# Current Feature
 
-**From build-plan:** feature 15c
-**Status:** in progress
+> **Generated file.** Holds the one feature, fix, or rollback being built right now. Run
+> `/feature <number-or-name>` to spec a build-plan feature, or `/fix "<bug>"` for
+> an ad-hoc fix. Use `/rollback <completed-feature>` to plan a safe reversal.
+> Build one thing at a time; `/complete` archives it under
+> `blueprint/history/` and resets this file.
 
-## Goal
-
-Prove the complete schema-baseline, change-analysis, code-usage, and export
-workflow in the running local WordPress site, then record the tested versions.
-
-## Build steps
-
-- [ ] Run the documented local WordPress release scenario.
-- [ ] Record the tested WordPress, PHP, ACF, and ACF PRO versions.
-- [ ] Confirm the baseline-to-report workflow and mark feature 15 complete.
-
-## Verify
-
-- `sh wp-content/plugins/acf-schema-guard/tests/run-assertions.sh`
-- `wp acf-schema-guard baseline check acf-schema-baseline.json --fail-on-breaking`
+_Nothing in progress. Run `/feature`, `/fix`, or `/rollback` to start._
