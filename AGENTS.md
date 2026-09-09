@@ -199,9 +199,9 @@ checks do not make the Blueprint unusable.
 - WordPress runtime: managed by the local WordPress environment
 - Theme styles: plain CSS, no build step
 
-The repository-owned PHP assertion runner is the required automated test gate.
-GitHub Actions runs the same Verify command for pull requests and pushes to
-`main`. There is no browser-test harness yet.
+The repository-owned PHP assertion runner is the required local automated test
+gate. GitHub Actions is currently disabled; CI templates remain available for a
+later explicit setup. There is no browser-test harness yet.
 
 Testing is opt-in. If this project does not already have a unit test runner, run
 `/tests` or `$tests` to add one and update this section with the real test
