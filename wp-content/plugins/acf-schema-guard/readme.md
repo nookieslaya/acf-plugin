@@ -34,8 +34,9 @@ local review, but is different from the Git baseline file used by CI.
 
 ## WP-CLI scan
 
-When WP-CLI loads the plugin, scan explicit PHP source directories for supported
-literal ACF field references:
+When WP-CLI loads the plugin, it scans the PHP source directories you provide
+at that moment for supported literal ACF field references. It does not use a
+schema snapshot or a cached code-reference list:
 
 ```sh
 wp acf-schema-guard scan wp-content/themes/acf-schema-guard-dev
@@ -51,9 +52,9 @@ scanned files, create snapshots, or change WordPress data.
 ## WP-CLI report export
 
 Export the current code-usage scan to a named file for a pull request, CI
-artifact, or local review. The report uses scanner roots saved in **ACF Schema
-Guard -> Settings**. Roots are limited to directories inside WordPress themes
-and plugins.
+artifact, or local review. Each export rescans the scanner roots saved in **ACF
+Schema Guard -> Settings**, so it reflects the files currently on disk. Roots
+are limited to directories inside WordPress themes and plugins.
 
 ```sh
 wp acf-schema-guard report export acf-code-usage.json --format=json

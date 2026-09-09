@@ -61,6 +61,7 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-code-usage-referenc
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-scanner-configuration.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/interface-code-usage-scanner.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-code-usage-scanner-service.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-current-code-usage-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-php-acf-usage-scanner.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-code-impact.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-code-impact-analyzer.php';

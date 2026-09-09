@@ -252,8 +252,7 @@ final class AdminController {
 	}
 
 	private function render_code_usage_page( array $screen ) {
-		$source_root         = function_exists( 'get_stylesheet_directory' ) ? get_stylesheet_directory() : '';
-		$references          = $this->scan_theme_references( $source_root );
+		$references          = $this->scan_current_references();
 		$filters             = $this->code_usage_filters( $references );
 		$filtered            = $this->filter_code_references( $references, $filters );
 		$references_by_field = $this->references_by_field( $filtered );
@@ -261,7 +260,7 @@ final class AdminController {
 		?>
 		<div class="wrap acf-schema-guard-admin acf-schema-guard-code-usage-page">
 			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
-			<p><?php echo esc_html__( 'Literal PHP ACF references found in the active theme. Each field groups all of its real call sites together.', 'acf-schema-guard' ); ?></p>
+			<p><?php echo esc_html__( 'Literal PHP ACF references found in the configured themes and plugins as they exist now. Each field groups all of its real call sites together.', 'acf-schema-guard' ); ?></p>
 
 			<form method="get" class="acf-schema-guard-code-usage-filter">
 				<input type="hidden" name="page" value="acf-schema-guard-code-usage" />
@@ -327,9 +326,10 @@ final class AdminController {
 		<?php
 	}
 
-	private function scan_theme_references( $source_root ) {
+	private function scan_current_references() {
 		if (
-			! function_exists( 'get_stylesheet_directory' )
+			! class_exists( '\\AcfSchemaGuard\\Scanner\\CurrentCodeUsageService' )
+			|| ! class_exists( '\\AcfSchemaGuard\\Scanner\\ScannerConfiguration' )
 			|| ! class_exists( '\\AcfSchemaGuard\\Scanner\\CodeUsageScannerService' )
 			|| ! class_exists( '\\AcfSchemaGuard\\Scanner\\PhpAcfUsageScanner' )
 		) {
@@ -340,11 +340,10 @@ final class AdminController {
 			array( new \AcfSchemaGuard\Scanner\PhpAcfUsageScanner() )
 		);
 
-		$roots = class_exists( '\\AcfSchemaGuard\\Scanner\\ScannerConfiguration' )
-			? ( new \AcfSchemaGuard\Scanner\ScannerConfiguration() )->roots()
-			: array( $source_root );
-
-		return $scanner->scan( $roots );
+		return ( new \AcfSchemaGuard\Scanner\CurrentCodeUsageService(
+			$scanner,
+			new \AcfSchemaGuard\Scanner\ScannerConfiguration()
+		) )->references();
 	}
 
 	private function code_usage_filters( array $references ) {
@@ -693,8 +692,7 @@ final class AdminController {
 			return array();
 		}
 
-		$source_root = function_exists( 'get_stylesheet_directory' ) ? get_stylesheet_directory() : '';
-		$references  = $this->scan_theme_references( $source_root );
+		$references  = $this->scan_current_references();
 		$impacts     = call_user_func( $this->analyze_code_impact_callback, $changes, $references );
 		$grouped     = array();
 

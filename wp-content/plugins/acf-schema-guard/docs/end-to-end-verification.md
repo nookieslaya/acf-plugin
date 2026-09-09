@@ -13,6 +13,8 @@ complete user workflow without modifying ACF values or WordPress content.
    name/type transition is readable, and the expected severity is shown.
 5. Open **Code Usage**. Confirm that field references can be expanded and that
    the displayed snippet and line number identify the PHP call site.
+   Add or remove one literal ACF call in a configured root, refresh the page,
+   and confirm the result changes without creating a schema snapshot.
 6. Open **Source Health**. Confirm that database and Local JSON status is
    shown for each field group, without offering a destructive automatic sync.
 7. Export one JSON and one Markdown code-usage report with WP-CLI. Confirm that

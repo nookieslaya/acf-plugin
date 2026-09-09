@@ -35,7 +35,9 @@ require_once dirname( __DIR__ ) . '/includes/acf/class-source-health-report.php'
 require_once dirname( __DIR__ ) . '/includes/scanner/class-code-usage-reference.php';
 require_once dirname( __DIR__ ) . '/includes/scanner/interface-code-usage-scanner.php';
 require_once dirname( __DIR__ ) . '/includes/scanner/class-code-usage-scanner-service.php';
+require_once dirname( __DIR__ ) . '/includes/scanner/class-current-code-usage-service.php';
 require_once dirname( __DIR__ ) . '/includes/scanner/class-php-acf-usage-scanner.php';
+require_once dirname( __DIR__ ) . '/includes/scanner/class-scanner-configuration.php';
 require_once dirname( __DIR__ ) . '/includes/admin/class-admin-controller.php';
 
 function acf_schema_guard_admin_snapshot_assert( $condition, $message ) {
@@ -192,6 +194,7 @@ $code_usage_output = ob_get_clean();
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'card_title' ), 'Code Usage did not render a scanned field.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'template-parts/acf/card.php' ), 'Code Usage did not render a reference path.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'get_field' ), 'Code Usage did not render the ACF expression.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'configured themes and plugins as they exist now' ), 'Code Usage did not identify the current configured roots.' );
 
 $_GET = array( 'acf_schema_guard_field' => 'card_title' );
 ob_start();

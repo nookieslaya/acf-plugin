@@ -1,6 +1,7 @@
 <?php
 namespace AcfSchemaGuard\Cli;
 use AcfSchemaGuard\Scanner\CodeUsageScannerService;
+use AcfSchemaGuard\Scanner\CurrentCodeUsageService;
 use AcfSchemaGuard\Scanner\ScannerConfiguration;
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 final class ReportCommand {
@@ -14,7 +15,8 @@ final class ReportCommand {
 		if ( '' === $path || ! in_array( $format, array( 'json', 'markdown' ), true ) ) { \WP_CLI::error( 'Provide an output path and --format=json or --format=markdown.' ); }
 		if ( file_exists( $path ) && empty( $assoc_args['force'] ) ) { \WP_CLI::error( 'Report already exists. Use --force to replace it.' ); }
 		$items = array();
-		foreach ( $this->scanner->scan( ( new ScannerConfiguration() )->roots() ) as $reference ) {
+		$current_usage = new CurrentCodeUsageService( $this->scanner, new ScannerConfiguration() );
+		foreach ( $current_usage->references() as $reference ) {
 			$items[] = $reference->to_array();
 		}
 		$content = 'json' === $format ? json_encode( $items, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) : $this->markdown( $items );
