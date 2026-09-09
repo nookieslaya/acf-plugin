@@ -80,4 +80,4 @@
 - [ ] 17. **Live schema and code workflow**
   - [x] 17a. **Live baseline comparison** - compare the approved baseline with the effective current ACF schema without requiring a manually captured current snapshot.
   - [x] 17b. **Current-file code usage** - make Code Usage, Changes, and report export explicitly scan the current filesystem state so PHP additions and removals are visible without creating schema snapshots.
-  - [ ] 17c. **Automatic deduplicated schema history** - create a snapshot after supported ACF save events only when the normalized schema hash is new; retain manual capture as an optional checkpoint.
+  - [x] 17c. **Automatic deduplicated schema history** - create a snapshot after supported ACF save events only when the normalized schema hash is new; retain manual capture as an optional checkpoint.
