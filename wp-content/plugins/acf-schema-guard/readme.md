@@ -46,8 +46,12 @@ wp acf-schema-guard scan wp-content/themes/acf-schema-guard-dev --format=json
 Provide at least one readable directory. The command supports `table` (default)
 and `json` output. It reports references from `get_field()`, `the_field()`,
 `get_sub_field()`, `the_sub_field()`, `have_rows()`, and `get_field_object()`
-when their first argument is a literal string. It does not execute or modify the
-scanned files, create snapshots, or change WordPress data.
+when their first argument is a literal string. It also reports supported calls
+with a non-literal first argument, such as `get_field( $field_name )`, as
+`manual_review_required`. Dynamic calls are never assigned to a field name or a
+schema finding automatically, because doing so would create misleading impact
+results. It does not execute or modify the scanned files, create snapshots, or
+change WordPress data.
 
 ## WP-CLI report export
 
@@ -70,6 +74,11 @@ wp acf-schema-guard report export acf-code-usage.json --format=json --force
 
 The export is read-only with respect to ACF, WordPress content, snapshots, and
 the scanned source files.
+
+JSON reports retain the literal-reference list and add dynamic items with
+`reference_type: dynamic` and `review_status: manual_review_required`. Markdown
+reports contain a separate **Dynamic references requiring manual review** section
+when such calls are found.
 
 ## WP-CLI diff
 

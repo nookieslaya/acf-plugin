@@ -42,6 +42,9 @@ renamed fields.
 - An actionable Overview dashboard and a cohesive ACF-Pro-inspired plugin
   workspace that helps users understand baseline state, schema risk, source
   health, and the next safe action.
+- Impact analysis that reports potentially dynamic PHP ACF calls for manual
+  review and read-only evidence of existing WordPress records that use a field
+  affected by a risky schema change.
 
 ## 4. Data - What are we storing?
 
@@ -56,6 +59,11 @@ renamed fields.
 - Plugin settings, including scanner configuration and risk-rule policy.
 - Source-health findings for field groups: aligned, database-only, JSON-only, or
   divergent between ACF Local JSON and the WordPress database.
+- Dynamic code-reference findings that record a supported ACF function call with
+  a non-literal first argument, without guessing its field name.
+- Data-impact summaries for changed field names: a bounded record count and
+  safe identifiers for records with matching WordPress meta keys, never field
+  values or automatic migrations.
 
 ## 5. Tech - What stack are we using?
 

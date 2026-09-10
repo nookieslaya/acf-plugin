@@ -471,8 +471,10 @@ final class AdminController {
 
 	private function render_code_usage_page( array $screen ) {
 		$references          = $this->scan_current_references();
+		$dynamic_references  = $this->scan_current_dynamic_references();
 		$filters             = $this->code_usage_filters( $references );
 		$filtered            = $this->filter_code_references( $references, $filters );
+		$filtered_dynamic    = $this->filter_dynamic_code_references( $dynamic_references, $filters );
 		$references_by_field = $this->references_by_field( $filtered );
 
 		?>
@@ -512,6 +514,8 @@ final class AdminController {
 			<p class="acf-schema-guard-code-usage-count">
 				<?php echo esc_html( sprintf( _n( '%d reference shown', '%d references shown', count( $filtered ), 'acf-schema-guard' ), count( $filtered ) ) ); ?>
 			</p>
+
+			<?php $this->render_dynamic_reference_notice( $filtered_dynamic ); ?>
 
 			<?php if ( empty( $references_by_field ) ) : ?>
 				<section class="acf-schema-guard-empty-state acf-schema-guard-code-usage-empty-state">
@@ -567,6 +571,26 @@ final class AdminController {
 		) )->references();
 	}
 
+	private function scan_current_dynamic_references() {
+		if (
+			! class_exists( '\\AcfSchemaGuard\\Scanner\\CurrentCodeUsageService' )
+			|| ! class_exists( '\\AcfSchemaGuard\\Scanner\\ScannerConfiguration' )
+			|| ! class_exists( '\\AcfSchemaGuard\\Scanner\\CodeUsageScannerService' )
+			|| ! class_exists( '\\AcfSchemaGuard\\Scanner\\PhpAcfUsageScanner' )
+		) {
+			return array();
+		}
+
+		$scanner = new \AcfSchemaGuard\Scanner\CodeUsageScannerService(
+			array( new \AcfSchemaGuard\Scanner\PhpAcfUsageScanner() )
+		);
+
+		return ( new \AcfSchemaGuard\Scanner\CurrentCodeUsageService(
+			$scanner,
+			new \AcfSchemaGuard\Scanner\ScannerConfiguration()
+		) )->dynamic_references();
+	}
+
 	private function code_usage_filters( array $references ) {
 		$fields    = array();
 		$files     = array();
@@ -620,6 +644,40 @@ final class AdminController {
 		}
 
 		return $filtered;
+	}
+
+	private function filter_dynamic_code_references( array $references, array $filters ) {
+		$filtered = array();
+
+		foreach ( $references as $reference ) {
+			$item = $reference->to_array();
+			if ( '' !== $filters['file'] && $filters['file'] !== $item['path'] ) {
+				continue;
+			}
+			if ( '' !== $filters['function'] && $filters['function'] !== $this->reference_function( $item['expression'] ) ) {
+				continue;
+			}
+			$filtered[] = $item;
+		}
+
+		return $filtered;
+	}
+
+	private function render_dynamic_reference_notice( array $references ) {
+		if ( empty( $references ) ) {
+			return;
+		}
+		?>
+		<section class="acf-schema-guard-dynamic-reference-notice">
+			<h2><?php echo esc_html__( 'Dynamic ACF calls need manual review', 'acf-schema-guard' ); ?></h2>
+			<p><?php echo esc_html__( 'These supported calls use a non-literal field argument. ACF Schema Guard cannot safely determine which field they access, so they are not linked to a specific schema change.', 'acf-schema-guard' ); ?></p>
+			<ul>
+				<?php foreach ( $references as $reference ) : ?>
+					<li><code><?php echo esc_html( $reference['path'] ); ?>:<?php echo esc_html( $reference['line'] ); ?></code><code><?php echo esc_html( $reference['expression'] ); ?></code><span><?php echo esc_html__( 'Manual review required', 'acf-schema-guard' ); ?></span></li>
+				<?php endforeach; ?>
+			</ul>
+		</section>
+		<?php
 	}
 
 	private function references_by_field( array $references ) {
@@ -883,6 +941,7 @@ final class AdminController {
 		}
 
 		$impacts_by_change = $this->code_impacts_by_change( $analysis['findings'] );
+		$dynamic_references = $this->scan_current_dynamic_references();
 
 		?>
 		<div class="acf-schema-guard-changes-results-heading">
@@ -891,6 +950,7 @@ final class AdminController {
 		</div>
 		<?php
 		$this->render_severity_legend();
+		$this->render_dynamic_reference_notice( array_map( static function ( $reference ) { return $reference->to_array(); }, $dynamic_references ) );
 		?>
 		<table class="widefat striped acf-schema-guard-findings">
 			<thead><tr>

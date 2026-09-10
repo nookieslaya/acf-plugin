@@ -17,8 +17,12 @@ final class ReportCommand {
 		$items = array();
 		$current_usage = new CurrentCodeUsageService( $this->scanner, new ScannerConfiguration() );
 		foreach ( $current_usage->references() as $reference ) {
+			$items[] = array_merge( array( 'reference_type' => 'literal' ), $reference->to_array() );
+		}
+		foreach ( $current_usage->dynamic_references() as $reference ) {
 			$items[] = $reference->to_array();
 		}
+		usort( $items, array( $this, 'compare_items' ) );
 		$content = 'json' === $format ? json_encode( $items, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) : $this->markdown( $items );
 		if ( false === $content || false === file_put_contents( $path, $content ) ) { \WP_CLI::error( 'Could not write report.' ); }
 		\WP_CLI::success( 'Code usage report exported: ' . $path );
@@ -26,8 +30,27 @@ final class ReportCommand {
 	private function markdown( array $items ) {
 		$lines = array( '# ACF code usage report', '', '| Field | File | Line | Expression |', '| --- | --- | ---: | --- |' );
 		foreach ( $items as $item ) {
+			if ( 'dynamic' === $item['reference_type'] ) {
+				continue;
+			}
 			$lines[] = sprintf( '| `%s` | `%s` | %d | `%s` |', $item['field_name'], $item['path'], $item['line'], str_replace( '|', '\\|', $item['expression'] ) );
 		}
+		$dynamic = array_filter( $items, static function ( $item ) { return 'dynamic' === $item['reference_type']; } );
+		if ( ! empty( $dynamic ) ) {
+			$lines[] = '';
+			$lines[] = '## Dynamic references requiring manual review';
+			$lines[] = '';
+			$lines[] = 'These supported ACF calls use a non-literal field argument. The field cannot be determined safely.';
+			$lines[] = '';
+			$lines[] = '| File | Line | Expression | Review status |';
+			$lines[] = '| --- | ---: | --- | --- |';
+			foreach ( $dynamic as $item ) {
+				$lines[] = sprintf( '| `%s` | %d | `%s` | `%s` |', $item['path'], $item['line'], str_replace( '|', '\\|', $item['expression'] ), $item['review_status'] );
+			}
+		}
 		return implode( "\n", $lines ) . "\n";
+	}
+	private function compare_items( array $left, array $right ) {
+		return strcmp( implode( '|', $left ), implode( '|', $right ) );
 	}
 }

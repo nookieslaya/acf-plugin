@@ -59,6 +59,7 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-snapshot-analysis-serv
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-live-baseline-analysis.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/diff/class-live-baseline-analysis-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-code-usage-reference.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-dynamic-code-usage-reference.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-scanner-configuration.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/interface-code-usage-scanner.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-code-usage-scanner-service.php';

@@ -21,4 +21,19 @@ final class CodeUsageScannerService {
 		ksort( $references, SORT_STRING );
 		return array_values( $references );
 	}
+	public function dynamic_references( array $source_roots ) {
+		$references = array();
+		foreach ( $this->scanners as $scanner ) {
+			if ( ! $scanner instanceof CodeUsageScanner || ! method_exists( $scanner, 'dynamic_references' ) ) {
+				continue;
+			}
+			foreach ( $scanner->dynamic_references( $source_roots ) as $reference ) {
+				if ( $reference instanceof DynamicCodeUsageReference ) {
+					$references[ implode( '|', $reference->to_array() ) ] = $reference;
+				}
+			}
+		}
+		ksort( $references, SORT_STRING );
+		return array_values( $references );
+	}
 }

@@ -88,3 +88,9 @@
   - [x] 18a. **Overview decision dashboard** - replace the placeholder Overview with an actionable summary of baseline, current schema state, change risk, source health, and direct next actions.
   - [x] 18b. **Shared admin visual system** - unify typography, spacing, cards, forms, status treatments, tables, empty states, and responsive behavior across every plugin screen.
   - [x] 18c. **Workflow usability and accessibility** - refine labels, keyboard-visible interactions, expandable code references, contextual guidance, and manual desktop/mobile review paths.
+
+## Impact confidence
+
+- [ ] 19. **Data impact and dynamic code references** - make incomplete code evidence explicit and show safe, read-only evidence of stored content affected by risky ACF schema changes.
+  - [x] 19a. **Dynamic PHP reference awareness** - identify supported PHP ACF calls whose first argument is not a literal field name and present them as manual-review evidence without guessing the target field.
+  - [ ] 19b. **Stored data impact inventory** - for removed or renamed fields, report bounded counts and safe record identifiers for matching WordPress meta keys without reading field values or changing data.

@@ -33,6 +33,7 @@ require_once dirname( __DIR__ ) . '/includes/snapshots/class-baseline-snapshot-s
 require_once dirname( __DIR__ ) . '/includes/acf/class-source-health-finding.php';
 require_once dirname( __DIR__ ) . '/includes/acf/class-source-health-report.php';
 require_once dirname( __DIR__ ) . '/includes/scanner/class-code-usage-reference.php';
+require_once dirname( __DIR__ ) . '/includes/scanner/class-dynamic-code-usage-reference.php';
 require_once dirname( __DIR__ ) . '/includes/scanner/interface-code-usage-scanner.php';
 require_once dirname( __DIR__ ) . '/includes/scanner/class-code-usage-scanner-service.php';
 require_once dirname( __DIR__ ) . '/includes/scanner/class-current-code-usage-service.php';
@@ -212,6 +213,8 @@ $source_health = $reflection->getMethod( 'render_source_health_page' );
 $source_health->setAccessible( true );
 $code_usage = $reflection->getMethod( 'render_code_usage_page' );
 $code_usage->setAccessible( true );
+$dynamic_notice = $reflection->getMethod( 'render_dynamic_reference_notice' );
+$dynamic_notice->setAccessible( true );
 
 ob_start();
 $source_health->invoke( $controller, array( 'title' => 'Field Groups' ) );
@@ -240,6 +243,21 @@ acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Affe
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'template-parts/acf/hero.php:12' ), 'Changes did not render an affected code location.' );
 acf_schema_guard_admin_snapshot_assert( 0 === $repository->latest_calls, 'Changes must not request the newest snapshot.' );
 acf_schema_guard_admin_snapshot_assert( 0 === $repository->all_calls, 'Admin requested the full snapshot collection.' );
+
+ob_start();
+$dynamic_notice->invoke(
+	$controller,
+	array(
+		array(
+			'path' => 'template-parts/acf/dynamic.php',
+			'line' => 16,
+			'expression' => 'get_field( $field_name )',
+		),
+	)
+);
+$dynamic_notice_output = ob_get_clean();
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $dynamic_notice_output, 'Dynamic ACF calls need manual review' ), 'Admin did not explain dynamic references.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $dynamic_notice_output, 'not linked to a specific schema change' ), 'Admin did not preserve dynamic-reference uncertainty.' );
 
 $_GET = array();
 ob_start();

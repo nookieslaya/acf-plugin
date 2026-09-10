@@ -32,6 +32,18 @@ final class PhpAcfUsageScanner implements CodeUsageScanner {
 	 * @return CodeUsageReference[]
 	 */
 	public function scan( array $source_roots ) {
+		return $this->scan_references( $source_roots, false );
+	}
+
+	/**
+	 * @param string[] $source_roots Source directories.
+	 * @return DynamicCodeUsageReference[]
+	 */
+	public function dynamic_references( array $source_roots ) {
+		return $this->scan_references( $source_roots, true );
+	}
+
+	private function scan_references( array $source_roots, $dynamic ) {
 		$references = array();
 
 		foreach ( $source_roots as $root ) {
@@ -48,7 +60,7 @@ final class PhpAcfUsageScanner implements CodeUsageScanner {
 					continue;
 				}
 
-				$references = array_merge( $references, $this->scan_file( $file->getPathname(), $root ) );
+			$references = array_merge( $references, $this->scan_file( $file->getPathname(), $root, $dynamic ) );
 			}
 		}
 
@@ -60,7 +72,7 @@ final class PhpAcfUsageScanner implements CodeUsageScanner {
 	 * @param string $root Source root.
 	 * @return CodeUsageReference[]
 	 */
-	private function scan_file( $path, $root ) {
+	private function scan_file( $path, $root, $dynamic ) {
 		$content = file_get_contents( $path );
 
 		if ( false === $content ) {
@@ -71,23 +83,48 @@ final class PhpAcfUsageScanner implements CodeUsageScanner {
 		$references = array();
 
 		foreach ( $tokens as $index => $token ) {
-			$call = $this->supported_call( $tokens, $index );
+			$call = $dynamic ? $this->supported_dynamic_call( $tokens, $index ) : $this->supported_call( $tokens, $index );
 
 			if ( null === $call ) {
 				continue;
 			}
 
-			$references[] = new CodeUsageReference(
-				$this->literal_value( $call['literal'] ),
-				$this->strategy(),
-				$this->relative_path( $path, $root ),
-				$call['line'],
-				$call['expression'],
-				$root
-			);
+			$references[] = $dynamic
+				? new DynamicCodeUsageReference( $this->strategy(), $this->relative_path( $path, $root ), $call['line'], $call['expression'], $root )
+				: new CodeUsageReference( $this->literal_value( $call['literal'] ), $this->strategy(), $this->relative_path( $path, $root ), $call['line'], $call['expression'], $root );
 		}
 
 		return $references;
+	}
+
+	private function supported_dynamic_call( array $tokens, $index ) {
+		$function = $this->function_name( $tokens[ $index ] );
+
+		if ( null === $function || ! in_array( $function['name'], $this->supported_functions, true ) || ! $this->has_global_call_context( $tokens, $index, $function['fully_qualified'] ) ) {
+			return null;
+		}
+
+		$opening_index = $this->next_significant_index( $tokens, $index );
+		if ( null === $opening_index || '(' !== $tokens[ $opening_index ] ) {
+			return null;
+		}
+
+		$argument_index = $this->next_significant_index( $tokens, $opening_index );
+		if ( null === $argument_index || ')' === $tokens[ $argument_index ] ) {
+			return null;
+		}
+
+		$after_argument = $this->next_significant_index( $tokens, $argument_index );
+		if ( is_array( $tokens[ $argument_index ] ) && T_CONSTANT_ENCAPSED_STRING === $tokens[ $argument_index ][0] && null !== $after_argument && in_array( $tokens[ $after_argument ], array( ',', ')' ), true ) ) {
+			return null;
+		}
+
+		$expression = is_array( $tokens[ $argument_index ] ) && T_CONSTANT_ENCAPSED_STRING === $tokens[ $argument_index ][0] ? 'dynamic expression' : $this->token_text( $tokens[ $argument_index ] );
+
+		return array(
+			'line'       => $function['line'],
+			'expression' => $function['expression'] . '( ' . $expression . ' )',
+		);
 	}
 
 	/**
@@ -247,6 +284,10 @@ final class PhpAcfUsageScanner implements CodeUsageScanner {
 		}
 
 		return stripcslashes( $value );
+	}
+
+	private function token_text( $token ) {
+		return is_array( $token ) ? $token[1] : (string) $token;
 	}
 
 	/** @return string */

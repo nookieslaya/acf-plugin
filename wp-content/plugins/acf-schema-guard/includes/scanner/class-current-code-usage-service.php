@@ -28,6 +28,11 @@ final class CurrentCodeUsageService {
 		return $this->scanner->scan( $this->roots() );
 	}
 
+	/** @return DynamicCodeUsageReference[] */
+	public function dynamic_references() {
+		return $this->scanner->dynamic_references( $this->roots() );
+	}
+
 	/** @return string[] */
 	public function roots() {
 		return $this->configuration->roots();

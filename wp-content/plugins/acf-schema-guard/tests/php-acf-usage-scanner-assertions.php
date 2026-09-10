@@ -8,6 +8,7 @@
 define( 'ABSPATH', __DIR__ . '/' );
 
 require_once dirname( __DIR__ ) . '/includes/scanner/class-code-usage-reference.php';
+require_once dirname( __DIR__ ) . '/includes/scanner/class-dynamic-code-usage-reference.php';
 require_once dirname( __DIR__ ) . '/includes/scanner/interface-code-usage-scanner.php';
 require_once dirname( __DIR__ ) . '/includes/scanner/class-php-acf-usage-scanner.php';
 
@@ -45,6 +46,7 @@ file_put_contents( $root . '/fixture.php', $fixture );
 
 try {
 	$references = ( new \AcfSchemaGuard\Scanner\PhpAcfUsageScanner() )->scan( array( $root ) );
+	$dynamic_references = ( new \AcfSchemaGuard\Scanner\PhpAcfUsageScanner() )->dynamic_references( array( $root ) );
 	$actual     = array_map(
 		static function ( $reference ) {
 			return $reference->to_array();
@@ -60,6 +62,12 @@ try {
 	acf_schema_guard_scanner_assert( "get_field('hero'" === $actual[0]['expression'], 'Scanner should retain the call expression.' );
 	acf_schema_guard_scanner_assert( 8 === $actual[6]['line'], 'Explicit global calls should retain their source line.' );
 	acf_schema_guard_scanner_assert( "\\get_field('explicit_global'" === $actual[6]['expression'], 'Explicit global calls should retain their expression.' );
+	$dynamic = array_map( static function ( $reference ) { return $reference->to_array(); }, $dynamic_references );
+	acf_schema_guard_scanner_assert( 2 === count( $dynamic ), 'Dynamic ACF calls should be reported separately.' );
+	acf_schema_guard_scanner_assert( 'manual_review_required' === $dynamic[0]['review_status'], 'Dynamic calls should require manual review.' );
+	acf_schema_guard_scanner_assert( 'get_field( $dynamic )' === $dynamic[0]['expression'], 'Dynamic variable calls should retain a safe expression.' );
+	acf_schema_guard_scanner_assert( 'get_field( dynamic expression )' === $dynamic[1]['expression'], 'Dynamic expressions should not be mistaken for literal fields.' );
+	acf_schema_guard_scanner_assert( ! isset( $dynamic[0]['field_name'] ), 'Dynamic calls must not infer a field name.' );
 } finally {
 	unlink( $root . '/fixture.php' );
 	rmdir( $root );

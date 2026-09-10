@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash 080d699ea5e1edffab0020f844bb83e5fd1d12ec22bc54f06988025554ca2571 -->
+<!-- blueprint:source-hash 537b8549a468ffba230814006edb3a98fe6278985a01c94bf031792b4c36472b -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -61,6 +61,9 @@ code still referring to removed or renamed fields before release.
 18. **Admin UX/UI refinement** - turns Overview into an actionable decision
     dashboard and unifies the complete plugin workspace around responsive,
     ACF-Pro-inspired controls, tables, states, and guidance.
+19. **Data impact and dynamic code references** - makes incomplete PHP evidence
+    explicit and reports safe, bounded evidence of stored records affected by a
+    risky field-schema change.
 
 ## Data model
 
@@ -94,6 +97,22 @@ code still referring to removed or renamed fields before release.
 - `strategy` (string) - scanner implementation that reported the reference.
 - `path` (string) and `line` (integer) - source location.
 - `expression` (string) - supported ACF API expression at that location.
+
+### Dynamic code-reference finding
+
+- `strategy` (string) - scanner implementation that detected the call.
+- `path` (string) and `line` (integer) - source location.
+- `expression` (string) - supported ACF call with a non-literal first argument.
+- `review_status` (enum) - `manual_review_required`; no field name is inferred.
+
+### Data-impact summary
+
+- `field_name` (string) - affected field name from a removed or renamed schema
+  finding.
+- `record_count` (integer) - bounded count of records with an exact matching
+  WordPress meta key.
+- `records` (array) - limited safe identifiers such as post ID, post type, and
+  title; never stores or renders field values.
 
 ### Plugin settings
 
@@ -133,6 +152,8 @@ blocking access to stored data or Free safety features when a license is absent.
   ACF editor, or other plugins.
 - Severity colours are a scanning aid alongside text labels and a legend, so
   colour is never the sole risk signal.
+- Dynamic PHP calls are clearly marked as incomplete evidence requiring manual
+  review, while data-impact views expose counts and safe record identifiers only.
 - Development theme front end - minimal, accessible classic templates for
   inspecting ACF output and scanner references.
 
