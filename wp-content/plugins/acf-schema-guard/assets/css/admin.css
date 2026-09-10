@@ -71,6 +71,19 @@
 .acf-schema-guard-admin .button-primary:focus { background: var(--asg-blue-dark); border-color: var(--asg-blue-dark); }
 .acf-schema-guard-admin .notice { border-radius: 8px; box-shadow: 0 1px 2px rgb(16 24 40 / 5%); }
 
+/* Keep every keyboard target visible without changing WordPress Admin globally. */
+.acf-schema-guard-admin a:focus-visible,
+.acf-schema-guard-admin button:focus-visible,
+.acf-schema-guard-admin input:focus-visible,
+.acf-schema-guard-admin select:focus-visible,
+.acf-schema-guard-admin summary:focus-visible {
+	border-radius: 4px;
+	box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--asg-blue);
+	outline: 0;
+}
+
+.acf-schema-guard-admin summary:focus-visible { background: #eef8ff; }
+
 /* Overview: a compact safety posture, built from read-only existing services. */
 .acf-schema-guard-overview-page { max-width: 1240px; }
 .acf-schema-guard-overview-grid { display: grid; gap: 18px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 28px; }
@@ -155,13 +168,19 @@
 .acf-schema-guard-code-location[open] summary::after { content: "−"; }
 .acf-schema-guard-code-reference > summary span { display: grid; gap: 6px; }
 .acf-schema-guard-code-reference > summary strong { color: #667085; font-size: 13px; font-weight: 600; }
+.acf-schema-guard-code-reference > summary .acf-schema-guard-code-disclosure-hint { color: #475467; font-size: 12px; font-weight: 600; justify-self: end; text-transform: uppercase; }
 .acf-schema-guard-code-reference > summary > span:first-child code { background: #f2f4f7; border-radius: 6px; color: #344054; display: inline-block; font-size: 15px; padding: 4px 7px; }
 .acf-schema-guard-code-location { border-top: 1px solid var(--asg-border-subtle); display: block; padding: 0 18px; }
 .acf-schema-guard-code-location[open] { background: #f9fcff; }
 .acf-schema-guard-code-location summary { align-items: center; display: flex; gap: 16px; justify-content: space-between; padding: 15px 0; }
 .acf-schema-guard-code-location summary strong { color: #344054; overflow-wrap: anywhere; }
 .acf-schema-guard-code-location summary code { font-size: 12px; white-space: nowrap; }
-.acf-schema-guard-code-location pre { background: #101828; border-radius: 7px; color: #e4e7ec; line-height: 1.55; margin: 0 0 16px; overflow: auto; padding: 14px; }
+.acf-schema-guard-code-preview-hint { color: #667085; font-size: 12px; margin: 0 0 14px; }
+.acf-schema-guard-code-location:not([open]) .acf-schema-guard-code-preview-hint,
+.acf-schema-guard-code-location:not([open]) pre { display: none; }
+.acf-schema-guard-code-location pre { background: #101828; border: 1px solid #344054; border-radius: 8px; color: #e4e7ec; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 13px; line-height: 1.65; margin: 0 0 16px; overflow: auto; padding: 46px 18px 16px; position: relative; }
+.acf-schema-guard-code-location pre::before { color: #98a2b3; content: attr(data-language) "  •  context"; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .04em; left: 18px; position: absolute; text-transform: uppercase; top: 14px; }
+.acf-schema-guard-code-location pre::after { color: #667085; content: "•••"; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; letter-spacing: 3px; position: absolute; right: 16px; top: 10px; }
 .acf-schema-guard-code-location pre code { background: transparent; color: inherit; padding: 0; }
 
 /* Scanner settings: a tight native-admin choice list. */
@@ -293,13 +312,15 @@
 	.acf-schema-guard-filter-action .button { width: 100%; }
 	.acf-schema-guard-code-reference > summary,
 	.acf-schema-guard-code-location summary { align-items: flex-start; flex-direction: column; gap: 8px; }
+	.acf-schema-guard-code-reference > summary .acf-schema-guard-code-disclosure-hint { justify-self: start; }
 	.acf-schema-guard-code-reference > summary::after,
 	.acf-schema-guard-code-location summary::after { position: absolute; right: 18px; }
 	.acf-schema-guard-code-reference > summary,
 	.acf-schema-guard-code-location summary { position: relative; }
 	.acf-schema-guard-code-location summary code { white-space: normal; }
 	.acf-schema-guard-code-location { padding: 0 14px; }
-	.acf-schema-guard-code-location pre { font-size: 12px; padding: 12px; }
+	.acf-schema-guard-code-location pre { font-size: 12px; padding: 44px 14px 14px; }
+	.acf-schema-guard-code-location pre::before { left: 14px; }
 	.acf-schema-guard-admin .widefat,
 	.acf-schema-guard-admin .widefat tbody,
 	.acf-schema-guard-admin .widefat tr,

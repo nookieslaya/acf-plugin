@@ -84,7 +84,7 @@
 
 ## Product usability
 
-- [ ] 18. **Admin UX/UI refinement** - make the complete ACF Schema Guard workspace cohesive, responsive, and easy to act on, drawing on ACF Pro's visual language without styling ACF itself.
+- [x] 18. **Admin UX/UI refinement** - make the complete ACF Schema Guard workspace cohesive, responsive, and easy to act on, drawing on ACF Pro's visual language without styling ACF itself.
   - [x] 18a. **Overview decision dashboard** - replace the placeholder Overview with an actionable summary of baseline, current schema state, change risk, source health, and direct next actions.
   - [x] 18b. **Shared admin visual system** - unify typography, spacing, cards, forms, status treatments, tables, empty states, and responsive behavior across every plugin screen.
-  - [ ] 18c. **Workflow usability and accessibility** - refine labels, keyboard-visible interactions, expandable code references, contextual guidance, and manual desktop/mobile review paths.
+  - [x] 18c. **Workflow usability and accessibility** - refine labels, keyboard-visible interactions, expandable code references, contextual guidance, and manual desktop/mobile review paths.

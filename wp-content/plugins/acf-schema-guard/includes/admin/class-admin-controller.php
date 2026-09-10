@@ -524,17 +524,19 @@ final class AdminController {
 						<details class="acf-schema-guard-code-reference">
 							<summary>
 								<span>
-									<code><?php echo esc_html( $field_name ); ?></code>
-									<strong><?php echo esc_html( sprintf( _n( '%d reference', '%d references', count( $items ), 'acf-schema-guard' ), count( $items ) ) ); ?></strong>
-								</span>
-							</summary>
+								<code><?php echo esc_html( $field_name ); ?></code>
+								<strong><?php echo esc_html( sprintf( _n( '%d reference', '%d references', count( $items ), 'acf-schema-guard' ), count( $items ) ) ); ?></strong>
+							</span>
+							<span class="acf-schema-guard-code-disclosure-hint"><?php echo esc_html__( 'Show call sites', 'acf-schema-guard' ); ?></span>
+						</summary>
 							<?php foreach ( $items as $item ) : ?>
 								<details class="acf-schema-guard-code-location">
 									<summary>
-										<strong><?php echo esc_html( $item['path'] ); ?>:<?php echo esc_html( $item['line'] ); ?></strong>
-										<code><?php echo esc_html( $item['expression'] ); ?></code>
-									</summary>
-									<pre><code><?php echo esc_html( $this->code_snippet( isset( $item['root'] ) ? $item['root'] : $source_root, $item['path'], $item['line'] ) ); ?></code></pre>
+									<strong><?php echo esc_html( $item['path'] ); ?>:<?php echo esc_html( $item['line'] ); ?></strong>
+									<code><?php echo esc_html( $item['expression'] ); ?></code>
+								</summary>
+								<p class="acf-schema-guard-code-preview-hint"><?php echo esc_html__( 'PHP context around this call.', 'acf-schema-guard' ); ?></p>
+								<pre class="acf-schema-guard-code-preview" data-language="PHP"><code><?php echo esc_html( $this->code_snippet( isset( $item['root'] ) ? $item['root'] : $source_root, $item['path'], $item['line'] ) ); ?></code></pre>
 								</details>
 							<?php endforeach; ?>
 						</details>

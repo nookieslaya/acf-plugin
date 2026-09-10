@@ -227,6 +227,8 @@ $history_output = ob_get_clean();
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $history_output, $current_snapshot->id() ), 'History did not render the newest snapshot.' );
 acf_schema_guard_admin_snapshot_assert( array( 25 ) === $repository->recent_limits, 'History did not request the bounded snapshot list.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $history_output, 'Capture a checkpoint' ), 'History did not render its capture action card.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $history_output, 'data-label="Source"' ), 'History did not label the source cell for narrow screens.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $history_output, 'data-label="Baseline"' ), 'History did not label the baseline cell for narrow screens.' );
 
 ob_start();
 $changes->invoke( $controller, array( 'title' => 'Changes', 'description' => '' ) );
@@ -248,6 +250,9 @@ acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 't
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'get_field' ), 'Code Usage did not render the ACF expression.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'configured themes and plugins as they exist now' ), 'Code Usage did not identify the current configured roots.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'acf-schema-guard-code-usage-filter' ), 'Code Usage did not render its filter workspace.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'Show call sites' ), 'Code Usage did not explain how to expand call sites.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'PHP context around this call.' ), 'Code Usage did not explain its code preview.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'acf-schema-guard-code-preview' ), 'Code Usage did not render the editor-style PHP preview.' );
 
 $_GET = array( 'acf_schema_guard_field' => 'card_title' );
 ob_start();
