@@ -150,6 +150,56 @@ $controller = new \AcfSchemaGuard\Admin\AdminController(
 );
 $reflection = new ReflectionClass( $controller );
 
+$overview_comparison = $reflection->getMethod( 'overview_comparison_state' );
+$overview_comparison->setAccessible( true );
+$overview_baseline = $reflection->getMethod( 'overview_baseline_state' );
+$overview_baseline->setAccessible( true );
+$overview_source_health = $reflection->getMethod( 'overview_source_health_state' );
+$overview_source_health->setAccessible( true );
+$overview = $reflection->getMethod( 'render_overview_page' );
+$overview->setAccessible( true );
+
+$overview_live = new class() {
+	public function is_available() { return true; }
+	public function analysis() {
+		return new class() {
+			public function to_array() {
+				return array(
+					'findings' => array(
+						array( 'severity' => 'warning' ),
+						array( 'severity' => 'high' ),
+						array( 'severity' => 'critical' ),
+					),
+				);
+			}
+		};
+	}
+};
+$overview_comparison_state = $overview_comparison->invoke( $controller, $overview_live );
+acf_schema_guard_admin_snapshot_assert( 'attention' === $overview_comparison_state['status'], 'Overview did not flag high-risk schema changes.' );
+acf_schema_guard_admin_snapshot_assert( 1 === $overview_comparison_state['counts']['high'] && 1 === $overview_comparison_state['counts']['critical'], 'Overview did not count schema severities.' );
+acf_schema_guard_admin_snapshot_assert( 'missing' === $overview_baseline->invoke( $controller, null )['status'], 'Overview did not describe a missing baseline.' );
+acf_schema_guard_admin_snapshot_assert( 'unavailable' === $overview_comparison->invoke( $controller, null )['status'], 'Overview did not describe an unavailable comparison.' );
+
+$overview_health = new \AcfSchemaGuard\Acf\SourceHealthReport(
+	true,
+	array(
+		new \AcfSchemaGuard\Acf\SourceHealthFinding( 'group_aligned', 'Aligned', 'aligned', array(), array() ),
+		new \AcfSchemaGuard\Acf\SourceHealthFinding( 'group_divergent', 'Divergent', 'divergent', array(), array() ),
+	)
+);
+$overview_source_health_state = $overview_source_health->invoke( $controller, $overview_health );
+acf_schema_guard_admin_snapshot_assert( 'attention' === $overview_source_health_state['status'], 'Overview did not flag divergent source health.' );
+acf_schema_guard_admin_snapshot_assert( 1 === $overview_source_health_state['counts']['aligned'] && 1 === $overview_source_health_state['counts']['divergent'], 'Overview did not count source-health states.' );
+acf_schema_guard_admin_snapshot_assert( 'unavailable' === $overview_source_health->invoke( $controller, null )['status'], 'Overview did not describe unavailable source health.' );
+
+ob_start();
+$overview->invoke( $controller, array( 'title' => 'Overview' ) );
+$overview_output = ob_get_clean();
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $overview_output, 'Review required' ), 'Overview did not render the comparison state.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $overview_output, 'admin.php?page=acf-schema-guard-changes' ), 'Overview does not link to Changes.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $overview_output, 'admin.php?page=acf-schema-guard-field-groups' ), 'Overview does not link to Field Groups.' );
+
 foreach ( array( 'comparison_selection', 'requested_snapshot_id', 'render_snapshot_options', 'render_comparison_notice' ) as $obsolete_method ) {
 	acf_schema_guard_admin_snapshot_assert( ! $reflection->hasMethod( $obsolete_method ), 'Obsolete manual comparison method remains: ' . $obsolete_method );
 }

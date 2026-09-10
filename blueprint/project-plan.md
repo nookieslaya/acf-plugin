@@ -39,6 +39,9 @@ renamed fields.
 - A live local workflow that compares the approved baseline with the current ACF
   runtime schema and scans the current PHP filesystem state without requiring a
   manual snapshot after every edit.
+- An actionable Overview dashboard and a cohesive ACF-Pro-inspired plugin
+  workspace that helps users understand baseline state, schema risk, source
+  health, and the next safe action.
 
 ## 4. Data - What are we storing?
 
@@ -75,11 +78,15 @@ snapshots or Free safety features when a license is absent or expires.
 
 The production plugin should provide a compact, developer-first WordPress Admin
 experience that makes the safety of recent ACF changes immediately clear. The
-development theme is intentionally minimal, readable, and easy to debug rather
-than production-oriented. Only ACF Schema Guard change views should use an
-accessible visual severity system: colour supports scanning, while text labels
-and a legend preserve the meaning without relying on colour alone. The plugin
-must not restyle the global WordPress Admin, ACF editor, or other plugins.
+Overview must surface the current safety posture and the next practical action,
+instead of being a static placeholder. The plugin workspace should be visually
+cohesive and responsive, inspired by ACF Pro's clean tables, restrained white
+surfaces, light-gray structure, and blue actions without imitating or restyling
+ACF itself. The development theme is intentionally minimal, readable, and easy
+to debug rather than production-oriented. Colour supports scanning, while text
+labels and a legend preserve the meaning without relying on colour alone. The
+plugin must not restyle the global WordPress Admin, ACF editor, or other
+plugins.
 
 ## 8. Deployment - Where and how will this ship?
 

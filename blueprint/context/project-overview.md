@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash a8d730b224b398638a852e7f054b44c390752d51f2e904184ca2fd85ba17ce51 -->
+<!-- blueprint:source-hash 080d699ea5e1edffab0020f844bb83e5fd1d12ec22bc54f06988025554ca2571 -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -58,6 +58,9 @@ code still referring to removed or renamed fields before release.
     license-aware advanced team workflows are introduced.
 17. **Live schema and code workflow** - removes unnecessary manual captures by
     comparing current schema and current PHP files at analysis time.
+18. **Admin UX/UI refinement** - turns Overview into an actionable decision
+    dashboard and unifies the complete plugin workspace around responsive,
+    ACF-Pro-inspired controls, tables, states, and guidance.
 
 ## Data model
 
@@ -122,11 +125,14 @@ blocking access to stored data or Free safety features when a license is absent.
 
 ## UI/UX
 
-- WordPress Admin - developer-first ACF Schema Guard menu with Overview,
-  Changes, Field Groups, Code Usage, History, and Settings.
-- ACF Schema Guard change views use severity colours as a scanning aid alongside
-  text labels and a legend, so colour is never the sole risk signal; the plugin
-  does not restyle global WordPress Admin, ACF editor, or other plugins.
+- WordPress Admin - developer-first ACF Schema Guard menu with an actionable
+  Overview, Changes, Field Groups, Code Usage, History, and Settings.
+- The complete ACF Schema Guard workspace is cohesive and responsive, drawing
+  visual inspiration from ACF Pro's restrained tables, white surfaces, subtle
+  gray structure, and blue actions, without restyling global WordPress Admin,
+  ACF editor, or other plugins.
+- Severity colours are a scanning aid alongside text labels and a legend, so
+  colour is never the sole risk signal.
 - Development theme front end - minimal, accessible classic templates for
   inspecting ACF output and scanner references.
 

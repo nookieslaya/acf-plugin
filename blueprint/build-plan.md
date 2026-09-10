@@ -58,7 +58,7 @@
 
 ## Code impact analysis
 
-- [ ] 14. **ACF code-impact workspace**
+- [x] 14. **ACF code-impact workspace**
   - [x] 14a. **Impact analysis engine** - connect detected schema changes to PHP ACF usage references and classify the impact of removed, renamed, and type-changed fields.
   - [x] 14b. **Code Usage workspace** - show references with file, line, expression, affected field, risk, filtering, and empty states.
   - [x] 14c. **Changes-to-code integration** - show the affected code references directly alongside each schema change.
@@ -77,7 +77,14 @@
 
 ## Continuous local analysis
 
-- [ ] 17. **Live schema and code workflow**
+- [x] 17. **Live schema and code workflow**
   - [x] 17a. **Live baseline comparison** - compare the approved baseline with the effective current ACF schema without requiring a manually captured current snapshot.
   - [x] 17b. **Current-file code usage** - make Code Usage, Changes, and report export explicitly scan the current filesystem state so PHP additions and removals are visible without creating schema snapshots.
   - [x] 17c. **Automatic deduplicated schema history** - create a snapshot after supported ACF save events only when the normalized schema hash is new; retain manual capture as an optional checkpoint.
+
+## Product usability
+
+- [ ] 18. **Admin UX/UI refinement** - make the complete ACF Schema Guard workspace cohesive, responsive, and easy to act on, drawing on ACF Pro's visual language without styling ACF itself.
+  - [x] 18a. **Overview decision dashboard** - replace the placeholder Overview with an actionable summary of baseline, current schema state, change risk, source health, and direct next actions.
+  - [ ] 18b. **Shared admin visual system** - unify typography, spacing, cards, forms, status treatments, tables, empty states, and responsive behavior across every plugin screen.
+  - [ ] 18c. **Workflow usability and accessibility** - refine labels, keyboard-visible interactions, expandable code references, contextual guidance, and manual desktop/mobile review paths.

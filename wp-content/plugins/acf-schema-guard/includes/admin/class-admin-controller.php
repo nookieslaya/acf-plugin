@@ -209,6 +209,10 @@ final class AdminController {
 			$this->render_settings_page( $screen );
 			return;
 		}
+		if ( 'acf-schema-guard' === $page ) {
+			$this->render_overview_page( $screen );
+			return;
+		}
 
 		?>
 		<div class="wrap acf-schema-guard-admin">
@@ -221,6 +225,91 @@ final class AdminController {
 		<?php
 	}
 
+	/**
+	 * Renders a read-only starting point for the schema safety workflow.
+	 *
+	 * @param array<string, string> $screen Screen definition.
+	 * @return void
+	 */
+	private function render_overview_page( array $screen ) {
+		$state      = $this->overview_dashboard_state();
+		$comparison = $state['comparison'];
+		$health     = $state['source_health'];
+		?>
+		<div class="wrap acf-schema-guard-admin acf-schema-guard-overview-page">
+			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
+			<p><?php echo esc_html__( 'Review the current ACF schema safety posture, then continue with the workflow that needs attention.', 'acf-schema-guard' ); ?></p>
+
+			<div class="acf-schema-guard-overview-grid">
+				<section class="acf-schema-guard-overview-card acf-schema-guard-overview-card-<?php echo esc_attr( $state['baseline']['status'] ); ?>">
+					<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Approved baseline', 'acf-schema-guard' ); ?></p>
+					<h2><?php echo esc_html( $state['baseline']['label'] ); ?></h2>
+					<p><?php echo esc_html( $state['baseline']['description'] ); ?></p>
+					<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-history' ) ); ?>"><?php echo esc_html__( 'Open history', 'acf-schema-guard' ); ?></a>
+				</section>
+
+				<section class="acf-schema-guard-overview-card acf-schema-guard-overview-card-<?php echo esc_attr( $comparison['status'] ); ?>">
+					<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Live schema comparison', 'acf-schema-guard' ); ?></p>
+					<h2><?php echo esc_html( $comparison['label'] ); ?></h2>
+					<p><?php echo esc_html( $comparison['description'] ); ?></p>
+					<?php $this->render_overview_counts( $comparison['counts'], array( 'safe', 'warning', 'high', 'critical' ) ); ?>
+					<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-changes' ) ); ?>"><?php echo esc_html__( 'Review changes', 'acf-schema-guard' ); ?></a>
+				</section>
+
+				<section class="acf-schema-guard-overview-card acf-schema-guard-overview-card-<?php echo esc_attr( $health['status'] ); ?>">
+					<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Database and Local JSON', 'acf-schema-guard' ); ?></p>
+					<h2><?php echo esc_html( $health['label'] ); ?></h2>
+					<p><?php echo esc_html( $health['description'] ); ?></p>
+					<?php $this->render_overview_counts( $health['counts'], array( 'aligned', 'database_only', 'json_only', 'divergent' ) ); ?>
+					<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-field-groups' ) ); ?>"><?php echo esc_html__( 'Review field groups', 'acf-schema-guard' ); ?></a>
+				</section>
+			</div>
+
+			<section class="acf-schema-guard-overview-next-steps">
+				<h2><?php echo esc_html__( 'Continue your review', 'acf-schema-guard' ); ?></h2>
+				<ul>
+					<li><a href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-code-usage' ) ); ?>"><?php echo esc_html__( 'Inspect current PHP ACF references', 'acf-schema-guard' ); ?></a></li>
+					<li><a href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-settings' ) ); ?>"><?php echo esc_html__( 'Choose themes and plugins for code analysis', 'acf-schema-guard' ); ?></a></li>
+				</ul>
+			</section>
+		</div>
+		<?php
+	}
+
+	/**
+	 * @param array<string, int> $counts Count data.
+	 * @param string[]           $keys   Ordered count keys.
+	 * @return void
+	 */
+	private function render_overview_counts( array $counts, array $keys ) {
+		?>
+		<ul class="acf-schema-guard-overview-counts">
+			<?php foreach ( $keys as $key ) : ?>
+				<li><strong><?php echo esc_html( isset( $counts[ $key ] ) ? $counts[ $key ] : 0 ); ?></strong> <?php echo esc_html( $this->overview_count_label( $key ) ); ?></li>
+			<?php endforeach; ?>
+		</ul>
+		<?php
+	}
+
+	/**
+	 * @param string $key Count identifier.
+	 * @return string
+	 */
+	private function overview_count_label( $key ) {
+		$labels = array(
+			'safe'          => __( 'Safe', 'acf-schema-guard' ),
+			'warning'       => __( 'Warning', 'acf-schema-guard' ),
+			'high'          => __( 'High', 'acf-schema-guard' ),
+			'critical'      => __( 'Critical', 'acf-schema-guard' ),
+			'aligned'       => __( 'Aligned', 'acf-schema-guard' ),
+			'database_only' => __( 'Database only', 'acf-schema-guard' ),
+			'json_only'     => __( 'Local JSON only', 'acf-schema-guard' ),
+			'divergent'     => __( 'Divergent', 'acf-schema-guard' ),
+		);
+
+		return isset( $labels[ $key ] ) ? $labels[ $key ] : $key;
+	}
+
 	private function render_settings_page( array $screen ) {
 		$roots = class_exists( '\\AcfSchemaGuard\\Scanner\\ScannerConfiguration' ) ? ( new \AcfSchemaGuard\Scanner\ScannerConfiguration() )->roots() : array();
 		$selected = array();
@@ -231,6 +320,111 @@ final class AdminController {
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_save_scanner_roots" /><?php wp_nonce_field( 'acf_schema_guard_save_scanner_roots' ); ?>
 		<div class="acf-schema-guard-root-list"><?php foreach ( $this->available_scanner_roots() as $identifier => $label ) : ?><label class="acf-schema-guard-root-option"><input type="checkbox" name="scanner_roots[]" value="<?php echo esc_attr( $identifier ); ?>" <?php checked( in_array( realpath( $this->scanner_root_path( $identifier ) ), $selected, true ) ); ?> /><span><?php echo esc_html( $label ); ?></span></label><?php endforeach; ?></div><p><?php submit_button( __( 'Save scanner roots', 'acf-schema-guard' ), 'primary', 'submit', false ); ?></p></form></div>
 		<?php
+	}
+
+	/**
+	 * Builds the read-only status data shown by the Overview dashboard.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function overview_dashboard_state() {
+		$baseline = $this->baseline->snapshot();
+		$live     = is_callable( $this->analyze_live_baseline_callback ) ? call_user_func( $this->analyze_live_baseline_callback ) : null;
+		$health   = is_callable( $this->source_health_callback ) ? call_user_func( $this->source_health_callback ) : null;
+
+		return array(
+			'baseline'      => $this->overview_baseline_state( $baseline ),
+			'comparison'    => $this->overview_comparison_state( $live ),
+			'source_health' => $this->overview_source_health_state( $health ),
+		);
+	}
+
+	/**
+	 * @param \AcfSchemaGuard\Snapshots\SchemaSnapshot|null $baseline Approved snapshot.
+	 * @return array<string, string>
+	 */
+	private function overview_baseline_state( $baseline ) {
+		if ( null === $baseline ) {
+			return array(
+				'status'      => 'missing',
+				'label'       => __( 'Baseline needed', 'acf-schema-guard' ),
+				'description' => __( 'Choose a stored snapshot as the approved baseline before reviewing live changes.', 'acf-schema-guard' ),
+			);
+		}
+
+		return array(
+			'status'      => 'ready',
+			'label'       => __( 'Baseline approved', 'acf-schema-guard' ),
+			'description' => sprintf( __( 'Captured %s.', 'acf-schema-guard' ), $baseline->created_at() ),
+		);
+	}
+
+	/**
+	 * @param mixed $live Live baseline analysis result.
+	 * @return array<string, mixed>
+	 */
+	private function overview_comparison_state( $live ) {
+		$counts = array_fill_keys( array( 'safe', 'warning', 'high', 'critical' ), 0 );
+
+		if ( ! is_object( $live ) || ! method_exists( $live, 'is_available' ) || ! $live->is_available() || ! method_exists( $live, 'analysis' ) ) {
+			return array(
+				'status'      => 'unavailable',
+				'label'       => __( 'Comparison unavailable', 'acf-schema-guard' ),
+				'description' => is_object( $live ) && method_exists( $live, 'message' ) ? $live->message() : __( 'A live schema comparison is not available yet.', 'acf-schema-guard' ),
+				'counts'      => $counts,
+			);
+		}
+
+		$analysis = $live->analysis();
+		$data     = is_object( $analysis ) && method_exists( $analysis, 'to_array' ) ? $analysis->to_array() : array();
+		$findings = isset( $data['findings'] ) && is_array( $data['findings'] ) ? $data['findings'] : array();
+
+		foreach ( $findings as $finding ) {
+			if ( is_array( $finding ) && isset( $finding['severity'] ) && array_key_exists( $finding['severity'], $counts ) ) {
+				++$counts[ $finding['severity'] ];
+			}
+		}
+
+		$blocking = $counts['high'] + $counts['critical'];
+
+		return array(
+			'status'      => $blocking > 0 ? 'attention' : 'clear',
+			'label'       => $blocking > 0 ? __( 'Review required', 'acf-schema-guard' ) : __( 'No high-risk changes', 'acf-schema-guard' ),
+			'description' => sprintf( _n( '%d schema finding detected.', '%d schema findings detected.', count( $findings ), 'acf-schema-guard' ), count( $findings ) ),
+			'counts'      => $counts,
+		);
+	}
+
+	/**
+	 * @param mixed $report Source-health report.
+	 * @return array<string, mixed>
+	 */
+	private function overview_source_health_state( $report ) {
+		$counts = array_fill_keys( array( 'aligned', 'database_only', 'json_only', 'divergent' ), 0 );
+
+		if ( ! is_object( $report ) || ! method_exists( $report, 'is_available' ) || ! $report->is_available() || ! method_exists( $report, 'findings' ) ) {
+			return array(
+				'status'      => 'unavailable',
+				'label'       => __( 'Source health unavailable', 'acf-schema-guard' ),
+				'description' => __( 'ACF Local JSON could not be inspected.', 'acf-schema-guard' ),
+				'counts'      => $counts,
+			);
+		}
+
+		foreach ( $report->findings() as $finding ) {
+			if ( is_object( $finding ) && method_exists( $finding, 'status' ) && array_key_exists( $finding->status(), $counts ) ) {
+				++$counts[ $finding->status() ];
+			}
+		}
+
+		$issues = $counts['database_only'] + $counts['json_only'] + $counts['divergent'];
+
+		return array(
+			'status'      => $issues > 0 ? 'attention' : 'aligned',
+			'label'       => $issues > 0 ? __( 'Source review needed', 'acf-schema-guard' ) : __( 'Sources aligned', 'acf-schema-guard' ),
+			'description' => sprintf( _n( '%d field group needs source review.', '%d field groups need source review.', $issues, 'acf-schema-guard' ), $issues ),
+			'counts'      => $counts,
+		);
 	}
 
 	private function available_scanner_roots() {
@@ -595,8 +789,18 @@ final class AdminController {
 		<div class="wrap acf-schema-guard-admin acf-schema-guard-changes-page">
 			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
 			<p><?php echo esc_html__( 'Comparing the approved baseline with the current live schema.', 'acf-schema-guard' ); ?></p>
-			<p><strong><?php echo esc_html__( 'Baseline:', 'acf-schema-guard' ); ?></strong> <code><?php echo esc_html( $baseline->id() ); ?></code> - <?php echo esc_html( $baseline->created_at() ); ?><br />
-			<strong><?php echo esc_html__( 'Current:', 'acf-schema-guard' ); ?></strong> <?php echo esc_html__( 'Live schema loaded for this request (not saved as a snapshot).', 'acf-schema-guard' ); ?></p>
+			<div class="acf-schema-guard-changes-context">
+				<div>
+					<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Approved baseline', 'acf-schema-guard' ); ?></p>
+					<strong><?php echo esc_html( $baseline->created_at() ); ?></strong>
+					<code><?php echo esc_html( $baseline->id() ); ?></code>
+				</div>
+				<div>
+					<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Current schema', 'acf-schema-guard' ); ?></p>
+					<strong><?php echo esc_html__( 'Live schema', 'acf-schema-guard' ); ?></strong>
+					<span><?php echo esc_html__( 'Loaded for this request and not saved as a snapshot.', 'acf-schema-guard' ); ?></span>
+				</div>
+			</div>
 			<?php $this->render_comparison_results( $analysis ); ?>
 		</div>
 		<?php
@@ -639,6 +843,12 @@ final class AdminController {
 
 		$impacts_by_change = $this->code_impacts_by_change( $analysis['findings'] );
 
+		?>
+		<div class="acf-schema-guard-changes-results-heading">
+			<h2><?php echo esc_html__( 'Detected changes', 'acf-schema-guard' ); ?></h2>
+			<p><?php echo esc_html( sprintf( __( '%d classified changes need review.', 'acf-schema-guard' ), count( $analysis['findings'] ) ) ); ?></p>
+		</div>
+		<?php
 		$this->render_severity_legend();
 		?>
 		<table class="widefat striped acf-schema-guard-findings">
