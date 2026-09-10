@@ -226,12 +226,14 @@ $history->invoke( $controller, $screen );
 $history_output = ob_get_clean();
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $history_output, $current_snapshot->id() ), 'History did not render the newest snapshot.' );
 acf_schema_guard_admin_snapshot_assert( array( 25 ) === $repository->recent_limits, 'History did not request the bounded snapshot list.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $history_output, 'Capture a checkpoint' ), 'History did not render its capture action card.' );
 
 ob_start();
 $changes->invoke( $controller, array( 'title' => 'Changes', 'description' => '' ) );
 $changes_output = ob_get_clean();
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'current live schema' ), 'Changes did not render the live schema label.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'not saved as a snapshot' ), 'Changes did not explain that live schema is not persisted.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Detected changes' ), 'Changes did not render the shared results heading.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Affected code references' ), 'Changes did not render code impacts.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'template-parts/acf/hero.php:12' ), 'Changes did not render an affected code location.' );
 acf_schema_guard_admin_snapshot_assert( 0 === $repository->latest_calls, 'Changes must not request the newest snapshot.' );
@@ -245,6 +247,7 @@ acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'c
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'template-parts/acf/card.php' ), 'Code Usage did not render a reference path.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'get_field' ), 'Code Usage did not render the ACF expression.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'configured themes and plugins as they exist now' ), 'Code Usage did not identify the current configured roots.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $code_usage_output, 'acf-schema-guard-code-usage-filter' ), 'Code Usage did not render its filter workspace.' );
 
 $_GET = array( 'acf_schema_guard_field' => 'card_title' );
 ob_start();

@@ -311,14 +311,38 @@ final class AdminController {
 	}
 
 	private function render_settings_page( array $screen ) {
-		$roots = class_exists( '\\AcfSchemaGuard\\Scanner\\ScannerConfiguration' ) ? ( new \AcfSchemaGuard\Scanner\ScannerConfiguration() )->roots() : array();
+		$roots    = class_exists( '\\AcfSchemaGuard\\Scanner\\ScannerConfiguration' ) ? ( new \AcfSchemaGuard\Scanner\ScannerConfiguration() )->roots() : array();
 		$selected = array();
-		foreach ( $roots as $root ) { $selected[] = realpath( $root ); }
+		foreach ( $roots as $root ) {
+			$selected[] = realpath( $root );
+		}
 		?>
-		<div class="wrap acf-schema-guard-admin"><h1><?php echo esc_html( $screen['title'] ); ?></h1>
-		<p><?php echo esc_html__( 'Choose the themes and plugins to include in code analysis.', 'acf-schema-guard' ); ?></p>
-		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_save_scanner_roots" /><?php wp_nonce_field( 'acf_schema_guard_save_scanner_roots' ); ?>
-		<div class="acf-schema-guard-root-list"><?php foreach ( $this->available_scanner_roots() as $identifier => $label ) : ?><label class="acf-schema-guard-root-option"><input type="checkbox" name="scanner_roots[]" value="<?php echo esc_attr( $identifier ); ?>" <?php checked( in_array( realpath( $this->scanner_root_path( $identifier ) ), $selected, true ) ); ?> /><span><?php echo esc_html( $label ); ?></span></label><?php endforeach; ?></div><p><?php submit_button( __( 'Save scanner roots', 'acf-schema-guard' ), 'primary', 'submit', false ); ?></p></form></div>
+		<div class="wrap acf-schema-guard-admin acf-schema-guard-settings-page">
+			<h1><?php echo esc_html( $screen['title'] ); ?></h1>
+			<p><?php echo esc_html__( 'Choose the themes and plugins to include in code analysis.', 'acf-schema-guard' ); ?></p>
+			<form class="acf-schema-guard-settings-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<input type="hidden" name="action" value="acf_schema_guard_save_scanner_roots" />
+				<?php wp_nonce_field( 'acf_schema_guard_save_scanner_roots' ); ?>
+				<section class="acf-schema-guard-settings-card">
+					<div class="acf-schema-guard-settings-card-header">
+						<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Scanner scope', 'acf-schema-guard' ); ?></p>
+						<h2><?php echo esc_html__( 'Include source roots', 'acf-schema-guard' ); ?></h2>
+						<p><?php echo esc_html__( 'Only selected locations are scanned for literal PHP ACF calls.', 'acf-schema-guard' ); ?></p>
+					</div>
+					<div class="acf-schema-guard-root-list">
+						<?php foreach ( $this->available_scanner_roots() as $identifier => $label ) : ?>
+							<label class="acf-schema-guard-root-option">
+								<input type="checkbox" name="scanner_roots[]" value="<?php echo esc_attr( $identifier ); ?>" <?php checked( in_array( realpath( $this->scanner_root_path( $identifier ) ), $selected, true ) ); ?> />
+								<span><?php echo esc_html( $label ); ?></span>
+							</label>
+						<?php endforeach; ?>
+					</div>
+					<div class="acf-schema-guard-settings-actions">
+						<?php submit_button( __( 'Save scanner roots', 'acf-schema-guard' ), 'primary', 'submit', false ); ?>
+					</div>
+				</section>
+			</form>
+		</div>
 		<?php
 	}
 
@@ -490,9 +514,10 @@ final class AdminController {
 			</p>
 
 			<?php if ( empty( $references_by_field ) ) : ?>
-				<div class="notice notice-info inline">
-					<p><?php echo esc_html__( 'No supported ACF field references match these filters.', 'acf-schema-guard' ); ?></p>
-				</div>
+				<section class="acf-schema-guard-empty-state acf-schema-guard-code-usage-empty-state">
+					<h2><?php echo esc_html__( 'No matching references', 'acf-schema-guard' ); ?></h2>
+					<p><?php echo esc_html__( 'Try changing the filters, or choose source roots in Settings before scanning again.', 'acf-schema-guard' ); ?></p>
+				</section>
 			<?php else : ?>
 				<div class="acf-schema-guard-code-usage-list">
 					<?php foreach ( $references_by_field as $field_name => $items ) : ?>
@@ -657,9 +682,15 @@ final class AdminController {
 			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
 			<p><?php echo esc_html__( 'Checks whether each ACF field group is represented consistently in the WordPress database and ACF Local JSON.', 'acf-schema-guard' ); ?></p>
 			<?php if ( ! $report->is_available() ) : ?>
-				<div class="notice notice-warning inline"><p><?php echo esc_html__( 'ACF is unavailable, so Source health cannot inspect field groups.', 'acf-schema-guard' ); ?></p></div>
+				<section class="acf-schema-guard-empty-state">
+					<h2><?php echo esc_html__( 'Source health unavailable', 'acf-schema-guard' ); ?></h2>
+					<p><?php echo esc_html__( 'ACF is unavailable, so Source health cannot inspect field groups.', 'acf-schema-guard' ); ?></p>
+				</section>
 			<?php elseif ( empty( $report->findings() ) ) : ?>
-				<div class="notice notice-info inline"><p><?php echo esc_html__( 'No ACF field groups were found in the database or configured Local JSON paths.', 'acf-schema-guard' ); ?></p></div>
+				<section class="acf-schema-guard-empty-state">
+					<h2><?php echo esc_html__( 'No field groups found', 'acf-schema-guard' ); ?></h2>
+					<p><?php echo esc_html__( 'No ACF field groups were found in the database or configured Local JSON paths.', 'acf-schema-guard' ); ?></p>
+				</section>
 			<?php else : ?>
 				<table class="widefat striped acf-schema-guard-source-health">
 					<thead><tr><th scope="col"><?php echo esc_html__( 'Field group', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Key', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Status', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Database', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Local JSON', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Recommended action', 'acf-schema-guard' ); ?></th></tr></thead>
@@ -716,19 +747,27 @@ final class AdminController {
 		$snapshots = $this->snapshots->recent( self::HISTORY_SNAPSHOT_LIMIT );
 		$baseline = $this->baseline->snapshot();
 		?>
-		<div class="wrap acf-schema-guard-admin">
+		<div class="wrap acf-schema-guard-admin acf-schema-guard-history-page">
 			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
 			<p><?php echo esc_html( __( 'Stored immutable schema snapshots, newest first.', 'acf-schema-guard' ) ); ?></p>
 			<?php $this->render_history_notice(); ?>
-			<form class="acf-schema-guard-capture-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-				<input type="hidden" name="action" value="acf_schema_guard_capture_snapshot" />
-				<?php wp_nonce_field( 'acf_schema_guard_capture_snapshot' ); ?>
-				<?php submit_button( __( 'Capture current schema', 'acf-schema-guard' ), 'primary', 'submit', false ); ?>
-			</form>
-			<?php if ( empty( $snapshots ) ) : ?>
-				<div class="notice notice-info inline">
-					<p><?php echo esc_html__( 'No schema snapshots have been captured yet.', 'acf-schema-guard' ); ?></p>
+			<section class="acf-schema-guard-history-action">
+				<div>
+					<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Current schema', 'acf-schema-guard' ); ?></p>
+					<h2><?php echo esc_html__( 'Capture a checkpoint', 'acf-schema-guard' ); ?></h2>
+					<p><?php echo esc_html__( 'Save the effective ACF schema as an immutable snapshot before or after a meaningful change.', 'acf-schema-guard' ); ?></p>
 				</div>
+				<form class="acf-schema-guard-capture-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="acf_schema_guard_capture_snapshot" />
+					<?php wp_nonce_field( 'acf_schema_guard_capture_snapshot' ); ?>
+					<?php submit_button( __( 'Capture current schema', 'acf-schema-guard' ), 'primary', 'submit', false ); ?>
+				</form>
+			</section>
+			<?php if ( empty( $snapshots ) ) : ?>
+				<section class="acf-schema-guard-empty-state">
+					<h2><?php echo esc_html__( 'No snapshots yet', 'acf-schema-guard' ); ?></h2>
+					<p><?php echo esc_html__( 'Capture the current schema to start a durable history and choose a baseline for live comparison.', 'acf-schema-guard' ); ?></p>
+				</section>
 			<?php else : ?>
 				<table class="widefat striped acf-schema-guard-snapshots">
 					<thead>
@@ -742,10 +781,10 @@ final class AdminController {
 					<tbody>
 						<?php foreach ( $snapshots as $snapshot ) : ?>
 							<tr>
-								<td><code><?php echo esc_html( $snapshot->id() ); ?></code></td>
-								<td><?php echo esc_html( 'acf-auto' === $snapshot->source_id() ? __( 'Automatic ACF save', 'acf-schema-guard' ) : $snapshot->source_id() ); ?></td>
-								<td><?php echo esc_html( $snapshot->created_at() ); ?></td>
-								<td><?php if ( $baseline && $baseline->id() === $snapshot->id() ) { echo esc_html__( 'Approved baseline', 'acf-schema-guard' ); } else { ?><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_set_baseline_snapshot" /><input type="hidden" name="snapshot_id" value="<?php echo esc_attr( $snapshot->id() ); ?>" /><?php wp_nonce_field( 'acf_schema_guard_set_baseline_snapshot' ); submit_button( __( 'Set as baseline', 'acf-schema-guard' ), 'secondary small', 'submit', false ); ?></form><?php } ?></td>
+								<td data-label="<?php echo esc_attr__( 'Snapshot ID', 'acf-schema-guard' ); ?>"><code><?php echo esc_html( $snapshot->id() ); ?></code></td>
+								<td data-label="<?php echo esc_attr__( 'Source', 'acf-schema-guard' ); ?>"><?php echo esc_html( 'acf-auto' === $snapshot->source_id() ? __( 'Automatic ACF save', 'acf-schema-guard' ) : $snapshot->source_id() ); ?></td>
+								<td data-label="<?php echo esc_attr__( 'Captured (UTC)', 'acf-schema-guard' ); ?>"><?php echo esc_html( $snapshot->created_at() ); ?></td>
+								<td data-label="<?php echo esc_attr__( 'Baseline', 'acf-schema-guard' ); ?>"><?php if ( $baseline && $baseline->id() === $snapshot->id() ) { echo esc_html__( 'Approved baseline', 'acf-schema-guard' ); } else { ?><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_set_baseline_snapshot" /><input type="hidden" name="snapshot_id" value="<?php echo esc_attr( $snapshot->id() ); ?>" /><?php wp_nonce_field( 'acf_schema_guard_set_baseline_snapshot' ); submit_button( __( 'Set as baseline', 'acf-schema-guard' ), 'secondary small', 'submit', false ); ?></form><?php } ?></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>

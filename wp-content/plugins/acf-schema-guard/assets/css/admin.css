@@ -105,7 +105,16 @@
 /* History and comparison controls. */
 .acf-schema-guard-snapshots,
 .acf-schema-guard-comparison-form { margin-top: 24px; }
-.acf-schema-guard-capture-form { margin-top: 20px; padding: 18px; }
+.acf-schema-guard-history-action { align-items: center; background: #fff; border: 1px solid var(--asg-border); border-radius: 10px; box-shadow: 0 1px 3px rgb(16 24 40 / 8%); display: flex; gap: 24px; justify-content: space-between; margin-top: 24px; padding: 20px 22px; text-align: left; }
+.acf-schema-guard-history-action h2 { color: #1d2939; font-size: 18px; margin: 0 0 7px; }
+.acf-schema-guard-history-action > div > p:not(.acf-schema-guard-overview-eyebrow) { color: #475467; line-height: 1.55; margin: 0; max-width: 690px; }
+.acf-schema-guard-capture-form { margin: 0; }
+.acf-schema-guard-capture-form .button { margin: 0; white-space: nowrap; }
+.acf-schema-guard-empty-state { background: #fff; border: 1px dashed #98a2b3; border-radius: 10px; margin-top: 18px; padding: 28px 22px; text-align: center; }
+.acf-schema-guard-empty-state h2 { color: #344054; font-size: 18px; margin: 0 0 8px; }
+.acf-schema-guard-empty-state p { color: #667085; margin: 0 auto; max-width: 580px; }
+.acf-schema-guard-history-page .acf-schema-guard-empty-state { text-align: left; }
+.acf-schema-guard-history-page .acf-schema-guard-empty-state p { margin-left: 0; }
 .acf-schema-guard-comparison-form label { display: block; font-weight: 600; margin-bottom: 6px; }
 .acf-schema-guard-comparison-form select { min-width: min(420px, 100%); }
 
@@ -161,8 +170,20 @@
 .acf-schema-guard-root-option:last-child { border-bottom: 0; }
 .acf-schema-guard-root-option:hover { background: #f9fcff; }
 .acf-schema-guard-root-option span { color: #344054; font-weight: 500; }
-.acf-schema-guard-root-option input[type="checkbox"] { accent-color: var(--asg-blue); height: 18px; margin: 0; width: 18px; }
+.acf-schema-guard-root-option input[type="checkbox"] { -webkit-appearance: none; appearance: none; background: #fff; border: 1px solid #8c8f94; border-radius: 3px; box-sizing: border-box; cursor: pointer; height: 18px; margin: 0; opacity: 1; position: relative; width: 18px; }
+.acf-schema-guard-root-option input[type="checkbox"]:checked { background: var(--asg-blue); border-color: var(--asg-blue); }
+.acf-schema-guard-root-option input[type="checkbox"]:checked::before { background: none !important; color: #fff; content: "✓" !important; display: block; font-size: 15px; font-weight: 700; height: 16px; line-height: 15px; margin: 0; position: static; text-align: center; width: 16px; }
+.acf-schema-guard-root-option input[type="checkbox"]:focus-visible { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--asg-blue); outline: 0; }
 .acf-schema-guard-root-option input[type="checkbox"]:checked + span { color: #1d2939; font-weight: 600; }
+.acf-schema-guard-settings-form { margin-top: 24px; }
+.acf-schema-guard-settings-card { background: #fff; border: 1px solid var(--asg-border); border-radius: 10px; box-shadow: 0 1px 3px rgb(16 24 40 / 8%); overflow: hidden; }
+.acf-schema-guard-settings-card-header { padding: 20px 22px 16px; }
+.acf-schema-guard-settings-card-header h2 { color: #1d2939; font-size: 18px; margin: 0 0 7px; }
+.acf-schema-guard-settings-card-header > p:not(.acf-schema-guard-overview-eyebrow) { color: #475467; margin: 0; }
+.acf-schema-guard-settings-card .acf-schema-guard-root-list { border: 0; border-radius: 0; box-shadow: none; margin: 0; }
+.acf-schema-guard-settings-actions { border-top: 1px solid var(--asg-border-subtle); padding: 16px 22px; }
+.acf-schema-guard-settings-actions .button { margin: 0; }
+.acf-schema-guard-code-usage-empty-state { margin-top: 16px; }
 
 /* Source health is a genuine table on desktop; status labels never wrap. */
 .acf-schema-guard-source-health { margin-top: 24px; table-layout: auto; }
@@ -223,6 +244,8 @@
 .acf-schema-guard-changes-page .acf-schema-guard-severity-warning { background: var(--acf-schema-guard-warning-background); color: var(--acf-schema-guard-warning-text); }
 .acf-schema-guard-changes-page .acf-schema-guard-severity-high { background: var(--acf-schema-guard-high-background); color: var(--acf-schema-guard-high-text); }
 .acf-schema-guard-changes-page .acf-schema-guard-severity-critical { background: var(--acf-schema-guard-critical-background); color: var(--acf-schema-guard-critical-text); }
+.acf-schema-guard-changes-page .acf-schema-guard-severity,
+.acf-schema-guard-source-status-label { justify-self: start; width: fit-content; }
 .acf-schema-guard-findings tr.acf-schema-guard-finding-safe td:first-child { box-shadow: inset 4px 0 var(--acf-schema-guard-safe-border); }
 .acf-schema-guard-findings tr.acf-schema-guard-finding-warning td:first-child { box-shadow: inset 4px 0 var(--acf-schema-guard-warning-border); }
 .acf-schema-guard-findings tr.acf-schema-guard-finding-high td:first-child { box-shadow: inset 4px 0 var(--acf-schema-guard-high-border); }
@@ -236,6 +259,7 @@
 @media screen and (max-width: 960px) {
 	.acf-schema-guard-overview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	.acf-schema-guard-overview-card:last-child { grid-column: 1 / -1; }
+	.acf-schema-guard-history-action { align-items: flex-start; flex-direction: column; }
 	.acf-schema-guard-changes-context { grid-template-columns: 1fr; }
 	.acf-schema-guard-changes-context > div + div { border-left: 0; border-top: 1px solid var(--asg-border-subtle); }
 	.acf-schema-guard-code-usage-filter { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -254,6 +278,13 @@
 	.acf-schema-guard-overview-card .button { margin-top: 18px; }
 	.acf-schema-guard-overview-next-steps { margin-top: 12px; padding: 18px; }
 	.acf-schema-guard-overview-next-steps ul { display: grid; gap: 10px; }
+	.acf-schema-guard-history-action { gap: 16px; margin-top: 20px; padding: 18px; }
+	.acf-schema-guard-history-action > div,
+	.acf-schema-guard-history-action h2,
+	.acf-schema-guard-history-action p { text-align: left; }
+	.acf-schema-guard-history-action .button { width: 100%; }
+	.acf-schema-guard-settings-card-header,
+	.acf-schema-guard-settings-actions { padding-left: 18px; padding-right: 18px; }
 	.acf-schema-guard-changes-context { margin-top: 20px; }
 	.acf-schema-guard-changes-context > div { min-height: 0; padding: 16px 18px; }
 	.acf-schema-guard-changes-results-heading { align-items: flex-start; flex-direction: column; gap: 5px; margin-top: 24px; }
@@ -276,11 +307,14 @@
 	.acf-schema-guard-admin .widefat { background: transparent; border: 0; box-shadow: none; }
 	.acf-schema-guard-admin .widefat thead { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
 	.acf-schema-guard-admin .widefat tr { background: #fff; border: 1px solid var(--asg-border); border-radius: 10px; box-sizing: border-box; margin-bottom: 14px; overflow: hidden; }
-	.acf-schema-guard-admin .widefat tbody td { border-bottom: 1px solid var(--asg-border-subtle); box-shadow: none; display: grid; gap: 6px; grid-template-columns: minmax(92px, 30%) minmax(0, 1fr); padding: 12px 14px; }
-	.acf-schema-guard-admin .widefat tbody td::before { color: var(--asg-text-muted); content: attr(data-label); font-size: 12px; font-weight: 600; }
+	.acf-schema-guard-admin .widefat tbody td { border-bottom: 1px solid var(--asg-border-subtle); box-shadow: none; display: block; padding: 12px 14px; }
+	.acf-schema-guard-admin .widefat tbody td[data-label] { display: grid; gap: 6px; grid-template-columns: minmax(92px, 30%) minmax(0, 1fr); }
+	.acf-schema-guard-admin .widefat tbody td[data-label]::before { color: var(--asg-text-muted); content: attr(data-label); font-size: 12px; font-weight: 600; }
 	.acf-schema-guard-admin .widefat tbody td:last-child { border-bottom: 0; }
 	.acf-schema-guard-changes-page .acf-schema-guard-code-impacts,
 	.acf-schema-guard-changes-page .acf-schema-guard-code-impacts td { display: block; }
 	.acf-schema-guard-changes-page .acf-schema-guard-severity-legend ul,
 	.acf-schema-guard-changes-page .acf-schema-guard-severity-legend li { align-items: flex-start; flex-direction: column; }
+	.acf-schema-guard-changes-page .acf-schema-guard-severity,
+	.acf-schema-guard-source-status-label { justify-self: start; width: fit-content; }
 }
