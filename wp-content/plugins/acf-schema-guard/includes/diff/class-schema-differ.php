@@ -3,7 +3,7 @@ namespace AcfSchemaGuard\Diff;
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 final class SchemaDiffer {
 	public function compare( array $before, array $after ) {
-		return new SchemaDiff( $this->compare_nodes( $this->map( isset( $before['field_groups'] ) ? $before['field_groups'] : array() ), $this->map( isset( $after['field_groups'] ) ? $after['field_groups'] : array() ), array(), 'field_group' ) );
+		return new SchemaDiff( $this->compare_nodes( $this->map( isset( $before['field_groups'] ) ? $before['field_groups'] : array(), true ), $this->map( isset( $after['field_groups'] ) ? $after['field_groups'] : array(), true ), array(), 'field_group' ) );
 	}
 	private function compare_nodes( array $left, array $right, array $path, $type ) {
 		$changes = array();
@@ -34,14 +34,21 @@ final class SchemaDiffer {
 		}
 		return $changes;
 	}
-	private function map( array $nodes ) {
+	private function map( array $nodes, $exclude_trashed_groups = false ) {
 		$map = array();
 		foreach ( $nodes as $node ) {
+			if ( $exclude_trashed_groups && is_array( $node ) && isset( $node['key'] ) && $this->is_trashed_group_key( $node['key'] ) ) {
+				continue;
+			}
+
 			if ( is_array( $node ) && isset( $node['key'] ) ) {
 				$map[ $node['key'] ] = $node;
 			}
 		}
 		ksort( $map, SORT_STRING );
 		return $map;
+	}
+	private function is_trashed_group_key( $key ) {
+		return 0 === strpos( (string) $key, 'group_' ) && '__trashed' === substr( (string) $key, -9 );
 	}
 }

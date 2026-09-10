@@ -26,6 +26,16 @@ function acf_get_field_groups() {
 			'title'  => 'A',
 			'active' => true,
 		),
+		array(
+			'key'    => 'group_inactive',
+			'title'  => 'Inactive',
+			'active' => false,
+		),
+		array(
+			'key'    => 'group_old__trashed',
+			'title'  => 'Discarded',
+			'active' => false,
+		),
 	);
 }
 
@@ -70,6 +80,7 @@ $schema = \AcfSchemaGuard\Plugin::instance()->normalized_schema()->to_array();
 $group_b  = $schema['field_groups'][1];
 $flexible = $group_b['fields'][0];
 $repeater = $group_b['fields'][1];
+$group_keys = array_column( $schema['field_groups'], 'key' );
 
 if (
 	1 !== $schema['schema_version'] ||
@@ -79,7 +90,9 @@ if (
 	isset( $repeater['settings']['ID'] ) ||
 	isset( $repeater['settings']['_name'] ) ||
 	'field_second' !== $repeater['sub_fields'][0]['key'] ||
-	'layout_a' !== $flexible['layouts'][0]['key']
+	'layout_a' !== $flexible['layouts'][0]['key'] ||
+	! in_array( 'group_inactive', $group_keys, true ) ||
+	  in_array( 'group_old__trashed', $group_keys, true )
 ) {
 	fwrite( STDERR, "Normalized schema assertion failed.\n" );
 	exit( 1 );

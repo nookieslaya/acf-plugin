@@ -72,4 +72,14 @@ final class FieldGroupDescriptor {
 	public function local_json_file() {
 		return $this->local_json_file;
 	}
+
+	/**
+	 * Determines whether a key is ACF's generated trash artifact.
+	 *
+	 * @param string $key Field-group key.
+	 * @return bool
+	 */
+	public static function is_trashed_key( $key ) {
+		return 0 === strpos( (string) $key, 'group_' ) && '__trashed' === substr( (string) $key, -9 );
+	}
 }

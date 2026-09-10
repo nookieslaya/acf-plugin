@@ -15,6 +15,7 @@ require_once dirname( __DIR__ ) . '/includes/schema/class-schema-normalizer.php'
 require_once dirname( __DIR__ ) . '/includes/acf/class-source-health-finding.php';
 require_once dirname( __DIR__ ) . '/includes/acf/class-source-health-report.php';
 require_once dirname( __DIR__ ) . '/includes/acf/class-source-health-analyzer.php';
+require_once dirname( __DIR__ ) . '/includes/acf/class-field-group-descriptor.php';
 require_once dirname( __DIR__ ) . '/includes/acf/class-acf-source-health-provider.php';
 
 $analyzer = new \AcfSchemaGuard\Acf\SourceHealthAnalyzer();
@@ -65,12 +66,31 @@ file_put_contents(
 		)
 	)
 );
+file_put_contents(
+	$source_health_path . '/group_json__trashed.json',
+	json_encode(
+		array(
+			'key'    => 'group_json__trashed',
+			'title'  => 'Discarded JSON group',
+			'active' => false,
+			'fields' => array(),
+		)
+	)
+);
 
 function get_posts( $args ) {
-	return array( (object) array( 'ID' => 10 ) );
+	return array( (object) array( 'ID' => 10 ), (object) array( 'ID' => 11 ) );
 }
 
 function acf_get_field_group( $id ) {
+	if ( 11 === $id ) {
+		return array(
+			'key'    => 'group_database__trashed',
+			'title'  => 'Discarded database group',
+			'active' => false,
+		);
+	}
+
 	return array(
 		'key'    => 'group_database',
 		'title'  => 'Database only',
@@ -99,6 +119,7 @@ foreach ( $provider_report->findings() as $finding ) {
 
 unlink( $source_health_path . '/group_database.json' );
 unlink( $source_health_path . '/group_json.json' );
+unlink( $source_health_path . '/group_json__trashed.json' );
 rmdir( $source_health_path );
 
 if ( ! $provider_report->is_available() || array( 'group_database' => \AcfSchemaGuard\Acf\SourceHealthFinding::STATUS_DATABASE_ONLY, 'group_json' => \AcfSchemaGuard\Acf\SourceHealthFinding::STATUS_JSON_ONLY ) !== $provider_statuses ) {

@@ -80,6 +80,10 @@ final class AcfSourceHealthProvider {
 				continue;
 			}
 
+			if ( FieldGroupDescriptor::is_trashed_key( $group['key'] ) ) {
+				continue;
+			}
+
 			$fields          = acf_get_fields( $post->ID );
 			$group['fields'] = is_array( $fields ) ? $fields : array();
 			$group['_source_modified'] = isset( $post->post_modified_gmt ) ? strtotime( $post->post_modified_gmt ) : null;
@@ -143,6 +147,10 @@ final class AcfSourceHealthProvider {
 		$group = json_decode( $json, true );
 
 		if ( ! is_array( $group ) || JSON_ERROR_NONE !== json_last_error() || empty( $group['key'] ) || 0 !== strpos( (string) $group['key'], 'group_' ) ) {
+			return null;
+		}
+
+		if ( FieldGroupDescriptor::is_trashed_key( $group['key'] ) ) {
 			return null;
 		}
 

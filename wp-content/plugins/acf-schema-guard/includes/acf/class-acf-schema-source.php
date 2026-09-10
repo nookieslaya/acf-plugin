@@ -38,6 +38,10 @@ final class AcfSchemaSource implements FullSchemaSource {
 				continue;
 			}
 
+			if ( FieldGroupDescriptor::is_trashed_key( $field_group['key'] ) ) {
+				continue;
+			}
+
 			$fields = acf_get_fields( $field_group );
 
 			$field_group['fields'] = is_array( $fields ) ? $fields : array();
