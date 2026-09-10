@@ -229,7 +229,7 @@ final class AdminController {
 		<div class="wrap acf-schema-guard-admin"><h1><?php echo esc_html( $screen['title'] ); ?></h1>
 		<p><?php echo esc_html__( 'Choose the themes and plugins to include in code analysis.', 'acf-schema-guard' ); ?></p>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_save_scanner_roots" /><?php wp_nonce_field( 'acf_schema_guard_save_scanner_roots' ); ?>
-		<?php foreach ( $this->available_scanner_roots() as $identifier => $label ) : ?><label><input type="checkbox" name="scanner_roots[]" value="<?php echo esc_attr( $identifier ); ?>" <?php checked( in_array( realpath( $this->scanner_root_path( $identifier ) ), $selected, true ) ); ?> /> <?php echo esc_html( $label ); ?></label><br /><?php endforeach; ?><p><?php submit_button( __( 'Save scanner roots', 'acf-schema-guard' ), 'primary', 'submit', false ); ?></p></form></div>
+		<div class="acf-schema-guard-root-list"><?php foreach ( $this->available_scanner_roots() as $identifier => $label ) : ?><label class="acf-schema-guard-root-option"><input type="checkbox" name="scanner_roots[]" value="<?php echo esc_attr( $identifier ); ?>" <?php checked( in_array( realpath( $this->scanner_root_path( $identifier ) ), $selected, true ) ); ?> /><span><?php echo esc_html( $label ); ?></span></label><?php endforeach; ?></div><p><?php submit_button( __( 'Save scanner roots', 'acf-schema-guard' ), 'primary', 'submit', false ); ?></p></form></div>
 		<?php
 	}
 
@@ -264,31 +264,31 @@ final class AdminController {
 
 			<form method="get" class="acf-schema-guard-code-usage-filter">
 				<input type="hidden" name="page" value="acf-schema-guard-code-usage" />
-				<label for="acf-schema-guard-field"><?php echo esc_html__( 'Field', 'acf-schema-guard' ); ?></label>
+				<div class="acf-schema-guard-filter-control"><label for="acf-schema-guard-field"><?php echo esc_html__( 'Field', 'acf-schema-guard' ); ?></label>
 				<select id="acf-schema-guard-field" name="acf_schema_guard_field">
 					<option value=""><?php echo esc_html__( 'All fields', 'acf-schema-guard' ); ?></option>
 					<?php foreach ( $filters['available_fields'] as $field_name ) : ?>
 						<option value="<?php echo esc_attr( $field_name ); ?>" <?php selected( $filters['field'], $field_name ); ?>><?php echo esc_html( $field_name ); ?></option>
 					<?php endforeach; ?>
-				</select>
+				</select></div>
 
-				<label for="acf-schema-guard-file"><?php echo esc_html__( 'File', 'acf-schema-guard' ); ?></label>
+				<div class="acf-schema-guard-filter-control"><label for="acf-schema-guard-file"><?php echo esc_html__( 'File', 'acf-schema-guard' ); ?></label>
 				<select id="acf-schema-guard-file" name="acf_schema_guard_file">
 					<option value=""><?php echo esc_html__( 'All files', 'acf-schema-guard' ); ?></option>
 					<?php foreach ( $filters['available_files'] as $path ) : ?>
 						<option value="<?php echo esc_attr( $path ); ?>" <?php selected( $filters['file'], $path ); ?>><?php echo esc_html( $path ); ?></option>
 					<?php endforeach; ?>
-				</select>
+				</select></div>
 
-				<label for="acf-schema-guard-function"><?php echo esc_html__( 'ACF function', 'acf-schema-guard' ); ?></label>
+				<div class="acf-schema-guard-filter-control"><label for="acf-schema-guard-function"><?php echo esc_html__( 'ACF function', 'acf-schema-guard' ); ?></label>
 				<select id="acf-schema-guard-function" name="acf_schema_guard_function">
 					<option value=""><?php echo esc_html__( 'All supported functions', 'acf-schema-guard' ); ?></option>
 					<?php foreach ( $filters['available_functions'] as $function_name ) : ?>
 						<option value="<?php echo esc_attr( $function_name ); ?>" <?php selected( $filters['function'], $function_name ); ?>><?php echo esc_html( $function_name ); ?></option>
 					<?php endforeach; ?>
-				</select>
+				</select></div>
 
-				<?php submit_button( __( 'Filter references', 'acf-schema-guard' ), 'secondary', 'submit', false ); ?>
+				<div class="acf-schema-guard-filter-action"><?php submit_button( __( 'Filter references', 'acf-schema-guard' ), 'secondary', 'submit', false ); ?></div>
 			</form>
 
 			<p class="acf-schema-guard-code-usage-count">
