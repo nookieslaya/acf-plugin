@@ -13,6 +13,7 @@ require_once dirname( __DIR__ ) . '/includes/schema/class-normalized-field-group
 require_once dirname( __DIR__ ) . '/includes/schema/class-normalized-schema.php';
 require_once dirname( __DIR__ ) . '/includes/schema/class-schema-normalizer.php';
 require_once dirname( __DIR__ ) . '/includes/acf/class-source-health-finding.php';
+require_once dirname( __DIR__ ) . '/includes/acf/class-schema-source-mode.php';
 require_once dirname( __DIR__ ) . '/includes/acf/class-source-health-report.php';
 require_once dirname( __DIR__ ) . '/includes/acf/class-source-health-analyzer.php';
 require_once dirname( __DIR__ ) . '/includes/acf/class-field-group-descriptor.php';

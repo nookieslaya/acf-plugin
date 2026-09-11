@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash ed90df4ec400bc36217dbc50f614e065172008d4881882e149ff92b1e970fd5f -->
+<!-- blueprint:source-hash 540d1bb22728a38b8e6aa5f5a704872f7e71e184512a3d16a89aabef94ddad31 -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -15,6 +15,7 @@ code still referring to removed or renamed fields before release.
 
 - WordPress developers and freelancers maintaining ACF-based sites.
 - Software houses and agencies collaborating through ACF Local JSON and Git.
+- Developers and agencies whose ACF schema lives only in the WordPress database.
 - Development teams that need a CI-friendly answer to whether the latest ACF
   changes are safe.
 
@@ -68,6 +69,10 @@ code still referring to removed or renamed fields before release.
     Group, Repeater, and Flexible Content storage patterns, then distinguishes
     direct, nested, and unknown evidence in Changes.
 21. **Potentially unused ACF fields** - provides review-only coverage signals
+
+22. **Solo Mode - database-first workflow** - makes baseline, live-schema,
+    code-usage, and data-impact workflows explicit and useful when ACF Local JSON
+    is not configured, without treating its absence as a source-health error.
     for current fields without treating a lack of literal references as a safe
     deletion decision.
 
@@ -155,6 +160,12 @@ code still referring to removed or renamed fields before release.
 - `database_group` and `json_group` (field-group schema or null) - source
   representations used to determine the status.
 
+### Schema source mode
+
+- `mode` (enum) - `database_first` when no Local JSON source is configured, or
+  `local_json` when source-health comparison applies.
+- `message` (string) - clear, non-error guidance for the selected workflow.
+
 ## Tech stack
 
 - **WordPress** - local plugin runtime and future plugin host.
@@ -169,6 +180,7 @@ code still referring to removed or renamed fields before release.
 
 Free includes core schema safety. Pro will add advanced team workflows without
 blocking access to stored data or Free safety features when a license is absent.
+Solo Mode is Free and does not require ACF Local JSON.
 
 ## UI/UX
 
@@ -185,6 +197,8 @@ blocking access to stored data or Free safety features when a license is absent.
 - Nested-data and unused-field views preserve uncertainty explicitly: the plugin
   reports only schema-derived storage patterns and literal code evidence it can
   substantiate.
+- In database-first mode, the Admin workspace recommends baseline, live Changes,
+  code analysis, and optional baseline export rather than Local JSON sync.
 - Development theme front end - minimal, accessible classic templates for
   inspecting ACF output and scanner references.
 

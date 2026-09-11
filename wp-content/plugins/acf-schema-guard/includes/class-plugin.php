@@ -30,6 +30,7 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-field-group-descriptor.
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-acf-environment.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-acf-environment-provider.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-source-health-finding.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-schema-source-mode.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-source-health-report.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-source-health-analyzer.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/acf/class-acf-source-health-provider.php';

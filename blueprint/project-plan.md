@@ -12,6 +12,8 @@ renamed fields.
 
 - WordPress developers and freelancers maintaining ACF-based sites.
 - Software houses and agencies working in teams with ACF Local JSON and Git.
+- Developers and agencies that manage ACF field groups only in the WordPress
+  database and do not use ACF Local JSON.
 - Development teams that need a CI-friendly answer to: "Are the latest ACF
   changes safe?"
 
@@ -47,6 +49,8 @@ renamed fields.
   affected by a risky schema change.
 - Schema-aware, read-only evidence for reliable nested ACF storage patterns and
   review-only identification of fields with no detected literal PHP references.
+- A database-first Solo Mode that keeps baseline, live comparison, code usage,
+  and data-impact workflows useful when Local JSON is not configured.
 
 ## 4. Data - What are we storing?
 
@@ -61,6 +65,8 @@ renamed fields.
 - Plugin settings, including scanner configuration and risk-rule policy.
 - Source-health findings for field groups: aligned, database-only, JSON-only, or
   divergent between ACF Local JSON and the WordPress database.
+- Schema source mode: `database_first` when no Local JSON source is configured,
+  or `local_json` when source-health comparison is applicable.
 - Dynamic code-reference findings that record a supported ACF function call with
   a non-literal first argument, without guessing its field name.
 - Data-impact summaries for changed field names: a bounded record count and
@@ -83,6 +89,8 @@ renamed fields.
 Free provides core schema safety, Local JSON health, PHP code usage, WP-CLI, and
 reports. Pro will add advanced team workflows without blocking access to stored
 snapshots or Free safety features when a license is absent or expires.
+Solo Mode is a Free workflow. It does not require ACF Local JSON and must not
+present its absence as a schema-health error.
 
 ## 7. UI/UX - How should this look and feel?
 

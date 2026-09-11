@@ -150,8 +150,8 @@ commit. Once Git tracks the file, ordinary `git add` works for later updates.
 
 ### 2. Check a change before merging
 
-Make an ACF change in a branch, ensure its Local JSON or PHP definition is
-available to WordPress, then run:
+Make an ACF change in a branch, ensure its database, Local JSON, or PHP
+definition is available to WordPress, then run:
 
 ```sh
 wp acf-schema-guard baseline check acf-schema-baseline.json --fail-on-breaking
@@ -215,6 +215,35 @@ itself provision WordPress, a database, or ACF in the CI runner.
 Both paths are read-only with respect to ACF definitions and content. Baseline
 export writes only the explicitly named JSON file; snapshot capture writes only
 the plugin's own snapshot table.
+
+### Database-first Solo Mode
+
+Local JSON is optional. If ACF has no configured Local JSON load path, Schema
+Guard uses the database-first workflow: the WordPress database is the live schema
+source, while snapshots, baseline comparison, Changes, Code Usage, and data
+impact work as usual.
+
+For Git review or CI in this mode, commit the plugin baseline export, not an ACF
+Local JSON file:
+
+```sh
+wp acf-schema-guard baseline export acf-schema-baseline.json
+git add acf-schema-baseline.json
+git commit -m "chore: add database-first ACF baseline"
+```
+
+CI still needs WordPress, ACF, the plugin, and a database containing the schema
+to inspect. It compares that effective database schema with the committed
+baseline:
+
+```sh
+wp acf-schema-guard baseline check acf-schema-baseline.json --fail-on-breaking
+```
+
+When an intentional database-side schema change is approved, export with
+`--force`, review the diff, and commit the updated baseline. The baseline is an
+audit record, not a replacement for promoting the database schema between
+environments.
 
 ## CI templates
 

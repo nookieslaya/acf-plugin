@@ -103,3 +103,7 @@
 - [ ] 21. **Potentially unused ACF fields** - compare the current schema with literal PHP references and present fields that may be unused as review signals, never as automatic deletion candidates.
   - [ ] 21a. **Unused-field inventory** - derive deterministic literal-reference coverage per current field while accounting for dynamic-call evidence and configured scanner roots.
   - [ ] 21b. **Unused-field workspace** - present filterable review states, exclusions, and clear limits in the Admin workspace and report export.
+- [x] 22. **Solo Mode - database-first workflow** - make the Free baseline, live-schema, code-usage, and data-impact workflow explicit and fully useful when ACF Local JSON is not configured.
+  - [x] 22a. **Database-first detection and source-health state** - detect an absent Local JSON configuration, expose a non-error database-first mode, and retain real divergent findings when JSON is configured.
+  - [x] 22b. **Solo Admin workflow** - adapt Overview, Field Groups, and contextual guidance to recommend baseline, live Changes, and code analysis without Local JSON.
+  - [x] 22c. **Solo Git and CI guidance** - document optional baseline export, version control, and CI approaches for projects whose ACF schema lives only in the database.

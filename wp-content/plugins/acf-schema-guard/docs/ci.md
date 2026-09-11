@@ -3,6 +3,10 @@
 Commit an approved baseline JSON file, then run the check after WordPress, the
 plugin, ACF, and a database are available in the job.
 
+This works both with ACF Local JSON and with database-first Solo Mode. In Solo
+Mode the job's database must contain the intended ACF schema; the committed
+baseline export provides the versioned comparison contract.
+
 ```sh
 wp acf-schema-guard baseline check acf-schema-baseline.json --fail-on-breaking
 ```

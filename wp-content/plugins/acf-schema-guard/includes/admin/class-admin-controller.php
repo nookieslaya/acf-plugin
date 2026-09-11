@@ -239,6 +239,7 @@ final class AdminController {
 		$state      = $this->overview_dashboard_state();
 		$comparison = $state['comparison'];
 		$health     = $state['source_health'];
+		$solo_mode  = 'database_first' === $health['mode'];
 		?>
 		<div class="wrap acf-schema-guard-admin acf-schema-guard-overview-page">
 			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
@@ -261,7 +262,7 @@ final class AdminController {
 				</section>
 
 				<section class="acf-schema-guard-overview-card acf-schema-guard-overview-card-<?php echo esc_attr( $health['status'] ); ?>">
-					<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Database and Local JSON', 'acf-schema-guard' ); ?></p>
+					<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html( $solo_mode ? __( 'Schema source', 'acf-schema-guard' ) : __( 'Database and Local JSON', 'acf-schema-guard' ) ); ?></p>
 					<h2><?php echo esc_html( $health['label'] ); ?></h2>
 					<p><?php echo esc_html( $health['description'] ); ?></p>
 					<?php $this->render_overview_counts( $health['counts'], array( 'aligned', 'database_only', 'json_only', 'divergent' ) ); ?>
@@ -272,6 +273,7 @@ final class AdminController {
 			<section class="acf-schema-guard-overview-next-steps">
 				<h2><?php echo esc_html__( 'Continue your review', 'acf-schema-guard' ); ?></h2>
 				<ul>
+					<?php if ( $solo_mode ) : ?><li><a href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-history' ) ); ?>"><?php echo esc_html__( 'Set or review the approved database baseline', 'acf-schema-guard' ); ?></a></li><?php endif; ?>
 					<li><a href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-code-usage' ) ); ?>"><?php echo esc_html__( 'Inspect current PHP ACF references', 'acf-schema-guard' ); ?></a></li>
 					<li><a href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-settings' ) ); ?>"><?php echo esc_html__( 'Choose themes and plugins for code analysis', 'acf-schema-guard' ); ?></a></li>
 				</ul>
@@ -399,7 +401,7 @@ final class AdminController {
 				'status'      => 'unavailable',
 				'label'       => __( 'Comparison unavailable', 'acf-schema-guard' ),
 				'description' => is_object( $live ) && method_exists( $live, 'message' ) ? $live->message() : __( 'A live schema comparison is not available yet.', 'acf-schema-guard' ),
-				'counts'      => $counts,
+				'counts'      => $counts, 'mode' => 'unavailable',
 			);
 		}
 
@@ -438,6 +440,9 @@ final class AdminController {
 				'counts'      => $counts,
 			);
 		}
+		if ( method_exists( $report, 'source_mode' ) && $report->source_mode()->is_database_first() ) {
+			return array( 'status' => 'aligned', 'label' => __( 'Database-first mode', 'acf-schema-guard' ), 'description' => __( 'Local JSON is not configured. Baseline, Changes, Code Usage, and data impact remain available.', 'acf-schema-guard' ), 'counts' => $counts, 'mode' => 'database_first' );
+		}
 
 		foreach ( $report->findings() as $finding ) {
 			if ( is_object( $finding ) && method_exists( $finding, 'status' ) && array_key_exists( $finding->status(), $counts ) ) {
@@ -451,7 +456,7 @@ final class AdminController {
 			'status'      => $issues > 0 ? 'attention' : 'aligned',
 			'label'       => $issues > 0 ? __( 'Source review needed', 'acf-schema-guard' ) : __( 'Sources aligned', 'acf-schema-guard' ),
 			'description' => sprintf( _n( '%d field group needs source review.', '%d field groups need source review.', $issues, 'acf-schema-guard' ), $issues ),
-			'counts'      => $counts,
+			'counts'      => $counts, 'mode' => 'local_json',
 		);
 	}
 
@@ -741,11 +746,14 @@ final class AdminController {
 	 */
 	private function render_source_health_page( array $screen ) {
 		$report = call_user_func( $this->source_health_callback );
+		$solo_mode = $report->is_available() && method_exists( $report, 'source_mode' ) && $report->source_mode()->is_database_first();
 		?>
 		<div class="wrap acf-schema-guard-admin acf-schema-guard-source-health-page">
 			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
-			<p><?php echo esc_html__( 'Checks whether each ACF field group is represented consistently in the WordPress database and ACF Local JSON.', 'acf-schema-guard' ); ?></p>
-			<?php if ( ! $report->is_available() ) : ?>
+			<p><?php echo esc_html( $solo_mode ? __( 'Your ACF schema is managed in the WordPress database. Local JSON comparison is optional and is not required for schema safety.', 'acf-schema-guard' ) : __( 'Checks whether each ACF field group is represented consistently in the WordPress database and ACF Local JSON.', 'acf-schema-guard' ) ); ?></p>
+			<?php if ( $report->is_available() && method_exists( $report, 'source_mode' ) && $report->source_mode()->is_database_first() ) : ?>
+				<section class="acf-schema-guard-empty-state"><h2><?php echo esc_html__( 'Database-first mode', 'acf-schema-guard' ); ?></h2><p><?php echo esc_html__( 'ACF Local JSON is not configured. This is a supported workflow: set an approved baseline, review live Changes, and use Code Usage to check current PHP references.', 'acf-schema-guard' ); ?></p></section>
+			<?php elseif ( ! $report->is_available() ) : ?>
 				<section class="acf-schema-guard-empty-state">
 					<h2><?php echo esc_html__( 'Source health unavailable', 'acf-schema-guard' ); ?></h2>
 					<p><?php echo esc_html__( 'ACF is unavailable, so Source health cannot inspect field groups.', 'acf-schema-guard' ); ?></p>

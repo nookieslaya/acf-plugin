@@ -39,7 +39,10 @@ final class AcfSourceHealthProvider {
 			return new SourceHealthReport( false, array() );
 		}
 
-		return $this->analyzer->analyze( $this->database_groups(), $this->json_groups() );
+		$mode = new SchemaSourceMode( empty( $this->json_paths() ) ? SchemaSourceMode::DATABASE_FIRST : SchemaSourceMode::LOCAL_JSON, $this->json_paths() );
+		if ( $mode->is_database_first() ) { return new SourceHealthReport( true, array(), $mode ); }
+		$report = $this->analyzer->analyze( $this->database_groups(), $this->json_groups() );
+		return new SourceHealthReport( true, $report->findings(), $mode );
 	}
 
 	/** @return bool */
