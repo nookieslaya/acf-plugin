@@ -1,5 +1,5 @@
 {
-    "key": "group_acf_schema_guard_cards",
+    "key": "group_acf_schema_guard_cards__trashed",
     "title": "Schema Guard - Card",
     "fields": [
         {
@@ -7,7 +7,7 @@
             "label": "Card title",
             "name": "card_title_area",
             "aria-label": "",
-            "type": "number",
+            "type": "textarea",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -17,13 +17,11 @@
                 "id": ""
             },
             "default_value": "",
-            "min": "",
-            "max": "",
+            "maxlength": "",
             "allow_in_bindings": 0,
+            "rows": "",
             "placeholder": "",
-            "step": "",
-            "prepend": "",
-            "append": ""
+            "new_lines": ""
         },
         {
             "key": "field_acf_schema_guard_card_text",
@@ -102,9 +100,9 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "active": true,
+    "active": false,
     "description": "Standalone card fields for scanner fixtures.",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1788980055
+    "modified": 1788976144
 }

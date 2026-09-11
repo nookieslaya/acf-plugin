@@ -1,13 +1,13 @@
 {
-    "key": "group_acf_schema_guard_cards",
-    "title": "Schema Guard - Card",
+    "key": "group_acf_schema_guard_hero__trashed",
+    "title": "Schema Guard - Hero",
     "fields": [
         {
-            "key": "field_acf_schema_guard_card_title",
-            "label": "Card title",
-            "name": "card_title_area",
+            "key": "field_acf_schema_guard_hero_title",
+            "label": "Hero title",
+            "name": "hero_title21",
             "aria-label": "",
-            "type": "number",
+            "type": "textarea",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -17,23 +17,21 @@
                 "id": ""
             },
             "default_value": "",
-            "min": "",
-            "max": "",
+            "maxlength": "",
             "allow_in_bindings": 0,
+            "rows": "",
             "placeholder": "",
-            "step": "",
-            "prepend": "",
-            "append": ""
+            "new_lines": ""
         },
         {
-            "key": "field_acf_schema_guard_card_text",
-            "label": "Card text",
-            "name": "card_text",
+            "key": "field_acf_schema_guard_hero_text",
+            "label": "Hero text",
+            "name": "hero_text_new",
             "aria-label": "",
-            "type": "textarea",
+            "type": "text",
             "instructions": "",
             "required": 0,
-            "conditional_logic": false,
+            "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -41,14 +39,15 @@
             },
             "default_value": "",
             "maxlength": "",
-            "rows": 3,
+            "allow_in_bindings": 0,
             "placeholder": "",
-            "new_lines": "wpautop"
+            "prepend": "",
+            "append": ""
         },
         {
-            "key": "field_acf_schema_guard_card_image",
-            "label": "Card image",
-            "name": "card_image",
+            "key": "field_acf_schema_guard_hero_image",
+            "label": "Hero image",
+            "name": "hero_image",
             "aria-label": "",
             "type": "image",
             "instructions": "",
@@ -69,22 +68,6 @@
             "max_size": "",
             "mime_types": "",
             "preview_size": "medium"
-        },
-        {
-            "key": "field_acf_schema_guard_card_link",
-            "label": "Card link",
-            "name": "card_link",
-            "aria-label": "",
-            "type": "link",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": false,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "return_format": "array"
         }
     ],
     "location": [
@@ -96,15 +79,15 @@
             }
         ]
     ],
-    "menu_order": 1,
+    "menu_order": 0,
     "position": "normal",
     "style": "default",
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "active": true,
-    "description": "Standalone card fields for scanner fixtures.",
+    "active": false,
+    "description": "Core hero fields for change-detection fixtures.",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1788980055
+    "modified": 1788893562
 }

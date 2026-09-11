@@ -9,9 +9,6 @@ if ( ! defined( 'ABSPATH' ) || ! function_exists( 'get_field' ) || ! function_ex
 	return;
 }
 
-$card_title = get_field( 'card_title' );
-$card_image = get_field( 'card_image' );
-$card_link  = get_field( 'card_link' );
 
 ob_start();
 the_field( 'card_text' );

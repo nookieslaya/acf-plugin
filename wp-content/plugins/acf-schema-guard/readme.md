@@ -7,6 +7,11 @@ Compatibility and release verification are documented in
 [`docs/compatibility.md`](docs/compatibility.md) and
 [`docs/release-checklist.md`](docs/release-checklist.md).
 
+The planned Free and Pro edition boundary, future license lifecycle, and
+provider-neutral licensing requirements are documented in
+[`docs/editions-and-licensing.md`](docs/editions-and-licensing.md). The current
+plugin does not yet accept or validate license keys.
+
 ## What the plugin does
 
 ACF Schema Guard reads ACF's effective runtime schema, normalizes it, compares

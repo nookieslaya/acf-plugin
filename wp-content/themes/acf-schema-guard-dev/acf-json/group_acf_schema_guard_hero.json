@@ -5,35 +5,59 @@
         {
             "key": "field_acf_schema_guard_hero_title",
             "label": "Hero title",
-            "name": "hero_title",
-            "type": "text",
+            "name": "hero_title_zmiana",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
             "required": 0,
-            "wrapper": { "width": "", "class": "", "id": "" },
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "default_value": "",
             "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": "",
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_acf_schema_guard_hero_text",
+            "label": "Hero text",
+            "name": "hero_text_new",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
             "placeholder": "",
             "prepend": "",
             "append": ""
         },
         {
-            "key": "field_acf_schema_guard_hero_text",
-            "label": "Hero text",
-            "name": "hero_text",
-            "type": "textarea",
-            "required": 0,
-            "wrapper": { "width": "", "class": "", "id": "" },
-            "default_value": "",
-            "maxlength": "",
-            "rows": 4,
-            "placeholder": "",
-            "new_lines": "wpautop"
-        },
-        {
             "key": "field_acf_schema_guard_hero_image",
             "label": "Hero image",
             "name": "hero_image",
+            "aria-label": "",
             "type": "image",
+            "instructions": "",
             "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "return_format": "array",
             "library": "all",
             "min_width": "",
@@ -42,18 +66,19 @@
             "max_width": "",
             "max_height": "",
             "max_size": "",
-            "mime_types": ""
-        },
-        {
-            "key": "field_acf_schema_guard_hero_cta",
-            "label": "Hero CTA",
-            "name": "hero_cta",
-            "type": "link",
-            "required": 0,
-            "return_format": "array"
+            "mime_types": "",
+            "preview_size": "medium"
         }
     ],
-    "location": [[{ "param": "post_type", "operator": "==", "value": "page" }]],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            }
+        ]
+    ],
     "menu_order": 0,
     "position": "normal",
     "style": "default",
@@ -63,5 +88,6 @@
     "active": true,
     "description": "Core hero fields for change-detection fixtures.",
     "show_in_rest": 0,
-    "modified": 1788105600
+    "display_title": "",
+    "modified": 1789116265
 }
