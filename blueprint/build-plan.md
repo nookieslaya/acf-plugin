@@ -99,7 +99,7 @@
 
 - [ ] 20. **Nested ACF data impact** - extend read-only stored-data evidence to reliable Group, Repeater, and Flexible Content meta-key patterns without reading or changing values.
   - [x] 20a. **Nested storage matcher** - derive bounded, schema-aware candidate meta-key patterns for renamed or removed nested fields and report matching record identifiers with clear confidence limits.
-  - [ ] 20b. **Nested impact presentation** - distinguish direct and nested evidence in Changes, explain which ACF structures are covered, and retain an explicit unknown state where a pattern cannot be proven safely.
+  - [x] 20b. **Nested impact presentation** - distinguish direct and nested evidence in Changes, explain which ACF structures are covered, and retain an explicit unknown state where a pattern cannot be proven safely.
 - [ ] 21. **Potentially unused ACF fields** - compare the current schema with literal PHP references and present fields that may be unused as review signals, never as automatic deletion candidates.
   - [ ] 21a. **Unused-field inventory** - derive deterministic literal-reference coverage per current field while accounting for dynamic-call evidence and configured scanner roots.
   - [ ] 21b. **Unused-field workspace** - present filterable review states, exclusions, and clear limits in the Admin workspace and report export.

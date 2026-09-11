@@ -1112,15 +1112,28 @@ final class AdminController {
 		?>
 		<section class="acf-schema-guard-stored-data-impact-list">
 			<h3><?php echo esc_html__( 'Stored data impact', 'acf-schema-guard' ); ?></h3>
-			<p><?php echo esc_html__( 'Direct post-meta records using the previous field name. Values are not read or shown. Nested fields and options are not included.', 'acf-schema-guard' ); ?></p>
+			<p><?php echo esc_html__( 'Evidence identifies records to review. Values are never read or shown, and a zero result does not confirm that no data exists elsewhere.', 'acf-schema-guard' ); ?></p>
 			<?php foreach ( $impacts as $impact ) : ?>
-				<div class="acf-schema-guard-stored-data-impact-field">
-					<strong><code><?php echo esc_html( $impact['field_name'] ); ?></code></strong>
-					<span><?php echo esc_html( sprintf( _n( '%d direct record found', '%d direct records found', $impact['record_count'], 'acf-schema-guard' ), $impact['record_count'] ) ); ?></span>
-					<?php if ( empty( $impact['records'] ) ) : ?>
-						<p><?php echo esc_html__( 'No direct post-meta records were found. This does not include nested fields or options.', 'acf-schema-guard' ); ?></p>
-					<?php else : ?>
-						<ul>
+					<?php $presentation = $this->stored_data_impact_presentation( $impact ); ?>
+					<div class="acf-schema-guard-stored-data-impact-field acf-schema-guard-stored-data-impact-field--<?php echo esc_attr( $presentation['kind'] ); ?>">
+						<div class="acf-schema-guard-stored-data-impact-heading">
+							<strong><code><?php echo esc_html( $impact['field_name'] ); ?></code></strong>
+							<span class="acf-schema-guard-storage-evidence acf-schema-guard-storage-evidence--<?php echo esc_attr( $presentation['kind'] ); ?>"><?php echo esc_html( $presentation['label'] ); ?></span>
+						</div>
+						<p><?php echo esc_html( $presentation['description'] ); ?></p>
+						<?php if ( ! empty( $presentation['path'] ) || ! empty( $presentation['pattern'] ) ) : ?>
+							<dl class="acf-schema-guard-storage-details">
+								<?php if ( ! empty( $presentation['path'] ) ) : ?><div><dt><?php echo esc_html__( 'Field path', 'acf-schema-guard' ); ?></dt><dd><code><?php echo esc_html( $presentation['path'] ); ?></code></dd></div><?php endif; ?>
+								<?php if ( ! empty( $presentation['pattern'] ) ) : ?><div><dt><?php echo esc_html__( 'Storage pattern', 'acf-schema-guard' ); ?></dt><dd><code><?php echo esc_html( $presentation['pattern'] ); ?></code></dd></div><?php endif; ?>
+							</dl>
+						<?php endif; ?>
+						<?php if ( 'unknown' === $presentation['kind'] ) : ?>
+							<p class="acf-schema-guard-storage-empty"><?php echo esc_html__( 'No storage query was run for this structure.', 'acf-schema-guard' ); ?></p>
+						<?php elseif ( empty( $impact['records'] ) ) : ?>
+							<p class="acf-schema-guard-storage-empty"><?php echo esc_html( $presentation['empty_message'] ); ?></p>
+						<?php else : ?>
+							<span class="acf-schema-guard-storage-count"><?php echo esc_html( sprintf( _n( '%d matching record found', '%d matching records found', $impact['record_count'], 'acf-schema-guard' ), $impact['record_count'] ) ); ?></span>
+							<ul>
 							<?php foreach ( $impact['records'] as $record ) : ?>
 								<li><code>#<?php echo esc_html( $record['post_id'] ); ?></code><span><?php echo esc_html( $record['post_type'] ); ?> · <?php echo esc_html( $record['post_status'] ); ?></span><strong><?php echo esc_html( $record['post_title'] ); ?></strong></li>
 							<?php endforeach; ?>
@@ -1130,6 +1143,45 @@ final class AdminController {
 			<?php endforeach; ?>
 		</section>
 		<?php
+	}
+
+	private function stored_data_impact_presentation( array $impact ) {
+		$matcher    = isset( $impact['matcher'] ) && is_array( $impact['matcher'] ) ? $impact['matcher'] : array();
+		$confidence = isset( $matcher['confidence'] ) ? (string) $matcher['confidence'] : 'direct';
+		$field_name = isset( $impact['field_name'] ) ? (string) $impact['field_name'] : '';
+
+		if ( 'nested' === $confidence ) {
+			$path = isset( $matcher['field_path'] ) && is_array( $matcher['field_path'] ) ? array_filter( array_map( 'strval', $matcher['field_path'] ) ) : array();
+
+			return array(
+				'kind'          => 'nested',
+				'label'         => __( 'Nested ACF storage', 'acf-schema-guard' ),
+				'description'   => __( 'Records match a storage key derived from this field’s ACF parent structure.', 'acf-schema-guard' ),
+				'path'          => implode( ' → ', $path ),
+				'pattern'       => isset( $matcher['pattern'] ) ? (string) $matcher['pattern'] : '',
+				'empty_message' => __( 'No matching nested records were found. Other unsupported storage locations are not included.', 'acf-schema-guard' ),
+			);
+		}
+
+		if ( 'unknown' === $confidence ) {
+			return array(
+				'kind'          => 'unknown',
+				'label'         => __( 'Coverage unknown', 'acf-schema-guard' ),
+				'description'   => __( 'This ACF structure does not have a storage pattern the plugin can verify safely.', 'acf-schema-guard' ),
+				'path'          => '',
+				'pattern'       => '',
+				'empty_message' => '',
+			);
+		}
+
+		return array(
+			'kind'          => 'direct',
+			'label'         => __( 'Direct storage', 'acf-schema-guard' ),
+			'description'   => __( 'Records use the exact previous field name as their post-meta key.', 'acf-schema-guard' ),
+			'path'          => '',
+			'pattern'       => $field_name,
+			'empty_message' => __( 'No direct records were found. Nested fields and other storage locations are not included.', 'acf-schema-guard' ),
+		);
 	}
 
 	/**

@@ -149,19 +149,21 @@ $controller = new \AcfSchemaGuard\Admin\AdminController(
 		};
 	},
 	static function ( array $changes ) {
-		return array(
-			new class( $changes[0] ) {
-				private $change;
-				public function __construct( array $change ) { $this->change = $change; }
+		return array_map(
+			static function ( array $impact ) {
+				return new class( $impact ) {
+					private $impact;
+					public function __construct( array $impact ) { $this->impact = $impact; }
 				public function to_array() {
-					return array(
-						'change'       => $this->change,
-						'field_name'   => 'hero_title',
-						'record_count' => 1,
-						'records'      => array( array( 'post_id' => 7, 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Example page' ) ),
-					);
+					return $this->impact;
 				}
-			}
+				};
+			},
+			array(
+				array( 'change' => $changes[0], 'field_name' => 'hero_title', 'record_count' => 1, 'records' => array( array( 'post_id' => 7, 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Example page' ) ) ),
+				array( 'change' => $changes[0], 'field_name' => 'feature_title', 'record_count' => 0, 'records' => array(), 'matcher' => array( 'confidence' => 'nested', 'field_path' => array( 'features', 'feature_title' ), 'pattern' => 'features_{row}_feature_title' ) ),
+				array( 'change' => $changes[0], 'field_name' => 'clone_child', 'record_count' => 0, 'records' => array(), 'matcher' => array( 'confidence' => 'unknown' ) ),
+			)
 		);
 	}
 );
@@ -231,6 +233,8 @@ $code_usage = $reflection->getMethod( 'render_code_usage_page' );
 $code_usage->setAccessible( true );
 $dynamic_notice = $reflection->getMethod( 'render_dynamic_reference_notice' );
 $dynamic_notice->setAccessible( true );
+$stored_data_presentation = $reflection->getMethod( 'stored_data_impact_presentation' );
+$stored_data_presentation->setAccessible( true );
 
 ob_start();
 $source_health->invoke( $controller, array( 'title' => 'Field Groups' ) );
@@ -262,9 +266,14 @@ acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Dete
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Affected code references' ), 'Changes did not render code impacts.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Stored data impact' ), 'Changes did not render stored data impact.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Example page' ), 'Changes did not render safe stored record evidence.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Direct storage' ), 'Changes did not render legacy direct storage evidence.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Nested ACF storage' ) && false !== strpos( $changes_output, 'features_{row}_feature_title' ), 'Changes did not render nested storage evidence and its safe pattern.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Coverage unknown' ) && false !== strpos( $changes_output, 'No storage query was run for this structure.' ), 'Changes did not make unknown nested storage coverage explicit.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'template-parts/acf/hero.php:12' ), 'Changes did not render an affected code location.' );
 acf_schema_guard_admin_snapshot_assert( 0 === $repository->latest_calls, 'Changes must not request the newest snapshot.' );
 acf_schema_guard_admin_snapshot_assert( 0 === $repository->all_calls, 'Admin requested the full snapshot collection.' );
+acf_schema_guard_admin_snapshot_assert( 'direct' === $stored_data_presentation->invoke( $controller, array( 'field_name' => 'legacy_field' ) )['kind'], 'Legacy impact payloads must remain direct evidence.' );
+acf_schema_guard_admin_snapshot_assert( 'unknown' === $stored_data_presentation->invoke( $controller, array( 'field_name' => 'clone_child', 'matcher' => array( 'confidence' => 'unknown' ) ) )['kind'], 'Unknown evidence must not fall back to direct storage.' );
 
 ob_start();
 $dynamic_notice->invoke(
