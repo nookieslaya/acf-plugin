@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class ProCapabilities {
 	const CONFIGURABLE_RISK_POLICIES = 'configurable_risk_policies';
+	const APPROVED_EXCEPTIONS        = 'approved_exceptions';
 	const REVIEW_READY_REPORTS       = 'review_ready_reports';
 
 	/**
@@ -24,6 +25,7 @@ final class ProCapabilities {
 	public static function all() {
 		return array(
 			self::CONFIGURABLE_RISK_POLICIES,
+			self::APPROVED_EXCEPTIONS,
 			self::REVIEW_READY_REPORTS,
 		);
 	}

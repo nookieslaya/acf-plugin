@@ -124,6 +124,8 @@ final class AdminController {
 		add_action( 'admin_post_acf_schema_guard_save_risk_policy', array( $this, 'save_risk_policy' ) );
 		add_action( 'admin_post_acf_schema_guard_set_edition_preview', array( $this, 'set_edition_preview' ) );
 		add_action( 'admin_post_acf_schema_guard_download_risk_policy', array( $this, 'download_risk_policy' ) );
+		add_action( 'admin_post_acf_schema_guard_save_approved_exception', array( $this, 'save_approved_exception' ) );
+		add_action( 'admin_post_acf_schema_guard_revoke_approved_exception', array( $this, 'revoke_approved_exception' ) );
 	}
 
 	/**
@@ -508,6 +510,25 @@ final class AdminController {
 		if ( ! current_user_can( $this->capability ) || ! \AcfSchemaGuard\Plugin::instance()->capabilities()->can( \AcfSchemaGuard\Licensing\ProCapabilities::CONFIGURABLE_RISK_POLICIES )->is_allowed() ) { wp_die( esc_html__( 'You do not have permission to export risk policy.', 'acf-schema-guard' ) ); }
 		check_admin_referer( 'acf_schema_guard_download_risk_policy' );
 		nocache_headers(); header( 'Content-Type: application/json; charset=utf-8' ); header( 'Content-Disposition: attachment; filename="acf-schema-guard-policy.json"' ); echo \AcfSchemaGuard\Plugin::instance()->risk_policy()->export(); exit;
+	}
+
+	public function save_approved_exception() {
+		if ( ! current_user_can( $this->capability ) ) { wp_die( esc_html__( 'You do not have permission to approve exceptions.', 'acf-schema-guard' ) ); }
+		check_admin_referer( 'acf_schema_guard_save_approved_exception' );
+		$finding = isset( $_POST['finding'] ) ? json_decode( wp_unslash( $_POST['finding'] ), true ) : array();
+		$user    = wp_get_current_user();
+		$reason  = isset( $_POST['reason'] ) ? sanitize_textarea_field( wp_unslash( $_POST['reason'] ) ) : '';
+		$expires = isset( $_POST['expires_at'] ) ? sanitize_text_field( wp_unslash( $_POST['expires_at'] ) ) : '';
+		if ( ! is_array( $finding ) || ! \AcfSchemaGuard\Plugin::instance()->approved_exceptions()->save( $finding, $reason, get_current_user_id(), $user->display_name, $expires ) ) { wp_die( esc_html__( 'This exception could not be saved. Check the reason, expiry, and Pro access.', 'acf-schema-guard' ) ); }
+		wp_safe_redirect( admin_url( 'admin.php?page=acf-schema-guard-changes' ) ); exit;
+	}
+
+	public function revoke_approved_exception() {
+		if ( ! current_user_can( $this->capability ) ) { wp_die( esc_html__( 'You do not have permission to revoke exceptions.', 'acf-schema-guard' ) ); }
+		check_admin_referer( 'acf_schema_guard_revoke_approved_exception' );
+		$fingerprint = isset( $_POST['fingerprint'] ) ? sanitize_text_field( wp_unslash( $_POST['fingerprint'] ) ) : '';
+		\AcfSchemaGuard\Plugin::instance()->approved_exceptions()->revoke( $fingerprint );
+		wp_safe_redirect( admin_url( 'admin.php?page=acf-schema-guard-changes' ) ); exit;
 	}
 
 	private function render_code_usage_page( array $screen ) {
@@ -1040,6 +1061,7 @@ final class AdminController {
 					<?php
 					$change   = $finding['change'];
 					$severity = $this->normalize_severity( isset( $finding['severity'] ) ? $finding['severity'] : '' );
+					$exception = class_exists( '\\AcfSchemaGuard\\Plugin' ) ? \AcfSchemaGuard\Plugin::instance()->approved_exceptions()->active_for( $finding ) : null;
 					$impacts  = isset( $impacts_by_change[ $this->change_key( $change ) ] ) ? $impacts_by_change[ $this->change_key( $change ) ] : array();
 					$data_impacts = isset( $data_impacts_by_change[ $this->change_key( $change ) ] ) ? $data_impacts_by_change[ $this->change_key( $change ) ] : array();
 					?>
@@ -1049,7 +1071,7 @@ final class AdminController {
 						<td data-label="<?php echo esc_attr__( 'Path', 'acf-schema-guard' ); ?>"><code><?php echo esc_html( implode( '.', $change['path'] ) ); ?></code></td>
 						<td data-label="<?php echo esc_attr__( 'Change details', 'acf-schema-guard' ); ?>"><?php $this->render_change_explanation( isset( $finding['explanation'] ) ? $finding['explanation'] : array() ); ?></td>
 						<td data-label="<?php echo esc_attr__( 'Severity', 'acf-schema-guard' ); ?>"><?php $this->render_severity_badge( $severity ); ?></td>
-						<td data-label="<?php echo esc_attr__( 'Rationale', 'acf-schema-guard' ); ?>"><?php echo esc_html( $finding['rationale'] ); ?></td>
+						<td data-label="<?php echo esc_attr__( 'Rationale', 'acf-schema-guard' ); ?>"><?php echo esc_html( $finding['rationale'] ); ?><?php $this->render_exception_control( $finding, $exception ); ?></td>
 					</tr>
 					<?php if ( ! empty( $impacts ) || ! empty( $data_impacts ) ) : ?>
 						<tr class="acf-schema-guard-code-impacts">
@@ -1059,6 +1081,43 @@ final class AdminController {
 				<?php endforeach; ?>
 			</tbody>
 		</table>
+		<?php
+	}
+
+	private function render_exception_control( array $finding, $exception ) {
+		if ( ! class_exists( '\\AcfSchemaGuard\\Plugin' ) ) {
+			return;
+		}
+
+		$decision = \AcfSchemaGuard\Plugin::instance()->capabilities()->can( \AcfSchemaGuard\Licensing\ProCapabilities::APPROVED_EXCEPTIONS );
+		if ( $exception ) {
+			$data = $exception->to_array();
+			?>
+			<div class="acf-schema-guard-exception">
+				<strong><?php echo esc_html__( 'Approved exception', 'acf-schema-guard' ); ?></strong>
+				<p><?php echo esc_html( $data['reason'] ); ?></p>
+				<p><?php echo esc_html( sprintf( __( 'Approved by %1$s on %2$s.', 'acf-schema-guard' ), $data['author_name'], $data['created_at'] ) ); ?></p>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_revoke_approved_exception" /><input type="hidden" name="fingerprint" value="<?php echo esc_attr( $data['fingerprint'] ); ?>" /><?php wp_nonce_field( 'acf_schema_guard_revoke_approved_exception' ); ?><?php submit_button( __( 'Revoke exception', 'acf-schema-guard' ), 'secondary small', 'submit', false ); ?></form>
+			</div>
+			<?php
+			return;
+		}
+
+		if ( ! $decision->is_allowed() ) {
+			return;
+		}
+		?>
+		<details class="acf-schema-guard-exception">
+			<summary><?php echo esc_html__( 'Approve temporary exception', 'acf-schema-guard' ); ?></summary>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<input type="hidden" name="action" value="acf_schema_guard_save_approved_exception" />
+				<input type="hidden" name="finding" value="<?php echo esc_attr( wp_json_encode( $finding ) ); ?>" />
+				<?php wp_nonce_field( 'acf_schema_guard_save_approved_exception' ); ?>
+				<p><label><?php echo esc_html__( 'Reason', 'acf-schema-guard' ); ?><textarea name="reason" required></textarea></label></p>
+				<p><label><?php echo esc_html__( 'Expires at (optional, UTC)', 'acf-schema-guard' ); ?><input type="datetime-local" name="expires_at" /></label></p>
+				<?php submit_button( __( 'Approve exception', 'acf-schema-guard' ), 'secondary small', 'submit', false ); ?>
+			</form>
+		</details>
 		<?php
 	}
 

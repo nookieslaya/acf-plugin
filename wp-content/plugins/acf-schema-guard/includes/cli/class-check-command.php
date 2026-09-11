@@ -3,16 +3,19 @@ namespace AcfSchemaGuard\Cli;
 use AcfSchemaGuard\Diff\SnapshotAnalysisService;
 use AcfSchemaGuard\Snapshots\SnapshotRepository;
 use AcfSchemaGuard\Licensing\RiskPolicyService;
+use AcfSchemaGuard\Licensing\ApprovedExceptionService;
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 final class CheckCommand {
 	private $snapshots;
 	private $analysis_service;
 	private $risk_policy_service;
+	private $exceptions;
 
-	public function __construct( SnapshotRepository $snapshots, SnapshotAnalysisService $analysis_service, $risk_policy_service = null ) {
+	public function __construct( SnapshotRepository $snapshots, SnapshotAnalysisService $analysis_service, $risk_policy_service = null, $exceptions = null ) {
 		$this->snapshots = $snapshots;
 		$this->analysis_service = $analysis_service;
 		$this->risk_policy_service = $risk_policy_service instanceof RiskPolicyService ? $risk_policy_service : null;
+		$this->exceptions = $exceptions instanceof ApprovedExceptionService ? $exceptions : null;
 	}
 
 	public function check( $args, $assoc_args ) {
@@ -57,6 +60,9 @@ final class CheckCommand {
 		$policy = null !== $this->risk_policy_service ? $this->risk_policy_service->policy() : null;
 		$levels = array( 'safe' => 0, 'warning' => 1, 'high' => 2, 'critical' => 3 );
 		foreach ( $findings as $finding ) {
+			if ( null !== $this->exceptions && is_array( $finding ) && $this->exceptions->active_for( $finding ) ) {
+				continue;
+			}
 			$severity = isset( $finding['severity'] ) ? $finding['severity'] : '';
 			$fails = null !== $policy ? $policy->fails( $severity ) : isset( $levels[ $severity ] ) && $levels[ $severity ] >= $levels['high'];
 			if ( $fails ) {

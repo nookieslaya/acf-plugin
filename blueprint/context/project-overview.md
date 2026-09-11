@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash f30167c7054418966d94dd07f7f89863e364f04daa004598ca6b59941a266b11 -->
+<!-- blueprint:source-hash 819275b9eb576c38d7f180687f8403bed525893f1168cff32218ea363b863633 -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 

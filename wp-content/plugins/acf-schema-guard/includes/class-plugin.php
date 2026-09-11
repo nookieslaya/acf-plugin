@@ -81,6 +81,9 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-capability-servic
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-local-preview-state-provider.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-risk-policy.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-risk-policy-service.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-approved-exception.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-finding-fingerprint.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-approved-exception-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/admin/class-pro-feature-notice.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/admin/class-admin-controller.php';
 
@@ -139,6 +142,7 @@ final class Plugin {
 	/** @var \AcfSchemaGuard\Licensing\CapabilityService|null */
 	private $capability_service = null;
 	private $risk_policy_service = null;
+	private $approved_exception_service = null;
 
 	/**
 	 * Gets the plugin instance.
@@ -213,12 +217,12 @@ final class Plugin {
 				'acf-schema-guard diff',
 				array( $this->cli_diff_command, 'diff' )
 			);
-			$this->cli_check_command = new \AcfSchemaGuard\Cli\CheckCommand( $this->snapshot_repository(), new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier(), new \AcfSchemaGuard\Diff\SchemaChangeExplainer() ), $this->risk_policy() );
+			$this->cli_check_command = new \AcfSchemaGuard\Cli\CheckCommand( $this->snapshot_repository(), new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier(), new \AcfSchemaGuard\Diff\SchemaChangeExplainer() ), $this->risk_policy(), $this->approved_exceptions() );
 			$this->cli_command_registrar->register( 'acf-schema-guard check', array( $this->cli_check_command, 'check' ) );
 			$baseline_command = new \AcfSchemaGuard\Cli\BaselineCommand(
 				new \AcfSchemaGuard\Baseline\SchemaBaselineFile(),
 				new \AcfSchemaGuard\Diff\SnapshotAnalysisService( new \AcfSchemaGuard\Diff\SchemaDiffer(), new \AcfSchemaGuard\Diff\RiskClassifier(), new \AcfSchemaGuard\Diff\SchemaChangeExplainer() ),
-				array( $this, 'current_schema_array' ), $this->risk_policy()
+				array( $this, 'current_schema_array' ), $this->risk_policy(), $this->approved_exceptions()
 			);
 			$this->cli_command_registrar->register( 'acf-schema-guard baseline export', array( $baseline_command, 'export' ) );
 			$this->cli_command_registrar->register( 'acf-schema-guard baseline check', array( $baseline_command, 'check' ) );
@@ -271,6 +275,14 @@ final class Plugin {
 	public function risk_policy() {
 		if ( null === $this->risk_policy_service ) { $this->risk_policy_service = new \AcfSchemaGuard\Licensing\RiskPolicyService( $this->capabilities() ); }
 		return $this->risk_policy_service;
+	}
+
+	public function approved_exceptions() {
+		if ( null === $this->approved_exception_service ) {
+			$this->approved_exception_service = new \AcfSchemaGuard\Licensing\ApprovedExceptionService( $this->capabilities() );
+		}
+
+		return $this->approved_exception_service;
 	}
 
 	/**

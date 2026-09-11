@@ -57,6 +57,41 @@ CI uses the same file when it runs either `wp acf-schema-guard check` or
 only returns a non-zero command status; branch protection in GitHub or GitLab is
 what can prevent a merge.
 
+## Approved exceptions / Zatwierdzone wyjątki
+
+An approved exception is a temporary, auditable Pro decision about one exact
+schema finding. It does not fix, hide, downgrade, or remove that finding. The
+original severity, rationale, code references, and data-impact evidence remain
+visible in **Changes**.
+
+Zatwierdzony wyjątek jest tymczasową, audytowalną decyzją Pro dotyczącą jednego,
+konkretnego problemu ze schematem. Nie naprawia, nie ukrywa, nie obniża severity
+i nie usuwa problemu. W **Changes** nadal widoczne są pierwotna severity,
+uzasadnienie, referencje w kodzie oraz wpływ na dane.
+
+In a local Pro preview, open **Changes**, expand **Approve temporary exception**
+next to the finding, provide a required reason and, when appropriate, an expiry
+date. The record stores the current WordPress user, approval time, reason, and
+an exact fingerprint of the finding. Revoke it from the same location when the
+planned repair is complete.
+
+W lokalnym podglądzie Pro otwórz **Changes**, rozwiń **Approve temporary
+exception** przy danym problemie, wpisz wymagane uzasadnienie i, gdy ma to sens,
+datę wygaśnięcia. Rekord zapisuje bieżącego użytkownika WordPressa, czas decyzji,
+powód oraz dokładny fingerprint problemu. Po wykonaniu naprawy cofnij wyjątek w
+tym samym miejscu.
+
+An active exact-match exception lets `check` and `baseline check` pass that one
+finding under `--fail-on-breaking`. A missing, expired, revoked, or different
+finding still fails the configured release policy. It never blocks ACF editing,
+Git commits, pushes, or merges by itself.
+
+Aktywny wyjątek pasujący dokładnie do problemu pozwala komendom `check` oraz
+`baseline check` pominąć ten jeden finding przy `--fail-on-breaking`. Brakujący,
+wygasły, cofnięty lub dotyczący innego problemu wyjątek nadal powoduje wynik
+zgodny z polityką release. Wyjątek sam w sobie nigdy nie blokuje edycji ACF,
+commitów, pushów ani merge w Git.
+
 ## Initial Pro plans
 
 Pro licenses are annual subscriptions that include Pro updates and support for
