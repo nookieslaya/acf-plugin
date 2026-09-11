@@ -1,0 +1,129 @@
+{
+    "key": "group_acf_schema_guard_impact_fixture",
+    "title": "Schema Guard - Nested Impact Fixture",
+    "fields": [
+        {
+            "key": "field_acf_schema_guard_impact_fixture_direct",
+            "label": "Direct value",
+			"name": "acf_schema_guard_impact_fixture_direct",
+            "type": "text",
+            "required": 0,
+            "wrapper": { "width": "", "class": "", "id": "" },
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_acf_schema_guard_impact_fixture_group",
+            "label": "Group value",
+            "name": "acf_schema_guard_impact_fixture_group",
+            "type": "group",
+            "required": 0,
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_acf_schema_guard_impact_fixture_group_child",
+                    "label": "Group child",
+					"name": "acf_schema_guard_impact_fixture_group_child",
+                    "type": "text",
+                    "required": 0,
+                    "wrapper": { "width": "", "class": "", "id": "" },
+                    "default_value": "",
+                    "placeholder": ""
+                }
+            ]
+        },
+        {
+            "key": "field_acf_schema_guard_impact_fixture_repeater",
+            "label": "Repeater value",
+            "name": "acf_schema_guard_impact_fixture_repeater",
+            "type": "repeater",
+            "required": 0,
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "button_label": "Add fixture row",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_acf_schema_guard_impact_fixture_repeater_child",
+                    "label": "Repeater child",
+			"name": "acf_schema_guard_impact_fixture_repeater_child",
+                    "type": "text",
+                    "required": 0,
+                    "wrapper": { "width": "", "class": "", "id": "" },
+                    "default_value": "",
+                    "placeholder": ""
+                }
+            ]
+        },
+        {
+            "key": "field_acf_schema_guard_impact_fixture_flexible",
+            "label": "Flexible value",
+            "name": "acf_schema_guard_impact_fixture_flexible",
+            "type": "flexible_content",
+            "required": 0,
+            "layouts": {
+                "layout_acf_schema_guard_impact_fixture_content": {
+                    "key": "layout_acf_schema_guard_impact_fixture_content",
+                    "name": "fixture_content",
+                    "label": "Fixture content",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_acf_schema_guard_impact_fixture_flexible_child",
+                            "label": "Flexible child",
+							"name": "acf_schema_guard_impact_fixture_flexible_child",
+                            "type": "text",
+                            "required": 0,
+                            "wrapper": { "width": "", "class": "", "id": "" },
+                            "default_value": "",
+                            "placeholder": ""
+                        },
+                        {
+                            "key": "field_acf_schema_guard_impact_fixture_flexible_repeater",
+                            "label": "Flexible repeater",
+                            "name": "acf_schema_guard_impact_fixture_flexible_repeater",
+                            "type": "repeater",
+                            "required": 0,
+                            "layout": "table",
+                            "pagination": 0,
+                            "min": 0,
+                            "max": 0,
+                            "button_label": "Add nested fixture row",
+                            "rows_per_page": 20,
+                            "sub_fields": [
+                                {
+                                    "key": "field_acf_schema_guard_impact_fixture_flexible_repeater_child",
+                                    "label": "Flexible repeater child",
+									"name": "acf_schema_guard_impact_fixture_flexible_repeater_child",
+                                    "type": "text",
+                                    "required": 0,
+                                    "wrapper": { "width": "", "class": "", "id": "" },
+                                    "default_value": "",
+                                    "placeholder": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                }
+            },
+            "button_label": "Add fixture section",
+            "min": "",
+            "max": ""
+        }
+    ],
+    "location": [[{ "param": "post_type", "operator": "==", "value": "page" }]],
+    "menu_order": 99,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": false,
+    "description": "Isolated manual fixture for direct and nested data-impact evidence.",
+    "show_in_rest": 0,
+    "modified": 1789123200
+}
