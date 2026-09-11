@@ -2,14 +2,17 @@
 namespace AcfSchemaGuard\Cli;
 use AcfSchemaGuard\Diff\SnapshotAnalysisService;
 use AcfSchemaGuard\Snapshots\SnapshotRepository;
+use AcfSchemaGuard\Licensing\RiskPolicyService;
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 final class CheckCommand {
 	private $snapshots;
 	private $analysis_service;
+	private $risk_policy_service;
 
-	public function __construct( SnapshotRepository $snapshots, SnapshotAnalysisService $analysis_service ) {
+	public function __construct( SnapshotRepository $snapshots, SnapshotAnalysisService $analysis_service, $risk_policy_service = null ) {
 		$this->snapshots = $snapshots;
 		$this->analysis_service = $analysis_service;
+		$this->risk_policy_service = $risk_policy_service instanceof RiskPolicyService ? $risk_policy_service : null;
 	}
 
 	public function check( $args, $assoc_args ) {
@@ -35,8 +38,8 @@ final class CheckCommand {
 			$this->table( $analysis['findings'] );
 		}
 
-		if ( isset( $assoc_args['fail-on-breaking'] ) && $this->has_breaking( $analysis['findings'] ) ) {
-			\WP_CLI::error( 'Breaking schema changes found.' );
+		if ( isset( $assoc_args['fail-on-breaking'] ) && $this->has_failing( $analysis['findings'] ) ) {
+			\WP_CLI::error( null === $this->risk_policy_service ? 'Breaking schema changes found.' : 'Schema changes exceed the active risk policy.' );
 		}
 	}
 
@@ -50,9 +53,13 @@ final class CheckCommand {
 		\WP_CLI\Utils\format_items( 'table', $formatter->table_items( $findings ), $formatter->table_fields() );
 	}
 
-	private function has_breaking( $findings ) {
+	private function has_failing( $findings ) {
+		$policy = null !== $this->risk_policy_service ? $this->risk_policy_service->policy() : null;
+		$levels = array( 'safe' => 0, 'warning' => 1, 'high' => 2, 'critical' => 3 );
 		foreach ( $findings as $finding ) {
-			if ( in_array( $finding['severity'], array( 'high', 'critical' ), true ) ) {
+			$severity = isset( $finding['severity'] ) ? $finding['severity'] : '';
+			$fails = null !== $policy ? $policy->fails( $severity ) : isset( $levels[ $severity ] ) && $levels[ $severity ] >= $levels['high'];
+			if ( $fails ) {
 				return true;
 			}
 		}

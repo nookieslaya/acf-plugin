@@ -32,8 +32,9 @@ final class LocalPreviewStateProvider {
 	 */
 	public function state() {
 		$token = defined( 'ACF_SCHEMA_GUARD_LOCAL_PRO_PREVIEW_TOKEN' ) ? (string) ACF_SCHEMA_GUARD_LOCAL_PRO_PREVIEW_TOKEN : '';
+		$setting = function_exists( 'get_option' ) ? (bool) get_option( 'acf_schema_guard_local_pro_preview', false ) : false;
 
-		if ( 'local' === call_user_func( $this->environment_type_callback ) && hash_equals( self::TOKEN, $token ) ) {
+		if ( 'local' === call_user_func( $this->environment_type_callback ) && ( hash_equals( self::TOKEN, $token ) || $setting ) ) {
 			return LicenseState::valid( ProCapabilities::all() );
 		}
 

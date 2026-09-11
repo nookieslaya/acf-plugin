@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash 540d1bb22728a38b8e6aa5f5a704872f7e71e184512a3d16a89aabef94ddad31 -->
+<!-- blueprint:source-hash f30167c7054418966d94dd07f7f89863e364f04daa004598ca6b59941a266b11 -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -56,7 +56,8 @@ code still referring to removed or renamed fields before release.
 15. **Stabilization and release readiness** - establishes quality, compatibility,
     documentation, and end-to-end release evidence.
 16. **Free and Pro product foundation** - defines edition boundaries before
-    license-aware advanced team workflows are introduced.
+    license-aware advanced team workflows are introduced, then adds Pro risk
+    policies, approved exceptions, and PR/MR-ready reports in separate steps.
 17. **Live schema and code workflow** - removes unnecessary manual captures by
     comparing current schema and current PHP files at analysis time.
 18. **Admin UX/UI refinement** - turns Overview into an actionable decision

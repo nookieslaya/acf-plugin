@@ -9,6 +9,7 @@ namespace AcfSchemaGuard\Cli;
 
 use AcfSchemaGuard\Baseline\SchemaBaselineFile;
 use AcfSchemaGuard\Diff\SnapshotAnalysisService;
+use AcfSchemaGuard\Licensing\RiskPolicyService;
 use RuntimeException;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,16 +28,18 @@ final class BaselineCommand {
 
 	/** @var callable */
 	private $current_schema_callback;
+	private $risk_policy_service;
 
 	/**
 	 * @param SchemaBaselineFile      $baseline_file Baseline reader and writer.
 	 * @param SnapshotAnalysisService $analysis_service Schema analysis service.
 	 * @param callable                $current_schema_callback Gets the effective normalized schema.
 	 */
-	public function __construct( SchemaBaselineFile $baseline_file, SnapshotAnalysisService $analysis_service, $current_schema_callback ) {
+	public function __construct( SchemaBaselineFile $baseline_file, SnapshotAnalysisService $analysis_service, $current_schema_callback, $risk_policy_service = null ) {
 		$this->baseline_file           = $baseline_file;
 		$this->analysis_service        = $analysis_service;
 		$this->current_schema_callback = $current_schema_callback;
+		$this->risk_policy_service     = $risk_policy_service instanceof RiskPolicyService ? $risk_policy_service : null;
 	}
 
 	/**
@@ -86,7 +89,7 @@ final class BaselineCommand {
 		}
 
 		if ( isset( $assoc_args['fail-on-breaking'] ) && $this->has_breaking( $analysis['findings'] ) ) {
-			\WP_CLI::error( 'Breaking schema changes found.' );
+			\WP_CLI::error( null === $this->risk_policy_service ? 'Breaking schema changes found.' : 'Schema changes exceed the active risk policy.' );
 		}
 	}
 
@@ -147,8 +150,11 @@ final class BaselineCommand {
 	 * @return bool
 	 */
 	private function has_breaking( $findings ) {
+		$policy = null !== $this->risk_policy_service ? $this->risk_policy_service->policy() : null;
+		$levels = array( 'safe' => 0, 'warning' => 1, 'high' => 2, 'critical' => 3 );
 		foreach ( $findings as $finding ) {
-			if ( in_array( $finding['severity'], array( 'high', 'critical' ), true ) ) {
+			$severity = isset( $finding['severity'] ) ? $finding['severity'] : '';
+			if ( null !== $policy ? $policy->fails( $severity ) : isset( $levels[ $severity ] ) && $levels[ $severity ] >= $levels['high'] ) {
 				return true;
 			}
 		}

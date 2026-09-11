@@ -26,6 +26,37 @@ access on staging or production. Remove the constant, or use any other value, to
 review the Free state. This is a developer preview switch, not a secret and not
 a production credential.
 
+## Pro risk policy
+
+Free uses the standard `high` release threshold: `high` and `critical` findings
+make `wp acf-schema-guard check --fail-on-breaking` return a non-zero status.
+Pro can choose the lowest severity that blocks the check in **ACF Schema Guard →
+Settings → Release policy**.
+
+| Threshold | Findings that fail the check | Typical use |
+| --- | --- | --- |
+| `warning` | Warning, High, Critical | Review every schema change before release. |
+| `high` | High, Critical | Default balanced policy. |
+| `critical` | Critical | Block only destructive schema removal. |
+
+The policy never prevents saving ACF fields, modifies content, or hides a
+finding. It changes only the pass or fail decision of release checks. Switch
+between Free and Pro preview on a local site from **Settings → Edition preview**
+to review both states safely.
+
+### Team policy file
+
+A Pro administrator can use **Download team policy JSON** in Settings and commit
+the downloaded `acf-schema-guard-policy.json` to the WordPress project root.
+After a normal Git pull, every local installation reads that file before its own
+local setting. Free users can read and apply the committed policy but cannot edit
+or export it. The plugin never writes into the repository automatically.
+
+CI uses the same file when it runs either `wp acf-schema-guard check` or
+`wp acf-schema-guard baseline check` with `--fail-on-breaking`. A policy failure
+only returns a non-zero command status; branch protection in GitHub or GitLab is
+what can prevent a merge.
+
 ## Initial Pro plans
 
 Pro licenses are annual subscriptions that include Pro updates and support for
