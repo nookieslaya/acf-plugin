@@ -73,6 +73,12 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/interface-stored-data-impa
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-wordpress-stored-data-impact-repository.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-stored-data-impact.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-stored-data-impact-analyzer.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-pro-capabilities.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-license-state.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-capability-decision.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-capability-service.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-local-preview-state-provider.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/admin/class-pro-feature-notice.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/admin/class-admin-controller.php';
 
 /**
@@ -127,6 +133,9 @@ final class Plugin {
 
 	private $schema_differ = null;
 
+	/** @var \AcfSchemaGuard\Licensing\CapabilityService|null */
+	private $capability_service = null;
+
 	/**
 	 * Gets the plugin instance.
 	 *
@@ -151,6 +160,7 @@ final class Plugin {
 		}
 
 		$this->acf_environment_provider = new AcfEnvironmentProvider();
+		$this->capability_service       = new \AcfSchemaGuard\Licensing\CapabilityService( $this->license_state() );
 
 		if ( is_admin() ) {
 			$this->admin_controller = new AdminController(
@@ -221,6 +231,37 @@ final class Plugin {
 		 * @param Plugin $plugin Initialized plugin service.
 		 */
 		do_action( 'acf_schema_guard/booted', $this );
+	}
+
+	/**
+	 * Resolves the current provider-neutral license state.
+	 *
+	 * @return \AcfSchemaGuard\Licensing\LicenseState
+	 */
+	public function license_state() {
+		$state = ( new \AcfSchemaGuard\Licensing\LocalPreviewStateProvider() )->state();
+
+		/**
+		 * Allows a future licensing client to supply a verified state.
+		 *
+		 * @param \AcfSchemaGuard\Licensing\LicenseState $state Current local preview state.
+		 */
+		$state = apply_filters( 'acf_schema_guard/license_state', $state );
+
+		return $state instanceof \AcfSchemaGuard\Licensing\LicenseState ? $state : \AcfSchemaGuard\Licensing\LicenseState::unverifiable();
+	}
+
+	/**
+	 * Gets the capability service for future Pro workflows.
+	 *
+	 * @return \AcfSchemaGuard\Licensing\CapabilityService
+	 */
+	public function capabilities() {
+		if ( null === $this->capability_service ) {
+			$this->capability_service = new \AcfSchemaGuard\Licensing\CapabilityService( $this->license_state() );
+		}
+
+		return $this->capability_service;
 	}
 
 	/**

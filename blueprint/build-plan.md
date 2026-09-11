@@ -72,7 +72,7 @@
   - [x] 15c. **End-to-end release verification** - execute and document the complete baseline-to-report workflow in local WordPress.
 - [ ] 16. **Free and Pro product foundation**
   - [x] 16a. **Edition policy and feature catalogue** - document Free and Pro capability boundaries, supported plans, and non-disruptive license behaviour.
-  - [ ] 16b. **License-aware capability boundary** - add a testable capability service without payment processing or remote activation.
+  - [x] 16b. **License-aware capability boundary** - add a testable capability service without payment processing or remote activation.
   - [ ] 16c. **First Pro workflow** - deliver configurable risk policies and PR/MR-ready reports behind the capability boundary.
 
 ## Continuous local analysis

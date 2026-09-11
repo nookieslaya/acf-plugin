@@ -6,9 +6,25 @@ ACF Schema Guard is distributed as one plugin. Its Free edition works without a
 license key. A future Pro license adds team-oriented capabilities, but never
 removes access to Free safety workflows or data created by those workflows.
 
-The plugin does not currently contact a licensing service, accept license keys,
-or enforce Pro access. This document is the product contract for a later
-license-aware capability service.
+The plugin does not contact a licensing service or accept production license
+keys. It now has a provider-neutral capability boundary for future Pro workflows.
+Without a verified provider state, Pro capabilities stay unavailable and all Free
+workflows remain available.
+
+## Local Pro preview
+
+For local product development only, define the following constant in the local
+site's `wp-config.php` before WordPress loads:
+
+```php
+define( 'ACF_SCHEMA_GUARD_LOCAL_PRO_PREVIEW_TOKEN', 'acf-schema-guard-local-preview' );
+```
+
+The token is accepted only when WordPress reports the environment as `local`. It
+does not contact a server, persist a key, activate a real license, or grant Pro
+access on staging or production. Remove the constant, or use any other value, to
+review the Free state. This is a developer preview switch, not a secret and not
+a production credential.
 
 ## Initial Pro plans
 
