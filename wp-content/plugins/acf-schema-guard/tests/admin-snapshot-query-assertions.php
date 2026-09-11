@@ -237,7 +237,11 @@ $source_health->invoke( $controller, array( 'title' => 'Field Groups' ) );
 $source_health_output = ob_get_clean();
 
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $source_health_output, 'Divergent' ), 'Source health status is not rendered.' );
-acf_schema_guard_admin_snapshot_assert( false !== strpos( $source_health_output, 'Do not overwrite either source blindly.' ), 'Source health guidance is not rendered.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $source_health_output, 'acf-schema-guard-source-presence--conflict' ), 'Source health did not mark equal-timestamp divergence as a source conflict.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $source_health_output, 'Definitions differ but timestamps are equal.' ), 'Source health did not explain unavailable ACF Sync for equal-timestamp divergence.' );
+$source_health_action = $reflection->getMethod( 'source_health_action' );
+$source_health_action->setAccessible( true );
+acf_schema_guard_admin_snapshot_assert( 'No action needed.' === $source_health_action->invoke( $controller, 'aligned', 'database_newer' ), 'Aligned source health still received timestamp-only sync guidance.' );
 $screen = array( 'title' => 'History', 'description' => '' );
 
 ob_start();

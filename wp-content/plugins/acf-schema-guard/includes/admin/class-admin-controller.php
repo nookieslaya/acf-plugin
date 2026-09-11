@@ -758,7 +758,7 @@ final class AdminController {
 			<?php else : ?>
 				<table class="widefat striped acf-schema-guard-source-health">
 					<thead><tr><th scope="col"><?php echo esc_html__( 'Field group', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Key', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Status', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Database', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Local JSON', 'acf-schema-guard' ); ?></th><th scope="col"><?php echo esc_html__( 'Recommended action', 'acf-schema-guard' ); ?></th></tr></thead>
-					<tbody><?php foreach ( $report->findings() as $finding ) : ?><tr class="acf-schema-guard-source-status-<?php echo esc_attr( $this->source_health_status( $finding->status() ) ); ?>"><td data-label="<?php echo esc_attr__( 'Field group', 'acf-schema-guard' ); ?>"><?php echo esc_html( $finding->title() ); ?></td><td data-label="<?php echo esc_attr__( 'Key', 'acf-schema-guard' ); ?>"><code><?php echo esc_html( $finding->field_group_key() ); ?></code></td><td data-label="<?php echo esc_attr__( 'Status', 'acf-schema-guard' ); ?>"><span class="acf-schema-guard-source-status-label"><?php echo esc_html( $this->source_health_label( $finding->status() ) ); ?></span></td><td data-label="<?php echo esc_attr__( 'Database', 'acf-schema-guard' ); ?>"><?php echo esc_html( null === $finding->database_group() ? __( 'Missing', 'acf-schema-guard' ) : __( 'Present', 'acf-schema-guard' ) ); ?></td><td data-label="<?php echo esc_attr__( 'Local JSON', 'acf-schema-guard' ); ?>"><?php echo esc_html( null === $finding->json_group() ? __( 'Missing', 'acf-schema-guard' ) : __( 'Present', 'acf-schema-guard' ) ); ?></td><td data-label="<?php echo esc_attr__( 'Recommended action', 'acf-schema-guard' ); ?>"><?php echo esc_html( $this->source_health_action( $finding->status(), $finding->direction() ) ); ?></td></tr><?php endforeach; ?></tbody>
+					<tbody><?php foreach ( $report->findings() as $finding ) : ?><?php $database = $this->source_health_presence( $finding->database_group(), $finding->status(), $finding->direction(), 'database' ); ?><?php $json = $this->source_health_presence( $finding->json_group(), $finding->status(), $finding->direction(), 'json' ); ?><tr class="acf-schema-guard-source-status-<?php echo esc_attr( $this->source_health_status( $finding->status() ) ); ?>"><td data-label="<?php echo esc_attr__( 'Field group', 'acf-schema-guard' ); ?>"><?php echo esc_html( $finding->title() ); ?></td><td data-label="<?php echo esc_attr__( 'Key', 'acf-schema-guard' ); ?>"><code><?php echo esc_html( $finding->field_group_key() ); ?></code></td><td data-label="<?php echo esc_attr__( 'Status', 'acf-schema-guard' ); ?>"><span class="acf-schema-guard-source-status-label"><?php echo esc_html( $this->source_health_label( $finding->status() ) ); ?></span></td><td data-label="<?php echo esc_attr__( 'Database', 'acf-schema-guard' ); ?>"><span class="acf-schema-guard-source-presence acf-schema-guard-source-presence--<?php echo esc_attr( $database['state'] ); ?>"><strong><?php echo esc_html( $database['label'] ); ?></strong><small><?php echo esc_html( $database['detail'] ); ?></small></span></td><td data-label="<?php echo esc_attr__( 'Local JSON', 'acf-schema-guard' ); ?>"><span class="acf-schema-guard-source-presence acf-schema-guard-source-presence--<?php echo esc_attr( $json['state'] ); ?>"><strong><?php echo esc_html( $json['label'] ); ?></strong><small><?php echo esc_html( $json['detail'] ); ?></small></span></td><td data-label="<?php echo esc_attr__( 'Recommended action', 'acf-schema-guard' ); ?>"><?php echo esc_html( $this->source_health_action( $finding->status(), $finding->direction() ) ); ?></td></tr><?php endforeach; ?></tbody>
 				</table>
 			<?php endif; ?>
 		</div>
@@ -775,11 +775,40 @@ final class AdminController {
 		return isset( $labels[ $status ] ) ? $labels[ $status ] : __( 'Unknown', 'acf-schema-guard' );
 	}
 
+	private function source_health_presence( $source, $status, $direction, $type ) {
+		if ( null === $source ) {
+			return array( 'state' => 'missing', 'label' => __( 'Missing', 'acf-schema-guard' ), 'detail' => __( 'Not found', 'acf-schema-guard' ) );
+		}
+
+		if ( 'aligned' === $this->source_health_status( $status ) ) {
+			return array( 'state' => 'aligned', 'label' => __( 'Present', 'acf-schema-guard' ), 'detail' => __( 'Matches', 'acf-schema-guard' ) );
+		}
+
+		if ( 'divergent' === $status && in_array( $direction, array( 'equal', 'unknown' ), true ) ) {
+			return array( 'state' => 'conflict', 'label' => __( 'Present', 'acf-schema-guard' ), 'detail' => __( 'Same modified time', 'acf-schema-guard' ) );
+		}
+
+		if ( ( 'database' === $type && 'database_newer' === $direction ) || ( 'json' === $type && 'json_newer' === $direction ) ) {
+			return array( 'state' => 'newer', 'label' => __( 'Present', 'acf-schema-guard' ), 'detail' => __( 'Newer schema', 'acf-schema-guard' ) );
+		}
+
+		return array( 'state' => 'present', 'label' => __( 'Present', 'acf-schema-guard' ), 'detail' => __( 'Review', 'acf-schema-guard' ) );
+	}
+
 	private function source_health_action( $status, $direction = 'unknown' ) {
+		$status = $this->source_health_status( $status );
+
+		if ( 'aligned' === $status ) {
+			return __( 'No action needed.', 'acf-schema-guard' );
+		}
+
+		if ( 'divergent' === $status && in_array( $direction, array( 'equal', 'unknown' ), true ) ) {
+			return __( 'Definitions differ but timestamps are equal. ACF Sync may not be available.', 'acf-schema-guard' );
+		}
+
 		if ( 'json_newer' === $direction ) { return __( 'Local JSON is newer. Review it, then use ACF Sync to import it into the database.', 'acf-schema-guard' ); }
 		if ( 'database_newer' === $direction ) { return __( 'The database is newer. Open this group in ACF and save it to refresh Local JSON before committing.', 'acf-schema-guard' ); }
 		$actions = array( 'aligned' => __( 'No action needed.', 'acf-schema-guard' ), 'database_only' => __( 'Save or sync this group so it is written to Local JSON and committed to Git.', 'acf-schema-guard' ), 'json_only' => __( 'Review the JSON definition and import or sync it into the database when appropriate.', 'acf-schema-guard' ), 'divergent' => __( 'Review both definitions before synchronizing. Do not overwrite either source blindly.', 'acf-schema-guard' ) );
-		$status  = $this->source_health_status( $status );
 		return isset( $actions[ $status ] ) ? $actions[ $status ] : __( 'Review this field group manually.', 'acf-schema-guard' );
 	}
 

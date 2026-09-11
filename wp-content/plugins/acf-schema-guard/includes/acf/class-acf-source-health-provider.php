@@ -44,7 +44,7 @@ final class AcfSourceHealthProvider {
 
 	/** @return bool */
 	private function is_available() {
-		return function_exists( 'acf_get_field_group' ) && function_exists( 'acf_get_fields' ) && function_exists( 'acf_get_setting' ) && function_exists( 'get_posts' );
+		return function_exists( 'acf_get_field_group' ) && function_exists( 'acf_get_raw_fields' ) && function_exists( 'acf_get_setting' ) && function_exists( 'get_posts' );
 	}
 
 	/**
@@ -84,13 +84,69 @@ final class AcfSourceHealthProvider {
 				continue;
 			}
 
-			$fields          = acf_get_fields( $post->ID );
-			$group['fields'] = is_array( $fields ) ? $fields : array();
+			$group['fields'] = $this->database_fields( $post->ID );
 			$group['_source_modified'] = isset( $post->post_modified_gmt ) ? strtotime( $post->post_modified_gmt ) : null;
 			$groups[]        = $this->normalize_group( $group );
 		}
 
 		return array_filter( $groups );
+	}
+
+	/**
+	 * Reads raw database fields without allowing Local JSON to override them.
+	 *
+	 * @param int $parent_id ACF field group or field post ID.
+	 * @return array[]
+	 */
+	private function database_fields( $parent_id ) {
+		$fields = acf_get_raw_fields( (int) $parent_id );
+
+		if ( ! is_array( $fields ) ) {
+			return array();
+		}
+
+		foreach ( $fields as &$field ) {
+			if ( ! is_array( $field ) || empty( $field['ID'] ) ) {
+				continue;
+			}
+
+			$field['sub_fields'] = $this->database_fields( $field['ID'] );
+
+			if ( 'flexible_content' === $field['type'] ) {
+				$field['layouts']    = $this->database_layouts( $field, $field['sub_fields'] );
+				$field['sub_fields'] = array();
+			}
+		}
+		unset( $field );
+
+		return $fields;
+	}
+
+	/**
+	 * @param array   $field      Raw Flexible Content field.
+	 * @param array[] $sub_fields Raw fields directly below the Flexible Content field.
+	 * @return array[]
+	 */
+	private function database_layouts( array $field, array $sub_fields ) {
+		$layouts = isset( $field['layouts'] ) && is_array( $field['layouts'] ) ? $field['layouts'] : array();
+
+		foreach ( $layouts as &$layout ) {
+			if ( ! is_array( $layout ) || empty( $layout['key'] ) ) {
+				continue;
+			}
+
+			$layout['sub_fields'] = array_values(
+				array_filter(
+					$sub_fields,
+					static function ( $sub_field ) use ( $layout ) {
+						return is_array( $sub_field ) && isset( $sub_field['parent_layout'] ) && $layout['key'] === $sub_field['parent_layout'];
+					}
+				)
+			);
+		}
+		unset( $layout );
+
+		return array_values( $layouts );
 	}
 
 	/**

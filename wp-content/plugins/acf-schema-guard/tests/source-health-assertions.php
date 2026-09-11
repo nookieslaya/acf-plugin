@@ -52,6 +52,61 @@ if ( ! $report->is_available() || $expected !== $statuses || 'json_newer' !== $d
 	exit( 1 );
 }
 
+$runtime_defaults_report = $analyzer->analyze(
+	array(
+		array(
+			'key'    => 'group_runtime_defaults',
+			'title'  => 'Runtime defaults',
+			'fields' => array(
+				array(
+					'key'           => 'field_image',
+					'name'          => 'image',
+					'type'          => 'image',
+					'default_value' => null,
+					'settings'      => array(
+						'_valid'          => 1,
+						'aria-label'      => '',
+						'class'           => '',
+						'parent_repeater' => 'field_parent',
+						'wrapper'         => array( 'class' => '', 'id' => '', 'width' => '' ),
+					),
+				),
+			),
+		),
+	),
+	array(
+		array(
+			'key'    => 'group_runtime_defaults',
+			'title'  => 'Runtime defaults',
+			'fields' => array(
+				array(
+					'key'           => 'field_image',
+					'name'          => 'image',
+					'type'          => 'image',
+					'default_value' => '',
+					'settings'      => array(),
+				),
+			),
+		),
+	)
+);
+
+$runtime_defaults_finding = $runtime_defaults_report->findings()[0];
+if ( \AcfSchemaGuard\Acf\SourceHealthFinding::STATUS_ALIGNED !== $runtime_defaults_finding->status() ) {
+	fwrite( STDERR, "Source health runtime-default assertion failed.\n" );
+	exit( 1 );
+}
+
+$meaningful_change_report = $analyzer->analyze(
+	array( array( 'key' => 'group_meaningful_change', 'fields' => array( array( 'key' => 'field_a', 'name' => 'before', 'type' => 'text' ) ) ) ),
+	array( array( 'key' => 'group_meaningful_change', 'fields' => array( array( 'key' => 'field_a', 'name' => 'after', 'type' => 'textarea' ) ) ) )
+);
+
+if ( \AcfSchemaGuard\Acf\SourceHealthFinding::STATUS_DIVERGENT !== $meaningful_change_report->findings()[0]->status() ) {
+	fwrite( STDERR, "Source health meaningful-change assertion failed.\n" );
+	exit( 1 );
+}
+
 $source_health_path = sys_get_temp_dir() . '/acf-schema-guard-source-health-' . uniqid( '', true );
 mkdir( $source_health_path );
 file_put_contents( $source_health_path . '/group_database.json', '{invalid json' );
@@ -102,6 +157,14 @@ function acf_get_fields( $id ) {
 	return array();
 }
 
+function acf_get_raw_fields( $id ) {
+	global $raw_field_parent_ids;
+
+	$raw_field_parent_ids[] = (int) $id;
+
+	return array();
+}
+
 function acf_get_setting( $key ) {
 	global $source_health_path;
 
@@ -109,6 +172,7 @@ function acf_get_setting( $key ) {
 }
 
 $source_health_path = $source_health_path;
+$raw_field_parent_ids = array();
 $provider            = new \AcfSchemaGuard\Acf\AcfSourceHealthProvider();
 $provider_report     = $provider->discover();
 $provider_statuses   = array();
@@ -122,7 +186,7 @@ unlink( $source_health_path . '/group_json.json' );
 unlink( $source_health_path . '/group_json__trashed.json' );
 rmdir( $source_health_path );
 
-if ( ! $provider_report->is_available() || array( 'group_database' => \AcfSchemaGuard\Acf\SourceHealthFinding::STATUS_DATABASE_ONLY, 'group_json' => \AcfSchemaGuard\Acf\SourceHealthFinding::STATUS_JSON_ONLY ) !== $provider_statuses ) {
+if ( ! $provider_report->is_available() || array( 10 ) !== $raw_field_parent_ids || array( 'group_database' => \AcfSchemaGuard\Acf\SourceHealthFinding::STATUS_DATABASE_ONLY, 'group_json' => \AcfSchemaGuard\Acf\SourceHealthFinding::STATUS_JSON_ONLY ) !== $provider_statuses ) {
 	fwrite( STDERR, "Source health provider assertion failed.\n" );
 	exit( 1 );
 }

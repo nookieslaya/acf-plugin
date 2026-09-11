@@ -89,7 +89,59 @@ final class SourceHealthAnalyzer {
 
 	private function schema_group( array $group ) {
 		unset( $group['_source_modified'] );
-		return $group;
+
+		return CanonicalValue::normalize( $this->normalize_source_value( $group ) );
+	}
+
+	/**
+	 * Removes ACF runtime metadata and canonicalizes equivalent empty defaults.
+	 *
+	 * @param mixed       $value Source value.
+	 * @param string|null $key   Parent array key.
+	 * @return mixed
+	 */
+	private function normalize_source_value( $value, $key = null ) {
+		if ( ! is_array( $value ) ) {
+			return 'default_value' === $key && null === $value ? '' : $value;
+		}
+
+		foreach ( $value as $child_key => $child_value ) {
+			if ( in_array( $child_key, array( '_valid', 'parent_repeater' ), true ) ) {
+				unset( $value[ $child_key ] );
+				continue;
+			}
+
+			$value[ $child_key ] = $this->normalize_source_value( $child_value, $child_key );
+
+			if ( $this->is_empty_runtime_default( $child_key, $value[ $child_key ] ) ) {
+				unset( $value[ $child_key ] );
+			}
+		}
+
+		if ( isset( $value['type'], $value['settings'] ) && 'image' === $value['type'] && is_array( $value['settings'] ) && ! isset( $value['settings']['preview_size'] ) ) {
+			$value['settings']['preview_size'] = 'medium';
+		}
+
+		return $value;
+	}
+
+	/**
+	 * @param string $key   Source key.
+	 * @param mixed  $value Source value.
+	 * @return bool
+	 */
+	private function is_empty_runtime_default( $key, $value ) {
+		if ( in_array( $key, array( 'class', 'aria-label' ), true ) ) {
+			return '' === $value;
+		}
+
+		if ( 'wrapper' !== $key || ! is_array( $value ) ) {
+			return false;
+		}
+
+		return array() === array_filter( $value, static function ( $item ) {
+			return '' !== $item;
+		} );
 	}
 
 	/**

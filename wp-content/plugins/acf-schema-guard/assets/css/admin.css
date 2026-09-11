@@ -225,6 +225,16 @@
 .acf-schema-guard-source-status-database_only .acf-schema-guard-source-status-label { background: #fcf4cf; color: #6c4b00; }
 .acf-schema-guard-source-status-json_only .acf-schema-guard-source-status-label { background: #e7f3ff; color: #135e96; }
 .acf-schema-guard-source-status-divergent .acf-schema-guard-source-status-label { background: #fce8e8; color: #8a2424; }
+.acf-schema-guard-source-presence { border: 1px solid #d0d5dd; border-radius: 7px; display: inline-grid; gap: 2px; line-height: 1.25; min-width: 74px; padding: 6px 8px; }
+.acf-schema-guard-source-presence strong { color: #344054; font-size: 12px; }
+.acf-schema-guard-source-presence small { color: #667085; font-size: 11px; }
+.acf-schema-guard-source-presence--aligned { background: #edfaef; border-color: #72a47c; }
+.acf-schema-guard-source-presence--aligned strong, .acf-schema-guard-source-presence--aligned small { color: #116329; }
+.acf-schema-guard-source-presence--newer { background: #fcf4cf; border-color: #dba617; }
+.acf-schema-guard-source-presence--newer strong, .acf-schema-guard-source-presence--newer small { color: #6c4b00; }
+.acf-schema-guard-source-presence--conflict { background: #fce8e8; border-color: #d63638; }
+.acf-schema-guard-source-presence--conflict strong, .acf-schema-guard-source-presence--conflict small { color: #8a2424; }
+.acf-schema-guard-source-presence--missing { background: #f2f4f7; border-style: dashed; }
 
 /* Changes and severity language. */
 .acf-schema-guard-changes-page {
