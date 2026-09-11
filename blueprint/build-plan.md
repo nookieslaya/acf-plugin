@@ -91,6 +91,6 @@
 
 ## Impact confidence
 
-- [ ] 19. **Data impact and dynamic code references** - make incomplete code evidence explicit and show safe, read-only evidence of stored content affected by risky ACF schema changes.
+- [x] 19. **Data impact and dynamic code references** - make incomplete code evidence explicit and show safe, read-only evidence of stored content affected by risky ACF schema changes.
   - [x] 19a. **Dynamic PHP reference awareness** - identify supported PHP ACF calls whose first argument is not a literal field name and present them as manual-review evidence without guessing the target field.
-  - [ ] 19b. **Stored data impact inventory** - for removed or renamed fields, report bounded counts and safe record identifiers for matching WordPress meta keys without reading field values or changing data.
+  - [x] 19b. **Stored data impact inventory** - for removed or renamed fields, report bounded counts and safe record identifiers for matching WordPress meta keys without reading field values or changing data.

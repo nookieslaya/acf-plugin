@@ -67,6 +67,10 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-current-code-usage-
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-php-acf-usage-scanner.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-code-impact.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-code-impact-analyzer.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/interface-stored-data-impact-repository.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-wordpress-stored-data-impact-repository.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-stored-data-impact.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-stored-data-impact-analyzer.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/admin/class-admin-controller.php';
 
 /**
@@ -154,7 +158,8 @@ final class Plugin {
 				new BaselineSnapshotService( $this->snapshot_repository() ),
 				array( $this, 'source_health' ),
 				array( $this, 'analyze_code_impact' ),
-				array( $this, 'analyze_live_baseline' )
+				array( $this, 'analyze_live_baseline' ),
+				array( $this, 'analyze_stored_data_impact' )
 			);
 			$this->admin_controller->register();
 		}
@@ -253,6 +258,20 @@ final class Plugin {
 		$analyzer = new \AcfSchemaGuard\Impact\CodeImpactAnalyzer();
 
 		return $analyzer->analyze( $changes, $references );
+	}
+
+	/**
+	 * Returns bounded direct post-meta evidence for destructive field changes.
+	 *
+	 * @param array $changes Classified schema changes.
+	 * @return array
+	 */
+	public function analyze_stored_data_impact( array $changes ) {
+		global $wpdb;
+
+		return ( new \AcfSchemaGuard\Impact\StoredDataImpactAnalyzer(
+			new \AcfSchemaGuard\Impact\WordPressStoredDataImpactRepository( $wpdb )
+		) )->analyze( $changes );
 	}
 
 	/**

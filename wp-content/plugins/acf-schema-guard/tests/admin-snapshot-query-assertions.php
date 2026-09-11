@@ -147,6 +147,22 @@ $controller = new \AcfSchemaGuard\Admin\AdminController(
 				};
 			}
 		};
+	},
+	static function ( array $changes ) {
+		return array(
+			new class( $changes[0] ) {
+				private $change;
+				public function __construct( array $change ) { $this->change = $change; }
+				public function to_array() {
+					return array(
+						'change'       => $this->change,
+						'field_name'   => 'hero_title',
+						'record_count' => 1,
+						'records'      => array( array( 'post_id' => 7, 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Example page' ) ),
+					);
+				}
+			}
+		);
 	}
 );
 $reflection = new ReflectionClass( $controller );
@@ -240,6 +256,8 @@ acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'curr
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'not saved as a snapshot' ), 'Changes did not explain that live schema is not persisted.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Detected changes' ), 'Changes did not render the shared results heading.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Affected code references' ), 'Changes did not render code impacts.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Stored data impact' ), 'Changes did not render stored data impact.' );
+acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'Example page' ), 'Changes did not render safe stored record evidence.' );
 acf_schema_guard_admin_snapshot_assert( false !== strpos( $changes_output, 'template-parts/acf/hero.php:12' ), 'Changes did not render an affected code location.' );
 acf_schema_guard_admin_snapshot_assert( 0 === $repository->latest_calls, 'Changes must not request the newest snapshot.' );
 acf_schema_guard_admin_snapshot_assert( 0 === $repository->all_calls, 'Admin requested the full snapshot collection.' );

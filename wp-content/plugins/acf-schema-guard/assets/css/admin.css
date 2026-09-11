@@ -280,6 +280,18 @@
 .acf-schema-guard-code-impact-list p { color: #50575e; margin: 6px 0 12px; }
 .acf-schema-guard-code-impact-list ul { display: grid; gap: 8px; margin: 0; }
 .acf-schema-guard-code-impact-list li { align-items: center; display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.acf-schema-guard-stored-data-impact-list { background: #f9fcff; border: 1px solid #b9d9ee; border-left: 4px solid var(--asg-blue); border-radius: 8px; margin-top: 12px; padding: 16px 18px; }
+.acf-schema-guard-stored-data-impact-list h3 { color: #1d4f6e; font-size: 14px; margin: 0; }
+.acf-schema-guard-stored-data-impact-list > p { color: #475467; margin: 6px 0 14px; }
+.acf-schema-guard-stored-data-impact-field { border-top: 1px solid #d5e7f3; display: grid; gap: 7px; padding: 12px 0; }
+.acf-schema-guard-stored-data-impact-field:first-of-type { border-top: 0; padding-top: 0; }
+.acf-schema-guard-stored-data-impact-field:last-child { padding-bottom: 0; }
+.acf-schema-guard-stored-data-impact-field > span { color: #1d4f6e; font-size: 13px; font-weight: 600; }
+.acf-schema-guard-stored-data-impact-field > p { color: #667085; margin: 0; }
+.acf-schema-guard-stored-data-impact-field ul { display: grid; gap: 6px; margin: 0; }
+.acf-schema-guard-stored-data-impact-field li { align-items: center; display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.acf-schema-guard-stored-data-impact-field li span { color: #667085; font-size: 12px; }
+.acf-schema-guard-stored-data-impact-field li strong { color: #344054; font-size: 13px; }
 
 @media screen and (max-width: 960px) {
 	.acf-schema-guard-overview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

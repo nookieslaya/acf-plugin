@@ -32,6 +32,14 @@ WordPress Admin. The available workflow is:
 The Admin baseline is stored as a snapshot ID in WordPress. It is useful for
 local review, but is different from the Git baseline file used by CI.
 
+For a removed field, a renamed field, or a removed field group, **Changes** also
+shows a **Stored data impact** section. It counts records with an exact matching
+post-meta key and shows at most 20 safe record identifiers (ID, type, status,
+and title). The plugin never reads or displays field values, and never changes
+content. A zero result means no direct post-meta records were found; it does not
+cover nested repeater fields, options, users, terms, comments, or other storage
+patterns.
+
 ## WP-CLI scan
 
 When WP-CLI loads the plugin, it scans the PHP source directories you provide

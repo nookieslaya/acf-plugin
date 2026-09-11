@@ -88,6 +88,9 @@ final class AdminController {
 	/** @var callable */
 	private $analyze_live_baseline_callback;
 
+	/** @var callable */
+	private $analyze_stored_data_impact_callback;
+
 	private $baseline;
 
 	/**
@@ -96,13 +99,14 @@ final class AdminController {
 	 * @param callable           $analyze_snapshots_callback Analyzes two schema snapshots.
 	 * @param callable           $analyze_code_impact_callback Matches changes to code references.
 	 */
-	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback, BaselineSnapshotService $baseline, $source_health_callback, $analyze_code_impact_callback = null, $analyze_live_baseline_callback = null ) {
+	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback, BaselineSnapshotService $baseline, $source_health_callback, $analyze_code_impact_callback = null, $analyze_live_baseline_callback = null, $analyze_stored_data_impact_callback = null ) {
 		$this->snapshots                  = $snapshots;
 		$this->capture_snapshot_callback  = $capture_snapshot_callback;
 		$this->analyze_snapshots_callback = $analyze_snapshots_callback;
 		$this->source_health_callback     = $source_health_callback;
 		$this->analyze_code_impact_callback = $analyze_code_impact_callback;
 		$this->analyze_live_baseline_callback = $analyze_live_baseline_callback;
+		$this->analyze_stored_data_impact_callback = $analyze_stored_data_impact_callback;
 		$this->baseline                   = $baseline;
 	}
 
@@ -941,6 +945,7 @@ final class AdminController {
 		}
 
 		$impacts_by_change = $this->code_impacts_by_change( $analysis['findings'] );
+		$data_impacts_by_change = $this->stored_data_impacts_by_change( $analysis['findings'] );
 		$dynamic_references = $this->scan_current_dynamic_references();
 
 		?>
@@ -967,6 +972,7 @@ final class AdminController {
 					$change   = $finding['change'];
 					$severity = $this->normalize_severity( isset( $finding['severity'] ) ? $finding['severity'] : '' );
 					$impacts  = isset( $impacts_by_change[ $this->change_key( $change ) ] ) ? $impacts_by_change[ $this->change_key( $change ) ] : array();
+					$data_impacts = isset( $data_impacts_by_change[ $this->change_key( $change ) ] ) ? $data_impacts_by_change[ $this->change_key( $change ) ] : array();
 					?>
 					<tr class="acf-schema-guard-finding acf-schema-guard-finding-<?php echo esc_attr( $severity ); ?>">
 						<td data-label="<?php echo esc_attr__( 'Kind', 'acf-schema-guard' ); ?>"><?php echo esc_html( $change['kind'] ); ?></td>
@@ -976,9 +982,9 @@ final class AdminController {
 						<td data-label="<?php echo esc_attr__( 'Severity', 'acf-schema-guard' ); ?>"><?php $this->render_severity_badge( $severity ); ?></td>
 						<td data-label="<?php echo esc_attr__( 'Rationale', 'acf-schema-guard' ); ?>"><?php echo esc_html( $finding['rationale'] ); ?></td>
 					</tr>
-					<?php if ( ! empty( $impacts ) ) : ?>
+					<?php if ( ! empty( $impacts ) || ! empty( $data_impacts ) ) : ?>
 						<tr class="acf-schema-guard-code-impacts">
-							<td colspan="6"><?php $this->render_code_impacts( $impacts ); ?></td>
+							<td colspan="6"><?php if ( ! empty( $impacts ) ) { $this->render_code_impacts( $impacts ); } if ( ! empty( $data_impacts ) ) { $this->render_stored_data_impacts( $data_impacts ); } ?></td>
 						</tr>
 					<?php endif; ?>
 				<?php endforeach; ?>
@@ -1018,6 +1024,31 @@ final class AdminController {
 		return $grouped;
 	}
 
+	private function stored_data_impacts_by_change( array $findings ) {
+		$changes = array();
+
+		foreach ( $findings as $finding ) {
+			if ( isset( $finding['change'] ) && is_array( $finding['change'] ) ) {
+				$changes[] = $finding['change'];
+			}
+		}
+
+		if ( empty( $changes ) || ! is_callable( $this->analyze_stored_data_impact_callback ) ) {
+			return array();
+		}
+
+		$grouped = array();
+		foreach ( call_user_func( $this->analyze_stored_data_impact_callback, $changes ) as $impact ) {
+			$data = is_object( $impact ) && method_exists( $impact, 'to_array' ) ? $impact->to_array() : array();
+			if ( ! isset( $data['change'], $data['field_name'], $data['record_count'], $data['records'] ) || ! is_array( $data['change'] ) || ! is_array( $data['records'] ) ) {
+				continue;
+			}
+			$grouped[ $this->change_key( $data['change'] ) ][] = $data;
+		}
+
+		return $grouped;
+	}
+
 	private function change_key( array $change ) {
 		return implode(
 			'|',
@@ -1044,6 +1075,30 @@ final class AdminController {
 					</li>
 				<?php endforeach; ?>
 			</ul>
+		</section>
+		<?php
+	}
+
+	private function render_stored_data_impacts( array $impacts ) {
+		?>
+		<section class="acf-schema-guard-stored-data-impact-list">
+			<h3><?php echo esc_html__( 'Stored data impact', 'acf-schema-guard' ); ?></h3>
+			<p><?php echo esc_html__( 'Direct post-meta records using the previous field name. Values are not read or shown. Nested fields and options are not included.', 'acf-schema-guard' ); ?></p>
+			<?php foreach ( $impacts as $impact ) : ?>
+				<div class="acf-schema-guard-stored-data-impact-field">
+					<strong><code><?php echo esc_html( $impact['field_name'] ); ?></code></strong>
+					<span><?php echo esc_html( sprintf( _n( '%d direct record found', '%d direct records found', $impact['record_count'], 'acf-schema-guard' ), $impact['record_count'] ) ); ?></span>
+					<?php if ( empty( $impact['records'] ) ) : ?>
+						<p><?php echo esc_html__( 'No direct post-meta records were found. This does not include nested fields or options.', 'acf-schema-guard' ); ?></p>
+					<?php else : ?>
+						<ul>
+							<?php foreach ( $impact['records'] as $record ) : ?>
+								<li><code>#<?php echo esc_html( $record['post_id'] ); ?></code><span><?php echo esc_html( $record['post_type'] ); ?> · <?php echo esc_html( $record['post_status'] ); ?></span><strong><?php echo esc_html( $record['post_title'] ); ?></strong></li>
+							<?php endforeach; ?>
+						</ul>
+					<?php endif; ?>
+				</div>
+			<?php endforeach; ?>
 		</section>
 		<?php
 	}
