@@ -84,6 +84,7 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-risk-policy-servi
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-approved-exception.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-finding-fingerprint.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-approved-exception-service.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-review-report-template.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/admin/class-pro-feature-notice.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/admin/class-admin-controller.php';
 
@@ -192,6 +193,7 @@ final class Plugin {
 			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-check-command.php';
 			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-baseline-command.php';
 			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-report-command.php';
+			require_once ACF_SCHEMA_GUARD_PATH . 'includes/cli/class-release-report-command.php';
 
 			$this->cli_command_registrar = new \AcfSchemaGuard\Cli\CommandRegistrar();
 			$this->cli_command_registrar->register(
@@ -227,6 +229,7 @@ final class Plugin {
 			$this->cli_command_registrar->register( 'acf-schema-guard baseline export', array( $baseline_command, 'export' ) );
 			$this->cli_command_registrar->register( 'acf-schema-guard baseline check', array( $baseline_command, 'check' ) );
 			$this->cli_command_registrar->register( 'acf-schema-guard report export', array( new \AcfSchemaGuard\Cli\ReportCommand( new \AcfSchemaGuard\Scanner\CodeUsageScannerService( array( new \AcfSchemaGuard\Scanner\PhpAcfUsageScanner() ) ) ), 'export' ) );
+			$this->cli_command_registrar->register( 'acf-schema-guard release-report export', array( new \AcfSchemaGuard\Cli\ReleaseReportCommand( array( $this, 'analyze_live_baseline' ), $this->capabilities(), $this->risk_policy(), $this->approved_exceptions() ), 'export' ) );
 		}
 
 		$this->is_booted = true;

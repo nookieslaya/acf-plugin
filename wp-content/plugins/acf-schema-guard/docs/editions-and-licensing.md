@@ -94,6 +94,39 @@ commitów, pushów ani merge w Git.
 
 ## Initial Pro plans
 
+## Pro release reports / Raporty release Pro
+
+Pro can export a Markdown or JSON review artifact from the approved baseline:
+
+```sh
+wp acf-schema-guard release-report export release-report.md --format=markdown
+wp acf-schema-guard release-report export release-report.json --format=json
+```
+
+Markdown includes the effective policy, original finding severity, and active
+exception state. It can be pasted into GitHub Pull Requests or GitLab Merge
+Requests. The command never posts remotely and does not overwrite a named file
+without `--force`.
+
+Wersja Pro może wyeksportować artefakt review w Markdown lub JSON z zatwierdzonego
+baseline. Markdown zawiera aktywną politykę, pierwotną severity problemów i stan
+wyjątków. Można go wkleić do GitHub Pull Request lub GitLab Merge Request.
+Komenda niczego nie publikuje zdalnie i nie nadpisuje wskazanego pliku bez
+`--force`.
+
+For team branding, commit an optional Markdown template and use `--template`.
+Keep both markers exactly once; all other content, including your own header,
+footer, links, and checklist, is preserved:
+
+```md
+<!-- acf-schema-guard:summary -->
+<!-- acf-schema-guard:findings -->
+```
+
+Do własnego układu zespołu zapisz opcjonalny szablon Markdown w Git i podaj
+`--template`. Oba markery muszą wystąpić dokładnie raz. Pozostała treść, w tym
+nagłówek, stopka, linki i checklista, pozostaje niezmieniona.
+
 Pro licenses are annual subscriptions that include Pro updates and support for
 the subscription term.
 

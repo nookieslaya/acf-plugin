@@ -77,7 +77,7 @@
     - [x] 16c1. **Pro risk policies** - let a Pro site configure and preview the severity threshold that blocks release checks, while Free retains the default policy.
       - [x] 16c1a. **Versioned team policy** - export and read a repository-owned policy file so local Free and Pro installations share the same visible release threshold without requiring CLI use.
     - [x] 16c2. **Approved exceptions** - record explicit, auditable exceptions with a reason, author, and date without hiding the underlying finding.
-    - [ ] 16c3. **PR/MR-ready reports** - export policy-aware Markdown and JSON summaries suitable for GitHub pull requests and GitLab merge requests.
+    - [x] 16c3. **PR/MR-ready reports** - export policy-aware Markdown and JSON summaries suitable for GitHub pull requests and GitLab merge requests.
     - [ ] 16c4. **Team policy distribution** - evaluate and implement shared policy distribution only after a product decision on multi-site or team ownership.
 
 ## Continuous local analysis
