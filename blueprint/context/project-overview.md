@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash 537b8549a468ffba230814006edb3a98fe6278985a01c94bf031792b4c36472b -->
+<!-- blueprint:source-hash ed90df4ec400bc36217dbc50f614e065172008d4881882e149ff92b1e970fd5f -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -64,6 +64,12 @@ code still referring to removed or renamed fields before release.
 19. **Data impact and dynamic code references** - makes incomplete PHP evidence
     explicit and reports safe, bounded evidence of stored records affected by a
     risky field-schema change.
+20. **Nested ACF data impact** - extends safe stored-data evidence to reliable
+    Group, Repeater, and Flexible Content storage patterns, then distinguishes
+    direct, nested, and unknown evidence in Changes.
+21. **Potentially unused ACF fields** - provides review-only coverage signals
+    for current fields without treating a lack of literal references as a safe
+    deletion decision.
 
 ## Data model
 
@@ -114,6 +120,28 @@ code still referring to removed or renamed fields before release.
 - `records` (array) - limited safe identifiers such as post ID, post type, and
   title; never stores or renders field values.
 
+### Nested data-impact evidence
+
+- `field_path` (array of strings) - schema-derived ancestry from the affected
+  field to its field group.
+- `storage_pattern` (string) - a bounded WordPress meta-key pattern derived
+  from a supported ACF Group, Repeater, or Flexible Content structure.
+- `confidence` (enum) - `direct`, `nested`, or `unknown`; `unknown` is retained
+  whenever ACF storage cannot be proven safely from the normalized schema.
+- `record_count` and `records` - the same bounded, identifier-only evidence as
+  direct impact; field values are never read, stored, rendered, or migrated.
+
+### Potentially unused field signal
+
+- `field_key` and `field_name` (strings) - current normalized ACF field
+  identity.
+- `literal_reference_count` (integer) - current scanner evidence from configured
+  roots.
+- `dynamic_reference_present` (boolean) - indicates that a supported dynamic
+  call prevents a confident unused conclusion.
+- `review_state` (enum) - a review signal only, never an automatic deletion or
+  migration recommendation.
+
 ### Plugin settings
 
 - `scanner_configuration` (array) - enabled strategies and source roots.
@@ -154,6 +182,9 @@ blocking access to stored data or Free safety features when a license is absent.
   colour is never the sole risk signal.
 - Dynamic PHP calls are clearly marked as incomplete evidence requiring manual
   review, while data-impact views expose counts and safe record identifiers only.
+- Nested-data and unused-field views preserve uncertainty explicitly: the plugin
+  reports only schema-derived storage patterns and literal code evidence it can
+  substantiate.
 - Development theme front end - minimal, accessible classic templates for
   inspecting ACF output and scanner references.
 

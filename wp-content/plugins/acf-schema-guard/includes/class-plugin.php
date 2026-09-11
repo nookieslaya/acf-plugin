@@ -67,6 +67,8 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-current-code-usage-
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/scanner/class-php-acf-usage-scanner.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-code-impact.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-code-impact-analyzer.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-stored-data-impact-matcher.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-stored-data-impact-matcher-factory.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/interface-stored-data-impact-repository.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-wordpress-stored-data-impact-repository.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-stored-data-impact.php';

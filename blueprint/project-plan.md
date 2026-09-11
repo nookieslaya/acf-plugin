@@ -45,6 +45,8 @@ renamed fields.
 - Impact analysis that reports potentially dynamic PHP ACF calls for manual
   review and read-only evidence of existing WordPress records that use a field
   affected by a risky schema change.
+- Schema-aware, read-only evidence for reliable nested ACF storage patterns and
+  review-only identification of fields with no detected literal PHP references.
 
 ## 4. Data - What are we storing?
 

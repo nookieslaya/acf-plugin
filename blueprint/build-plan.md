@@ -94,3 +94,12 @@
 - [x] 19. **Data impact and dynamic code references** - make incomplete code evidence explicit and show safe, read-only evidence of stored content affected by risky ACF schema changes.
   - [x] 19a. **Dynamic PHP reference awareness** - identify supported PHP ACF calls whose first argument is not a literal field name and present them as manual-review evidence without guessing the target field.
   - [x] 19b. **Stored data impact inventory** - for removed or renamed fields, report bounded counts and safe record identifiers for matching WordPress meta keys without reading field values or changing data.
+
+## Advanced ACF evidence
+
+- [ ] 20. **Nested ACF data impact** - extend read-only stored-data evidence to reliable Group, Repeater, and Flexible Content meta-key patterns without reading or changing values.
+  - [x] 20a. **Nested storage matcher** - derive bounded, schema-aware candidate meta-key patterns for renamed or removed nested fields and report matching record identifiers with clear confidence limits.
+  - [ ] 20b. **Nested impact presentation** - distinguish direct and nested evidence in Changes, explain which ACF structures are covered, and retain an explicit unknown state where a pattern cannot be proven safely.
+- [ ] 21. **Potentially unused ACF fields** - compare the current schema with literal PHP references and present fields that may be unused as review signals, never as automatic deletion candidates.
+  - [ ] 21a. **Unused-field inventory** - derive deterministic literal-reference coverage per current field while accounting for dynamic-call evidence and configured scanner roots.
+  - [ ] 21b. **Unused-field workspace** - present filterable review states, exclusions, and clear limits in the Admin workspace and report export.

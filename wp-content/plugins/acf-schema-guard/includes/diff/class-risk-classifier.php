@@ -27,7 +27,8 @@ final class RiskClassifier {
 				$data['node_type'],
 				$data['path'],
 				$data['before'],
-				$data['after']
+				$data['after'],
+				isset( $data['context'] ) && is_array( $data['context'] ) ? $data['context'] : array()
 			);
 			list( $severity, $rationale ) = $this->classification( $data );
 			$findings[] = new RiskFinding( $change, $severity, $rationale );

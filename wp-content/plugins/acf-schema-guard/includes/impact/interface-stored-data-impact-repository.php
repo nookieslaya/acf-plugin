@@ -1,6 +1,6 @@
 <?php
 /**
- * Read-only access to direct WordPress post-meta impact evidence.
+ * Read-only access to schema-derived WordPress post-meta impact evidence.
  *
  * @package ACFSchemaGuard
  */
@@ -13,9 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 interface StoredDataImpactRepository {
 	/**
-	 * @param string $field_name Exact ACF field name.
+	 * @param StoredDataImpactMatcher $matcher Schema-derived meta-key matcher.
 	 * @param int    $limit Maximum safe record sample size.
 	 * @return array{record_count:int,records:array[]}
 	 */
-	public function find( $field_name, $limit );
+	public function find( StoredDataImpactMatcher $matcher, $limit );
 }

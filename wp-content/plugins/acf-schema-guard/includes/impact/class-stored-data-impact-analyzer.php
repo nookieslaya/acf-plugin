@@ -15,20 +15,32 @@ final class StoredDataImpactAnalyzer {
 	const RECORD_LIMIT = 20;
 
 	private $repository;
+	private $matcher_factory;
 
-	public function __construct( StoredDataImpactRepository $repository ) {
-		$this->repository = $repository;
+	public function __construct( StoredDataImpactRepository $repository, ?StoredDataImpactMatcherFactory $matcher_factory = null ) {
+		$this->repository      = $repository;
+		$this->matcher_factory = null === $matcher_factory ? new StoredDataImpactMatcherFactory() : $matcher_factory;
 	}
 
 	public function analyze( array $changes ) {
 		$impacts = array();
 
+		$seen = array();
+
 		foreach ( $changes as $change ) {
-			foreach ( $this->affected_field_names( $change ) as $field_name ) {
-				$evidence = $this->repository->find( $field_name, self::RECORD_LIMIT );
+			if ( ! is_array( $change ) ) {
+				continue;
+			}
+			foreach ( $this->matcher_factory->for_change( $change ) as $matcher ) {
+				$key = serialize( array( $change, $matcher->to_array() ) );
+				if ( isset( $seen[ $key ] ) ) {
+					continue;
+				}
+				$seen[ $key ] = true;
+				$evidence     = 'none' === $matcher->query_type() ? array() : $this->repository->find( $matcher, self::RECORD_LIMIT );
 				$impacts[] = new StoredDataImpact(
 					$change,
-					$field_name,
+					$matcher,
 					isset( $evidence['record_count'] ) ? $evidence['record_count'] : 0,
 					isset( $evidence['records'] ) && is_array( $evidence['records'] ) ? $evidence['records'] : array()
 				);
@@ -38,44 +50,4 @@ final class StoredDataImpactAnalyzer {
 		return $impacts;
 	}
 
-	private function affected_field_names( $change ) {
-		if ( ! is_array( $change ) || empty( $change['kind'] ) || empty( $change['node_type'] ) ) {
-			return array();
-		}
-		if ( 'field' === $change['node_type'] && $this->is_removed_or_renamed( $change ) && ! empty( $change['before']['name'] ) ) {
-			return array( (string) $change['before']['name'] );
-		}
-		if ( 'field_group' === $change['node_type'] && 'removed' === $change['kind'] && ! empty( $change['before'] ) && is_array( $change['before'] ) ) {
-			return array_values( array_unique( $this->field_names( $change['before'] ) ) );
-		}
-
-		return array();
-	}
-
-	private function is_removed_or_renamed( array $change ) {
-		if ( 'removed' === $change['kind'] ) {
-			return true;
-		}
-
-		return 'modified' === $change['kind']
-			&& isset( $change['before']['name'], $change['after']['name'] )
-			&& $change['before']['name'] !== $change['after']['name'];
-	}
-
-	private function field_names( array $node ) {
-		$names = ! empty( $node['name'] ) ? array( (string) $node['name'] ) : array();
-
-		foreach ( array( 'fields', 'sub_fields', 'layouts' ) as $key ) {
-			if ( empty( $node[ $key ] ) || ! is_array( $node[ $key ] ) ) {
-				continue;
-			}
-			foreach ( $node[ $key ] as $child ) {
-				if ( is_array( $child ) ) {
-					$names = array_merge( $names, $this->field_names( $child ) );
-				}
-			}
-		}
-
-		return $names;
-	}
 }

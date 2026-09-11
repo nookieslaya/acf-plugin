@@ -18,24 +18,21 @@ final class WordPressStoredDataImpactRepository implements StoredDataImpactRepos
 		$this->wpdb = $wpdb;
 	}
 
-	public function find( $field_name, $limit ) {
-		$field_name = (string) $field_name;
+	public function find( StoredDataImpactMatcher $matcher, $limit ) {
 		$limit      = max( 1, min( 20, (int) $limit ) );
 		$meta_table = $this->wpdb->postmeta;
 		$posts_table = $this->wpdb->posts;
+		$condition  = $this->condition( $matcher, $meta_table );
+
+		if ( empty( $condition ) ) {
+			return array( 'record_count' => 0, 'records' => array() );
+		}
 
 		$count = $this->wpdb->get_var(
-			$this->wpdb->prepare(
-				"SELECT COUNT(DISTINCT post_id) FROM {$meta_table} WHERE meta_key = %s",
-				$field_name
-			)
+			$condition['count']
 		);
 		$records = $this->wpdb->get_results(
-			$this->wpdb->prepare(
-				"SELECT posts.ID AS post_id, posts.post_type, posts.post_status, posts.post_title FROM {$posts_table} AS posts INNER JOIN {$meta_table} AS meta ON meta.post_id = posts.ID WHERE meta.meta_key = %s GROUP BY posts.ID, posts.post_type, posts.post_status, posts.post_title ORDER BY posts.ID ASC LIMIT %d",
-				$field_name,
-				$limit
-			),
+			$this->wpdb->prepare( "SELECT posts.ID AS post_id, posts.post_type, posts.post_status, posts.post_title FROM {$posts_table} AS posts INNER JOIN {$meta_table} AS meta ON meta.post_id = posts.ID WHERE {$condition['where']} GROUP BY posts.ID, posts.post_type, posts.post_status, posts.post_title ORDER BY posts.ID ASC LIMIT %d", $condition['value'], $limit ),
 			ARRAY_A
 		);
 
@@ -43,6 +40,26 @@ final class WordPressStoredDataImpactRepository implements StoredDataImpactRepos
 			'record_count' => max( 0, (int) $count ),
 			'records'      => is_array( $records ) ? $this->records( $records ) : array(),
 		);
+	}
+
+	private function condition( StoredDataImpactMatcher $matcher, $meta_table ) {
+		if ( 'exact' === $matcher->query_type() ) {
+			return array(
+				'where' => 'meta.meta_key = %s',
+				'value' => $matcher->query_value(),
+				'count' => $this->wpdb->prepare( "SELECT COUNT(DISTINCT post_id) FROM {$meta_table} WHERE meta_key = %s", $matcher->query_value() ),
+			);
+		}
+
+		if ( 'regexp' === $matcher->query_type() ) {
+			return array(
+				'where' => 'meta.meta_key REGEXP %s',
+				'value' => $matcher->query_value(),
+				'count' => $this->wpdb->prepare( "SELECT COUNT(DISTINCT post_id) FROM {$meta_table} WHERE meta_key REGEXP %s", $matcher->query_value() ),
+			);
+		}
+
+		return array();
 	}
 
 	private function records( array $records ) {
