@@ -1,9 +1,13 @@
-# Current Feature
+# Fix: Refactor dense release-safety services
 
-> **Generated file.** Holds the one feature, fix, or rollback being built right now. Run
-> `/feature <number-or-name>` to spec a build-plan feature, or `/fix "<bug>"` for
-> an ad-hoc fix. Use `/rollback <completed-feature>` to plan a safe reversal.
-> Build one thing at a time; `/complete` archives it under
-> `blueprint/history/` and resets this file.
+**Status:** in progress
 
-_Nothing in progress. Run `/feature`, `/fix`, or `/rollback` to start._
+## Goal
+
+Improve maintainability of the dense policy, report, and unused-field services
+without changing their public behaviour.
+
+## Steps
+
+- [ ] Split complex methods into focused helpers and retain existing contracts.
+- [ ] Run full Verify and re-review the changed code.
