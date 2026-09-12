@@ -44,6 +44,11 @@ final class AdminController {
 			'title'      => 'Code Usage',
 			'description' => 'References found by supported code scanners will appear here.',
 		),
+		'acf-schema-guard-unused-fields' => array(
+			'menu_label' => 'Unused Fields',
+			'title'      => 'Unused Fields',
+			'description' => 'Review-only PHP coverage signals for current ACF fields.',
+		),
 		'acf-schema-guard-history'      => array(
 			'menu_label' => 'History',
 			'title'      => 'History',
@@ -213,6 +218,10 @@ final class AdminController {
 		}
 		if ( 'acf-schema-guard-code-usage' === $page ) {
 			$this->render_code_usage_page( $screen );
+			return;
+		}
+		if ( 'acf-schema-guard-unused-fields' === $page ) {
+			$this->render_unused_fields_page( $screen );
 			return;
 		}
 		if ( 'acf-schema-guard-settings' === $page ) {
@@ -679,6 +688,14 @@ final class AdminController {
 			$scanner,
 			new \AcfSchemaGuard\Scanner\ScannerConfiguration()
 		) )->dynamic_references();
+	}
+
+	private function render_unused_fields_page( array $screen ) {
+		$items = class_exists( '\\AcfSchemaGuard\\Plugin' ) ? \AcfSchemaGuard\Plugin::instance()->unused_field_inventory( $this->scan_current_references(), $this->scan_current_dynamic_references() ) : array();
+		$filter = isset( $_GET['state'] ) ? sanitize_key( wp_unslash( $_GET['state'] ) ) : '';
+		?>
+		<div class="wrap acf-schema-guard-admin acf-schema-guard-unused-fields-page"><h1><?php echo esc_html( $screen['title'] ); ?></h1><p><?php echo esc_html__( 'These are review signals from configured PHP scanner roots. They never mean a field is safe to delete.', 'acf-schema-guard' ); ?></p><form method="get" class="acf-schema-guard-code-usage-filter"><input type="hidden" name="page" value="acf-schema-guard-unused-fields" /><div class="acf-schema-guard-filter-control"><label for="asg-unused-state"><?php echo esc_html__( 'Review state', 'acf-schema-guard' ); ?></label><select id="asg-unused-state" name="state"><option value=""><?php echo esc_html__( 'All fields', 'acf-schema-guard' ); ?></option><option value="potentially_unused" <?php selected( $filter, 'potentially_unused' ); ?>><?php echo esc_html__( 'Potentially unused', 'acf-schema-guard' ); ?></option><option value="manual_review_required" <?php selected( $filter, 'manual_review_required' ); ?>><?php echo esc_html__( 'Manual review required', 'acf-schema-guard' ); ?></option></select></div><?php submit_button( __( 'Filter fields', 'acf-schema-guard' ), 'secondary acf-schema-guard-filter-action', 'submit', false ); ?></form><?php if ( empty( $items ) ) : ?><section class="acf-schema-guard-empty-state"><h2><?php echo esc_html__( 'No fields available for review', 'acf-schema-guard' ); ?></h2><p><?php echo esc_html__( 'Confirm that ACF field groups and scanner roots are available, then scan again.', 'acf-schema-guard' ); ?></p></section><?php else : ?><table class="widefat striped acf-schema-guard-source-health"><thead><tr><th><?php echo esc_html__( 'Field', 'acf-schema-guard' ); ?></th><th><?php echo esc_html__( 'Literal references', 'acf-schema-guard' ); ?></th><th><?php echo esc_html__( 'State', 'acf-schema-guard' ); ?></th></tr></thead><tbody><?php foreach ( $items as $item ) : if ( '' !== $filter && $filter !== $item['review_state'] ) { continue; } ?><tr><td><code><?php echo esc_html( $item['field_name'] ); ?></code></td><td><?php echo esc_html( $item['literal_reference_count'] ); ?></td><td><?php echo esc_html( str_replace( '_', ' ', $item['review_state'] ) ); ?></td></tr><?php endforeach; ?></tbody></table><?php endif; ?></div>
+		<?php
 	}
 
 	private function code_usage_filters( array $references ) {
