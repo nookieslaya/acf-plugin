@@ -1,14 +1,9 @@
-# Feature: Team policy distribution
+# Current Feature
 
-**From build-plan:** feature 16c4
-**Status:** in progress
+> **Generated file.** Holds the one feature, fix, or rollback being built right now. Run
+> `/feature <number-or-name>` to spec a build-plan feature, or `/fix "<bug>"` for
+> an ad-hoc fix. Use `/rollback <completed-feature>` to plan a safe reversal.
+> Build one thing at a time; `/complete` archives it under
+> `blueprint/history/` and resets this file.
 
-## Goal
-
-Make the existing repository-owned team policy transparent in Settings without
-adding remote synchronization infrastructure.
-
-## Build steps
-
-- [x] Show the effective policy source and Git-file precedence in Settings.
-- [x] Add PL/EN team workflow guidance and Verify.
+_Nothing in progress. Run `/feature`, `/fix`, or `/rollback` to start._

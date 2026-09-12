@@ -74,6 +74,7 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/interface-stored-data-impa
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-wordpress-stored-data-impact-repository.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-stored-data-impact.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-stored-data-impact-analyzer.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-unused-field-inventory.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-pro-capabilities.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-license-state.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-capability-decision.php';
@@ -339,6 +340,21 @@ final class Plugin {
 		return ( new \AcfSchemaGuard\Impact\StoredDataImpactAnalyzer(
 			new \AcfSchemaGuard\Impact\WordPressStoredDataImpactRepository( $wpdb )
 		) )->analyze( $changes );
+	}
+
+	/**
+	 * Returns review-only literal PHP coverage for the current normalized schema.
+	 *
+	 * @param array $references Literal scanner references.
+	 * @param array $dynamic_references Dynamic scanner references.
+	 * @return array
+	 */
+	public function unused_field_inventory( array $references, array $dynamic_references = array() ) {
+		return ( new \AcfSchemaGuard\Impact\UnusedFieldInventory() )->analyze(
+			$this->current_schema_array(),
+			$references,
+			$dynamic_references
+		);
 	}
 
 	/**
