@@ -79,7 +79,7 @@
     - [x] 16c2. **Approved exceptions** - record explicit, auditable exceptions with a reason, author, and date without hiding the underlying finding.
     - [x] 16c3. **PR/MR-ready reports** - export policy-aware Markdown and JSON summaries suitable for GitHub pull requests and GitLab merge requests.
       - [x] 16c3a. **Admin report export** - let Pro users select a release-report format and download it from Changes without using WP-CLI.
-    - [ ] 16c4. **Team policy distribution** - evaluate and implement shared policy distribution only after a product decision on multi-site or team ownership.
+    - [x] 16c4. **Team policy distribution** - evaluate and implement shared policy distribution only after a product decision on multi-site or team ownership.
 
 ## Continuous local analysis
 
