@@ -126,6 +126,7 @@ final class AdminController {
 		add_action( 'admin_post_acf_schema_guard_download_risk_policy', array( $this, 'download_risk_policy' ) );
 		add_action( 'admin_post_acf_schema_guard_save_approved_exception', array( $this, 'save_approved_exception' ) );
 		add_action( 'admin_post_acf_schema_guard_revoke_approved_exception', array( $this, 'revoke_approved_exception' ) );
+		add_action( 'admin_post_acf_schema_guard_download_release_report', array( $this, 'download_release_report' ) );
 	}
 
 	/**
@@ -529,6 +530,32 @@ final class AdminController {
 		$fingerprint = isset( $_POST['fingerprint'] ) ? sanitize_text_field( wp_unslash( $_POST['fingerprint'] ) ) : '';
 		\AcfSchemaGuard\Plugin::instance()->approved_exceptions()->revoke( $fingerprint );
 		wp_safe_redirect( admin_url( 'admin.php?page=acf-schema-guard-changes' ) ); exit;
+	}
+
+	public function download_release_report() {
+		if ( ! current_user_can( $this->capability ) || ! \AcfSchemaGuard\Plugin::instance()->capabilities()->can( \AcfSchemaGuard\Licensing\ProCapabilities::REVIEW_READY_REPORTS )->is_allowed() ) { wp_die( esc_html__( 'You do not have permission to download release reports.', 'acf-schema-guard' ) ); }
+		check_admin_referer( 'acf_schema_guard_download_release_report' );
+		$format = isset( $_POST['format'] ) ? sanitize_key( wp_unslash( $_POST['format'] ) ) : 'markdown';
+		$live = call_user_func( $this->analyze_live_baseline_callback ); if ( ! $live->is_available() ) { wp_die( esc_html__( 'An approved baseline is required before exporting a report.', 'acf-schema-guard' ) ); }
+		$data = $live->analysis()->to_array(); $content = 'json' === $format ? wp_json_encode( array( 'schema_version' => 1, 'findings' => $data['findings'] ), JSON_PRETTY_PRINT ) : $this->release_report_markdown( $data['findings'] );
+		nocache_headers(); header( 'Content-Type: ' . ( 'json' === $format ? 'application/json' : 'text/markdown' ) . '; charset=utf-8' ); header( 'Content-Disposition: attachment; filename="acf-schema-guard-release-report.' . ( 'json' === $format ? 'json' : 'md' ) . '"' ); echo $content; exit;
+	}
+
+	private function release_report_markdown( array $findings ) {
+		$counts = array( 'critical' => 0, 'high' => 0, 'warning' => 0, 'safe' => 0 ); foreach ( $findings as $finding ) { if ( isset( $counts[ $finding['severity'] ] ) ) { ++$counts[ $finding['severity'] ]; } }
+		$lines = array( '# ACF Schema Guard release review', '', sprintf( '%d findings require review.', count( $findings ) ), '', sprintf( '**Critical:** %d  |  **High:** %d  |  **Warning:** %d  |  **Safe:** %d', $counts['critical'], $counts['high'], $counts['warning'], $counts['safe'] ), '', '## Findings' );
+		foreach ( $findings as $finding ) {
+			$change = isset( $finding['change'] ) && is_array( $finding['change'] ) ? $finding['change'] : array();
+			$lines[] = '';
+			$lines[] = sprintf( '### %s - %s', strtoupper( isset( $finding['severity'] ) ? $finding['severity'] : 'warning' ), isset( $change['kind'] ) ? ucfirst( $change['kind'] ) : 'Changed' );
+			$lines[] = '';
+			$lines[] = '**Path:** `' . ( isset( $change['path'] ) && is_array( $change['path'] ) ? implode( '.', $change['path'] ) : '' ) . '`';
+			$lines[] = '';
+			$lines[] = '**Why it matters:** ' . ( isset( $finding['rationale'] ) ? $finding['rationale'] : '' );
+			if ( isset( $finding['explanation']['details'] ) && is_array( $finding['explanation']['details'] ) ) { $lines[] = ''; foreach ( $finding['explanation']['details'] as $detail ) { $lines[] = '- ' . $detail; } }
+		}
+
+		return implode( "\n", $lines ) . "\n";
 	}
 
 	private function render_code_usage_page( array $screen ) {
@@ -994,6 +1021,7 @@ final class AdminController {
 					<span><?php echo esc_html__( 'Loaded for this request and not saved as a snapshot.', 'acf-schema-guard' ); ?></span>
 				</div>
 			</div>
+			<?php if ( class_exists( '\\AcfSchemaGuard\\Plugin' ) && \AcfSchemaGuard\Plugin::instance()->capabilities()->can( \AcfSchemaGuard\Licensing\ProCapabilities::REVIEW_READY_REPORTS )->is_allowed() ) : ?><form class="acf-schema-guard-release-export" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><div><p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Release report', 'acf-schema-guard' ); ?></p><strong><?php echo esc_html__( 'Share a review-ready summary', 'acf-schema-guard' ); ?></strong><span><?php echo esc_html__( 'Download the current baseline comparison for your pull or merge request.', 'acf-schema-guard' ); ?></span></div><input type="hidden" name="action" value="acf_schema_guard_download_release_report" /><?php wp_nonce_field( 'acf_schema_guard_download_release_report' ); ?><label><?php echo esc_html__( 'Format', 'acf-schema-guard' ); ?><select name="format"><option value="markdown">Markdown</option><option value="json">JSON</option></select></label><?php submit_button( __( 'Download report', 'acf-schema-guard' ), 'primary', 'submit', false ); ?></form><?php endif; ?>
 			<?php $this->render_comparison_results( $analysis ); ?>
 		</div>
 		<?php

@@ -257,6 +257,14 @@
 .acf-schema-guard-changes-context strong { color: #1d2939; font-size: 15px; }
 .acf-schema-guard-changes-context span { color: #667085; line-height: 1.5; }
 .acf-schema-guard-changes-context code { justify-self: start; }
+.acf-schema-guard-release-export { align-items: center; background: #fff; border: 1px solid var(--asg-border); border-radius: 10px; box-shadow: 0 1px 3px rgb(16 24 40 / 8%); display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr) 160px auto; margin-top: 18px; padding: 18px 20px; }
+.acf-schema-guard-release-export > div { display: grid; gap: 5px; }
+.acf-schema-guard-release-export .acf-schema-guard-overview-eyebrow { margin: 0; }
+.acf-schema-guard-release-export strong { color: var(--asg-text); font-size: 15px; }
+.acf-schema-guard-release-export span { color: var(--asg-text-muted); font-size: 13px; line-height: 1.45; }
+.acf-schema-guard-release-export label { color: #475467; display: grid; font-size: 12px; font-weight: 600; gap: 6px; letter-spacing: .025em; text-transform: uppercase; }
+.acf-schema-guard-release-export select { min-height: 38px; width: 100%; }
+.acf-schema-guard-release-export .button { margin: 18px 0 0; min-height: 38px; white-space: nowrap; }
 .acf-schema-guard-changes-results-heading { align-items: end; display: flex; gap: 16px; justify-content: space-between; margin-top: 28px; }
 .acf-schema-guard-changes-results-heading h2 { color: #1d2939; font-size: 20px; margin: 0; }
 .acf-schema-guard-changes-results-heading p { color: #667085; margin: 0; }
@@ -320,6 +328,8 @@
 	.acf-schema-guard-overview-card:last-child { grid-column: 1 / -1; }
 	.acf-schema-guard-history-action { align-items: flex-start; flex-direction: column; }
 	.acf-schema-guard-changes-context { grid-template-columns: 1fr; }
+	.acf-schema-guard-release-export { align-items: stretch; grid-template-columns: 1fr; }
+	.acf-schema-guard-release-export .button { margin-top: 0; width: 100%; }
 	.acf-schema-guard-changes-context > div + div { border-left: 0; border-top: 1px solid var(--asg-border-subtle); }
 	.acf-schema-guard-code-usage-filter { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	.acf-schema-guard-filter-action { grid-column: 1 / -1; }
