@@ -57,6 +57,14 @@ CI uses the same file when it runs either `wp acf-schema-guard check` or
 only returns a non-zero command status; branch protection in GitHub or GitLab is
 what can prevent a merge.
 
+Settings shows **Team policy active** whenever that repository file is present.
+The Git file takes priority over the local option, so every developer who pulls
+the repository sees the same effective threshold.
+
+Settings pokazuje **Team policy active**, gdy plik istnieje w repozytorium.
+Plik z Git ma priorytet nad ustawieniem lokalnym, dlatego każdy developer po
+wykonaniu pull widzi ten sam aktywny próg.
+
 ## Approved exceptions / Zatwierdzone wyjątki
 
 An approved exception is a temporary, auditable Pro decision about one exact
