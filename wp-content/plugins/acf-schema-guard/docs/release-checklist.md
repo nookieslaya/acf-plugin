@@ -7,5 +7,7 @@
   without creating a current snapshot.
 - Confirm Code Usage, source health, and JSON/Markdown report export.
 - Follow `docs/end-to-end-verification.md` and record the tested versions.
+- Follow `docs/manual-release-test-pl.md` for the complete Polish Free, Pro,
+  Solo Mode, report, and responsive-Admin walkthrough.
 - Review `readme.md`, `docs/compatibility.md`, and CI examples.
 - Add the release version and date to the changelog before packaging.
