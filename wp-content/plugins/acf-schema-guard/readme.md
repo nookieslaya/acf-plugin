@@ -7,6 +7,9 @@ Compatibility and release verification are documented in
 [`docs/compatibility.md`](docs/compatibility.md) and
 [`docs/release-checklist.md`](docs/release-checklist.md).
 
+Start with the [English user guide](docs/user-guide-en.md) or
+[polski przewodnik użytkownika](docs/user-guide-pl.md).
+
 The planned Free and Pro edition boundary, future license lifecycle, and
 provider-neutral licensing requirements are documented in
 [`docs/editions-and-licensing.md`](docs/editions-and-licensing.md). The current
