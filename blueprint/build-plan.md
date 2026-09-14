@@ -113,3 +113,9 @@
   - [x] 22a. **Database-first detection and source-health state** - detect an absent Local JSON configuration, expose a non-error database-first mode, and retain real divergent findings when JSON is configured.
   - [x] 22b. **Solo Admin workflow** - adapt Overview, Field Groups, and contextual guidance to recommend baseline, live Changes, and code analysis without Local JSON.
   - [x] 22c. **Solo Git and CI guidance** - document optional baseline export, version control, and CI approaches for projects whose ACF schema lives only in the database.
+
+## Public release preparation
+
+- [ ] 23. **Admin localization and translation readiness**
+  - [x] 23a. **Translation-ready Admin strings** - replace dynamically assembled menu and screen labels with extractable WordPress translation strings; load the plugin text domain and provide a deterministic POT template.
+  - [ ] 23b. **Polish Admin catalogue and fallback verification** - add the Polish catalogue for the plugin UI, retain English as the default, and verify both language paths in WordPress Admin.

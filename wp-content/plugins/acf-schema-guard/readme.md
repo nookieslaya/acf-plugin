@@ -10,6 +10,21 @@ Compatibility and release verification are documented in
 Start with the [English user guide](docs/user-guide-en.md) or
 [polski przewodnik użytkownika](docs/user-guide-pl.md).
 
+## Translation source
+
+The Admin text domain is `acf-schema-guard`. English is the source language. The
+versioned POT template is [`languages/acf-schema-guard.pot`](languages/acf-schema-guard.pot).
+To regenerate it in a development environment with the WP-CLI i18n package,
+run this command from the WordPress project root:
+
+```sh
+wp i18n make-pot wp-content/plugins/acf-schema-guard wp-content/plugins/acf-schema-guard/languages/acf-schema-guard.pot --domain=acf-schema-guard --exclude=tests,languages
+```
+
+Do not run this command on a production site. A locale catalogue belongs in the
+same `languages/` directory and is loaded by WordPress; Polish translations are
+planned separately from this source-template step.
+
 The planned Free and Pro edition boundary, future license lifecycle, and
 provider-neutral licensing requirements are documented in
 [`docs/editions-and-licensing.md`](docs/editions-and-licensing.md). The current

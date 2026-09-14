@@ -23,43 +23,17 @@ final class AdminController {
 	 *
 	 * @var array<string, array<string, string>>
 	 */
-	private static $screens = array(
-		'acf-schema-guard'              => array(
-			'menu_label' => 'Overview',
-			'title'      => 'Overview',
-			'description' => 'A starting point for reviewing ACF schema safety.',
-		),
-		'acf-schema-guard-changes'      => array(
-			'menu_label' => 'Changes',
-			'title'      => 'Changes',
-			'description' => 'Schema changes will appear here after a comparison is run.',
-		),
-		'acf-schema-guard-field-groups' => array(
-			'menu_label' => 'Field Groups',
-			'title'      => 'Field Groups',
-			'description' => 'Normalized field groups will appear here in a later feature.',
-		),
-		'acf-schema-guard-code-usage'   => array(
-			'menu_label' => 'Code Usage',
-			'title'      => 'Code Usage',
-			'description' => 'References found by supported code scanners will appear here.',
-		),
-		'acf-schema-guard-unused-fields' => array(
-			'menu_label' => 'Unused Fields',
-			'title'      => 'Unused Fields',
-			'description' => 'Review-only PHP coverage signals for current ACF fields.',
-		),
-		'acf-schema-guard-history'      => array(
-			'menu_label' => 'History',
-			'title'      => 'History',
-			'description' => 'Captured schema snapshots will appear here in a later feature.',
-		),
-		'acf-schema-guard-settings'     => array(
-			'menu_label' => 'Settings',
-			'title'      => 'Settings',
-			'description' => 'Configuration controls will appear here when settings are supported.',
-		),
-	);
+	private function screens() {
+		return array(
+			'acf-schema-guard'               => array( 'menu_label' => __( 'Overview', 'acf-schema-guard' ), 'title' => __( 'Overview', 'acf-schema-guard' ), 'description' => __( 'A starting point for reviewing ACF schema safety.', 'acf-schema-guard' ) ),
+			'acf-schema-guard-changes'       => array( 'menu_label' => __( 'Changes', 'acf-schema-guard' ), 'title' => __( 'Changes', 'acf-schema-guard' ), 'description' => __( 'Schema changes will appear here after a comparison is run.', 'acf-schema-guard' ) ),
+			'acf-schema-guard-field-groups'  => array( 'menu_label' => __( 'Field Groups', 'acf-schema-guard' ), 'title' => __( 'Field Groups', 'acf-schema-guard' ), 'description' => __( 'Normalized field groups will appear here in a later feature.', 'acf-schema-guard' ) ),
+			'acf-schema-guard-code-usage'    => array( 'menu_label' => __( 'Code Usage', 'acf-schema-guard' ), 'title' => __( 'Code Usage', 'acf-schema-guard' ), 'description' => __( 'References found by supported code scanners will appear here.', 'acf-schema-guard' ) ),
+			'acf-schema-guard-unused-fields' => array( 'menu_label' => __( 'Unused Fields', 'acf-schema-guard' ), 'title' => __( 'Unused Fields', 'acf-schema-guard' ), 'description' => __( 'Review-only PHP coverage signals for current ACF fields.', 'acf-schema-guard' ) ),
+			'acf-schema-guard-history'       => array( 'menu_label' => __( 'History', 'acf-schema-guard' ), 'title' => __( 'History', 'acf-schema-guard' ), 'description' => __( 'Captured schema snapshots will appear here in a later feature.', 'acf-schema-guard' ) ),
+			'acf-schema-guard-settings'      => array( 'menu_label' => __( 'Settings', 'acf-schema-guard' ), 'title' => __( 'Settings', 'acf-schema-guard' ), 'description' => __( 'Configuration controls will appear here when settings are supported.', 'acf-schema-guard' ) ),
+		);
+	}
 
 	/**
 	 * Required capability for every plugin Admin page.
@@ -152,11 +126,11 @@ final class AdminController {
 			80
 		);
 
-		foreach ( self::$screens as $slug => $screen ) {
+		foreach ( $this->screens() as $slug => $screen ) {
 			$this->page_hooks[] = add_submenu_page(
 				$parent_slug,
-				__( $screen['title'], 'acf-schema-guard' ),
-				__( $screen['menu_label'], 'acf-schema-guard' ),
+				$screen['title'],
+				$screen['menu_label'],
 				$this->capability,
 				$slug,
 				array( $this, 'render_page' )
@@ -235,8 +209,8 @@ final class AdminController {
 
 		?>
 		<div class="wrap acf-schema-guard-admin">
-			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
-			<p><?php echo esc_html( __( $screen['description'], 'acf-schema-guard' ) ); ?></p>
+			<h1><?php echo esc_html( $screen['title'] ); ?></h1>
+			<p><?php echo esc_html( $screen['description'] ); ?></p>
 			<div class="notice notice-info inline">
 				<p><?php echo esc_html__( 'This read-only section has no data or actions available yet.', 'acf-schema-guard' ); ?></p>
 			</div>
@@ -257,7 +231,7 @@ final class AdminController {
 		$solo_mode  = 'database_first' === $health['mode'];
 		?>
 		<div class="wrap acf-schema-guard-admin acf-schema-guard-overview-page">
-			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
+			<h1><?php echo esc_html( $screen['title'] ); ?></h1>
 			<p><?php echo esc_html__( 'Review the current ACF schema safety posture, then continue with the workflow that needs attention.', 'acf-schema-guard' ); ?></p>
 
 			<div class="acf-schema-guard-overview-grid">
@@ -578,7 +552,7 @@ final class AdminController {
 
 		?>
 		<div class="wrap acf-schema-guard-admin acf-schema-guard-code-usage-page">
-			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
+			<h1><?php echo esc_html( $screen['title'] ); ?></h1>
 			<p><?php echo esc_html__( 'Literal PHP ACF references found in the configured themes and plugins as they exist now. Each field groups all of its real call sites together.', 'acf-schema-guard' ); ?></p>
 
 			<form method="get" class="acf-schema-guard-code-usage-filter">
@@ -848,7 +822,7 @@ final class AdminController {
 		$solo_mode = $report->is_available() && method_exists( $report, 'source_mode' ) && $report->source_mode()->is_database_first();
 		?>
 		<div class="wrap acf-schema-guard-admin acf-schema-guard-source-health-page">
-			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
+			<h1><?php echo esc_html( $screen['title'] ); ?></h1>
 			<p><?php echo esc_html( $solo_mode ? __( 'Your ACF schema is managed in the WordPress database. Local JSON comparison is optional and is not required for schema safety.', 'acf-schema-guard' ) : __( 'Checks whether each ACF field group is represented consistently in the WordPress database and ACF Local JSON.', 'acf-schema-guard' ) ); ?></p>
 			<?php if ( $report->is_available() && method_exists( $report, 'source_mode' ) && $report->source_mode()->is_database_first() ) : ?>
 				<section class="acf-schema-guard-empty-state"><h2><?php echo esc_html__( 'Database-first mode', 'acf-schema-guard' ); ?></h2><p><?php echo esc_html__( 'ACF Local JSON is not configured. This is a supported workflow: set an approved baseline, review live Changes, and use Code Usage to check current PHP references.', 'acf-schema-guard' ); ?></p></section>
@@ -925,7 +899,9 @@ final class AdminController {
 	 * @return array<string, string>|null
 	 */
 	private function current_screen( $page ) {
-		return isset( self::$screens[ $page ] ) ? self::$screens[ $page ] : null;
+		$screens = $this->screens();
+
+		return isset( $screens[ $page ] ) ? $screens[ $page ] : null;
 	}
 
 	/**
@@ -948,7 +924,7 @@ final class AdminController {
 		$baseline = $this->baseline->snapshot();
 		?>
 		<div class="wrap acf-schema-guard-admin acf-schema-guard-history-page">
-			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
+			<h1><?php echo esc_html( $screen['title'] ); ?></h1>
 			<p><?php echo esc_html( __( 'Stored immutable schema snapshots, newest first.', 'acf-schema-guard' ) ); ?></p>
 			<?php $this->render_history_notice(); ?>
 			<section class="acf-schema-guard-history-action">
@@ -1026,7 +1002,7 @@ final class AdminController {
 		$analysis = $live->analysis();
 		?>
 		<div class="wrap acf-schema-guard-admin acf-schema-guard-changes-page">
-			<h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1>
+			<h1><?php echo esc_html( $screen['title'] ); ?></h1>
 			<p><?php echo esc_html__( 'Comparing the approved baseline with the current live schema.', 'acf-schema-guard' ); ?></p>
 			<div class="acf-schema-guard-changes-context">
 				<div>
@@ -1048,7 +1024,7 @@ final class AdminController {
 
 	private function render_changes_state( array $screen, $message ) {
 		?>
-		<div class="wrap acf-schema-guard-admin acf-schema-guard-changes-page"><h1><?php echo esc_html( __( $screen['title'], 'acf-schema-guard' ) ); ?></h1><div class="notice notice-info inline"><p><?php echo esc_html( $message ); ?></p></div></div>
+		<div class="wrap acf-schema-guard-admin acf-schema-guard-changes-page"><h1><?php echo esc_html( $screen['title'] ); ?></h1><div class="notice notice-info inline"><p><?php echo esc_html( $message ); ?></p></div></div>
 		<?php
 	}
 

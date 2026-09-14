@@ -7,6 +7,7 @@
  * Requires PHP:      8.1
  * Author:            ACF Schema Guard
  * Text Domain:       acf-schema-guard
+ * Domain Path:       /languages
  *
  * @package ACFSchemaGuard
  */
@@ -24,6 +25,7 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/class-plugin.php';
 add_action(
 	'plugins_loaded',
 	static function() {
+		load_plugin_textdomain( 'acf-schema-guard', false, dirname( plugin_basename( ACF_SCHEMA_GUARD_FILE ) ) . '/languages' );
 		\AcfSchemaGuard\Plugin::instance()->boot();
 	},
 	20

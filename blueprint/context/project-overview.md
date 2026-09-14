@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash 819275b9eb576c38d7f180687f8403bed525893f1168cff32218ea363b863633 -->
+<!-- blueprint:source-hash 7c960ab732670fd1b155d3fd79a90936d31009fbe2740b031c031c9dbe44290d -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -70,12 +70,14 @@ code still referring to removed or renamed fields before release.
     Group, Repeater, and Flexible Content storage patterns, then distinguishes
     direct, nested, and unknown evidence in Changes.
 21. **Potentially unused ACF fields** - provides review-only coverage signals
-
+   for current fields without treating a lack of literal references as a safe
+   deletion decision.
 22. **Solo Mode - database-first workflow** - makes baseline, live-schema,
     code-usage, and data-impact workflows explicit and useful when ACF Local JSON
     is not configured, without treating its absence as a source-health error.
-    for current fields without treating a lack of literal references as a safe
-    deletion decision.
+23. **Admin localization and translation readiness** - makes all Admin strings
+    extractable through the WordPress text domain, then supplies a Polish
+    catalogue while retaining English as the default language.
 
 ## Data model
 
