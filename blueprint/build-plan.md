@@ -70,10 +70,10 @@
   - [x] 15a. **Core quality remediation** - finish the audited readability refactor and re-audit the repaired code.
   - [x] 15b. **Compatibility and release documentation** - define supported WordPress, PHP, ACF, and ACF PRO versions; add installation, verification, changelog, and release checklist documentation.
   - [x] 15c. **End-to-end release verification** - execute and document the complete baseline-to-report workflow in local WordPress.
-- [ ] 16. **Free and Pro product foundation**
+- [x] 16. **Free and Pro product foundation**
   - [x] 16a. **Edition policy and feature catalogue** - document Free and Pro capability boundaries, supported plans, and non-disruptive license behaviour.
   - [x] 16b. **License-aware capability boundary** - add a testable capability service without payment processing or remote activation.
-  - [ ] 16c. **First Pro workflow** - deliver configurable risk policies and PR/MR-ready reports behind the capability boundary.
+  - [x] 16c. **First Pro workflow** - deliver configurable risk policies and PR/MR-ready reports behind the capability boundary.
     - [x] 16c1. **Pro risk policies** - let a Pro site configure and preview the severity threshold that blocks release checks, while Free retains the default policy.
       - [x] 16c1a. **Versioned team policy** - export and read a repository-owned policy file so local Free and Pro installations share the same visible release threshold without requiring CLI use.
     - [x] 16c2. **Approved exceptions** - record explicit, auditable exceptions with a reason, author, and date without hiding the underlying finding.
@@ -106,7 +106,7 @@
 - [x] 20. **Nested ACF data impact** - extend read-only stored-data evidence to reliable Group, Repeater, and Flexible Content meta-key patterns without reading or changing values.
   - [x] 20a. **Nested storage matcher** - derive bounded, schema-aware candidate meta-key patterns for renamed or removed nested fields and report matching record identifiers with clear confidence limits.
   - [x] 20b. **Nested impact presentation** - distinguish direct and nested evidence in Changes, explain which ACF structures are covered, and retain an explicit unknown state where a pattern cannot be proven safely.
-- [ ] 21. **Potentially unused ACF fields** - compare the current schema with literal PHP references and present fields that may be unused as review signals, never as automatic deletion candidates.
+- [x] 21. **Potentially unused ACF fields** - compare the current schema with literal PHP references and present fields that may be unused as review signals, never as automatic deletion candidates.
   - [x] 21a. **Unused-field inventory** - derive deterministic literal-reference coverage per current field while accounting for dynamic-call evidence and configured scanner roots.
   - [x] 21b. **Unused-field workspace** - present filterable review states, exclusions, and clear limits in the Admin workspace and report export.
 - [x] 22. **Solo Mode - database-first workflow** - make the Free baseline, live-schema, code-usage, and data-impact workflow explicit and fully useful when ACF Local JSON is not configured.
