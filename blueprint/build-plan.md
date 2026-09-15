@@ -121,3 +121,8 @@
   - [x] 23b. **Polish Admin catalogue and fallback verification** - add the Polish catalogue for the plugin UI, retain English as the default, and verify both language paths in WordPress Admin.
     - [x] 23b1. **Complete translation source and Polish catalogue** - generate a complete POT from all plugin Admin strings and add a reviewed `acf-schema-guard-pl_PL.po`, while leaving technical identifiers, CLI commands, field keys, and code snippets unchanged.
     - [x] 23b2. **Compiled runtime pack and locale verification** - compile and commit `acf-schema-guard-pl_PL.mo`, then verify the Polish Admin and English fallback in Local WordPress.
+
+- [ ] 24. **Release package v1.0**
+  - [x] 24a. **Distribution metadata and documentation** - define the release version, changelog, license, and public `readme.txt` for a WordPress plugin package.
+  - [x] 24b. **WordPress.org assets and publishing guide** - prepare repository-owned asset requirements and a clear publication guide without publishing remotely.
+  - [ ] 24c. **Fresh-install verification and release checklist** - verify a clean package installation and finalize the release checklist.

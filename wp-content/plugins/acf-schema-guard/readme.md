@@ -7,6 +7,12 @@ Compatibility and release verification are documented in
 [`docs/compatibility.md`](docs/compatibility.md) and
 [`docs/release-checklist.md`](docs/release-checklist.md).
 
+For the public release package, use
+`sh scripts/build-release-package.sh` from the plugin directory. It creates a
+versioned ZIP while excluding tests, development documentation, scripts, and
+WordPress.org artwork staging files. Publishing steps and staged artwork live in
+[`docs/wordpress-org-publishing.md`](docs/wordpress-org-publishing.md).
+
 Start with the [English user guide](docs/user-guide-en.md) or
 [polski przewodnik użytkownika](docs/user-guide-pl.md).
 
@@ -21,9 +27,10 @@ run this command from the WordPress project root:
 wp i18n make-pot wp-content/plugins/acf-schema-guard wp-content/plugins/acf-schema-guard/languages/acf-schema-guard.pot --domain=acf-schema-guard --exclude=tests,languages
 ```
 
-Do not run this command on a production site. A locale catalogue belongs in the
-same `languages/` directory and is loaded by WordPress; Polish translations are
-planned separately from this source-template step.
+Do not run this command on a production site. Locale catalogues belong in the
+same `languages/` directory and are loaded by WordPress. Version `1.0.0`
+includes the reviewed Polish `pl_PL` catalogue; technical identifiers, field
+keys, CLI commands, and code snippets intentionally remain unchanged.
 
 The planned Free and Pro edition boundary, future license lifecycle, and
 provider-neutral licensing requirements are documented in

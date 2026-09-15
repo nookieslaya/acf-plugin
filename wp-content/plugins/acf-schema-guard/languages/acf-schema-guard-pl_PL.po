@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the ACF Schema Guard plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ACF Schema Guard 0.1.0\n"
+"Project-Id-Version: ACF Schema Guard 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/acf-schema-guard\n"
 "PO-Revision-Date: 2026-09-14 19:29+0200\n"
 "Language: pl_PL\n"

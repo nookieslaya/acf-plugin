@@ -1,6 +1,5 @@
 # Changelog
 
-## Unreleased
+## 1.0.0
 
-- Initial release candidate of schema snapshots, risk analysis, Local JSON
-  health, code-impact analysis, WP-CLI, and report export.
+- Initial release of ACF schema snapshots, live comparisons, code usage, data impact, Solo Mode, release reports, and Polish Admin translations.

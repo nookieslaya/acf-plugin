@@ -19,6 +19,7 @@
 !wp-content/plugins/
 !wp-content/plugins/acf-schema-guard/
 !wp-content/plugins/acf-schema-guard/**
+wp-content/plugins/acf-schema-guard/dist/
 !wp-content/themes/
 !wp-content/themes/acf-schema-guard-dev/
 !wp-content/themes/acf-schema-guard-dev/**
