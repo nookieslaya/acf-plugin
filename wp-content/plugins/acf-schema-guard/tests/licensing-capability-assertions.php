@@ -48,6 +48,10 @@ $production_with_token = new LocalPreviewStateProvider( static function() { retu
 acf_schema_guard_license_assert( LicenseState::UNVERIFIABLE === $production_with_token->state()->status(), 'The preview token must never grant Pro capability outside a local environment.' );
 
 $plugin_source = file_get_contents( dirname( __DIR__ ) . '/includes/class-plugin.php' );
+$admin_source  = file_get_contents( dirname( __DIR__ ) . '/includes/admin/class-admin-controller.php' );
 acf_schema_guard_license_assert( false !== strpos( $plugin_source, "apply_filters( 'acf_schema_guard/license_state'" ), 'Plugin composition must provide a provider-neutral license-state filter seam.' );
+acf_schema_guard_license_assert( false !== strpos( $admin_source, "'local' === wp_get_environment_type()" ), 'The internal Pro preview switch must remain limited to a local WordPress environment.' );
+acf_schema_guard_license_assert( false !== strpos( $admin_source, 'acf_schema_guard_set_edition_preview' ), 'Local development must retain the internal Pro preview switch.' );
+acf_schema_guard_license_assert( false !== strpos( $admin_source, 'This release includes all currently available features in the Free edition.' ), 'Settings must identify the current public release as Free.' );
 
 echo "Licensing capability assertions passed.\n";

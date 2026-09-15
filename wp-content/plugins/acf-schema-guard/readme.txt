@@ -10,7 +10,7 @@ Detect potentially breaking ACF schema changes before deployment.
 
 == Description ==
 
-ACF Schema Guard captures ACF schema snapshots, compares approved baselines with the current schema, highlights risky changes, and connects them with PHP ACF references.
+ACF Schema Guard captures ACF schema snapshots, compares approved baselines with the current schema, highlights risky changes, and connects them with PHP ACF references. Version 1.0.0 is a Free release: no license key is required and all currently shipped public features are available without activation. Pro licensing is planned for a future release.
 
 == Installation ==
 

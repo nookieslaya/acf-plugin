@@ -2,19 +2,21 @@
 
 ## Product model
 
-ACF Schema Guard is distributed as one plugin. Its Free edition works without a
-license key. A future Pro license adds team-oriented capabilities, but never
-removes access to Free safety workflows or data created by those workflows.
+ACF Schema Guard `1.0.0` is distributed as one Free plugin. It works without a
+license key, and all features currently shipped in the public package are
+available in that edition. A future Pro license may add team-oriented
+capabilities, but will never remove access to Free safety workflows or data
+created by those workflows.
 
-The plugin does not contact a licensing service or accept production license
-keys. It now has a provider-neutral capability boundary for future Pro workflows.
-Without a verified provider state, Pro capabilities stay unavailable and all Free
-workflows remain available.
+The plugin does not contact a licensing service, accept production license keys,
+or offer a customer activation screen. It has a provider-neutral capability
+boundary for future Pro workflows. Without a verified provider state, every
+public workflow remains available as Free functionality.
 
-## Local Pro preview
+## Internal local Pro preview
 
-For local product development only, define the following constant in the local
-site's `wp-config.php` before WordPress loads:
+For plugin development only, define the following constant in the local site's
+`wp-config.php` before WordPress loads:
 
 ```php
 define( 'ACF_SCHEMA_GUARD_LOCAL_PRO_PREVIEW_TOKEN', 'acf-schema-guard-local-preview' );
@@ -23,8 +25,8 @@ define( 'ACF_SCHEMA_GUARD_LOCAL_PRO_PREVIEW_TOKEN', 'acf-schema-guard-local-prev
 The token is accepted only when WordPress reports the environment as `local`. It
 does not contact a server, persist a key, activate a real license, or grant Pro
 access on staging or production. Remove the constant, or use any other value, to
-review the Free state. This is a developer preview switch, not a secret and not
-a production credential.
+review the Free state. The switch is shown only when WordPress reports the
+environment as `local`; it is not a customer feature or a production credential.
 
 ## Pro risk policy
 
@@ -221,9 +223,9 @@ repeatable team workflows that make a shared release process easier to enforce.
 | Shared team policy distribution and centrally managed project rules | Pro | This is a multi-site, multi-user governance workflow rather than a local analysis requirement. |
 | Future advanced integrations | Pro, evaluated individually | An integration is Pro only when it adds team automation and does not hide raw safety evidence or block Free exports. |
 
-The current release contains no Pro-only runtime capability. The table is a
-product promise for future work, not a claim that a license can currently be
-entered or validated.
+The current release has no customer-facing Pro activation or production license
+validation. The table is a product promise for a future release, not a claim
+that a license can currently be entered, purchased, or validated.
 
 ## Capability rules for future implementation
 

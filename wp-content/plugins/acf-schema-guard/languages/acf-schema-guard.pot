@@ -239,41 +239,53 @@ msgstr ""
 msgid "Download team policy JSON"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:347
+#: includes/admin/class-admin-controller.php:342
+msgid "Edition"
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:343
+msgid "ACF Schema Guard 1.0"
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:344
+msgid "This release includes all currently available features in the Free edition. Production Pro licensing is planned for a future release."
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:351
 msgid "Local development"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:347
+#: includes/admin/class-admin-controller.php:352
 msgid "Edition preview"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:347
+#: includes/admin/class-admin-controller.php:353
 msgid "Pro preview is active for this local site."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:347
+#: includes/admin/class-admin-controller.php:353
 msgid "Free edition preview is active for this local site."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:347
+#: includes/admin/class-admin-controller.php:359
 msgid "Switch to Free preview"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:347
+#: includes/admin/class-admin-controller.php:359
 msgid "Switch to Pro preview"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:378
+#: includes/admin/class-admin-controller.php:383
 msgid "Baseline needed"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:379
+#: includes/admin/class-admin-controller.php:384
 msgid ""
 "Choose a stored snapshot as the approved baseline before reviewing live "
 "changes."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:385
+#: includes/admin/class-admin-controller.php:390
 msgid "Baseline approved"
 msgstr ""
 
@@ -358,15 +370,15 @@ msgstr ""
 msgid "You do not have permission to update risk policy."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:488
+#: includes/admin/class-admin-controller.php:487
 msgid "You do not have permission to change edition preview."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:495
+#: includes/admin/class-admin-controller.php:487
 msgid "You do not have permission to export risk policy."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:501
+#: includes/admin/class-admin-controller.php:493
 msgid "You do not have permission to approve exceptions."
 msgstr ""
 

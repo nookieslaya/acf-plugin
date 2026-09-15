@@ -126,3 +126,10 @@
   - [x] 24a. **Distribution metadata and documentation** - define the release version, changelog, license, and public `readme.txt` for a WordPress plugin package.
   - [x] 24b. **WordPress.org assets and publishing guide** - prepare repository-owned asset requirements and a clear publication guide without publishing remotely.
   - [ ] 24c. **Fresh-install verification and release checklist** - verify a clean package installation and finalize the release checklist.
+
+## Commercial follow-up
+
+- [ ] 25. **Production Pro licensing** - introduce a real customer license lifecycle in a later release without restricting the complete Free `1.0` safety workflow.
+  - [ ] 25a. **Provider and commercial integration decision** - select the sales and licensing provider, define plans, renewal terms, privacy boundaries, and the provider adapter contract.
+  - [ ] 25b. **License activation workspace** - add an administrator-facing license screen for activation, status, plan, expiry, and deactivation with secure provider validation.
+  - [ ] 25c. **Resilient Pro entitlement lifecycle** - cache verified state safely, apply the configured grace period, handle expiry and site limits, and gate only Pro actions while retaining every Free workflow and stored record.

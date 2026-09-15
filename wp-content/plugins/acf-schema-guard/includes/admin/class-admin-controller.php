@@ -337,6 +337,13 @@ final class AdminController {
 					</div>
 				</section>
 			</form>
+			<section class="acf-schema-guard-settings-card">
+				<div class="acf-schema-guard-settings-card-header">
+					<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Edition', 'acf-schema-guard' ); ?></p>
+					<h2><?php echo esc_html__( 'ACF Schema Guard 1.0', 'acf-schema-guard' ); ?></h2>
+					<p><?php echo esc_html__( 'This release includes all currently available features in the Free edition. Production Pro licensing is planned for a future release.', 'acf-schema-guard' ); ?></p>
+				</div>
+			</section>
 			<?php $decision = \AcfSchemaGuard\Plugin::instance()->capabilities()->can( \AcfSchemaGuard\Licensing\ProCapabilities::CONFIGURABLE_RISK_POLICIES ); $policy = \AcfSchemaGuard\Plugin::instance()->risk_policy()->policy(); ?>
 			<section class="acf-schema-guard-settings-card">
 				<div class="acf-schema-guard-settings-card-header"><p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Release policy', 'acf-schema-guard' ); ?></p><h2><?php echo esc_html__( 'Risk threshold', 'acf-schema-guard' ); ?></h2><p><?php echo esc_html__( 'Choose the lowest severity that blocks a release check.', 'acf-schema-guard' ); ?></p></div>
@@ -344,7 +351,19 @@ final class AdminController {
 				<?php if ( ! $decision->is_allowed() ) : ?><p><?php echo esc_html( $decision->reason() ); ?></p><?php else : ?><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_save_risk_policy" /><?php wp_nonce_field( 'acf_schema_guard_save_risk_policy' ); ?><select name="fail_on"><?php foreach ( array( 'warning', 'high', 'critical' ) as $severity ) : ?><option value="<?php echo esc_attr( $severity ); ?>" <?php selected( $policy->fail_on(), $severity ); ?>><?php echo esc_html( ucfirst( $severity ) ); ?></option><?php endforeach; ?></select><?php submit_button( __( 'Save risk policy', 'acf-schema-guard' ), 'primary', 'submit', false ); ?></form><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_download_risk_policy" /><?php wp_nonce_field( 'acf_schema_guard_download_risk_policy' ); ?><?php submit_button( __( 'Download team policy JSON', 'acf-schema-guard' ), 'secondary', 'submit', false ); ?></form><?php endif; ?>
 			</section>
 			<?php if ( function_exists( 'wp_get_environment_type' ) && 'local' === wp_get_environment_type() ) : $pro_preview = (bool) get_option( 'acf_schema_guard_local_pro_preview', false ); ?>
-			<section class="acf-schema-guard-settings-card"><div class="acf-schema-guard-settings-card-header"><p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Local development', 'acf-schema-guard' ); ?></p><h2><?php echo esc_html__( 'Edition preview', 'acf-schema-guard' ); ?></h2><p><?php echo esc_html( $pro_preview ? __( 'Pro preview is active for this local site.', 'acf-schema-guard' ) : __( 'Free edition preview is active for this local site.', 'acf-schema-guard' ) ); ?></p></div><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_set_edition_preview" /><?php wp_nonce_field( 'acf_schema_guard_set_edition_preview' ); ?><input type="hidden" name="edition" value="<?php echo esc_attr( $pro_preview ? 'free' : 'pro' ); ?>" /><?php submit_button( $pro_preview ? __( 'Switch to Free preview', 'acf-schema-guard' ) : __( 'Switch to Pro preview', 'acf-schema-guard' ), 'secondary', 'submit', false ); ?></form></section>
+				<section class="acf-schema-guard-settings-card">
+					<div class="acf-schema-guard-settings-card-header">
+						<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Local development', 'acf-schema-guard' ); ?></p>
+						<h2><?php echo esc_html__( 'Edition preview', 'acf-schema-guard' ); ?></h2>
+						<p><?php echo esc_html( $pro_preview ? __( 'Pro preview is active for this local site.', 'acf-schema-guard' ) : __( 'Free edition preview is active for this local site.', 'acf-schema-guard' ) ); ?></p>
+					</div>
+					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+						<input type="hidden" name="action" value="acf_schema_guard_set_edition_preview" />
+						<?php wp_nonce_field( 'acf_schema_guard_set_edition_preview' ); ?>
+						<input type="hidden" name="edition" value="<?php echo esc_attr( $pro_preview ? 'free' : 'pro' ); ?>" />
+						<?php submit_button( $pro_preview ? __( 'Switch to Free preview', 'acf-schema-guard' ) : __( 'Switch to Pro preview', 'acf-schema-guard' ), 'secondary', 'submit', false ); ?>
+					</form>
+				</section>
 			<?php endif; ?>
 		</div>
 		<?php

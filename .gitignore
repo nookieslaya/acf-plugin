@@ -1,5 +1,6 @@
 # This repository tracks only the ACF Schema Guard product and its workflow.
 *
+*.DS_Store
 
 !.gitignore
 !AGENTS.md
@@ -20,6 +21,7 @@
 !wp-content/plugins/acf-schema-guard/
 !wp-content/plugins/acf-schema-guard/**
 wp-content/plugins/acf-schema-guard/dist/
+wp-content/plugins/acf-schema-guard/.DS_Store
 !wp-content/themes/
 !wp-content/themes/acf-schema-guard-dev/
 !wp-content/themes/acf-schema-guard-dev/**

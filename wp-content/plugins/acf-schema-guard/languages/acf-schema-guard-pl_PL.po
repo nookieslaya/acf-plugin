@@ -239,27 +239,39 @@ msgstr "Zapisz zasady ryzyka"
 msgid "Download team policy JSON"
 msgstr "Pobierz zasady zespołu w JSON"
 
-#: includes/admin/class-admin-controller.php:347
+#: includes/admin/class-admin-controller.php:342
+msgid "Edition"
+msgstr "Wersja"
+
+#: includes/admin/class-admin-controller.php:343
+msgid "ACF Schema Guard 1.0"
+msgstr "ACF Schema Guard 1.0"
+
+#: includes/admin/class-admin-controller.php:344
+msgid "This release includes all currently available features in the Free edition. Production Pro licensing is planned for a future release."
+msgstr "To wydanie zawiera wszystkie obecnie dostępne funkcje w wersji Free. Produkcyjne licencjonowanie Pro jest planowane w przyszłym wydaniu."
+
+#: includes/admin/class-admin-controller.php:351
 msgid "Local development"
 msgstr "Środowisko lokalne"
 
-#: includes/admin/class-admin-controller.php:347
+#: includes/admin/class-admin-controller.php:352
 msgid "Edition preview"
 msgstr "Podgląd wersji"
 
-#: includes/admin/class-admin-controller.php:347
+#: includes/admin/class-admin-controller.php:353
 msgid "Pro preview is active for this local site."
 msgstr "Dla tej lokalnej witryny aktywny jest podgląd wersji Pro."
 
-#: includes/admin/class-admin-controller.php:347
+#: includes/admin/class-admin-controller.php:353
 msgid "Free edition preview is active for this local site."
 msgstr "Dla tej lokalnej witryny aktywny jest podgląd wersji Free."
 
-#: includes/admin/class-admin-controller.php:347
+#: includes/admin/class-admin-controller.php:359
 msgid "Switch to Free preview"
 msgstr "Przełącz na podgląd Free"
 
-#: includes/admin/class-admin-controller.php:347
+#: includes/admin/class-admin-controller.php:359
 msgid "Switch to Pro preview"
 msgstr "Przełącz na podgląd Pro"
 
@@ -360,15 +372,15 @@ msgstr "Nie masz uprawnień do zmiany ustawień skanera."
 msgid "You do not have permission to update risk policy."
 msgstr "Nie masz uprawnień do zmiany zasad ryzyka."
 
-#: includes/admin/class-admin-controller.php:488
+#: includes/admin/class-admin-controller.php:487
 msgid "You do not have permission to change edition preview."
 msgstr "Nie masz uprawnień do zmiany podglądu wersji."
 
-#: includes/admin/class-admin-controller.php:495
+#: includes/admin/class-admin-controller.php:487
 msgid "You do not have permission to export risk policy."
 msgstr "Nie masz uprawnień do eksportu zasad ryzyka."
 
-#: includes/admin/class-admin-controller.php:501
+#: includes/admin/class-admin-controller.php:493
 msgid "You do not have permission to approve exceptions."
 msgstr "Nie masz uprawnień do zatwierdzania wyjątków."
 
