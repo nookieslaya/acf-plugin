@@ -4,14 +4,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ACF Schema Guard 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/acf-schema-guard\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2026-09-14 19:29+0200\n"
+"Language: pl_PL\n"
+"Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-14T17:20:01+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.12.0\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: ChatGPT\n"
 "X-Domain: acf-schema-guard\n"
 
 #. Plugin Name of the plugin
@@ -19,945 +19,950 @@ msgstr ""
 #: acf-schema-guard.php includes/admin/class-admin-controller.php:120
 #: includes/admin/class-admin-controller.php:121
 msgid "ACF Schema Guard"
-msgstr ""
+msgstr "ACF Schema Guard"
 
 #. Description of the plugin
 #: acf-schema-guard.php
 msgid ""
 "Detects potentially breaking Advanced Custom Fields schema changes before "
 "deployment."
-msgstr ""
+msgstr "Wykrywa potencjalnie niebezpieczne zmiany w strukturze pól ACF przed wdrożeniem."
 
 #: includes/admin/class-admin-controller.php:28
 msgid "Overview"
-msgstr ""
+msgstr "Przegląd"
 
 #: includes/admin/class-admin-controller.php:28
 msgid "A starting point for reviewing ACF schema safety."
-msgstr ""
+msgstr "Punkt wyjścia do sprawdzenia bezpieczeństwa struktury ACF."
 
 #: includes/admin/class-admin-controller.php:29
 msgid "Changes"
-msgstr ""
+msgstr "Zmiany"
 
 #: includes/admin/class-admin-controller.php:29
 msgid "Schema changes will appear here after a comparison is run."
-msgstr ""
+msgstr "Zmiany w strukturze pojawią się tutaj po wykonaniu porównania."
 
 #: includes/admin/class-admin-controller.php:30
 msgid "Field Groups"
-msgstr ""
+msgstr "Grupy pól"
 
 #: includes/admin/class-admin-controller.php:30
 msgid "Normalized field groups will appear here in a later feature."
-msgstr ""
+msgstr "Ujednolicone grupy pól pojawią się tutaj w późniejszej wersji."
 
 #: includes/admin/class-admin-controller.php:31
 msgid "Code Usage"
-msgstr ""
+msgstr "Użycie w kodzie"
 
 #: includes/admin/class-admin-controller.php:31
 msgid "References found by supported code scanners will appear here."
-msgstr ""
+msgstr "Wykryte odwołania do pól w kodzie pojawią się tutaj."
 
 #: includes/admin/class-admin-controller.php:32
 msgid "Unused Fields"
-msgstr ""
+msgstr "Nieużywane pola"
 
 #: includes/admin/class-admin-controller.php:32
 msgid "Review-only PHP coverage signals for current ACF fields."
-msgstr ""
+msgstr "Informacje pomocnicze o użyciu bieżących pól ACF w kodzie PHP."
 
 #: includes/admin/class-admin-controller.php:33
 msgid "History"
-msgstr ""
+msgstr "Historia"
 
 #: includes/admin/class-admin-controller.php:33
 msgid "Captured schema snapshots will appear here in a later feature."
-msgstr ""
+msgstr "Zapisane migawki struktury pojawią się tutaj w późniejszej wersji."
 
 #: includes/admin/class-admin-controller.php:34
 msgid "Settings"
-msgstr ""
+msgstr "Ustawienia"
 
 #: includes/admin/class-admin-controller.php:34
 msgid "Configuration controls will appear here when settings are supported."
-msgstr ""
+msgstr "Opcje konfiguracji pojawią się tutaj, gdy zostaną udostępnione."
 
 #: includes/admin/class-admin-controller.php:167
 msgid "You do not have permission to access this page."
-msgstr ""
+msgstr "Nie masz uprawnień do wyświetlenia tej strony."
 
 #: includes/admin/class-admin-controller.php:174
 msgid "The requested ACF Schema Guard page is not available."
-msgstr ""
+msgstr "Żądana strona ACF Schema Guard jest niedostępna."
 
 #: includes/admin/class-admin-controller.php:215
 msgid "This read-only section has no data or actions available yet."
-msgstr ""
+msgstr "Ta sekcja jest obecnie tylko do odczytu i nie zawiera jeszcze danych ani dostępnych działań."
 
 #: includes/admin/class-admin-controller.php:235
 msgid ""
 "Review the current ACF schema safety posture, then continue with the "
 "workflow that needs attention."
-msgstr ""
+msgstr "Sprawdź aktualny stan bezpieczeństwa struktury ACF, a następnie przejdź do obszaru wymagającego uwagi."
 
 #: includes/admin/class-admin-controller.php:239
 #: includes/admin/class-admin-controller.php:963
 #: includes/admin/class-admin-controller.php:1009
 msgid "Approved baseline"
-msgstr ""
+msgstr "Zatwierdzona wersja bazowa"
 
 #: includes/admin/class-admin-controller.php:242
 msgid "Open history"
-msgstr ""
+msgstr "Otwórz historię"
 
 #: includes/admin/class-admin-controller.php:246
 msgid "Live schema comparison"
-msgstr ""
+msgstr "Porównanie z bieżącą strukturą"
 
 #: includes/admin/class-admin-controller.php:250
 msgid "Review changes"
-msgstr ""
+msgstr "Sprawdź zmiany"
 
 #: includes/admin/class-admin-controller.php:254
 msgid "Schema source"
-msgstr ""
+msgstr "Źródło struktury"
 
 #: includes/admin/class-admin-controller.php:254
 msgid "Database and Local JSON"
-msgstr ""
+msgstr "Baza danych i Local JSON"
 
 #: includes/admin/class-admin-controller.php:258
 msgid "Review field groups"
-msgstr ""
+msgstr "Sprawdź grupy pól"
 
 #: includes/admin/class-admin-controller.php:263
 msgid "Continue your review"
-msgstr ""
+msgstr "Kontynuuj sprawdzanie"
 
 #: includes/admin/class-admin-controller.php:265
 msgid "Set or review the approved database baseline"
-msgstr ""
+msgstr "Ustaw lub sprawdź zatwierdzoną wersję bazową z bazy danych"
 
 #: includes/admin/class-admin-controller.php:266
 msgid "Inspect current PHP ACF references"
-msgstr ""
+msgstr "Sprawdź bieżące odwołania do ACF w kodzie PHP"
 
 #: includes/admin/class-admin-controller.php:267
 msgid "Choose themes and plugins for code analysis"
-msgstr ""
+msgstr "Wybierz motywy i wtyczki do analizy kodu"
 
 #: includes/admin/class-admin-controller.php:295
 #: includes/admin/class-admin-controller.php:1352
 msgid "Safe"
-msgstr ""
+msgstr "Bezpieczne"
 
 #: includes/admin/class-admin-controller.php:296
 #: includes/admin/class-admin-controller.php:1356
 msgid "Warning"
-msgstr ""
+msgstr "Ostrzeżenie"
 
 #: includes/admin/class-admin-controller.php:297
 #: includes/admin/class-admin-controller.php:1360
 msgid "High"
-msgstr ""
+msgstr "Wysokie"
 
 #: includes/admin/class-admin-controller.php:298
 #: includes/admin/class-admin-controller.php:1364
 msgid "Critical"
-msgstr ""
+msgstr "Krytyczne"
 
 #: includes/admin/class-admin-controller.php:299
 #: includes/admin/class-admin-controller.php:854
 msgid "Aligned"
-msgstr ""
+msgstr "Zgodne"
 
 #: includes/admin/class-admin-controller.php:300
 #: includes/admin/class-admin-controller.php:854
 msgid "Database only"
-msgstr ""
+msgstr "Tylko baza danych"
 
 #: includes/admin/class-admin-controller.php:301
 #: includes/admin/class-admin-controller.php:854
 msgid "Local JSON only"
-msgstr ""
+msgstr "Tylko Local JSON"
 
 #: includes/admin/class-admin-controller.php:302
 #: includes/admin/class-admin-controller.php:854
 msgid "Divergent"
-msgstr ""
+msgstr "Niezgodne"
 
 #: includes/admin/class-admin-controller.php:317
 msgid "Choose the themes and plugins to include in code analysis."
-msgstr ""
+msgstr "Wybierz motywy i wtyczki, które mają zostać uwzględnione w analizie kodu."
 
 #: includes/admin/class-admin-controller.php:323
 msgid "Scanner scope"
-msgstr ""
+msgstr "Zakres skanowania"
 
 #: includes/admin/class-admin-controller.php:324
 msgid "Include source roots"
-msgstr ""
+msgstr "Uwzględnij katalogi źródłowe"
 
 #: includes/admin/class-admin-controller.php:325
 msgid "Only selected locations are scanned for literal PHP ACF calls."
-msgstr ""
+msgstr "Tylko wybrane lokalizacje są skanowane pod kątem bezpośrednich wywołań funkcji ACF w PHP."
 
 #: includes/admin/class-admin-controller.php:336
 msgid "Save scanner roots"
-msgstr ""
+msgstr "Zapisz zakres skanowania"
 
 #: includes/admin/class-admin-controller.php:342
 msgid "Release policy"
-msgstr ""
+msgstr "Zasady wydania"
 
 #: includes/admin/class-admin-controller.php:342
 msgid "Risk threshold"
-msgstr ""
+msgstr "Próg ryzyka"
 
 #: includes/admin/class-admin-controller.php:342
 msgid "Choose the lowest severity that blocks a release check."
-msgstr ""
+msgstr "Wybierz najniższy poziom ryzyka, który ma blokować kontrolę przed wydaniem."
 
 #: includes/admin/class-admin-controller.php:343
 msgid "Team policy active"
-msgstr ""
+msgstr "Aktywne zasady zespołu"
 
 #: includes/admin/class-admin-controller.php:343
 #, php-format
 msgid ""
 "The repository file %1$s sets the active %2$s threshold. It takes priority "
 "over this site's local setting."
-msgstr ""
+msgstr "Plik %1$s w repozytorium ustawia aktywny próg %2$s. Ma on pierwszeństwo przed lokalnym ustawieniem tej witryny."
 
 #: includes/admin/class-admin-controller.php:344
 msgid "Save risk policy"
-msgstr ""
+msgstr "Zapisz zasady ryzyka"
 
 #: includes/admin/class-admin-controller.php:344
 msgid "Download team policy JSON"
-msgstr ""
+msgstr "Pobierz zasady zespołu w JSON"
 
 #: includes/admin/class-admin-controller.php:347
 msgid "Local development"
-msgstr ""
+msgstr "Środowisko lokalne"
 
 #: includes/admin/class-admin-controller.php:347
 msgid "Edition preview"
-msgstr ""
+msgstr "Podgląd wersji"
 
 #: includes/admin/class-admin-controller.php:347
 msgid "Pro preview is active for this local site."
-msgstr ""
+msgstr "Dla tej lokalnej witryny aktywny jest podgląd wersji Pro."
 
 #: includes/admin/class-admin-controller.php:347
 msgid "Free edition preview is active for this local site."
-msgstr ""
+msgstr "Dla tej lokalnej witryny aktywny jest podgląd wersji Free."
 
 #: includes/admin/class-admin-controller.php:347
 msgid "Switch to Free preview"
-msgstr ""
+msgstr "Przełącz na podgląd Free"
 
 #: includes/admin/class-admin-controller.php:347
 msgid "Switch to Pro preview"
-msgstr ""
+msgstr "Przełącz na podgląd Pro"
 
 #: includes/admin/class-admin-controller.php:378
 msgid "Baseline needed"
-msgstr ""
+msgstr "Wymagana wersja bazowa"
 
 #: includes/admin/class-admin-controller.php:379
 msgid ""
 "Choose a stored snapshot as the approved baseline before reviewing live "
 "changes."
-msgstr ""
+msgstr "Przed sprawdzaniem bieżących zmian wybierz zapisaną migawkę jako zatwierdzoną wersję bazową."
 
 #: includes/admin/class-admin-controller.php:385
 msgid "Baseline approved"
-msgstr ""
+msgstr "Wersja bazowa zatwierdzona"
 
 #: includes/admin/class-admin-controller.php:386
 #, php-format
 msgid "Captured %s."
-msgstr ""
+msgstr "Zapisano %s."
 
 #: includes/admin/class-admin-controller.php:400
 msgid "Comparison unavailable"
-msgstr ""
+msgstr "Porównanie niedostępne"
 
 #: includes/admin/class-admin-controller.php:401
 msgid "A live schema comparison is not available yet."
-msgstr ""
+msgstr "Porównanie z bieżącą strukturą nie jest jeszcze dostępne."
 
 #: includes/admin/class-admin-controller.php:420
 msgid "Review required"
-msgstr ""
+msgstr "Wymagane sprawdzenie"
 
 #: includes/admin/class-admin-controller.php:420
 msgid "No high-risk changes"
-msgstr ""
+msgstr "Brak zmian wysokiego ryzyka"
 
 #: includes/admin/class-admin-controller.php:421
 #, php-format
 msgid "%d schema finding detected."
 msgid_plural "%d schema findings detected."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d wykryta zmiana w strukturze."
+msgstr[1] "%d wykryte zmiany w strukturze."
+msgstr[2] "%d wykrytych zmian w strukturze."
 
 #: includes/admin/class-admin-controller.php:436
 #: includes/admin/class-admin-controller.php:831
 msgid "Source health unavailable"
-msgstr ""
+msgstr "Stan źródeł niedostępny"
 
 #: includes/admin/class-admin-controller.php:437
 msgid "ACF Local JSON could not be inspected."
-msgstr ""
+msgstr "Nie udało się sprawdzić ACF Local JSON."
 
 #: includes/admin/class-admin-controller.php:442
 #: includes/admin/class-admin-controller.php:828
 msgid "Database-first mode"
-msgstr ""
+msgstr "Tryb oparty na bazie danych"
 
 #: includes/admin/class-admin-controller.php:442
 msgid ""
 "Local JSON is not configured. Baseline, Changes, Code Usage, and data impact "
 "remain available."
-msgstr ""
+msgstr "Local JSON nie jest skonfigurowany. Wersja bazowa, zmiany, użycie w kodzie i analiza wpływu na dane nadal są dostępne."
 
 #: includes/admin/class-admin-controller.php:455
 msgid "Source review needed"
-msgstr ""
+msgstr "Wymagane sprawdzenie źródeł"
 
 #: includes/admin/class-admin-controller.php:455
 msgid "Sources aligned"
-msgstr ""
+msgstr "Źródła są zgodne"
 
 #: includes/admin/class-admin-controller.php:456
 #, php-format
 msgid "%d field group needs source review."
 msgid_plural "%d field groups need source review."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d grupa pól wymaga sprawdzenia źródeł."
+msgstr[1] "%d grupy pól wymagają sprawdzenia źródeł."
+msgstr[2] "%d grup pól wymaga sprawdzenia źródeł."
 
 #: includes/admin/class-admin-controller.php:462
 #, php-format
 msgid "Theme: %s"
-msgstr ""
+msgstr "Motyw: %s"
 
 #: includes/admin/class-admin-controller.php:464
 #, php-format
 msgid "Plugin: %s"
-msgstr ""
+msgstr "Wtyczka: %s"
 
 #: includes/admin/class-admin-controller.php:471
 msgid "You do not have permission to update scanner settings."
-msgstr ""
+msgstr "Nie masz uprawnień do zmiany ustawień skanera."
 
 #: includes/admin/class-admin-controller.php:480
 msgid "You do not have permission to update risk policy."
-msgstr ""
+msgstr "Nie masz uprawnień do zmiany zasad ryzyka."
 
 #: includes/admin/class-admin-controller.php:488
 msgid "You do not have permission to change edition preview."
-msgstr ""
+msgstr "Nie masz uprawnień do zmiany podglądu wersji."
 
 #: includes/admin/class-admin-controller.php:495
 msgid "You do not have permission to export risk policy."
-msgstr ""
+msgstr "Nie masz uprawnień do eksportu zasad ryzyka."
 
 #: includes/admin/class-admin-controller.php:501
 msgid "You do not have permission to approve exceptions."
-msgstr ""
+msgstr "Nie masz uprawnień do zatwierdzania wyjątków."
 
 #: includes/admin/class-admin-controller.php:507
 msgid ""
 "This exception could not be saved. Check the reason, expiry, and Pro access."
-msgstr ""
+msgstr "Nie udało się zapisać wyjątku. Sprawdź powód, datę wygaśnięcia i dostęp do wersji Pro."
 
 #: includes/admin/class-admin-controller.php:512
 msgid "You do not have permission to revoke exceptions."
-msgstr ""
+msgstr "Nie masz uprawnień do wycofywania wyjątków."
 
 #: includes/admin/class-admin-controller.php:520
 msgid "You do not have permission to download release reports."
-msgstr ""
+msgstr "Nie masz uprawnień do pobierania raportów wydania."
 
 #: includes/admin/class-admin-controller.php:523
 msgid "An approved baseline is required before exporting a report."
-msgstr ""
+msgstr "Przed eksportem raportu wymagana jest zatwierdzona wersja bazowa."
 
 #: includes/admin/class-admin-controller.php:556
 msgid ""
 "Literal PHP ACF references found in the configured themes and plugins as "
 "they exist now. Each field groups all of its real call sites together."
-msgstr ""
+msgstr "Bezpośrednie odwołania do pól ACF znalezione w aktualnym kodzie wybranych motywów i wtyczek. Dla każdego pola pokazane są wszystkie wykryte miejsca użycia."
 
 #: includes/admin/class-admin-controller.php:560
 #: includes/admin/class-admin-controller.php:672
 msgid "Field"
-msgstr ""
+msgstr "Pole"
 
 #: includes/admin/class-admin-controller.php:562
 #: includes/admin/class-admin-controller.php:672
 msgid "All fields"
-msgstr ""
+msgstr "Wszystkie pola"
 
 #: includes/admin/class-admin-controller.php:568
 msgid "File"
-msgstr ""
+msgstr "Plik"
 
 #: includes/admin/class-admin-controller.php:570
 msgid "All files"
-msgstr ""
+msgstr "Wszystkie pliki"
 
 #: includes/admin/class-admin-controller.php:576
 msgid "ACF function"
-msgstr ""
+msgstr "Funkcja ACF"
 
 #: includes/admin/class-admin-controller.php:578
 msgid "All supported functions"
-msgstr ""
+msgstr "Wszystkie obsługiwane funkcje"
 
 #: includes/admin/class-admin-controller.php:584
 msgid "Filter references"
-msgstr ""
+msgstr "Filtruj odwołania"
 
 #: includes/admin/class-admin-controller.php:588
 #, php-format
 msgid "%d reference shown"
 msgid_plural "%d references shown"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Wyświetlono %d odwołanie."
+msgstr[1] "Wyświetlono %d odwołania."
+msgstr[2] "Wyświetlono %d odwołań."
 
 #: includes/admin/class-admin-controller.php:595
 msgid "No matching references"
-msgstr ""
+msgstr "Brak pasujących odwołań"
 
 #: includes/admin/class-admin-controller.php:596
 msgid ""
 "Try changing the filters, or choose source roots in Settings before scanning "
 "again."
-msgstr ""
+msgstr "Zmień filtry albo wybierz katalogi do skanowania w Ustawieniach i uruchom skanowanie ponownie."
 
 #: includes/admin/class-admin-controller.php:605
 #, php-format
 msgid "%d reference"
 msgid_plural "%d references"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d odwołanie"
+msgstr[1] "%d odwołania"
+msgstr[2] "%d odwołań"
 
 #: includes/admin/class-admin-controller.php:607
 msgid "Show call sites"
-msgstr ""
+msgstr "Pokaż miejsca użycia"
 
 #: includes/admin/class-admin-controller.php:615
 msgid "PHP context around this call."
-msgstr ""
+msgstr "Fragment kodu PHP wokół tego wywołania."
 
 #: includes/admin/class-admin-controller.php:671
 msgid ""
 "This workspace is in development. It complements Code Usage by starting with "
 "ACF fields that have no detected literal PHP reference. Review dynamic "
 "calls, unscanned code, and stored data before making any schema decision."
-msgstr ""
+msgstr "Ta sekcja jest w trakcie rozwoju. Uzupełnia analizę użycia w kodzie, pokazując pola ACF bez wykrytych bezpośrednich odwołań w PHP. Przed zmianą struktury sprawdź także wywołania dynamiczne, nieskanowany kod i zapisane dane."
 
 #: includes/admin/class-admin-controller.php:672
 msgid ""
 "These are review signals from configured PHP scanner roots. They never mean "
 "a field is safe to delete."
-msgstr ""
+msgstr "To są jedynie wskazówki na podstawie skonfigurowanego skanowania PHP. Brak odwołań nigdy nie oznacza automatycznie, że pole można bezpiecznie usunąć."
 
 #: includes/admin/class-admin-controller.php:672
 msgid "Review state"
-msgstr ""
+msgstr "Stan weryfikacji"
 
 #: includes/admin/class-admin-controller.php:672
 msgid "Potentially unused"
-msgstr ""
+msgstr "Potencjalnie nieużywane"
 
 #: includes/admin/class-admin-controller.php:672
 #: includes/admin/class-admin-controller.php:758
 msgid "Manual review required"
-msgstr ""
+msgstr "Wymagana ręczna weryfikacja"
 
 #: includes/admin/class-admin-controller.php:672
 msgid "Filter fields"
-msgstr ""
+msgstr "Filtruj pola"
 
 #: includes/admin/class-admin-controller.php:672
 msgid "No fields available for review"
-msgstr ""
+msgstr "Brak pól do sprawdzenia"
 
 #: includes/admin/class-admin-controller.php:672
 msgid ""
 "Confirm that ACF field groups and scanner roots are available, then scan "
 "again."
-msgstr ""
+msgstr "Sprawdź, czy grupy pól ACF i katalogi do skanowania są dostępne, a następnie uruchom skanowanie ponownie."
 
 #: includes/admin/class-admin-controller.php:672
 msgid "Literal references"
-msgstr ""
+msgstr "Bezpośrednie odwołania"
 
 #: includes/admin/class-admin-controller.php:672
 msgid "State"
-msgstr ""
+msgstr "Stan"
 
 #: includes/admin/class-admin-controller.php:754
 msgid "Dynamic ACF calls need manual review"
-msgstr ""
+msgstr "Dynamiczne wywołania ACF wymagają ręcznej weryfikacji"
 
 #: includes/admin/class-admin-controller.php:755
 msgid ""
 "These supported calls use a non-literal field argument. ACF Schema Guard "
 "cannot safely determine which field they access, so they are not linked to a "
 "specific schema change."
-msgstr ""
+msgstr "Te wywołania używają dynamicznie określonej nazwy pola. ACF Schema Guard nie może jednoznacznie ustalić, do którego pola się odwołują, dlatego nie są przypisywane do konkretnej zmiany struktury."
 
 #: includes/admin/class-admin-controller.php:782
 #: includes/admin/class-admin-controller.php:856
 msgid "Unknown"
-msgstr ""
+msgstr "Nieznany"
 
 #: includes/admin/class-admin-controller.php:795
 #: includes/admin/class-admin-controller.php:800
 msgid "Source preview is unavailable."
-msgstr ""
+msgstr "Podgląd źródła jest niedostępny."
 
 #: includes/admin/class-admin-controller.php:826
 msgid ""
 "Your ACF schema is managed in the WordPress database. Local JSON comparison "
 "is optional and is not required for schema safety."
-msgstr ""
+msgstr "Struktura ACF jest zarządzana w bazie danych WordPressa. Porównanie z Local JSON jest opcjonalne i nie jest wymagane do kontroli bezpieczeństwa struktury."
 
 #: includes/admin/class-admin-controller.php:826
 msgid ""
 "Checks whether each ACF field group is represented consistently in the "
 "WordPress database and ACF Local JSON."
-msgstr ""
+msgstr "Sprawdza, czy każda grupa pól ACF jest zgodna w bazie danych WordPressa i w ACF Local JSON."
 
 #: includes/admin/class-admin-controller.php:828
 msgid ""
 "ACF Local JSON is not configured. This is a supported workflow: set an "
 "approved baseline, review live Changes, and use Code Usage to check current "
 "PHP references."
-msgstr ""
+msgstr "ACF Local JSON nie jest skonfigurowany. Ten sposób pracy jest obsługiwany: ustaw zatwierdzoną wersję bazową, sprawdzaj bieżące zmiany i używaj analizy kodu do kontroli odwołań w PHP."
 
 #: includes/admin/class-admin-controller.php:832
 msgid "ACF is unavailable, so Source health cannot inspect field groups."
-msgstr ""
+msgstr "ACF jest niedostępny, dlatego nie można sprawdzić stanu źródeł grup pól."
 
 #: includes/admin/class-admin-controller.php:836
 msgid "No field groups found"
-msgstr ""
+msgstr "Nie znaleziono grup pól"
 
 #: includes/admin/class-admin-controller.php:837
 msgid ""
 "No ACF field groups were found in the database or configured Local JSON "
 "paths."
-msgstr ""
+msgstr "Nie znaleziono grup pól ACF w bazie danych ani w skonfigurowanych ścieżkach Local JSON."
 
 #: includes/admin/class-admin-controller.php:841
 #: includes/admin/class-admin-controller.php:842
 msgid "Field group"
-msgstr ""
+msgstr "Grupa pól"
 
 #: includes/admin/class-admin-controller.php:841
 #: includes/admin/class-admin-controller.php:842
 msgid "Key"
-msgstr ""
+msgstr "Klucz"
 
 #: includes/admin/class-admin-controller.php:841
 #: includes/admin/class-admin-controller.php:842
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: includes/admin/class-admin-controller.php:841
 #: includes/admin/class-admin-controller.php:842
 msgid "Database"
-msgstr ""
+msgstr "Baza danych"
 
 #: includes/admin/class-admin-controller.php:841
 #: includes/admin/class-admin-controller.php:842
 msgid "Local JSON"
-msgstr ""
+msgstr "Local JSON"
 
 #: includes/admin/class-admin-controller.php:841
 #: includes/admin/class-admin-controller.php:842
 msgid "Recommended action"
-msgstr ""
+msgstr "Zalecane działanie"
 
 #: includes/admin/class-admin-controller.php:861
 msgid "Missing"
-msgstr ""
+msgstr "Brak"
 
 #: includes/admin/class-admin-controller.php:861
 msgid "Not found"
-msgstr ""
+msgstr "Nie znaleziono"
 
 #: includes/admin/class-admin-controller.php:865
 #: includes/admin/class-admin-controller.php:869
 #: includes/admin/class-admin-controller.php:873
 #: includes/admin/class-admin-controller.php:876
 msgid "Present"
-msgstr ""
+msgstr "Dostępne"
 
 #: includes/admin/class-admin-controller.php:865
 msgid "Matches"
-msgstr ""
+msgstr "Zgodne"
 
 #: includes/admin/class-admin-controller.php:869
 msgid "Same modified time"
-msgstr ""
+msgstr "Ten sam czas modyfikacji"
 
 #: includes/admin/class-admin-controller.php:873
 msgid "Newer schema"
-msgstr ""
+msgstr "Nowsza struktura"
 
 #: includes/admin/class-admin-controller.php:876
 msgid "Review"
-msgstr ""
+msgstr "Sprawdź"
 
 #: includes/admin/class-admin-controller.php:883
 #: includes/admin/class-admin-controller.php:892
 msgid "No action needed."
-msgstr ""
+msgstr "Nie jest wymagane żadne działanie."
 
 #: includes/admin/class-admin-controller.php:887
 msgid ""
 "Definitions differ but timestamps are equal. ACF Sync may not be available."
-msgstr ""
+msgstr "Definicje różnią się, ale mają ten sam czas modyfikacji. Synchronizacja ACF może być niedostępna."
 
 #: includes/admin/class-admin-controller.php:890
 msgid ""
 "Local JSON is newer. Review it, then use ACF Sync to import it into the "
 "database."
-msgstr ""
+msgstr "Local JSON jest nowszy. Sprawdź zmiany, a następnie użyj synchronizacji ACF, aby zaimportować je do bazy danych."
 
 #: includes/admin/class-admin-controller.php:891
 msgid ""
 "The database is newer. Open this group in ACF and save it to refresh Local "
 "JSON before committing."
-msgstr ""
+msgstr "Wersja w bazie danych jest nowsza. Otwórz tę grupę w ACF i zapisz ją, aby zaktualizować Local JSON przed commitem."
 
 #: includes/admin/class-admin-controller.php:892
 msgid ""
 "Save or sync this group so it is written to Local JSON and committed to Git."
-msgstr ""
+msgstr "Zapisz lub zsynchronizuj tę grupę, aby trafiła do Local JSON i mogła zostać dodana do Gita."
 
 #: includes/admin/class-admin-controller.php:892
 msgid ""
 "Review the JSON definition and import or sync it into the database when "
 "appropriate."
-msgstr ""
+msgstr "Sprawdź definicję JSON i w razie potrzeby zaimportuj lub zsynchronizuj ją z bazą danych."
 
 #: includes/admin/class-admin-controller.php:892
 msgid ""
 "Review both definitions before synchronizing. Do not overwrite either source "
 "blindly."
-msgstr ""
+msgstr "Przed synchronizacją sprawdź obie definicje. Nie nadpisuj żadnego ze źródeł bez weryfikacji."
 
 #: includes/admin/class-admin-controller.php:893
 msgid "Review this field group manually."
-msgstr ""
+msgstr "Sprawdź tę grupę pól ręcznie."
 
 #: includes/admin/class-admin-controller.php:928
 msgid "Stored immutable schema snapshots, newest first."
-msgstr ""
+msgstr "Zapisane, niezmienne migawki struktury, od najnowszej."
 
 #: includes/admin/class-admin-controller.php:932
 #: includes/admin/class-admin-controller.php:1014
 msgid "Current schema"
-msgstr ""
+msgstr "Aktualna struktura"
 
 #: includes/admin/class-admin-controller.php:933
 msgid "Capture a checkpoint"
-msgstr ""
+msgstr "Utwórz punkt kontrolny"
 
 #: includes/admin/class-admin-controller.php:934
 msgid ""
 "Save the effective ACF schema as an immutable snapshot before or after a "
 "meaningful change."
-msgstr ""
+msgstr "Zapisz aktualną strukturę ACF jako niezmienną migawkę przed ważną zmianą lub po niej."
 
 #: includes/admin/class-admin-controller.php:939
 msgid "Capture current schema"
-msgstr ""
+msgstr "Zapisz aktualną strukturę"
 
 #: includes/admin/class-admin-controller.php:944
 msgid "No snapshots yet"
-msgstr ""
+msgstr "Brak zapisanych migawek"
 
 #: includes/admin/class-admin-controller.php:945
 msgid ""
 "Capture the current schema to start a durable history and choose a baseline "
 "for live comparison."
-msgstr ""
+msgstr "Zapisz aktualną strukturę, aby rozpocząć historię zmian i wybrać wersję bazową do porównywania bieżącego stanu."
 
 #: includes/admin/class-admin-controller.php:951
 #: includes/admin/class-admin-controller.php:960
 msgid "Snapshot ID"
-msgstr ""
+msgstr "ID migawki"
 
 #: includes/admin/class-admin-controller.php:952
 #: includes/admin/class-admin-controller.php:961
 msgid "Source"
-msgstr ""
+msgstr "Źródło"
 
 #: includes/admin/class-admin-controller.php:953
 #: includes/admin/class-admin-controller.php:962
 msgid "Captured (UTC)"
-msgstr ""
+msgstr "Zapisano (UTC)"
 
 #: includes/admin/class-admin-controller.php:954
 #: includes/admin/class-admin-controller.php:963
 msgid "Baseline"
-msgstr ""
+msgstr "Wersja bazowa"
 
 #: includes/admin/class-admin-controller.php:961
 msgid "Automatic ACF save"
-msgstr ""
+msgstr "Automatyczny zapis ACF"
 
 #: includes/admin/class-admin-controller.php:963
 msgid "Set as baseline"
-msgstr ""
+msgstr "Ustaw jako wersję bazową"
 
 #: includes/admin/class-admin-controller.php:974
 msgid "You do not have permission to set a baseline."
-msgstr ""
+msgstr "Nie masz uprawnień do ustawienia wersji bazowej."
 
 #: includes/admin/class-admin-controller.php:990
 msgid "Live schema comparison is unavailable."
-msgstr ""
+msgstr "Porównanie z bieżącą strukturą jest niedostępne."
 
 #: includes/admin/class-admin-controller.php:996
 msgid "The current ACF schema could not be compared."
-msgstr ""
+msgstr "Nie udało się porównać aktualnej struktury ACF."
 
 #: includes/admin/class-admin-controller.php:1006
 msgid "Comparing the approved baseline with the current live schema."
-msgstr ""
+msgstr "Porównanie zatwierdzonej wersji bazowej z aktualną strukturą."
 
 #: includes/admin/class-admin-controller.php:1015
 msgid "Live schema"
-msgstr ""
+msgstr "Bieżąca struktura"
 
 #: includes/admin/class-admin-controller.php:1016
 msgid "Loaded for this request and not saved as a snapshot."
-msgstr ""
+msgstr "Wczytana na potrzeby tego sprawdzenia i niezapisana jako migawka."
 
 #: includes/admin/class-admin-controller.php:1019
 msgid "Release report"
-msgstr ""
+msgstr "Raport wydania"
 
 #: includes/admin/class-admin-controller.php:1019
 msgid "Share a review-ready summary"
-msgstr ""
+msgstr "Udostępnij podsumowanie gotowe do weryfikacji"
 
 #: includes/admin/class-admin-controller.php:1019
 msgid ""
 "Download the current baseline comparison for your pull or merge request."
-msgstr ""
+msgstr "Pobierz porównanie z wersją bazową do użycia w pull requeście lub merge requeście."
 
 #: includes/admin/class-admin-controller.php:1019
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: includes/admin/class-admin-controller.php:1019
 msgid "Download report"
-msgstr ""
+msgstr "Pobierz raport"
 
 #: includes/admin/class-admin-controller.php:1046
 msgid "The selected snapshots could not be compared. Try again."
-msgstr ""
+msgstr "Nie udało się porównać wybranych migawek. Spróbuj ponownie."
 
 #: includes/admin/class-admin-controller.php:1054
 msgid "No schema changes found between the selected snapshots."
-msgstr ""
+msgstr "Nie znaleziono zmian w strukturze między wybranymi migawkami."
 
 #: includes/admin/class-admin-controller.php:1066
 msgid "Detected changes"
-msgstr ""
+msgstr "Wykryte zmiany"
 
 #: includes/admin/class-admin-controller.php:1067
 #, php-format
 msgid "%d classified changes need review."
-msgstr ""
+msgstr "%d sklasyfikowanych zmian wymaga sprawdzenia."
 
 #: includes/admin/class-admin-controller.php:1075
 #: includes/admin/class-admin-controller.php:1092
 msgid "Kind"
-msgstr ""
+msgstr "Rodzaj"
 
 #: includes/admin/class-admin-controller.php:1076
 #: includes/admin/class-admin-controller.php:1093
 msgid "Node type"
-msgstr ""
+msgstr "Typ elementu"
 
 #: includes/admin/class-admin-controller.php:1077
 #: includes/admin/class-admin-controller.php:1094
 msgid "Path"
-msgstr ""
+msgstr "Ścieżka"
 
 #: includes/admin/class-admin-controller.php:1078
 #: includes/admin/class-admin-controller.php:1095
 msgid "Change details"
-msgstr ""
+msgstr "Szczegóły zmiany"
 
 #: includes/admin/class-admin-controller.php:1079
 #: includes/admin/class-admin-controller.php:1096
 msgid "Severity"
-msgstr ""
+msgstr "Poziom ryzyka"
 
 #: includes/admin/class-admin-controller.php:1080
 #: includes/admin/class-admin-controller.php:1097
 msgid "Rationale"
-msgstr ""
+msgstr "Uzasadnienie"
 
 #: includes/admin/class-admin-controller.php:1120
 msgid "Approved exception"
-msgstr ""
+msgstr "Zatwierdzony wyjątek"
 
 #: includes/admin/class-admin-controller.php:1122
 #, php-format
 msgid "Approved by %1$s on %2$s."
-msgstr ""
+msgstr "Zatwierdzone przez %1$s dnia %2$s."
 
 #: includes/admin/class-admin-controller.php:1123
 msgid "Revoke exception"
-msgstr ""
+msgstr "Wycofaj wyjątek"
 
 #: includes/admin/class-admin-controller.php:1134
 msgid "Approve temporary exception"
-msgstr ""
+msgstr "Zatwierdź tymczasowy wyjątek"
 
 #: includes/admin/class-admin-controller.php:1139
 msgid "Reason"
-msgstr ""
+msgstr "Powód"
 
 #: includes/admin/class-admin-controller.php:1140
 msgid "Expires at (optional, UTC)"
-msgstr ""
+msgstr "Wygasa (opcjonalnie, UTC)"
 
 #: includes/admin/class-admin-controller.php:1141
 msgid "Approve exception"
-msgstr ""
+msgstr "Zatwierdź wyjątek"
 
 #: includes/admin/class-admin-controller.php:1218
 msgid "Affected code references"
-msgstr ""
+msgstr "Powiązane odwołania w kodzie"
 
 #: includes/admin/class-admin-controller.php:1219
 msgid ""
 "These literal PHP ACF calls still use the field before this schema change."
-msgstr ""
+msgstr "Te bezpośrednie wywołania ACF w PHP nadal używają pola w jego poprzedniej postaci."
 
 #: includes/admin/class-admin-controller.php:1236
 msgid "Stored data impact"
-msgstr ""
+msgstr "Wpływ na zapisane dane"
 
 #: includes/admin/class-admin-controller.php:1237
 msgid ""
 "Evidence identifies records to review. Values are never read or shown, and a "
 "zero result does not confirm that no data exists elsewhere."
-msgstr ""
+msgstr "Analiza wskazuje rekordy wymagające sprawdzenia. Wartości nie są odczytywane ani wyświetlane, a wynik zero nie oznacza, że dane nie występują w innych miejscach."
 
 #: includes/admin/class-admin-controller.php:1248
 msgid "Field path"
-msgstr ""
+msgstr "Ścieżka pola"
 
 #: includes/admin/class-admin-controller.php:1249
 msgid "Storage pattern"
-msgstr ""
+msgstr "Sposób zapisu danych"
 
 #: includes/admin/class-admin-controller.php:1253
 msgid "No storage query was run for this structure."
-msgstr ""
+msgstr "Dla tej struktury nie wykonano sprawdzenia zapisanych danych."
 
 #: includes/admin/class-admin-controller.php:1257
 #, php-format
 msgid "%d matching record found"
 msgid_plural "%d matching records found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Znaleziono %d pasujący rekord"
+msgstr[1] "Znaleziono %d pasujące rekordy"
+msgstr[2] "Znaleziono %d pasujących rekordów"
 
 #: includes/admin/class-admin-controller.php:1280
 msgid "Nested ACF storage"
-msgstr ""
+msgstr "Zagnieżdżone dane ACF"
 
 #: includes/admin/class-admin-controller.php:1281
 msgid ""
 "Records match a storage key derived from this field's ACF parent structure."
-msgstr ""
+msgstr "Rekordy pasują do klucza zapisu wynikającego z nadrzędnej struktury tego pola ACF."
 
 #: includes/admin/class-admin-controller.php:1284
 msgid ""
 "No matching nested records were found. Other unsupported storage locations "
 "are not included."
-msgstr ""
+msgstr "Nie znaleziono pasujących zagnieżdżonych rekordów. Inne, nieobsługiwane miejsca przechowywania danych nie są uwzględniane."
 
 #: includes/admin/class-admin-controller.php:1291
 msgid "Coverage unknown"
-msgstr ""
+msgstr "Zakres analizy nieznany"
 
 #: includes/admin/class-admin-controller.php:1292
 msgid ""
 "This ACF structure does not have a storage pattern the plugin can verify "
 "safely."
-msgstr ""
+msgstr "Ta struktura ACF nie ma sposobu zapisu, który wtyczka może bezpiecznie zweryfikować."
 
 #: includes/admin/class-admin-controller.php:1301
 msgid "Direct storage"
-msgstr ""
+msgstr "Bezpośredni zapis"
 
 #: includes/admin/class-admin-controller.php:1302
 msgid "Records use the exact previous field name as their post-meta key."
-msgstr ""
+msgstr "Rekordy używają poprzedniej nazwy pola bezpośrednio jako klucza post meta."
 
 #: includes/admin/class-admin-controller.php:1305
 msgid ""
 "No direct records were found. Nested fields and other storage locations are "
 "not included."
-msgstr ""
+msgstr "Nie znaleziono bezpośrednich rekordów. Zagnieżdżone pola i inne miejsca przechowywania danych nie są uwzględniane."
 
 #: includes/admin/class-admin-controller.php:1317
 msgid "Severity guide"
-msgstr ""
+msgstr "Znaczenie poziomów ryzyka"
 
 #: includes/admin/class-admin-controller.php:1353
 msgid "No breaking impact is expected."
-msgstr ""
+msgstr "Nie przewiduje się problemów wynikających z tej zmiany."
 
 #: includes/admin/class-admin-controller.php:1357
 msgid "Review the change before deployment."
-msgstr ""
+msgstr "Sprawdź zmianę przed wdrożeniem."
 
 #: includes/admin/class-admin-controller.php:1361
 msgid "The change is likely to break existing usage."
-msgstr ""
+msgstr "Zmiana może spowodować problemy w istniejącym kodzie."
 
 #: includes/admin/class-admin-controller.php:1365
 msgid "Resolve the breaking change before deployment."
-msgstr ""
+msgstr "Napraw niezgodność przed wdrożeniem."
 
 #: includes/admin/class-admin-controller.php:1390
 msgid "Schema change."
-msgstr ""
+msgstr "Zmiana struktury."
 
 #: includes/admin/class-admin-controller.php:1421
 msgid "You do not have permission to capture a schema snapshot."
-msgstr ""
+msgstr "Nie masz uprawnień do zapisania migawki struktury."
 
 #: includes/admin/class-admin-controller.php:1448
 msgid "Schema snapshot captured."
-msgstr ""
+msgstr "Migawka struktury została zapisana."
 
 #: includes/admin/class-admin-controller.php:1454
 msgid ""
 "The schema snapshot could not be captured. Check that ACF is available and "
 "try again."
-msgstr ""
+msgstr "Nie udało się zapisać migawki struktury. Sprawdź, czy ACF jest dostępny, i spróbuj ponownie."
 
 #: includes/admin/class-pro-feature-notice.php:30
 msgid "ACF Schema Guard Pro"
-msgstr ""
+msgstr "ACF Schema Guard Pro"

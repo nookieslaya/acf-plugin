@@ -118,4 +118,6 @@
 
 - [ ] 23. **Admin localization and translation readiness**
   - [x] 23a. **Translation-ready Admin strings** - replace dynamically assembled menu and screen labels with extractable WordPress translation strings; load the plugin text domain and provide a deterministic POT template.
-  - [ ] 23b. **Polish Admin catalogue and fallback verification** - add the Polish catalogue for the plugin UI, retain English as the default, and verify both language paths in WordPress Admin.
+  - [x] 23b. **Polish Admin catalogue and fallback verification** - add the Polish catalogue for the plugin UI, retain English as the default, and verify both language paths in WordPress Admin.
+    - [x] 23b1. **Complete translation source and Polish catalogue** - generate a complete POT from all plugin Admin strings and add a reviewed `acf-schema-guard-pl_PL.po`, while leaving technical identifiers, CLI commands, field keys, and code snippets unchanged.
+    - [x] 23b2. **Compiled runtime pack and locale verification** - compile and commit `acf-schema-guard-pl_PL.mo`, then verify the Polish Admin and English fallback in Local WordPress.

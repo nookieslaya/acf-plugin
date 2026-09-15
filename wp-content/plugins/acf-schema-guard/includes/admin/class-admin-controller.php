@@ -1278,7 +1278,7 @@ final class AdminController {
 			return array(
 				'kind'          => 'nested',
 				'label'         => __( 'Nested ACF storage', 'acf-schema-guard' ),
-				'description'   => __( 'Records match a storage key derived from this field’s ACF parent structure.', 'acf-schema-guard' ),
+				'description'   => __( "Records match a storage key derived from this field's ACF parent structure.", 'acf-schema-guard' ),
 				'path'          => implode( ' → ', $path ),
 				'pattern'       => isset( $matcher['pattern'] ) ? (string) $matcher['pattern'] : '',
 				'empty_message' => __( 'No matching nested records were found. Other unsupported storage locations are not included.', 'acf-schema-guard' ),
