@@ -17,8 +17,9 @@ versioned ZIP while excluding tests, development documentation, scripts, and
 WordPress.org artwork staging files. Publishing steps and staged artwork live in
 [`docs/wordpress-org-publishing.md`](docs/wordpress-org-publishing.md).
 
-Start with the [English user guide](docs/user-guide-en.md) or
-[polski przewodnik użytkownika](docs/user-guide-pl.md).
+Start with the [English user guide](docs/user-guide-en.md), the
+[polski przewodnik użytkownika](docs/user-guide-pl.md), or the
+[polski szybki start](docs/quick-start-pl.md) for a first use without code.
 
 ## Translation source
 
@@ -58,13 +59,18 @@ Administrators with `manage_options` can open **ACF Schema Guard** in the
 WordPress Admin. The available workflow is:
 
 1. Open **History** and choose **Capture current schema**.
-2. Set a known-good snapshot as the approved baseline.
+2. Request a review for the known-good snapshot. A reviewer records an approval
+   or rejection with a note; only an approved snapshot can become the baseline.
 3. Make and save ACF changes.
 4. Open **Changes** to compare the approved baseline automatically with the
    current live schema. A separate capture is not required for this review.
 
 The Admin baseline is stored as a snapshot ID in WordPress. It is useful for
 local review, but is different from the Git baseline file used by CI.
+
+Automatic ACF saves can create a local immutable snapshot when the effective
+schema changes. They never create or replace the portable Git baseline file:
+exporting that file is a deliberate review and commit step.
 
 For a removed field, a renamed field, or a removed field group, **Changes** also
 shows a **Stored data impact** section. It counts records with an exact matching
@@ -239,7 +245,7 @@ itself provision WordPress, a database, or ACF in the CI runner.
 | Primary use | Pull-request and CI checks | Interactive local/admin review |
 | Needs historical plugin database in CI | No | Yes |
 | Created with | `baseline export` | **History → Capture current schema** |
-| Updated deliberately with | `baseline export --force` and a Git commit | **Set as baseline** in History |
+| Updated deliberately with | `baseline export --force` and a Git commit | **History → request review → approve → set approved baseline** |
 
 Both paths are read-only with respect to ACF definitions and content. Baseline
 export writes only the explicitly named JSON file; snapshot capture writes only

@@ -116,16 +116,16 @@
 
 ## Public release preparation
 
-- [ ] 23. **Admin localization and translation readiness**
+- [x] 23. **Admin localization and translation readiness**
   - [x] 23a. **Translation-ready Admin strings** - replace dynamically assembled menu and screen labels with extractable WordPress translation strings; load the plugin text domain and provide a deterministic POT template.
   - [x] 23b. **Polish Admin catalogue and fallback verification** - add the Polish catalogue for the plugin UI, retain English as the default, and verify both language paths in WordPress Admin.
     - [x] 23b1. **Complete translation source and Polish catalogue** - generate a complete POT from all plugin Admin strings and add a reviewed `acf-schema-guard-pl_PL.po`, while leaving technical identifiers, CLI commands, field keys, and code snippets unchanged.
     - [x] 23b2. **Compiled runtime pack and locale verification** - compile and commit `acf-schema-guard-pl_PL.mo`, then verify the Polish Admin and English fallback in Local WordPress.
 
-- [ ] 24. **Release package v1.0**
+- [x] 24. **Release package v1.0**
   - [x] 24a. **Distribution metadata and documentation** - define the release version, changelog, license, and public `readme.txt` for a WordPress plugin package.
   - [x] 24b. **WordPress.org assets and publishing guide** - prepare repository-owned asset requirements and a clear publication guide without publishing remotely.
-  - [ ] 24c. **Fresh-install verification and release checklist** - verify a clean package installation and finalize the release checklist.
+  - [x] 24c. **Fresh-install verification and release checklist** - verify a clean package installation and finalize the release checklist.
 
 ## Commercial follow-up
 
@@ -133,3 +133,7 @@
   - [ ] 25a. **Provider and commercial integration decision** - select the sales and licensing provider, define plans, renewal terms, privacy boundaries, and the provider adapter contract.
   - [ ] 25b. **License activation workspace** - add an administrator-facing license screen for activation, status, plan, expiry, and deactivation with secure provider validation.
   - [ ] 25c. **Resilient Pro entitlement lifecycle** - cache verified state safely, apply the configured grace period, handle expiry and site limits, and gate only Pro actions while retaining every Free workflow and stored record.
+
+- [x] 26. **Team schema review workflow** - provide an auditable local review process for schema snapshots before they become the approved baseline; available to every tester during the Free validation period.
+  - [x] 26a. **Review requests and decisions** - let administrators request, approve, or reject review of a stored snapshot with author, reviewer, timestamps, and required decision notes; only approval may set that snapshot as the baseline.
+  - [x] 26b. **Review queue and audit history** - make pending and completed decisions visible in History and Overview with clear next actions, empty states, and accessible status treatments.

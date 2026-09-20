@@ -1,8 +1,13 @@
 # Przewodnik użytkownika ACF Schema Guard
 
+Jeśli korzystasz z wtyczki pierwszy raz, zacznij od
+[szybkiego startu](quick-start-pl.md). Ten przewodnik opisuje także pracę
+zespołową, Git i ustawienia release.
+
 ## Podstawowy proces
 
-1. W **History** utwórz snapshot poprawnego schematu i ustaw go jako baseline.
+1. W **History** utwórz snapshot poprawnego schematu, poproś o review i ustaw
+   go jako baseline dopiero po zatwierdzeniu review.
 2. Zmień oraz zapisz pola ACF.
 3. Otwórz **Changes**. Plugin porównuje baseline z bieżącym schematem.
 4. Przed wdrożeniem sprawdź severity, referencje w kodzie i wpływ na dane.
@@ -27,20 +32,65 @@ Dla zmienionych nazw lub usuniętych pól Changes może pokazać ograniczoną li
 pasujących rekordów. Plugin nigdy nie odczytuje wartości pól. Dane bezpośrednie
 i wspierane struktury zagnieżdżone są dowodem, nie pełnym planem migracji.
 
-## Praca zespołowa
+## Git i próg release
 
 Dodaj do Git `acf-schema-baseline.json`, aby współdzielić baseline, oraz
 opcjonalnie `acf-schema-guard-policy.json`, aby współdzielić próg release.
 Polityka z repozytorium ma priorytet nad ustawieniem lokalnym.
 
-## Proces Pro
+### Baseline zespołowy krok po kroku
 
-Pro pozwala ustawić próg release, tworzyć audytowalne tymczasowe wyjątki i
-eksportować raporty. Wyjątki zachowują oryginalny finding, wygasają lub mogą
-zostać cofnięte. Raport Markdown lub JSON pobierzesz w **Changes**, a WP-CLI
-pozostaje ścieżką CI. Szablon Markdown może zawierać markery:
+Baseline z panelu **History** jest lokalny: zapisuje się w bazie konkretnej
+instalacji WordPressa. Wspólnym punktem odniesienia dla zespołu i CI jest
+wersjonowany plik JSON. Nie tworzy się on ani nie aktualizuje automatycznie,
+ponieważ automatyczne nadpisanie mogłoby ukryć niezaakceptowaną zmianę schematu.
+
+Po review i akceptacji uruchom polecenia w powłoce Local, z katalogu zawierającego
+`wp-config.php`. Gdy do Gita trafia tylko motyw, przechowuj plik w jego katalogu:
+
+```bash
+wp acf-schema-guard baseline export \
+  wp-content/themes/your-theme/acf-schema-baseline.json
+
+git add wp-content/themes/your-theme/acf-json/
+git add wp-content/themes/your-theme/acf-schema-baseline.json
+git commit -m "chore: approve ACF schema baseline"
+```
+
+Przy następnej świadomie zaakceptowanej zmianie istniejący plik wymaga jawnej
+zgody na nadpisanie:
+
+```bash
+wp acf-schema-guard baseline export \
+  wp-content/themes/your-theme/acf-schema-baseline.json \
+  --force
+
+wp acf-schema-guard baseline check \
+  wp-content/themes/your-theme/acf-schema-baseline.json \
+  --fail-on-breaking
+```
+
+`--force` jest zabezpieczeniem: używaj go dopiero po sprawdzeniu Changes,
+referencji w kodzie oraz wpływu na dane. Następnie commit i `git push` przekazują
+ten sam baseline każdemu członkowi zespołu po `git pull`.
+
+## Status wersji
+
+W wersji 1.0 wszystkie obecnie dostępne funkcje są darmowe w okresie walidacji
+produktu. Lokalny podgląd wersji pozostaje wyłącznie przygotowaniem do
+przyszłego licencjonowania i nie ukrywa obecnych funkcji. Przyszła wersja
+komercyjna może objąć konfigurację progu release, audytowalne tymczasowe
+wyjątki i eksport raportów. Raport Markdown lub JSON pobierzesz w **Changes**,
+a WP-CLI pozostaje ścieżką CI. Szablon Markdown może zawierać markery:
 
 ```md
 <!-- acf-schema-guard:summary -->
 <!-- acf-schema-guard:findings -->
 ```
+## Praca zespołowa
+
+Zakładka **History** zawiera lokalną kolejkę review. Osoba zgłaszająca opisuje,
+co ma zostać sprawdzone, a reviewer zapisuje decyzję: zatwierdzenie albo
+odrzucenie, wraz z notatką i czasem. Snapshoty są niezmienne; kolejne zgłoszenie
+po zakończonej decyzji pozostaje widoczne w lokalnej historii audytowej. Nie jest
+to zewnętrzna usługa akceptacji.

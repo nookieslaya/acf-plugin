@@ -9,6 +9,8 @@ namespace AcfSchemaGuard\Admin;
 
 use AcfSchemaGuard\Snapshots\SnapshotRepository;
 use AcfSchemaGuard\Snapshots\BaselineSnapshotService;
+use AcfSchemaGuard\Review\SnapshotReview;
+use AcfSchemaGuard\Review\SnapshotReviewService;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -70,6 +72,9 @@ final class AdminController {
 	/** @var callable */
 	private $analyze_stored_data_impact_callback;
 
+	/** @var SnapshotReviewService */
+	private $reviews;
+
 	private $baseline;
 
 	/**
@@ -78,7 +83,7 @@ final class AdminController {
 	 * @param callable           $analyze_snapshots_callback Analyzes two schema snapshots.
 	 * @param callable           $analyze_code_impact_callback Matches changes to code references.
 	 */
-	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback, BaselineSnapshotService $baseline, $source_health_callback, $analyze_code_impact_callback = null, $analyze_live_baseline_callback = null, $analyze_stored_data_impact_callback = null ) {
+	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback, BaselineSnapshotService $baseline, $source_health_callback, $analyze_code_impact_callback = null, $analyze_live_baseline_callback = null, $analyze_stored_data_impact_callback = null, ?SnapshotReviewService $reviews = null ) {
 		$this->snapshots                  = $snapshots;
 		$this->capture_snapshot_callback  = $capture_snapshot_callback;
 		$this->analyze_snapshots_callback = $analyze_snapshots_callback;
@@ -87,6 +92,7 @@ final class AdminController {
 		$this->analyze_live_baseline_callback = $analyze_live_baseline_callback;
 		$this->analyze_stored_data_impact_callback = $analyze_stored_data_impact_callback;
 		$this->baseline                   = $baseline;
+		$this->reviews                    = $reviews;
 	}
 
 	/**
@@ -99,6 +105,8 @@ final class AdminController {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_post_acf_schema_guard_capture_snapshot', array( $this, 'capture_snapshot' ) );
 		add_action( 'admin_post_acf_schema_guard_set_baseline_snapshot', array( $this, 'set_baseline_snapshot' ) );
+		add_action( 'admin_post_acf_schema_guard_request_snapshot_review', array( $this, 'request_snapshot_review' ) );
+		add_action( 'admin_post_acf_schema_guard_decide_snapshot_review', array( $this, 'decide_snapshot_review' ) );
 		add_action( 'admin_post_acf_schema_guard_save_scanner_roots', array( $this, 'save_scanner_roots' ) );
 		add_action( 'admin_post_acf_schema_guard_save_risk_policy', array( $this, 'save_risk_policy' ) );
 		add_action( 'admin_post_acf_schema_guard_set_edition_preview', array( $this, 'set_edition_preview' ) );
@@ -228,6 +236,7 @@ final class AdminController {
 		$state      = $this->overview_dashboard_state();
 		$comparison = $state['comparison'];
 		$health     = $state['source_health'];
+		$reviews    = $state['reviews'];
 		$solo_mode  = 'database_first' === $health['mode'];
 		?>
 		<div class="wrap acf-schema-guard-admin acf-schema-guard-overview-page">
@@ -257,12 +266,20 @@ final class AdminController {
 					<?php $this->render_overview_counts( $health['counts'], array( 'aligned', 'database_only', 'json_only', 'divergent' ) ); ?>
 					<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-field-groups' ) ); ?>"><?php echo esc_html__( 'Review field groups', 'acf-schema-guard' ); ?></a>
 				</section>
+
+				<section class="acf-schema-guard-overview-card acf-schema-guard-overview-card-<?php echo esc_attr( $reviews['status'] ); ?>">
+					<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Team review', 'acf-schema-guard' ); ?></p>
+					<h2><?php echo esc_html( $reviews['label'] ); ?></h2>
+					<p><?php echo esc_html( $reviews['description'] ); ?></p>
+					<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-history' ) ); ?>"><?php echo esc_html__( 'Open review queue', 'acf-schema-guard' ); ?></a>
+				</section>
 			</div>
 
 			<section class="acf-schema-guard-overview-next-steps">
 				<h2><?php echo esc_html__( 'Continue your review', 'acf-schema-guard' ); ?></h2>
 				<ul>
 					<?php if ( $solo_mode ) : ?><li><a href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-history' ) ); ?>"><?php echo esc_html__( 'Set or review the approved database baseline', 'acf-schema-guard' ); ?></a></li><?php endif; ?>
+					<?php if ( 'attention' === $reviews['status'] ) : ?><li><a href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-history' ) ); ?>"><?php echo esc_html__( 'Record a decision for pending schema reviews', 'acf-schema-guard' ); ?></a></li><?php endif; ?>
 					<li><a href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-code-usage' ) ); ?>"><?php echo esc_html__( 'Inspect current PHP ACF references', 'acf-schema-guard' ); ?></a></li>
 					<li><a href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-settings' ) ); ?>"><?php echo esc_html__( 'Choose themes and plugins for code analysis', 'acf-schema-guard' ); ?></a></li>
 				</ul>
@@ -355,7 +372,7 @@ final class AdminController {
 					<div class="acf-schema-guard-settings-card-header">
 						<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Local development', 'acf-schema-guard' ); ?></p>
 						<h2><?php echo esc_html__( 'Edition preview', 'acf-schema-guard' ); ?></h2>
-						<p><?php echo esc_html( $pro_preview ? __( 'Pro preview is active for this local site.', 'acf-schema-guard' ) : __( 'Free edition preview is active for this local site.', 'acf-schema-guard' ) ); ?></p>
+						<p><?php echo esc_html( __( 'All version 1.0 features are currently Free. This local-only switch is retained to prepare future licensing development and does not hide current functionality.', 'acf-schema-guard' ) ); ?></p>
 					</div>
 					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 						<input type="hidden" name="action" value="acf_schema_guard_set_edition_preview" />
@@ -383,7 +400,48 @@ final class AdminController {
 			'baseline'      => $this->overview_baseline_state( $baseline ),
 			'comparison'    => $this->overview_comparison_state( $live ),
 			'source_health' => $this->overview_source_health_state( $health ),
+			'reviews'       => $this->overview_review_state(),
 		);
+	}
+
+	/**
+	 * Builds the local team-review status for the Overview.
+	 *
+	 * @return array<string, string>
+	 */
+	private function overview_review_state() {
+		$pending = $this->review_service()->pending();
+
+		if ( empty( $pending ) ) {
+			return array(
+				'status'      => 'ready',
+				'label'       => __( 'No reviews pending', 'acf-schema-guard' ),
+				'description' => __( 'Request a review from History before approving a new baseline.', 'acf-schema-guard' ),
+			);
+		}
+
+		return array(
+			'status'      => 'attention',
+			'label'       => sprintf( _n( '%d review pending', '%d reviews pending', count( $pending ), 'acf-schema-guard' ), count( $pending ) ),
+			'description' => __( 'A team member needs to approve or reject a stored schema snapshot.', 'acf-schema-guard' ),
+		);
+	}
+
+	/**
+	 * Resolves the review service only on screens and actions that use it.
+	 *
+	 * @return SnapshotReviewService
+	 */
+	private function review_service() {
+		if ( null === $this->reviews ) {
+			if ( ! class_exists( '\\AcfSchemaGuard\\Review\\SnapshotReviewService' ) ) {
+				require_once dirname( __DIR__ ) . '/review/class-snapshot-review.php';
+				require_once dirname( __DIR__ ) . '/review/class-snapshot-review-service.php';
+			}
+			$this->reviews = new SnapshotReviewService();
+		}
+
+		return $this->reviews;
 	}
 
 	/**
@@ -970,16 +1028,19 @@ final class AdminController {
 							<th scope="col"><?php echo esc_html__( 'Snapshot ID', 'acf-schema-guard' ); ?></th>
 							<th scope="col"><?php echo esc_html__( 'Source', 'acf-schema-guard' ); ?></th>
 							<th scope="col"><?php echo esc_html__( 'Captured (UTC)', 'acf-schema-guard' ); ?></th>
+							<th scope="col"><?php echo esc_html__( 'Team review', 'acf-schema-guard' ); ?></th>
 							<th scope="col"><?php echo esc_html__( 'Baseline', 'acf-schema-guard' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php foreach ( $snapshots as $snapshot ) : ?>
+							<?php $review = $this->review_service()->latest_for( $snapshot->id() ); ?>
 							<tr>
 								<td data-label="<?php echo esc_attr__( 'Snapshot ID', 'acf-schema-guard' ); ?>"><code><?php echo esc_html( $snapshot->id() ); ?></code></td>
 								<td data-label="<?php echo esc_attr__( 'Source', 'acf-schema-guard' ); ?>"><?php echo esc_html( 'acf-auto' === $snapshot->source_id() ? __( 'Automatic ACF save', 'acf-schema-guard' ) : $snapshot->source_id() ); ?></td>
 								<td data-label="<?php echo esc_attr__( 'Captured (UTC)', 'acf-schema-guard' ); ?>"><?php echo esc_html( $snapshot->created_at() ); ?></td>
-								<td data-label="<?php echo esc_attr__( 'Baseline', 'acf-schema-guard' ); ?>"><?php if ( $baseline && $baseline->id() === $snapshot->id() ) { echo esc_html__( 'Approved baseline', 'acf-schema-guard' ); } else { ?><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_set_baseline_snapshot" /><input type="hidden" name="snapshot_id" value="<?php echo esc_attr( $snapshot->id() ); ?>" /><?php wp_nonce_field( 'acf_schema_guard_set_baseline_snapshot' ); submit_button( __( 'Set as baseline', 'acf-schema-guard' ), 'secondary small', 'submit', false ); ?></form><?php } ?></td>
+								<td data-label="<?php echo esc_attr__( 'Team review', 'acf-schema-guard' ); ?>"><?php $this->render_snapshot_review( $snapshot, $review ); ?></td>
+								<td data-label="<?php echo esc_attr__( 'Baseline', 'acf-schema-guard' ); ?>"><?php $this->render_snapshot_baseline_control( $snapshot, $baseline, $review ); ?></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>
@@ -989,13 +1050,144 @@ final class AdminController {
 		<?php
 	}
 
+	/**
+	 * Renders a local, auditable review state for one immutable snapshot.
+	 *
+	 * @param \AcfSchemaGuard\Snapshots\SchemaSnapshot $snapshot Stored snapshot.
+	 * @param SnapshotReview|null                         $review   Latest review.
+	 * @return void
+	 */
+	private function render_snapshot_review( $snapshot, $review ) {
+		if ( null === $review || SnapshotReview::REJECTED === $review->status() ) {
+			if ( $review && SnapshotReview::REJECTED === $review->status() ) {
+				?><p class="acf-schema-guard-review-status acf-schema-guard-review-status-rejected"><?php echo esc_html__( 'Rejected', 'acf-schema-guard' ); ?></p><p class="acf-schema-guard-review-meta"><?php echo esc_html( sprintf( __( 'By %1$s on %2$s.', 'acf-schema-guard' ), $review->reviewer_name(), $review->decided_at() ) ); ?></p><?php
+			}
+			?>
+			<details class="acf-schema-guard-review-control">
+				<summary><?php echo esc_html( $review ? __( 'Request another review', 'acf-schema-guard' ) : __( 'Request review', 'acf-schema-guard' ) ); ?></summary>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="acf_schema_guard_request_snapshot_review" />
+					<input type="hidden" name="snapshot_id" value="<?php echo esc_attr( $snapshot->id() ); ?>" />
+					<?php wp_nonce_field( 'acf_schema_guard_request_snapshot_review' ); ?>
+					<label for="acf-schema-guard-review-note-<?php echo esc_attr( $snapshot->id() ); ?>"><?php echo esc_html__( 'What should be reviewed?', 'acf-schema-guard' ); ?></label>
+					<textarea id="acf-schema-guard-review-note-<?php echo esc_attr( $snapshot->id() ); ?>" name="request_note" rows="3" required></textarea>
+					<?php submit_button( __( 'Request review', 'acf-schema-guard' ), 'secondary small', 'submit', false ); ?>
+				</form>
+			</details>
+			<?php
+			return;
+		}
+
+		if ( SnapshotReview::PENDING === $review->status() ) {
+			?>
+			<p class="acf-schema-guard-review-status acf-schema-guard-review-status-pending"><?php echo esc_html__( 'Review pending', 'acf-schema-guard' ); ?></p>
+			<p class="acf-schema-guard-review-meta"><?php echo esc_html( sprintf( __( 'Requested by %1$s on %2$s.', 'acf-schema-guard' ), $review->requester_name(), $review->requested_at() ) ); ?></p>
+			<details class="acf-schema-guard-review-control">
+				<summary><?php echo esc_html__( 'Record decision', 'acf-schema-guard' ); ?></summary>
+				<p><?php echo esc_html( $review->request_note() ); ?></p>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="acf_schema_guard_decide_snapshot_review" />
+					<input type="hidden" name="review_id" value="<?php echo esc_attr( $review->id() ); ?>" />
+					<?php wp_nonce_field( 'acf_schema_guard_decide_snapshot_review' ); ?>
+					<label for="acf-schema-guard-review-decision-<?php echo esc_attr( $review->id() ); ?>"><?php echo esc_html__( 'Decision', 'acf-schema-guard' ); ?></label>
+					<select id="acf-schema-guard-review-decision-<?php echo esc_attr( $review->id() ); ?>" name="status"><option value="approved"><?php echo esc_html__( 'Approve', 'acf-schema-guard' ); ?></option><option value="rejected"><?php echo esc_html__( 'Reject', 'acf-schema-guard' ); ?></option></select>
+					<label for="acf-schema-guard-review-decision-note-<?php echo esc_attr( $review->id() ); ?>"><?php echo esc_html__( 'Decision note', 'acf-schema-guard' ); ?></label>
+					<textarea id="acf-schema-guard-review-decision-note-<?php echo esc_attr( $review->id() ); ?>" name="decision_note" rows="3" required></textarea>
+					<?php submit_button( __( 'Save decision', 'acf-schema-guard' ), 'primary small', 'submit', false ); ?>
+				</form>
+			</details>
+			<?php
+			return;
+		}
+
+		?>
+		<p class="acf-schema-guard-review-status acf-schema-guard-review-status-approved"><?php echo esc_html__( 'Approved', 'acf-schema-guard' ); ?></p>
+		<p class="acf-schema-guard-review-meta"><?php echo esc_html( sprintf( __( 'By %1$s on %2$s.', 'acf-schema-guard' ), $review->reviewer_name(), $review->decided_at() ) ); ?></p>
+		<p class="acf-schema-guard-review-meta"><?php echo esc_html( $review->decision_note() ); ?></p>
+		<?php
+	}
+
+	/**
+	 * Renders a baseline control which only accepts an approved review.
+	 *
+	 * @param \AcfSchemaGuard\Snapshots\SchemaSnapshot      $snapshot Stored snapshot.
+	 * @param \AcfSchemaGuard\Snapshots\SchemaSnapshot|null $baseline Current baseline.
+	 * @param SnapshotReview|null                             $review Latest review.
+	 * @return void
+	 */
+	private function render_snapshot_baseline_control( $snapshot, $baseline, $review ) {
+		if ( $baseline && $baseline->id() === $snapshot->id() ) {
+			echo esc_html__( 'Approved baseline', 'acf-schema-guard' );
+			return;
+		}
+
+		if ( ! $review || SnapshotReview::APPROVED !== $review->status() ) {
+			echo esc_html__( 'Requires approved review', 'acf-schema-guard' );
+			return;
+		}
+		?>
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+			<input type="hidden" name="action" value="acf_schema_guard_set_baseline_snapshot" />
+			<input type="hidden" name="snapshot_id" value="<?php echo esc_attr( $snapshot->id() ); ?>" />
+			<?php wp_nonce_field( 'acf_schema_guard_set_baseline_snapshot' ); ?>
+			<?php submit_button( __( 'Set approved baseline', 'acf-schema-guard' ), 'secondary small', 'submit', false ); ?>
+		</form>
+		<?php
+	}
+
 	public function set_baseline_snapshot() {
 		if ( ! current_user_can( $this->capability ) ) { wp_die( esc_html__( 'You do not have permission to set a baseline.', 'acf-schema-guard' ) ); }
 		check_admin_referer( 'acf_schema_guard_set_baseline_snapshot' );
 		$id = isset( $_POST['snapshot_id'] ) ? sanitize_text_field( wp_unslash( $_POST['snapshot_id'] ) ) : '';
 		$snapshot = $this->snapshots->find( $id );
-		if ( null !== $snapshot ) { $this->baseline->set( $snapshot ); }
-		wp_safe_redirect( admin_url( 'admin.php?page=acf-schema-guard-history' ) ); exit;
+		if ( null !== $snapshot && null !== $this->review_service()->approved_for( $id ) ) {
+			$this->baseline->set( $snapshot );
+			$this->redirect_to_history( 'baseline-success' );
+		}
+
+		$this->redirect_to_history( 'baseline-review-required' );
+	}
+
+	/**
+	 * Creates a review request for a stored snapshot.
+	 *
+	 * @return void
+	 */
+	public function request_snapshot_review() {
+		if ( ! current_user_can( $this->capability ) ) { wp_die( esc_html__( 'You do not have permission to request a review.', 'acf-schema-guard' ) ); }
+		check_admin_referer( 'acf_schema_guard_request_snapshot_review' );
+
+		$snapshot_id = isset( $_POST['snapshot_id'] ) ? sanitize_text_field( wp_unslash( $_POST['snapshot_id'] ) ) : '';
+		$note        = isset( $_POST['request_note'] ) ? sanitize_textarea_field( wp_unslash( $_POST['request_note'] ) ) : '';
+		$user        = wp_get_current_user();
+		$snapshot    = $this->snapshots->find( $snapshot_id );
+
+		if ( null === $snapshot || '' === $note || ! $user || empty( $user->ID ) || ! $this->review_service()->request( $snapshot_id, $user->ID, $user->display_name, $note ) ) {
+			$this->redirect_to_history( 'review-request-failed' );
+		}
+
+		$this->redirect_to_history( 'review-requested' );
+	}
+
+	/**
+	 * Records an approval or rejection for a pending review request.
+	 *
+	 * @return void
+	 */
+	public function decide_snapshot_review() {
+		if ( ! current_user_can( $this->capability ) ) { wp_die( esc_html__( 'You do not have permission to record a review decision.', 'acf-schema-guard' ) ); }
+		check_admin_referer( 'acf_schema_guard_decide_snapshot_review' );
+
+		$review_id = isset( $_POST['review_id'] ) ? sanitize_text_field( wp_unslash( $_POST['review_id'] ) ) : '';
+		$status    = isset( $_POST['status'] ) ? sanitize_key( wp_unslash( $_POST['status'] ) ) : '';
+		$note      = isset( $_POST['decision_note'] ) ? sanitize_textarea_field( wp_unslash( $_POST['decision_note'] ) ) : '';
+		$user      = wp_get_current_user();
+
+		if ( '' === $note || ! in_array( $status, array( SnapshotReview::APPROVED, SnapshotReview::REJECTED ), true ) || ! $user || empty( $user->ID ) || ! $this->review_service()->decide( $review_id, $status, $user->ID, $user->display_name, $note ) ) {
+			$this->redirect_to_history( 'review-decision-failed' );
+		}
+
+		$this->redirect_to_history( 'review-decision-saved' );
 	}
 
 	/**
@@ -1471,6 +1663,21 @@ final class AdminController {
 		if ( 'capture-failed' === $notice ) {
 			?>
 			<div class="notice notice-error"><p><?php echo esc_html__( 'The schema snapshot could not be captured. Check that ACF is available and try again.', 'acf-schema-guard' ); ?></p></div>
+			<?php
+		}
+
+		$messages = array(
+			'baseline-success'          => array( 'success', __( 'Approved baseline updated.', 'acf-schema-guard' ) ),
+			'baseline-review-required'  => array( 'error', __( 'This snapshot needs an approved review before it can become the baseline.', 'acf-schema-guard' ) ),
+			'review-requested'          => array( 'success', __( 'Schema review requested.', 'acf-schema-guard' ) ),
+			'review-request-failed'     => array( 'error', __( 'The schema review request could not be saved. A review may already be pending.', 'acf-schema-guard' ) ),
+			'review-decision-saved'     => array( 'success', __( 'Schema review decision saved.', 'acf-schema-guard' ) ),
+			'review-decision-failed'    => array( 'error', __( 'The schema review decision could not be saved. Refresh the page and try again.', 'acf-schema-guard' ) ),
+		);
+
+		if ( isset( $messages[ $notice ] ) ) {
+			?>
+			<div class="notice notice-<?php echo esc_attr( $messages[ $notice ][0] ); ?> is-dismissible"><p><?php echo esc_html( $messages[ $notice ][1] ); ?></p></div>
 			<?php
 		}
 	}

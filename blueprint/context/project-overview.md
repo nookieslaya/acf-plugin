@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash b2c024b7cb977e258565deffe4b340e0c62156f2e8d549e30725d610b5381fdb -->
+<!-- blueprint:source-hash cae7ab90e65f7d625f5e033bf3995f758decafbca61e41be23301883a782c65a -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -78,6 +78,13 @@ code still referring to removed or renamed fields before release.
 23. **Admin localization and translation readiness** - makes all Admin strings
     extractable through the WordPress text domain, then supplies a Polish
     catalogue while retaining English as the default language.
+24. **Release package v1.0** - provides public metadata, release packaging,
+    WordPress.org artwork, and a verified fresh-install checklist.
+25. **Production Pro licensing** - defers real provider-backed activation,
+    entitlement and expiry handling to a later commercial release.
+26. **Team schema review workflow** - adds local, auditable request, approval,
+    rejection, and baseline-review collaboration while it remains available to
+    Free testers.
 
 ## Data model
 
@@ -155,6 +162,16 @@ code still referring to removed or renamed fields before release.
 - `scanner_configuration` (array) - enabled strategies and source roots.
 - `risk_rule_policy` (array) - future policy for extensible rules.
 
+### Snapshot review record
+
+- `snapshot_id` (UUID string) - immutable snapshot under review.
+- `status` (enum) - `pending`, `approved`, or `rejected`.
+- request metadata (author ID, display name, note, timestamp) - records who
+  requested review and why.
+- decision metadata (reviewer ID, display name, required note, timestamp) -
+  records the auditable approval or rejection. An approval is the only decision
+  allowed to make that snapshot the approved baseline.
+
 ### Source-health finding
 
 - `field_group_key` (string) - ACF field-group key used to match database and
@@ -181,9 +198,11 @@ code still referring to removed or renamed fields before release.
 
 ## Monetization
 
-Free includes core schema safety. Pro will add advanced team workflows without
-blocking access to stored data or Free safety features when a license is absent.
-Solo Mode is Free and does not require ACF Local JSON.
+Version `1.0.0` is Free: every currently shipped public workflow is available
+without activation, including team-workflow candidates during testing. A future
+Pro edition will add provider-backed licensing and may gate advanced team
+automation without blocking access to stored data or Free safety features. Solo
+Mode is Free and does not require ACF Local JSON.
 
 ## UI/UX
 

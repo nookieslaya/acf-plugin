@@ -51,6 +51,10 @@ renamed fields.
   review-only identification of fields with no detected literal PHP references.
 - A database-first Solo Mode that keeps baseline, live comparison, code usage,
   and data-impact workflows useful when Local JSON is not configured.
+- A local, auditable team review workflow that lets administrators request,
+  approve, or reject a stored schema snapshot before it becomes the approved
+  baseline. It will be available to all testers before future licensing makes
+  advanced team workflows a Pro capability.
 
 ## 4. Data - What are we storing?
 
@@ -72,6 +76,9 @@ renamed fields.
 - Data-impact summaries for changed field names: a bounded record count and
   safe identifiers for records with matching WordPress meta keys, never field
   values or automatic migrations.
+- Review records for stored snapshots: request author and note, reviewer and
+  decision note, timestamps, status, and the snapshot ID. Review records are
+  local WordPress data and never modify ACF definitions or content.
 
 ## 5. Tech - What stack are we using?
 

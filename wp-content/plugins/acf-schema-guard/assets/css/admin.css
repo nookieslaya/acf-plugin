@@ -86,7 +86,7 @@
 
 /* Overview: a compact safety posture, built from read-only existing services. */
 .acf-schema-guard-overview-page { max-width: 1240px; }
-.acf-schema-guard-overview-grid { display: grid; gap: 18px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 28px; }
+.acf-schema-guard-overview-grid { display: grid; gap: 18px; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 28px; }
 .acf-schema-guard-overview-card {
 	background: #fff;
 	border: 1px solid var(--asg-border);
@@ -130,6 +130,19 @@
 .acf-schema-guard-history-page .acf-schema-guard-empty-state p { margin-left: 0; }
 .acf-schema-guard-comparison-form label { display: block; font-weight: 600; margin-bottom: 6px; }
 .acf-schema-guard-comparison-form select { min-width: min(420px, 100%); }
+.acf-schema-guard-review-status { border: 1px solid currentcolor; border-radius: 999px; display: inline-block; font-size: 12px; font-weight: 600; line-height: 1.3; margin: 0 0 7px; padding: 3px 8px; }
+.acf-schema-guard-review-status-pending { background: #fffaeb; color: #b54708; }
+.acf-schema-guard-review-status-approved { background: #ecfdf3; color: #067647; }
+.acf-schema-guard-review-status-rejected { background: #fef3f2; color: #b42318; }
+.acf-schema-guard-review-meta { color: #667085; font-size: 12px; line-height: 1.45; margin: 5px 0; }
+.acf-schema-guard-review-control { margin-top: 10px; }
+.acf-schema-guard-review-control summary { color: #2271b1; cursor: pointer; font-size: 13px; font-weight: 600; }
+.acf-schema-guard-review-control > p { color: #475467; font-size: 13px; line-height: 1.5; margin: 10px 0; }
+.acf-schema-guard-review-control form { display: grid; gap: 8px; margin-top: 10px; }
+.acf-schema-guard-review-control label { color: #475467; font-size: 12px; font-weight: 600; }
+.acf-schema-guard-review-control textarea,
+.acf-schema-guard-review-control select { box-sizing: border-box; max-width: 100%; width: 100%; }
+.acf-schema-guard-review-control .button { justify-self: start; margin: 2px 0 0; }
 
 /* Code usage: compact toolbar and expandable references. */
 .acf-schema-guard-code-usage-filter {
@@ -331,7 +344,6 @@
 
 @media screen and (max-width: 960px) {
 	.acf-schema-guard-overview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-	.acf-schema-guard-overview-card:last-child { grid-column: 1 / -1; }
 	.acf-schema-guard-history-action { align-items: flex-start; flex-direction: column; }
 	.acf-schema-guard-changes-context { grid-template-columns: 1fr; }
 	.acf-schema-guard-release-export { align-items: stretch; grid-template-columns: 1fr; }

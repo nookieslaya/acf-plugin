@@ -36,6 +36,11 @@
 - Follow `docs/manual-release-test-pl.md` for the complete Polish Free, Pro,
   Solo Mode, report, and responsive-Admin walkthrough.
 - Review `readme.md`, `docs/compatibility.md`, and CI examples.
+- Update the public product description for the release: plugin header,
+  `readme.txt` **Description**, `readme.md`, `CHANGELOG.md`, and affected
+  English and Polish user documentation. Confirm that edition wording and
+  available features match the packaged version; do not leave planned features
+  described as already shipped.
 - Review `docs/wordpress-org-publishing.md`, then copy only the staged assets
   to the separate WordPress.org assets repository after approval.
 - Add the release date to the changelog immediately before packaging.

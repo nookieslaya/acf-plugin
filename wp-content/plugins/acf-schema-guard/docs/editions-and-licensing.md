@@ -13,7 +13,7 @@ or offer a customer activation screen. It has a provider-neutral capability
 boundary for future Pro workflows. Without a verified provider state, every
 public workflow remains available as Free functionality.
 
-## Internal local Pro preview
+## Internal local preview
 
 For plugin development only, define the following constant in the local site's
 `wp-config.php` before WordPress loads:
@@ -23,17 +23,18 @@ define( 'ACF_SCHEMA_GUARD_LOCAL_PRO_PREVIEW_TOKEN', 'acf-schema-guard-local-prev
 ```
 
 The token is accepted only when WordPress reports the environment as `local`. It
-does not contact a server, persist a key, activate a real license, or grant Pro
-access on staging or production. Remove the constant, or use any other value, to
-review the Free state. The switch is shown only when WordPress reports the
-environment as `local`; it is not a customer feature or a production credential.
+does not contact a server, persist a key, or activate a real license. During the
+1.0 Free validation period it does not restrict any current feature; it remains
+as a safe development seam for feature 25. The switch is shown only when
+WordPress reports the environment as `local`; it is not a customer feature or a
+production credential.
 
-## Pro risk policy
+## Release policy
 
-Free uses the standard `high` release threshold: `high` and `critical` findings
-make `wp acf-schema-guard check --fail-on-breaking` return a non-zero status.
-Pro can choose the lowest severity that blocks the check in **ACF Schema Guard →
-Settings → Release policy**.
+The standard `high` release threshold makes `high` and `critical` findings make
+`wp acf-schema-guard check --fail-on-breaking` return a non-zero status. During
+the 1.0 validation period every administrator can choose the lowest severity
+that blocks the check in **ACF Schema Guard → Settings → Release policy**.
 
 | Threshold | Findings that fail the check | Typical use |
 | --- | --- | --- |
@@ -48,11 +49,10 @@ to review both states safely.
 
 ### Team policy file
 
-A Pro administrator can use **Download team policy JSON** in Settings and commit
+An administrator can use **Download team policy JSON** in Settings and commit
 the downloaded `acf-schema-guard-policy.json` to the WordPress project root.
 After a normal Git pull, every local installation reads that file before its own
-local setting. Free users can read and apply the committed policy but cannot edit
-or export it. The plugin never writes into the repository automatically.
+local setting. The plugin never writes into the repository automatically.
 
 CI uses the same file when it runs either `wp acf-schema-guard check` or
 `wp acf-schema-guard baseline check` with `--fail-on-breaking`. A policy failure
@@ -69,24 +69,24 @@ wykonaniu pull widzi ten sam aktywny próg.
 
 ## Approved exceptions / Zatwierdzone wyjątki
 
-An approved exception is a temporary, auditable Pro decision about one exact
+An approved exception is a temporary, auditable decision about one exact
 schema finding. It does not fix, hide, downgrade, or remove that finding. The
 original severity, rationale, code references, and data-impact evidence remain
 visible in **Changes**.
 
-Zatwierdzony wyjątek jest tymczasową, audytowalną decyzją Pro dotyczącą jednego,
+Zatwierdzony wyjątek jest tymczasową, audytowalną decyzją dotyczącą jednego,
 konkretnego problemu ze schematem. Nie naprawia, nie ukrywa, nie obniża severity
 i nie usuwa problemu. W **Changes** nadal widoczne są pierwotna severity,
 uzasadnienie, referencje w kodzie oraz wpływ na dane.
 
-In a local Pro preview, open **Changes**, expand **Approve temporary exception**
+Open **Changes**, expand **Approve temporary exception**
 next to the finding, provide a required reason and, when appropriate, an expiry
 date. The record stores the current WordPress user, approval time, reason, and
 an exact fingerprint of the finding. Revoke it from the same location when the
 planned repair is complete.
 
-W lokalnym podglądzie Pro otwórz **Changes**, rozwiń **Approve temporary
-exception** przy danym problemie, wpisz wymagane uzasadnienie i, gdy ma to sens,
+W **Changes** rozwiń **Approve temporary exception** przy danym problemie,
+wpisz wymagane uzasadnienie i, gdy ma to sens,
 datę wygaśnięcia. Rekord zapisuje bieżącego użytkownika WordPressa, czas decyzji,
 powód oraz dokładny fingerprint problemu. Po wykonaniu naprawy cofnij wyjątek w
 tym samym miejscu.
@@ -104,9 +104,10 @@ commitów, pushów ani merge w Git.
 
 ## Initial Pro plans
 
-## Pro release reports / Raporty release Pro
+## Release reports / Raporty release
 
-Pro can export a Markdown or JSON review artifact from the approved baseline:
+The current Free validation release can export a Markdown or JSON review
+artifact from the approved baseline:
 
 ```sh
 wp acf-schema-guard release-report export release-report.md --format=markdown
@@ -118,8 +119,8 @@ exception state. It can be pasted into GitHub Pull Requests or GitLab Merge
 Requests. The command never posts remotely and does not overwrite a named file
 without `--force`.
 
-Wersja Pro może wyeksportować artefakt review w Markdown lub JSON z zatwierdzonego
-baseline. Markdown zawiera aktywną politykę, pierwotną severity problemów i stan
+Obecna darmowa wersja walidacyjna może wyeksportować artefakt review w Markdown
+lub JSON z zatwierdzonego baseline. Markdown zawiera aktywną politykę, pierwotną severity problemów i stan
 wyjątków. Można go wkleić do GitHub Pull Request lub GitLab Merge Request.
 Komenda niczego nie publikuje zdalnie i nie nadpisuje wskazanego pliku bez
 `--force`.

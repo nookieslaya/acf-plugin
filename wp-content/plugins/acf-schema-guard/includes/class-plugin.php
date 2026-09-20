@@ -86,6 +86,8 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-approved-exceptio
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-finding-fingerprint.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-approved-exception-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-review-report-template.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/review/class-snapshot-review.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/review/class-snapshot-review-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/admin/class-pro-feature-notice.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/admin/class-admin-controller.php';
 
@@ -145,6 +147,7 @@ final class Plugin {
 	private $capability_service = null;
 	private $risk_policy_service = null;
 	private $approved_exception_service = null;
+	private $snapshot_review_service = null;
 
 	/**
 	 * Gets the plugin instance.
@@ -181,7 +184,8 @@ final class Plugin {
 				array( $this, 'source_health' ),
 				array( $this, 'analyze_code_impact' ),
 				array( $this, 'analyze_live_baseline' ),
-				array( $this, 'analyze_stored_data_impact' )
+				array( $this, 'analyze_stored_data_impact' ),
+				$this->snapshot_reviews()
 			);
 			$this->admin_controller->register();
 		}
@@ -251,12 +255,17 @@ final class Plugin {
 	 * @return \AcfSchemaGuard\Licensing\LicenseState
 	 */
 	public function license_state() {
-		$state = ( new \AcfSchemaGuard\Licensing\LocalPreviewStateProvider() )->state();
+		/*
+		 * Version 1.0 is a complete Free validation release. The provider-neutral
+		 * filter remains the future seam for feature 25, but no current workflow
+		 * is restricted by a customer license.
+		 */
+		$state = \AcfSchemaGuard\Licensing\LicenseState::valid( \AcfSchemaGuard\Licensing\ProCapabilities::all() );
 
 		/**
 		 * Allows a future licensing client to supply a verified state.
 		 *
-		 * @param \AcfSchemaGuard\Licensing\LicenseState $state Current local preview state.
+		 * @param \AcfSchemaGuard\Licensing\LicenseState $state Current release entitlement state.
 		 */
 		$state = apply_filters( 'acf_schema_guard/license_state', $state );
 
@@ -287,6 +296,14 @@ final class Plugin {
 		}
 
 		return $this->approved_exception_service;
+	}
+
+	public function snapshot_reviews() {
+		if ( null === $this->snapshot_review_service ) {
+			$this->snapshot_review_service = new \AcfSchemaGuard\Review\SnapshotReviewService();
+		}
+
+		return $this->snapshot_review_service;
 	}
 
 	/**
