@@ -76,6 +76,9 @@ final class AdminController {
 	/** @var SnapshotReviewService */
 	private $reviews;
 
+	/** @var callable */
+	private $analyze_safe_renames_callback;
+
 	private $baseline;
 
 	/**
@@ -84,7 +87,7 @@ final class AdminController {
 	 * @param callable           $analyze_snapshots_callback Analyzes two schema snapshots.
 	 * @param callable           $analyze_code_impact_callback Matches changes to code references.
 	 */
-	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback, BaselineSnapshotService $baseline, $source_health_callback, $analyze_code_impact_callback = null, $analyze_live_baseline_callback = null, $analyze_stored_data_impact_callback = null, ?SnapshotReviewService $reviews = null ) {
+	public function __construct( SnapshotRepository $snapshots, $capture_snapshot_callback, $analyze_snapshots_callback, BaselineSnapshotService $baseline, $source_health_callback, $analyze_code_impact_callback = null, $analyze_live_baseline_callback = null, $analyze_stored_data_impact_callback = null, ?SnapshotReviewService $reviews = null, $analyze_safe_renames_callback = null ) {
 		$this->snapshots                  = $snapshots;
 		$this->capture_snapshot_callback  = $capture_snapshot_callback;
 		$this->analyze_snapshots_callback = $analyze_snapshots_callback;
@@ -94,6 +97,7 @@ final class AdminController {
 		$this->analyze_stored_data_impact_callback = $analyze_stored_data_impact_callback;
 		$this->baseline                   = $baseline;
 		$this->reviews                    = $reviews;
+		$this->analyze_safe_renames_callback = $analyze_safe_renames_callback;
 	}
 
 	/**
@@ -1322,6 +1326,7 @@ final class AdminController {
 
 		$impacts_by_change = $this->code_impacts_by_change( $analysis['findings'] );
 		$data_impacts_by_change = $this->stored_data_impacts_by_change( $analysis['findings'] );
+		$rename_plans_by_change = $this->safe_rename_plans_by_change( $analysis['findings'] );
 		$dynamic_references = $this->scan_current_dynamic_references();
 
 		?>
@@ -1350,6 +1355,7 @@ final class AdminController {
 					$exception = class_exists( '\\AcfSchemaGuard\\Plugin' ) ? \AcfSchemaGuard\Plugin::instance()->approved_exceptions()->active_for( $finding ) : null;
 					$impacts  = isset( $impacts_by_change[ $this->change_key( $change ) ] ) ? $impacts_by_change[ $this->change_key( $change ) ] : array();
 					$data_impacts = isset( $data_impacts_by_change[ $this->change_key( $change ) ] ) ? $data_impacts_by_change[ $this->change_key( $change ) ] : array();
+					$rename_plans = isset( $rename_plans_by_change[ $this->change_key( $change ) ] ) ? $rename_plans_by_change[ $this->change_key( $change ) ] : array();
 					?>
 					<tr class="acf-schema-guard-finding acf-schema-guard-finding-<?php echo esc_attr( $severity ); ?>">
 						<td data-label="<?php echo esc_attr__( 'Kind', 'acf-schema-guard' ); ?>"><?php echo esc_html( $change['kind'] ); ?></td>
@@ -1359,9 +1365,9 @@ final class AdminController {
 						<td data-label="<?php echo esc_attr__( 'Severity', 'acf-schema-guard' ); ?>"><?php $this->render_severity_badge( $severity ); ?></td>
 						<td data-label="<?php echo esc_attr__( 'Rationale', 'acf-schema-guard' ); ?>"><?php echo esc_html( $finding['rationale'] ); ?><?php $this->render_exception_control( $finding, $exception ); ?></td>
 					</tr>
-					<?php if ( ! empty( $impacts ) || ! empty( $data_impacts ) ) : ?>
+					<?php if ( ! empty( $impacts ) || ! empty( $data_impacts ) || ! empty( $rename_plans ) ) : ?>
 						<tr class="acf-schema-guard-code-impacts">
-							<td colspan="6"><?php if ( ! empty( $impacts ) ) { $this->render_code_impacts( $impacts ); } if ( ! empty( $data_impacts ) ) { $this->render_stored_data_impacts( $data_impacts ); } ?></td>
+							<td colspan="6"><?php if ( ! empty( $rename_plans ) ) { $this->render_safe_rename_plans( $rename_plans ); } if ( ! empty( $impacts ) ) { $this->render_code_impacts( $impacts ); } if ( ! empty( $data_impacts ) ) { $this->render_stored_data_impacts( $data_impacts ); } ?></td>
 						</tr>
 					<?php endif; ?>
 				<?php endforeach; ?>
@@ -1463,6 +1469,29 @@ final class AdminController {
 		return $grouped;
 	}
 
+	private function safe_rename_plans_by_change( array $findings ) {
+		if ( ! is_callable( $this->analyze_safe_renames_callback ) ) {
+			return array();
+		}
+
+		$changes = array();
+		foreach ( $findings as $finding ) {
+			if ( isset( $finding['change'] ) && is_array( $finding['change'] ) ) {
+				$changes[] = $finding['change'];
+			}
+		}
+
+		$grouped = array();
+		foreach ( call_user_func( $this->analyze_safe_renames_callback, $changes, $this->scan_current_references() ) as $plan ) {
+			if ( ! is_array( $plan ) || ! isset( $plan['change'] ) || ! is_array( $plan['change'] ) ) {
+				continue;
+			}
+			$grouped[ $this->change_key( $plan['change'] ) ][] = $plan;
+		}
+
+		return $grouped;
+	}
+
 	private function change_key( array $change ) {
 		return implode(
 			'|',
@@ -1473,6 +1502,32 @@ final class AdminController {
 				isset( $change['before']['name'] ) ? $change['before']['name'] : '',
 			)
 		);
+	}
+
+	private function render_safe_rename_plans( array $plans ) {
+		foreach ( $plans as $plan ) {
+			$dry_run = isset( $plan['dry_run'] ) && is_array( $plan['dry_run'] ) ? $plan['dry_run'] : array();
+			$status  = isset( $dry_run['status'] ) ? $dry_run['status'] : 'not_supported';
+			?>
+			<section class="acf-schema-guard-safe-rename-plan">
+				<h3><?php echo esc_html__( 'Safe Rename Assistant', 'acf-schema-guard' ); ?></h3>
+				<p><?php echo esc_html( sprintf( __( 'Plan for renaming %1$s to %2$s.', 'acf-schema-guard' ), $plan['old_name'], $plan['new_name'] ) ); ?></p>
+				<?php if ( 'not_supported' === $status ) : ?>
+					<p><?php echo esc_html__( 'This field is nested in an ACF structure. The plugin cannot safely simulate its data migration, so review its storage manually.', 'acf-schema-guard' ); ?></p>
+				<?php else : ?>
+					<p><?php echo esc_html( sprintf( __( 'Dry-run only: %1$d records use the old key, %2$d already use the new key, and %3$d records would require a migration decision.', 'acf-schema-guard' ), $dry_run['old_record_count'], $dry_run['conflict_count'], $dry_run['migration_candidate_count'] ) ); ?></p>
+					<?php if ( 'conflicts' === $status ) : ?><p><strong><?php echo esc_html__( 'Conflicts need manual review before any future migration.', 'acf-schema-guard' ); ?></strong></p><?php endif; ?>
+					<?php if ( 'no_records' === $status ) : ?><p><?php echo esc_html__( 'No direct post-meta records use the old key. Other storage locations are not included.', 'acf-schema-guard' ); ?></p><?php endif; ?>
+				<?php endif; ?>
+				<ol>
+					<li><?php echo esc_html( sprintf( __( 'Replace literal PHP calls that use %s with the new field name.', 'acf-schema-guard' ), $plan['old_name'] ) ); ?></li>
+					<li><?php echo esc_html__( 'Review the listed code locations and affected content before deployment.', 'acf-schema-guard' ); ?></li>
+					<li><?php echo esc_html__( 'If data must be retained, make a separate, reviewed migration decision. This assistant never changes data.', 'acf-schema-guard' ); ?></li>
+					<li><?php echo esc_html__( 'After testing, capture and approve a new baseline.', 'acf-schema-guard' ); ?></li>
+				</ol>
+			</section>
+			<?php
+		}
 	}
 
 	private function render_code_impacts( array $impacts ) {

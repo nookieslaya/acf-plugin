@@ -74,6 +74,9 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/interface-stored-data-impa
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-wordpress-stored-data-impact-repository.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-stored-data-impact.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-stored-data-impact-analyzer.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/interface-rename-dry-run-repository.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-wordpress-rename-dry-run-repository.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-safe-rename-planner.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/impact/class-unused-field-inventory.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-pro-capabilities.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-license-state.php';
@@ -185,7 +188,8 @@ final class Plugin {
 				array( $this, 'analyze_code_impact' ),
 				array( $this, 'analyze_live_baseline' ),
 				array( $this, 'analyze_stored_data_impact' ),
-				$this->snapshot_reviews()
+				$this->snapshot_reviews(),
+				array( $this, 'analyze_safe_renames' )
 			);
 			$this->admin_controller->register();
 		}
@@ -357,6 +361,21 @@ final class Plugin {
 		return ( new \AcfSchemaGuard\Impact\StoredDataImpactAnalyzer(
 			new \AcfSchemaGuard\Impact\WordPressStoredDataImpactRepository( $wpdb )
 		) )->analyze( $changes );
+	}
+
+	/**
+	 * Builds read-only direct field-rename plans from current PHP references.
+	 *
+	 * @param array $changes Classified schema changes.
+	 * @param array $references Literal PHP ACF references.
+	 * @return array
+	 */
+	public function analyze_safe_renames( array $changes, array $references ) {
+		global $wpdb;
+
+		return ( new \AcfSchemaGuard\Impact\SafeRenamePlanner(
+			new \AcfSchemaGuard\Impact\WordPressRenameDryRunRepository( $wpdb )
+		) )->analyze( $changes, $references );
 	}
 
 	/**

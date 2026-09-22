@@ -84,6 +84,11 @@ content. A zero result means no direct post-meta records were found; it does not
 cover nested repeater fields, options, users, terms, comments, or other storage
 patterns.
 
+For a direct field-name rename, **Changes** also provides a read-only Safe
+Rename Assistant plan. It joins code evidence with a bounded post-meta dry-run,
+including same-record new-key conflicts. It never reads values or changes data;
+an actual migration remains a separate future decision.
+
 ## WP-CLI scan
 
 When WP-CLI loads the plugin, it scans the PHP source directories you provide

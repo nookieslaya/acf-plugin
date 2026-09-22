@@ -28,6 +28,17 @@ For renamed or removed fields, Changes can show bounded matching record IDs.
 It never reads field values. Direct and supported nested storage are evidence,
 not a complete migration plan.
 
+## Safe Rename Assistant
+
+When a direct ACF field name changes, **Changes** can show a Safe Rename
+Assistant plan. It groups the old and new name, literal PHP call sites, and a
+read-only dry-run of direct post-meta scope. The dry-run shows records using the
+old key, records that already use the new key and therefore need manual conflict
+review, and records that would require a later migration decision.
+
+It never reads field values or changes data. Nested ACF fields are shown as not
+safely simulatable, rather than receiving an unreliable migration estimate.
+
 ## Team workflow
 
 Use **History** as a small local review queue. The requester explains what a

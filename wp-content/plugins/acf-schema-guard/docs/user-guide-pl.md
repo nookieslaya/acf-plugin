@@ -32,6 +32,18 @@ Dla zmienionych nazw lub usuniętych pól Changes może pokazać ograniczoną li
 pasujących rekordów. Plugin nigdy nie odczytuje wartości pól. Dane bezpośrednie
 i wspierane struktury zagnieżdżone są dowodem, nie pełnym planem migracji.
 
+## Safe Rename Assistant
+
+Gdy bezpośrednie pole ACF zmieni nazwę, **Changes** może pokazać plan Safe
+Rename Assistant. Łączy on starą i nową nazwę, literalne wywołania PHP oraz
+read-only dry-run zakresu bezpośrednich danych post-meta. Dry-run pokazuje
+rekordy używające starego klucza, rekordy mające już nowy klucz i wymagające
+ręcznego rozstrzygnięcia konfliktu oraz rekordy wymagające późniejszej decyzji
+o migracji.
+
+Nie odczytuje wartości pola i nie zmienia danych. Dla zagnieżdżonych pól ACF
+wyświetla ograniczenie zamiast niewiarygodnego oszacowania migracji.
+
 ## Git i próg release
 
 Dodaj do Git `acf-schema-baseline.json`, aby współdzielić baseline, oraz

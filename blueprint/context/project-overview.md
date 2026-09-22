@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash ce77069fcbd87589fc45f1ee136da078bb5af2d3876705305a20aa5c64147e0a -->
+<!-- blueprint:source-hash a3a26efa347c00c4413d93f0a9862482c49c5a803b0629777ff7549610fe551e -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -89,6 +89,9 @@ code still referring to removed or renamed fields before release.
     approved snapshot in the portable Git baseline format, with clear guidance
     for saving and committing it, without WordPress writing repository files or
     invoking Git.
+28. **Safe Rename Assistant** - turns a detected direct field-name rename into
+    a read-only repair plan that joins code references, bounded data evidence,
+    dry-run scope, verification, and baseline guidance without changing data.
 
 ## Data model
 
@@ -228,6 +231,9 @@ Mode is Free and does not require ACF Local JSON.
 - History exposes an approved baseline download for teams that prefer the
   browser over WP-CLI, while leaving file placement and Git commits deliberate
   user actions.
+- Changes can present a direct field-name rename as an ordered repair plan and
+  a simulated migration scope. It remains evidence only and never changes ACF
+  definitions, metadata, or content.
 - Development theme front end - minimal, accessible classic templates for
   inspecting ACF output and scanner references.
 

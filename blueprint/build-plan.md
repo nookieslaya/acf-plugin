@@ -139,3 +139,7 @@
   - [x] 26b. **Review queue and audit history** - make pending and completed decisions visible in History and Overview with clear next actions, empty states, and accessible status treatments.
 
 - [x] 27. **Team baseline download in Admin** - let an administrator download the approved snapshot from History as the portable Git baseline JSON, with clear file-save and team-commit guidance but no repository writes, automatic overwrite, or Git operations.
+
+## Version 1.1 usability
+
+- [x] 28. **Safe Rename Assistant** - turn a detected direct ACF field-name rename into a read-only, actionable repair plan in Changes, combining code references, bounded stored-data evidence, dry-run migration scope, verification steps, and baseline guidance without modifying any data.

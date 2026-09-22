@@ -58,6 +58,9 @@ renamed fields.
 - A team-friendly Admin baseline download that exports the approved snapshot in
   the same portable JSON format used by the Git and CI workflow, without writing
   project files or performing Git operations from WordPress.
+- A read-only Safe Rename Assistant that turns a detected ACF field-name change
+  into a concrete repair plan using existing code-reference and stored-data
+  evidence, without copying, deleting, or modifying WordPress data.
 
 ## 4. Data - What are we storing?
 
