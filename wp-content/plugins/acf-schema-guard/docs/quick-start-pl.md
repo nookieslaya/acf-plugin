@@ -33,6 +33,8 @@ ustawień ACF z chwili, w której wszystko działa poprawnie.
 7. Kliknij **Set approved baseline**.
 
 Od tej chwili wtyczka porównuje bieżące pola ACF z zatwierdzonym baseline.
+Jeśli pracujesz w zespole, w tej samej zakładce możesz teraz pobrać
+`acf-schema-baseline.json` w sekcji **Team baseline** i dodać go do Gita.
 
 > Gdy pracujesz samodzielnie, możesz wykonać zgłoszenie i zatwierdzenie na tym
 > samym koncie. W zespole lepiej, aby druga osoba zapisała decyzję review.
@@ -69,7 +71,8 @@ Po teście przywróć poprzednią etykietę i zapisz grupę ponownie. Widok
   review.
 - **Changes** — najważniejszy widok po zmianie pól; pokazuje różnice, użycie w
   kodzie oraz możliwy wpływ na dane.
-- **History** — snapshoty, review i ustawienie zatwierdzonego baseline.
+- **History** — snapshoty, review, ustawienie zatwierdzonego baseline oraz
+  pobranie pliku baseline dla zespołu.
 - **Code Usage** — miejsca w plikach PHP, w których używane jest dane pole.
 - **Field Groups** — porównanie definicji w bazie WordPressa i plikach ACF Local
   JSON, jeśli projekt ich używa.

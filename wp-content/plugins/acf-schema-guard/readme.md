@@ -66,7 +66,11 @@ WordPress Admin. The available workflow is:
    current live schema. A separate capture is not required for this review.
 
 The Admin baseline is stored as a snapshot ID in WordPress. It is useful for
-local review, but is different from the Git baseline file used by CI.
+local review, but is different from the Git baseline file used by CI. Once a
+baseline is approved, **History** can download that exact immutable schema as
+`acf-schema-baseline.json`. Save it in a versioned theme or plugin and commit it
+with the normal team workflow. The browser download never writes project files,
+replaces a repository baseline, or runs Git commands.
 
 Automatic ACF saves can create a local immutable snapshot when the effective
 schema changes. They never create or replace the portable Git baseline file:

@@ -137,3 +137,5 @@
 - [x] 26. **Team schema review workflow** - provide an auditable local review process for schema snapshots before they become the approved baseline; available to every tester during the Free validation period.
   - [x] 26a. **Review requests and decisions** - let administrators request, approve, or reject review of a stored snapshot with author, reviewer, timestamps, and required decision notes; only approval may set that snapshot as the baseline.
   - [x] 26b. **Review queue and audit history** - make pending and completed decisions visible in History and Overview with clear next actions, empty states, and accessible status treatments.
+
+- [x] 27. **Team baseline download in Admin** - let an administrator download the approved snapshot from History as the portable Git baseline JSON, with clear file-save and team-commit guidance but no repository writes, automatic overwrite, or Git operations.

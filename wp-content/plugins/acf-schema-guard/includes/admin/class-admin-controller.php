@@ -11,6 +11,7 @@ use AcfSchemaGuard\Snapshots\SnapshotRepository;
 use AcfSchemaGuard\Snapshots\BaselineSnapshotService;
 use AcfSchemaGuard\Review\SnapshotReview;
 use AcfSchemaGuard\Review\SnapshotReviewService;
+use AcfSchemaGuard\Baseline\SchemaBaselineFile;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -111,6 +112,7 @@ final class AdminController {
 		add_action( 'admin_post_acf_schema_guard_save_risk_policy', array( $this, 'save_risk_policy' ) );
 		add_action( 'admin_post_acf_schema_guard_set_edition_preview', array( $this, 'set_edition_preview' ) );
 		add_action( 'admin_post_acf_schema_guard_download_risk_policy', array( $this, 'download_risk_policy' ) );
+		add_action( 'admin_post_acf_schema_guard_download_approved_baseline', array( $this, 'download_approved_baseline' ) );
 		add_action( 'admin_post_acf_schema_guard_save_approved_exception', array( $this, 'save_approved_exception' ) );
 		add_action( 'admin_post_acf_schema_guard_revoke_approved_exception', array( $this, 'revoke_approved_exception' ) );
 		add_action( 'admin_post_acf_schema_guard_download_release_report', array( $this, 'download_release_report' ) );
@@ -574,6 +576,36 @@ final class AdminController {
 		nocache_headers(); header( 'Content-Type: application/json; charset=utf-8' ); header( 'Content-Disposition: attachment; filename="acf-schema-guard-policy.json"' ); echo \AcfSchemaGuard\Plugin::instance()->risk_policy()->export(); exit;
 	}
 
+	/**
+	 * Streams the approved immutable snapshot in the Git baseline format.
+	 *
+	 * @return void
+	 */
+	public function download_approved_baseline() {
+		if ( ! current_user_can( $this->capability ) ) {
+			wp_die( esc_html__( 'You do not have permission to download the approved baseline.', 'acf-schema-guard' ) );
+		}
+
+		check_admin_referer( 'acf_schema_guard_download_approved_baseline' );
+		$baseline = $this->baseline->snapshot();
+
+		if ( null === $baseline ) {
+			wp_die( esc_html__( 'Set an approved baseline before downloading a team baseline file.', 'acf-schema-guard' ) );
+		}
+
+		try {
+			$content = ( new SchemaBaselineFile() )->encode( $baseline->schema() );
+		} catch ( \RuntimeException $exception ) {
+			wp_die( esc_html__( 'The approved baseline could not be encoded as JSON.', 'acf-schema-guard' ) );
+		}
+
+		nocache_headers();
+		header( 'Content-Type: application/json; charset=utf-8' );
+		header( 'Content-Disposition: attachment; filename="acf-schema-baseline.json"' );
+		echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON is encoded by SchemaBaselineFile.
+		exit;
+	}
+
 	public function save_approved_exception() {
 		if ( ! current_user_can( $this->capability ) ) { wp_die( esc_html__( 'You do not have permission to approve exceptions.', 'acf-schema-guard' ) ); }
 		check_admin_referer( 'acf_schema_guard_save_approved_exception' );
@@ -1015,6 +1047,26 @@ final class AdminController {
 					<?php wp_nonce_field( 'acf_schema_guard_capture_snapshot' ); ?>
 					<?php submit_button( __( 'Capture current schema', 'acf-schema-guard' ), 'primary', 'submit', false ); ?>
 				</form>
+			</section>
+			<section class="acf-schema-guard-history-action acf-schema-guard-team-baseline">
+				<div>
+					<p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Team baseline', 'acf-schema-guard' ); ?></p>
+					<?php if ( null === $baseline ) : ?>
+						<h2><?php echo esc_html__( 'No approved baseline to share', 'acf-schema-guard' ); ?></h2>
+						<p><?php echo esc_html__( 'Approve a reviewed snapshot and set it as the baseline before downloading the file for your repository.', 'acf-schema-guard' ); ?></p>
+					<?php else : ?>
+						<h2><?php echo esc_html__( 'Download the approved Git baseline', 'acf-schema-guard' ); ?></h2>
+						<p><?php echo esc_html( sprintf( __( 'Snapshot %1$s, captured %2$s UTC.', 'acf-schema-guard' ), $baseline->id(), $baseline->created_at() ) ); ?></p>
+						<p><?php echo esc_html__( 'Save the downloaded acf-schema-baseline.json in your versioned theme or plugin, then add and commit it with your normal Git workflow. WordPress does not write repository files or run Git commands.', 'acf-schema-guard' ); ?></p>
+					<?php endif; ?>
+				</div>
+				<?php if ( null !== $baseline ) : ?>
+					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+						<input type="hidden" name="action" value="acf_schema_guard_download_approved_baseline" />
+						<?php wp_nonce_field( 'acf_schema_guard_download_approved_baseline' ); ?>
+						<?php submit_button( __( 'Download baseline JSON', 'acf-schema-guard' ), 'secondary', 'submit', false ); ?>
+					</form>
+				<?php endif; ?>
 			</section>
 			<?php if ( empty( $snapshots ) ) : ?>
 				<section class="acf-schema-guard-empty-state">

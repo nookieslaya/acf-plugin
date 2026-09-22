@@ -45,8 +45,15 @@ instalacji WordPressa. Wspólnym punktem odniesienia dla zespołu i CI jest
 wersjonowany plik JSON. Nie tworzy się on ani nie aktualizuje automatycznie,
 ponieważ automatyczne nadpisanie mogłoby ukryć niezaakceptowaną zmianę schematu.
 
-Po review i akceptacji uruchom polecenia w powłoce Local, z katalogu zawierającego
-`wp-config.php`. Gdy do Gita trafia tylko motyw, przechowuj plik w jego katalogu:
+Po zatwierdzeniu baseline możesz pobrać ten plik bez terminala: w **History**
+odszukaj sekcję **Team baseline**, sprawdź ID snapshotu i czas utworzenia, a
+następnie kliknij **Download baseline JSON**. Zapisz plik jako
+`acf-schema-baseline.json` w wersjonowanym motywie lub pluginie. WordPress nie
+zapisuje go sam w repozytorium i nie wykonuje poleceń Git.
+
+Alternatywnie możesz utworzyć ten sam plik przez WP-CLI. Po review i akceptacji
+uruchom polecenia w powłoce Local, z katalogu zawierającego `wp-config.php`.
+Gdy do Gita trafia tylko motyw, przechowuj plik w jego katalogu:
 
 ```bash
 wp acf-schema-guard baseline export \

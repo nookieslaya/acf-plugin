@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash cae7ab90e65f7d625f5e033bf3995f758decafbca61e41be23301883a782c65a -->
+<!-- blueprint:source-hash ce77069fcbd87589fc45f1ee136da078bb5af2d3876705305a20aa5c64147e0a -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -85,6 +85,10 @@ code still referring to removed or renamed fields before release.
 26. **Team schema review workflow** - adds local, auditable request, approval,
     rejection, and baseline-review collaboration while it remains available to
     Free testers.
+27. **Team baseline download in Admin** - lets an administrator download the
+    approved snapshot in the portable Git baseline format, with clear guidance
+    for saving and committing it, without WordPress writing repository files or
+    invoking Git.
 
 ## Data model
 
@@ -221,6 +225,9 @@ Mode is Free and does not require ACF Local JSON.
   substantiate.
 - In database-first mode, the Admin workspace recommends baseline, live Changes,
   code analysis, and optional baseline export rather than Local JSON sync.
+- History exposes an approved baseline download for teams that prefer the
+  browser over WP-CLI, while leaving file placement and Git commits deliberate
+  user actions.
 - Development theme front end - minimal, accessible classic templates for
   inspecting ACF output and scanner references.
 

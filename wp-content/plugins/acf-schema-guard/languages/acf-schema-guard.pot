@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the ACF Schema Guard package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: ACF Schema Guard 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-20 18:39+0200\n"
+"POT-Creation-Date: 2026-09-20 20:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,1088 +18,1134 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: includes/admin/class-admin-controller.php:30
+#: includes/admin/class-pro-feature-notice.php:30
+msgid "ACF Schema Guard Pro"
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:31
 msgid "Overview"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:30
+#: includes/admin/class-admin-controller.php:31
 msgid "A starting point for reviewing ACF schema safety."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:31
+#: includes/admin/class-admin-controller.php:32
 msgid "Changes"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:31
+#: includes/admin/class-admin-controller.php:32
 msgid "Schema changes will appear here after a comparison is run."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:32
+#: includes/admin/class-admin-controller.php:33
 msgid "Field Groups"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:32
+#: includes/admin/class-admin-controller.php:33
 msgid "Normalized field groups will appear here in a later feature."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:33
+#: includes/admin/class-admin-controller.php:34
 msgid "Code Usage"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:33
+#: includes/admin/class-admin-controller.php:34
 msgid "References found by supported code scanners will appear here."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:34
+#: includes/admin/class-admin-controller.php:35
 msgid "Unused Fields"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:34
+#: includes/admin/class-admin-controller.php:35
 msgid "Review-only PHP coverage signals for current ACF fields."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:35
+#: includes/admin/class-admin-controller.php:36
 msgid "History"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:35
+#: includes/admin/class-admin-controller.php:36
 msgid "Captured schema snapshots will appear here in a later feature."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:36
+#: includes/admin/class-admin-controller.php:37
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:36
+#: includes/admin/class-admin-controller.php:37
 msgid "Configuration controls will appear here when settings are supported."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:128
-#: includes/admin/class-admin-controller.php:129
+#: includes/admin/class-admin-controller.php:130
+#: includes/admin/class-admin-controller.php:131
 msgid "ACF Schema Guard"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:175
+#: includes/admin/class-admin-controller.php:177
 msgid "You do not have permission to access this page."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:182
+#: includes/admin/class-admin-controller.php:184
 msgid "The requested ACF Schema Guard page is not available."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:223
+#: includes/admin/class-admin-controller.php:225
 msgid "This read-only section has no data or actions available yet."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:244
+#: includes/admin/class-admin-controller.php:246
 msgid ""
 "Review the current ACF schema safety posture, then continue with the "
 "workflow that needs attention."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:248
-#: includes/admin/class-admin-controller.php:1120
-#: includes/admin/class-admin-controller.php:1220
+#: includes/admin/class-admin-controller.php:250
+#: includes/admin/class-admin-controller.php:1172
+#: includes/admin/class-admin-controller.php:1272
 msgid "Approved baseline"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:251
+#: includes/admin/class-admin-controller.php:253
 msgid "Open history"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:255
+#: includes/admin/class-admin-controller.php:257
 msgid "Live schema comparison"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:259
+#: includes/admin/class-admin-controller.php:261
 msgid "Review changes"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:263
+#: includes/admin/class-admin-controller.php:265
 msgid "Schema source"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:263
+#: includes/admin/class-admin-controller.php:265
 msgid "Database and Local JSON"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:267
+#: includes/admin/class-admin-controller.php:269
 msgid "Review field groups"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:271
-#: includes/admin/class-admin-controller.php:1031
-#: includes/admin/class-admin-controller.php:1042
+#: includes/admin/class-admin-controller.php:273
+#: includes/admin/class-admin-controller.php:1083
+#: includes/admin/class-admin-controller.php:1094
 msgid "Team review"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:274
+#: includes/admin/class-admin-controller.php:276
 msgid "Open review queue"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:279
+#: includes/admin/class-admin-controller.php:281
 msgid "Continue your review"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:281
+#: includes/admin/class-admin-controller.php:283
 msgid "Set or review the approved database baseline"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:282
+#: includes/admin/class-admin-controller.php:284
 msgid "Record a decision for pending schema reviews"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:283
+#: includes/admin/class-admin-controller.php:285
 msgid "Inspect current PHP ACF references"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:284
+#: includes/admin/class-admin-controller.php:286
 msgid "Choose themes and plugins for code analysis"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:312
-#: includes/admin/class-admin-controller.php:1563
+#: includes/admin/class-admin-controller.php:314
+#: includes/admin/class-admin-controller.php:1615
 msgid "Safe"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:313
-#: includes/admin/class-admin-controller.php:1567
+#: includes/admin/class-admin-controller.php:315
+#: includes/admin/class-admin-controller.php:1619
 msgid "Warning"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:314
-#: includes/admin/class-admin-controller.php:1571
+#: includes/admin/class-admin-controller.php:316
+#: includes/admin/class-admin-controller.php:1623
 msgid "High"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:315
-#: includes/admin/class-admin-controller.php:1575
+#: includes/admin/class-admin-controller.php:317
+#: includes/admin/class-admin-controller.php:1627
 msgid "Critical"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:316
-#: includes/admin/class-admin-controller.php:931
+#: includes/admin/class-admin-controller.php:318
+#: includes/admin/class-admin-controller.php:963
 msgid "Aligned"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:317
-#: includes/admin/class-admin-controller.php:931
+#: includes/admin/class-admin-controller.php:319
+#: includes/admin/class-admin-controller.php:963
 msgid "Database only"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:318
-#: includes/admin/class-admin-controller.php:931
+#: includes/admin/class-admin-controller.php:320
+#: includes/admin/class-admin-controller.php:963
 msgid "Local JSON only"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:319
-#: includes/admin/class-admin-controller.php:931
+#: includes/admin/class-admin-controller.php:321
+#: includes/admin/class-admin-controller.php:963
 msgid "Divergent"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:334
+#: includes/admin/class-admin-controller.php:336
 msgid "Choose the themes and plugins to include in code analysis."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:340
+#: includes/admin/class-admin-controller.php:342
 msgid "Scanner scope"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:341
+#: includes/admin/class-admin-controller.php:343
 msgid "Include source roots"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:342
+#: includes/admin/class-admin-controller.php:344
 msgid "Only selected locations are scanned for literal PHP ACF calls."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:353
+#: includes/admin/class-admin-controller.php:355
 msgid "Save scanner roots"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:359
+#: includes/admin/class-admin-controller.php:361
 msgid "Edition"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:360
+#: includes/admin/class-admin-controller.php:362
 msgid "ACF Schema Guard 1.0"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:361
+#: includes/admin/class-admin-controller.php:363
 msgid ""
 "This release includes all currently available features in the Free edition. "
 "Production Pro licensing is planned for a future release."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:366
+#: includes/admin/class-admin-controller.php:368
 msgid "Release policy"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:366
+#: includes/admin/class-admin-controller.php:368
 msgid "Risk threshold"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:366
+#: includes/admin/class-admin-controller.php:368
 msgid "Choose the lowest severity that blocks a release check."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:367
+#: includes/admin/class-admin-controller.php:369
 msgid "Team policy active"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:367
+#: includes/admin/class-admin-controller.php:369
 #, php-format
 msgid ""
 "The repository file %1$s sets the active %2$s threshold. It takes priority "
 "over this site's local setting."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:368
+#: includes/admin/class-admin-controller.php:370
 msgid "Save risk policy"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:368
+#: includes/admin/class-admin-controller.php:370
 msgid "Download team policy JSON"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:373
+#: includes/admin/class-admin-controller.php:375
 msgid "Local development"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:374
+#: includes/admin/class-admin-controller.php:376
 msgid "Edition preview"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:375
+#: includes/admin/class-admin-controller.php:377
 msgid ""
 "All version 1.0 features are currently Free. This local-only switch is "
 "retained to prepare future licensing development and does not hide current "
 "functionality."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:381
+#: includes/admin/class-admin-controller.php:383
 msgid "Switch to Free preview"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:381
+#: includes/admin/class-admin-controller.php:383
 msgid "Switch to Pro preview"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:418
+#: includes/admin/class-admin-controller.php:420
 msgid "No reviews pending"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:419
+#: includes/admin/class-admin-controller.php:421
 msgid "Request a review from History before approving a new baseline."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:425
+#: includes/admin/class-admin-controller.php:427
 #, php-format
 msgid "%d review pending"
 msgid_plural "%d reviews pending"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-controller.php:426
+#: includes/admin/class-admin-controller.php:428
 msgid "A team member needs to approve or reject a stored schema snapshot."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:455
+#: includes/admin/class-admin-controller.php:457
 msgid "Baseline needed"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:456
+#: includes/admin/class-admin-controller.php:458
 msgid ""
 "Choose a stored snapshot as the approved baseline before reviewing live "
 "changes."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:462
+#: includes/admin/class-admin-controller.php:464
 msgid "Baseline approved"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:463
+#: includes/admin/class-admin-controller.php:465
 #, php-format
 msgid "Captured %s."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:477
+#: includes/admin/class-admin-controller.php:479
 msgid "Comparison unavailable"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:478
+#: includes/admin/class-admin-controller.php:480
 msgid "A live schema comparison is not available yet."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:497
+#: includes/admin/class-admin-controller.php:499
 msgid "Review required"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:497
+#: includes/admin/class-admin-controller.php:499
 msgid "No high-risk changes"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:498
+#: includes/admin/class-admin-controller.php:500
 #, php-format
 msgid "%d schema finding detected."
 msgid_plural "%d schema findings detected."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-controller.php:513
-#: includes/admin/class-admin-controller.php:908
+#: includes/admin/class-admin-controller.php:515
+#: includes/admin/class-admin-controller.php:940
 msgid "Source health unavailable"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:514
+#: includes/admin/class-admin-controller.php:516
 msgid "ACF Local JSON could not be inspected."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:519
-#: includes/admin/class-admin-controller.php:905
+#: includes/admin/class-admin-controller.php:521
+#: includes/admin/class-admin-controller.php:937
 msgid "Database-first mode"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:519
+#: includes/admin/class-admin-controller.php:521
 msgid ""
 "Local JSON is not configured. Baseline, Changes, Code Usage, and data impact "
 "remain available."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:532
+#: includes/admin/class-admin-controller.php:534
 msgid "Source review needed"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:532
+#: includes/admin/class-admin-controller.php:534
 msgid "Sources aligned"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:533
+#: includes/admin/class-admin-controller.php:535
 #, php-format
 msgid "%d field group needs source review."
 msgid_plural "%d field groups need source review."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-controller.php:539
+#: includes/admin/class-admin-controller.php:541
 #, php-format
 msgid "Theme: %s"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:541
+#: includes/admin/class-admin-controller.php:543
 #, php-format
 msgid "Plugin: %s"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:548
+#: includes/admin/class-admin-controller.php:550
 msgid "You do not have permission to update scanner settings."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:557
+#: includes/admin/class-admin-controller.php:559
 msgid "You do not have permission to update risk policy."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:565
+#: includes/admin/class-admin-controller.php:567
 msgid "You do not have permission to change edition preview."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:572
+#: includes/admin/class-admin-controller.php:574
 msgid "You do not have permission to export risk policy."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:578
+#: includes/admin/class-admin-controller.php:586
+msgid "You do not have permission to download the approved baseline."
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:593
+msgid "Set an approved baseline before downloading a team baseline file."
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:599
+msgid "The approved baseline could not be encoded as JSON."
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:610
 msgid "You do not have permission to approve exceptions."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:584
+#: includes/admin/class-admin-controller.php:616
 msgid ""
 "This exception could not be saved. Check the reason, expiry, and Pro access."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:589
+#: includes/admin/class-admin-controller.php:621
 msgid "You do not have permission to revoke exceptions."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:597
+#: includes/admin/class-admin-controller.php:629
 msgid "You do not have permission to download release reports."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:600
+#: includes/admin/class-admin-controller.php:632
 msgid "An approved baseline is required before exporting a report."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:633
+#: includes/admin/class-admin-controller.php:665
 msgid ""
 "Literal PHP ACF references found in the configured themes and plugins as "
 "they exist now. Each field groups all of its real call sites together."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:637
-#: includes/admin/class-admin-controller.php:749
+#: includes/admin/class-admin-controller.php:669
+#: includes/admin/class-admin-controller.php:781
 msgid "Field"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:639
-#: includes/admin/class-admin-controller.php:749
+#: includes/admin/class-admin-controller.php:671
+#: includes/admin/class-admin-controller.php:781
 msgid "All fields"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:645
+#: includes/admin/class-admin-controller.php:677
 msgid "File"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:647
+#: includes/admin/class-admin-controller.php:679
 msgid "All files"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:653
+#: includes/admin/class-admin-controller.php:685
 msgid "ACF function"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:655
+#: includes/admin/class-admin-controller.php:687
 msgid "All supported functions"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:661
+#: includes/admin/class-admin-controller.php:693
 msgid "Filter references"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:665
+#: includes/admin/class-admin-controller.php:697
 #, php-format
 msgid "%d reference shown"
 msgid_plural "%d references shown"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-controller.php:672
+#: includes/admin/class-admin-controller.php:704
 msgid "No matching references"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:673
+#: includes/admin/class-admin-controller.php:705
 msgid ""
 "Try changing the filters, or choose source roots in Settings before scanning "
 "again."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:682
+#: includes/admin/class-admin-controller.php:714
 #, php-format
 msgid "%d reference"
 msgid_plural "%d references"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-controller.php:684
+#: includes/admin/class-admin-controller.php:716
 msgid "Show call sites"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:692
+#: includes/admin/class-admin-controller.php:724
 msgid "PHP context around this call."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:748
+#: includes/admin/class-admin-controller.php:780
 msgid ""
 "This workspace is in development. It complements Code Usage by starting with "
 "ACF fields that have no detected literal PHP reference. Review dynamic "
 "calls, unscanned code, and stored data before making any schema decision."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:749
+#: includes/admin/class-admin-controller.php:781
 msgid ""
 "These are review signals from configured PHP scanner roots. They never mean "
 "a field is safe to delete."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:749
+#: includes/admin/class-admin-controller.php:781
 msgid "Review state"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:749
+#: includes/admin/class-admin-controller.php:781
 msgid "Potentially unused"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:749
-#: includes/admin/class-admin-controller.php:835
+#: includes/admin/class-admin-controller.php:781
+#: includes/admin/class-admin-controller.php:867
 msgid "Manual review required"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:749
+#: includes/admin/class-admin-controller.php:781
 msgid "Filter fields"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:749
+#: includes/admin/class-admin-controller.php:781
 msgid "No fields available for review"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:749
+#: includes/admin/class-admin-controller.php:781
 msgid ""
 "Confirm that ACF field groups and scanner roots are available, then scan "
 "again."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:749
+#: includes/admin/class-admin-controller.php:781
 msgid "Literal references"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:749
+#: includes/admin/class-admin-controller.php:781
 msgid "State"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:831
+#: includes/admin/class-admin-controller.php:863
 msgid "Dynamic ACF calls need manual review"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:832
+#: includes/admin/class-admin-controller.php:864
 msgid ""
 "These supported calls use a non-literal field argument. ACF Schema Guard "
 "cannot safely determine which field they access, so they are not linked to a "
 "specific schema change."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:859
-#: includes/admin/class-admin-controller.php:933
+#: includes/admin/class-admin-controller.php:891
+#: includes/admin/class-admin-controller.php:965
 msgid "Unknown"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:872
-#: includes/admin/class-admin-controller.php:877
+#: includes/admin/class-admin-controller.php:904
+#: includes/admin/class-admin-controller.php:909
 msgid "Source preview is unavailable."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:903
+#: includes/admin/class-admin-controller.php:935
 msgid ""
 "Your ACF schema is managed in the WordPress database. Local JSON comparison "
 "is optional and is not required for schema safety."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:903
+#: includes/admin/class-admin-controller.php:935
 msgid ""
 "Checks whether each ACF field group is represented consistently in the "
 "WordPress database and ACF Local JSON."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:905
+#: includes/admin/class-admin-controller.php:937
 msgid ""
 "ACF Local JSON is not configured. This is a supported workflow: set an "
 "approved baseline, review live Changes, and use Code Usage to check current "
 "PHP references."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:909
+#: includes/admin/class-admin-controller.php:941
 msgid "ACF is unavailable, so Source health cannot inspect field groups."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:913
+#: includes/admin/class-admin-controller.php:945
 msgid "No field groups found"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:914
+#: includes/admin/class-admin-controller.php:946
 msgid ""
 "No ACF field groups were found in the database or configured Local JSON "
 "paths."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:918
-#: includes/admin/class-admin-controller.php:919
+#: includes/admin/class-admin-controller.php:950
+#: includes/admin/class-admin-controller.php:951
 msgid "Field group"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:918
-#: includes/admin/class-admin-controller.php:919
+#: includes/admin/class-admin-controller.php:950
+#: includes/admin/class-admin-controller.php:951
 msgid "Key"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:918
-#: includes/admin/class-admin-controller.php:919
+#: includes/admin/class-admin-controller.php:950
+#: includes/admin/class-admin-controller.php:951
 msgid "Status"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:918
-#: includes/admin/class-admin-controller.php:919
+#: includes/admin/class-admin-controller.php:950
+#: includes/admin/class-admin-controller.php:951
 msgid "Database"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:918
-#: includes/admin/class-admin-controller.php:919
+#: includes/admin/class-admin-controller.php:950
+#: includes/admin/class-admin-controller.php:951
 msgid "Local JSON"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:918
-#: includes/admin/class-admin-controller.php:919
+#: includes/admin/class-admin-controller.php:950
+#: includes/admin/class-admin-controller.php:951
 msgid "Recommended action"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:938
+#: includes/admin/class-admin-controller.php:970
 msgid "Missing"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:938
+#: includes/admin/class-admin-controller.php:970
 msgid "Not found"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:942
-#: includes/admin/class-admin-controller.php:946
-#: includes/admin/class-admin-controller.php:950
-#: includes/admin/class-admin-controller.php:953
+#: includes/admin/class-admin-controller.php:974
+#: includes/admin/class-admin-controller.php:978
+#: includes/admin/class-admin-controller.php:982
+#: includes/admin/class-admin-controller.php:985
 msgid "Present"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:942
+#: includes/admin/class-admin-controller.php:974
 msgid "Matches"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:946
+#: includes/admin/class-admin-controller.php:978
 msgid "Same modified time"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:950
+#: includes/admin/class-admin-controller.php:982
 msgid "Newer schema"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:953
+#: includes/admin/class-admin-controller.php:985
 msgid "Review"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:960
-#: includes/admin/class-admin-controller.php:969
+#: includes/admin/class-admin-controller.php:992
+#: includes/admin/class-admin-controller.php:1001
 msgid "No action needed."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:964
+#: includes/admin/class-admin-controller.php:996
 msgid ""
 "Definitions differ but timestamps are equal. ACF Sync may not be available."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:967
+#: includes/admin/class-admin-controller.php:999
 msgid ""
 "Local JSON is newer. Review it, then use ACF Sync to import it into the "
 "database."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:968
+#: includes/admin/class-admin-controller.php:1000
 msgid ""
 "The database is newer. Open this group in ACF and save it to refresh Local "
 "JSON before committing."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:969
+#: includes/admin/class-admin-controller.php:1001
 msgid ""
 "Save or sync this group so it is written to Local JSON and committed to Git."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:969
+#: includes/admin/class-admin-controller.php:1001
 msgid ""
 "Review the JSON definition and import or sync it into the database when "
 "appropriate."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:969
+#: includes/admin/class-admin-controller.php:1001
 msgid ""
 "Review both definitions before synchronizing. Do not overwrite either source "
 "blindly."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:970
+#: includes/admin/class-admin-controller.php:1002
 msgid "Review this field group manually."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1005
+#: includes/admin/class-admin-controller.php:1037
 msgid "Stored immutable schema snapshots, newest first."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1009
-#: includes/admin/class-admin-controller.php:1225
+#: includes/admin/class-admin-controller.php:1041
+#: includes/admin/class-admin-controller.php:1277
 msgid "Current schema"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1010
+#: includes/admin/class-admin-controller.php:1042
 msgid "Capture a checkpoint"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1011
+#: includes/admin/class-admin-controller.php:1043
 msgid ""
 "Save the effective ACF schema as an immutable snapshot before or after a "
 "meaningful change."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1016
+#: includes/admin/class-admin-controller.php:1048
 msgid "Capture current schema"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1021
+#: includes/admin/class-admin-controller.php:1053
+msgid "Team baseline"
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:1055
+msgid "No approved baseline to share"
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:1056
+msgid ""
+"Approve a reviewed snapshot and set it as the baseline before downloading "
+"the file for your repository."
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:1058
+msgid "Download the approved Git baseline"
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:1059
+#, php-format
+msgid "Snapshot %1$s, captured %2$s UTC."
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:1060
+msgid ""
+"Save the downloaded acf-schema-baseline.json in your versioned theme or "
+"plugin, then add and commit it with your normal Git workflow. WordPress does "
+"not write repository files or run Git commands."
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:1067
+msgid "Download baseline JSON"
+msgstr ""
+
+#: includes/admin/class-admin-controller.php:1073
 msgid "No snapshots yet"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1022
+#: includes/admin/class-admin-controller.php:1074
 msgid ""
 "Capture the current schema to start a durable history and choose a baseline "
 "for live comparison."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1028
-#: includes/admin/class-admin-controller.php:1039
+#: includes/admin/class-admin-controller.php:1080
+#: includes/admin/class-admin-controller.php:1091
 msgid "Snapshot ID"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1029
-#: includes/admin/class-admin-controller.php:1040
+#: includes/admin/class-admin-controller.php:1081
+#: includes/admin/class-admin-controller.php:1092
 msgid "Source"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1030
-#: includes/admin/class-admin-controller.php:1041
+#: includes/admin/class-admin-controller.php:1082
+#: includes/admin/class-admin-controller.php:1093
 msgid "Captured (UTC)"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1032
-#: includes/admin/class-admin-controller.php:1043
+#: includes/admin/class-admin-controller.php:1084
+#: includes/admin/class-admin-controller.php:1095
 msgid "Baseline"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1040
+#: includes/admin/class-admin-controller.php:1092
 msgid "Automatic ACF save"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1063
+#: includes/admin/class-admin-controller.php:1115
 msgid "Rejected"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1063
-#: includes/admin/class-admin-controller.php:1105
+#: includes/admin/class-admin-controller.php:1115
+#: includes/admin/class-admin-controller.php:1157
 #, php-format
 msgid "By %1$s on %2$s."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1067
+#: includes/admin/class-admin-controller.php:1119
 msgid "Request another review"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1067
-#: includes/admin/class-admin-controller.php:1074
+#: includes/admin/class-admin-controller.php:1119
+#: includes/admin/class-admin-controller.php:1126
 msgid "Request review"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1072
+#: includes/admin/class-admin-controller.php:1124
 msgid "What should be reviewed?"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1083
+#: includes/admin/class-admin-controller.php:1135
 msgid "Review pending"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1084
+#: includes/admin/class-admin-controller.php:1136
 #, php-format
 msgid "Requested by %1$s on %2$s."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1086
+#: includes/admin/class-admin-controller.php:1138
 msgid "Record decision"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1092
+#: includes/admin/class-admin-controller.php:1144
 msgid "Decision"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1093
+#: includes/admin/class-admin-controller.php:1145
 msgid "Approve"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1093
+#: includes/admin/class-admin-controller.php:1145
 msgid "Reject"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1094
+#: includes/admin/class-admin-controller.php:1146
 msgid "Decision note"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1096
+#: includes/admin/class-admin-controller.php:1148
 msgid "Save decision"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1104
+#: includes/admin/class-admin-controller.php:1156
 msgid "Approved"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1125
+#: includes/admin/class-admin-controller.php:1177
 msgid "Requires approved review"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1133
+#: includes/admin/class-admin-controller.php:1185
 msgid "Set approved baseline"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1139
+#: includes/admin/class-admin-controller.php:1191
 msgid "You do not have permission to set a baseline."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1157
+#: includes/admin/class-admin-controller.php:1209
 msgid "You do not have permission to request a review."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1178
+#: includes/admin/class-admin-controller.php:1230
 msgid "You do not have permission to record a review decision."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1201
+#: includes/admin/class-admin-controller.php:1253
 msgid "Live schema comparison is unavailable."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1207
+#: includes/admin/class-admin-controller.php:1259
 msgid "The current ACF schema could not be compared."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1217
+#: includes/admin/class-admin-controller.php:1269
 msgid "Comparing the approved baseline with the current live schema."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1226
+#: includes/admin/class-admin-controller.php:1278
 msgid "Live schema"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1227
+#: includes/admin/class-admin-controller.php:1279
 msgid "Loaded for this request and not saved as a snapshot."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1230
+#: includes/admin/class-admin-controller.php:1282
 msgid "Release report"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1230
+#: includes/admin/class-admin-controller.php:1282
 msgid "Share a review-ready summary"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1230
+#: includes/admin/class-admin-controller.php:1282
 msgid ""
 "Download the current baseline comparison for your pull or merge request."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1230
+#: includes/admin/class-admin-controller.php:1282
 msgid "Format"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1230
+#: includes/admin/class-admin-controller.php:1282
 msgid "Download report"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1257
+#: includes/admin/class-admin-controller.php:1309
 msgid "The selected snapshots could not be compared. Try again."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1265
+#: includes/admin/class-admin-controller.php:1317
 msgid "No schema changes found between the selected snapshots."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1277
+#: includes/admin/class-admin-controller.php:1329
 msgid "Detected changes"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1278
+#: includes/admin/class-admin-controller.php:1330
 #, php-format
 msgid "%d classified changes need review."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1286
-#: includes/admin/class-admin-controller.php:1303
+#: includes/admin/class-admin-controller.php:1338
+#: includes/admin/class-admin-controller.php:1355
 msgid "Kind"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1287
-#: includes/admin/class-admin-controller.php:1304
+#: includes/admin/class-admin-controller.php:1339
+#: includes/admin/class-admin-controller.php:1356
 msgid "Node type"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1288
-#: includes/admin/class-admin-controller.php:1305
+#: includes/admin/class-admin-controller.php:1340
+#: includes/admin/class-admin-controller.php:1357
 msgid "Path"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1289
-#: includes/admin/class-admin-controller.php:1306
+#: includes/admin/class-admin-controller.php:1341
+#: includes/admin/class-admin-controller.php:1358
 msgid "Change details"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1290
-#: includes/admin/class-admin-controller.php:1307
+#: includes/admin/class-admin-controller.php:1342
+#: includes/admin/class-admin-controller.php:1359
 msgid "Severity"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1291
-#: includes/admin/class-admin-controller.php:1308
+#: includes/admin/class-admin-controller.php:1343
+#: includes/admin/class-admin-controller.php:1360
 msgid "Rationale"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1331
+#: includes/admin/class-admin-controller.php:1383
 msgid "Approved exception"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1333
+#: includes/admin/class-admin-controller.php:1385
 #, php-format
 msgid "Approved by %1$s on %2$s."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1334
+#: includes/admin/class-admin-controller.php:1386
 msgid "Revoke exception"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1345
+#: includes/admin/class-admin-controller.php:1397
 msgid "Approve temporary exception"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1350
+#: includes/admin/class-admin-controller.php:1402
 msgid "Reason"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1351
+#: includes/admin/class-admin-controller.php:1403
 msgid "Expires at (optional, UTC)"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1352
+#: includes/admin/class-admin-controller.php:1404
 msgid "Approve exception"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1429
+#: includes/admin/class-admin-controller.php:1481
 msgid "Affected code references"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1430
+#: includes/admin/class-admin-controller.php:1482
 msgid ""
 "These literal PHP ACF calls still use the field before this schema change."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1447
+#: includes/admin/class-admin-controller.php:1499
 msgid "Stored data impact"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1448
+#: includes/admin/class-admin-controller.php:1500
 msgid ""
 "Evidence identifies records to review. Values are never read or shown, and a "
 "zero result does not confirm that no data exists elsewhere."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1459
+#: includes/admin/class-admin-controller.php:1511
 msgid "Field path"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1460
+#: includes/admin/class-admin-controller.php:1512
 msgid "Storage pattern"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1464
+#: includes/admin/class-admin-controller.php:1516
 msgid "No storage query was run for this structure."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1468
+#: includes/admin/class-admin-controller.php:1520
 #, php-format
 msgid "%d matching record found"
 msgid_plural "%d matching records found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-controller.php:1491
+#: includes/admin/class-admin-controller.php:1543
 msgid "Nested ACF storage"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1492
+#: includes/admin/class-admin-controller.php:1544
 msgid ""
 "Records match a storage key derived from this field's ACF parent structure."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1495
+#: includes/admin/class-admin-controller.php:1547
 msgid ""
 "No matching nested records were found. Other unsupported storage locations "
 "are not included."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1502
+#: includes/admin/class-admin-controller.php:1554
 msgid "Coverage unknown"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1503
+#: includes/admin/class-admin-controller.php:1555
 msgid ""
 "This ACF structure does not have a storage pattern the plugin can verify "
 "safely."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1512
+#: includes/admin/class-admin-controller.php:1564
 msgid "Direct storage"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1513
+#: includes/admin/class-admin-controller.php:1565
 msgid "Records use the exact previous field name as their post-meta key."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1516
+#: includes/admin/class-admin-controller.php:1568
 msgid ""
 "No direct records were found. Nested fields and other storage locations are "
 "not included."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1528
+#: includes/admin/class-admin-controller.php:1580
 msgid "Severity guide"
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1564
+#: includes/admin/class-admin-controller.php:1616
 msgid "No breaking impact is expected."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1568
+#: includes/admin/class-admin-controller.php:1620
 msgid "Review the change before deployment."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1572
+#: includes/admin/class-admin-controller.php:1624
 msgid "The change is likely to break existing usage."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1576
+#: includes/admin/class-admin-controller.php:1628
 msgid "Resolve the breaking change before deployment."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1601
+#: includes/admin/class-admin-controller.php:1653
 msgid "Schema change."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1632
+#: includes/admin/class-admin-controller.php:1684
 msgid "You do not have permission to capture a schema snapshot."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1659
+#: includes/admin/class-admin-controller.php:1711
 msgid "Schema snapshot captured."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1665
+#: includes/admin/class-admin-controller.php:1717
 msgid ""
 "The schema snapshot could not be captured. Check that ACF is available and "
 "try again."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1670
+#: includes/admin/class-admin-controller.php:1722
 msgid "Approved baseline updated."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1671
+#: includes/admin/class-admin-controller.php:1723
 msgid ""
 "This snapshot needs an approved review before it can become the baseline."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1672
+#: includes/admin/class-admin-controller.php:1724
 msgid "Schema review requested."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1673
+#: includes/admin/class-admin-controller.php:1725
 msgid ""
 "The schema review request could not be saved. A review may already be "
 "pending."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1674
+#: includes/admin/class-admin-controller.php:1726
 msgid "Schema review decision saved."
 msgstr ""
 
-#: includes/admin/class-admin-controller.php:1675
+#: includes/admin/class-admin-controller.php:1727
 msgid ""
 "The schema review decision could not be saved. Refresh the page and try "
 "again."
-msgstr ""
-
-#: includes/admin/class-pro-feature-notice.php:30
-msgid "ACF Schema Guard Pro"
 msgstr ""

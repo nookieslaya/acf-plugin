@@ -55,6 +55,9 @@ renamed fields.
   approve, or reject a stored schema snapshot before it becomes the approved
   baseline. It will be available to all testers before future licensing makes
   advanced team workflows a Pro capability.
+- A team-friendly Admin baseline download that exports the approved snapshot in
+  the same portable JSON format used by the Git and CI workflow, without writing
+  project files or performing Git operations from WordPress.
 
 ## 4. Data - What are we storing?
 

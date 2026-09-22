@@ -40,6 +40,13 @@ Commit `acf-schema-baseline.json` for a portable baseline and optionally commit
 `acf-schema-guard-policy.json` for a shared release threshold. The repository
 policy takes priority over a local setting.
 
+After approving a baseline, you can download the same portable JSON without a
+terminal. In **History**, open the **Team baseline** card, verify the snapshot
+ID and capture time, and choose **Download baseline JSON**. Save the file as
+`acf-schema-baseline.json` in your versioned theme or plugin, then add and
+commit it through your normal Git workflow. WordPress never writes repository
+files or runs Git commands.
+
 ## Edition status
 
 Version 1.0 makes every currently available workflow Free while the product is
