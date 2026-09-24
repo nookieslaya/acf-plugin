@@ -143,3 +143,10 @@
 ## Version 1.1 usability
 
 - [x] 28. **Safe Rename Assistant** - turn a detected direct ACF field-name rename into a read-only, actionable repair plan in Changes, combining code references, bounded stored-data evidence, dry-run migration scope, verification steps, and baseline guidance without modifying any data.
+
+## Pro safe migration
+
+- [ ] 29. **Pro safe rename migration** - let an administrator turn a reviewed, direct field-name rename into a controlled data migration, while retaining all detection and evidence workflows in Free.
+  - [x] 29a. **Migration plan and entitlement foundation** - create a persistent, reviewable migration-plan contract for eligible direct renames, protect write capabilities behind the existing Pro boundary, and keep Free strictly read-only.
+  - [ ] 29b. **Backup and controlled execution** - create bounded migration backups, copy only explicitly selected direct post-meta records, skip conflicts, retain old keys, and record an auditable execution report.
+  - [ ] 29c. **Migration review and rollback workspace** - provide the Admin review, execution history, downloadable reports, and a guarded rollback limited to values written by the migration.

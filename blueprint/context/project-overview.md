@@ -1,6 +1,6 @@
 # ACF Schema Guard - Project Overview
 
-<!-- blueprint:source-hash a3a26efa347c00c4413d93f0a9862482c49c5a803b0629777ff7549610fe551e -->
+<!-- blueprint:source-hash b581429d54cd533408a7abe5fff51fc516493c1c02b8591f79ef90593998d545 -->
 
 > A WordPress plugin that identifies potentially breaking ACF schema changes before they reach production.
 
@@ -92,6 +92,9 @@ code still referring to removed or renamed fields before release.
 28. **Safe Rename Assistant** - turns a detected direct field-name rename into
     a read-only repair plan that joins code references, bounded data evidence,
     dry-run scope, verification, and baseline guidance without changing data.
+29. **Pro safe rename migration** - adds a reviewable plan, backup, controlled
+    direct post-meta migration, reporting, and guarded rollback to the existing
+    Free evidence workflow in separately delivered stages.
 
 ## Data model
 
@@ -193,6 +196,18 @@ code still referring to removed or renamed fields before release.
   `local_json` when source-health comparison applies.
 - `message` (string) - clear, non-error guidance for the selected workflow.
 
+### Future Pro migration plan
+
+- `id` (UUID string) - durable identifier for one reviewed direct rename.
+- `old_name` and `new_name` (strings) - exact post-meta keys; both must be
+  non-empty and different.
+- `status` (enum) - planned, reviewed, executing, completed, failed, or rolled
+  back.
+- `scope` (identifier-only records) - explicit candidate and conflict counts;
+  values do not belong in a plan or report.
+- execution metadata (user ID, timestamps, backup reference, result counts) -
+  audit trail for a future Pro action.
+
 ## Tech stack
 
 - **WordPress** - local plugin runtime and future plugin host.
@@ -206,10 +221,11 @@ code still referring to removed or renamed fields before release.
 ## Monetization
 
 Version `1.0.0` is Free: every currently shipped public workflow is available
-without activation, including team-workflow candidates during testing. A future
-Pro edition will add provider-backed licensing and may gate advanced team
-automation without blocking access to stored data or Free safety features. Solo
-Mode is Free and does not require ACF Local JSON.
+without activation, including team-workflow candidates during testing. Free
+retains schema detection, risk evidence, and the read-only Safe Rename Assistant.
+The future Pro edition adds controlled migration actions, without blocking
+access to stored data or Free safety features. Provider-backed licensing remains
+a later commercial feature. Solo Mode is Free and does not require ACF Local JSON.
 
 ## UI/UX
 

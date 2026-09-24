@@ -44,6 +44,19 @@ o migracji.
 Nie odczytuje wartości pola i nie zmienia danych. Dla zagnieżdżonych pól ACF
 wyświetla ograniczenie zamiast niewiarygodnego oszacowania migracji.
 
+### Fundament planu migracji Pro
+
+Gdy dostępny jest lokalny podgląd Pro lub przyszłe zweryfikowane uprawnienie
+Pro, administrator może wybrać **Prepare Pro migration plan** dla poprawnej
+bezpośredniej zmiany nazwy. Zapisany plan zawiera tylko stary i nowy klucz,
+tożsamość bieżącego schematu, ograniczone liczniki rekordów, liczbę konfliktów
+i dane review. Nie zawiera wartości pola.
+
+Przed użyciem planu przez przyszłą funkcję wykonania administrator musi dodać
+notatkę review. Jeśli wcześniej zmieni się bieżący schemat, plan zostanie
+unieważniony. Ta wersja nie wykonuje migracji, nie kopiuje wartości, nie usuwa
+starego klucza i nie cofa danych treści.
+
 ## Git i próg release
 
 Dodaj do Git `acf-schema-baseline.json`, aby współdzielić baseline, oraz

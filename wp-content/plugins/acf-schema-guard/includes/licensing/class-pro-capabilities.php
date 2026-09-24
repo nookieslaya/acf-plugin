@@ -16,6 +16,7 @@ final class ProCapabilities {
 	const CONFIGURABLE_RISK_POLICIES = 'configurable_risk_policies';
 	const APPROVED_EXCEPTIONS        = 'approved_exceptions';
 	const REVIEW_READY_REPORTS       = 'review_ready_reports';
+	const SAFE_RENAME_MIGRATIONS     = 'safe_rename_migrations';
 
 	/**
 	 * Gets every capability known to this release.
@@ -23,6 +24,20 @@ final class ProCapabilities {
 	 * @return string[]
 	 */
 	public static function all() {
+		return array(
+			self::CONFIGURABLE_RISK_POLICIES,
+			self::APPROVED_EXCEPTIONS,
+			self::REVIEW_READY_REPORTS,
+			self::SAFE_RENAME_MIGRATIONS,
+		);
+	}
+
+	/**
+	 * Gets capabilities intentionally available during the Free validation release.
+	 *
+	 * @return string[]
+	 */
+	public static function free_validation() {
 		return array(
 			self::CONFIGURABLE_RISK_POLICIES,
 			self::APPROVED_EXCEPTIONS,

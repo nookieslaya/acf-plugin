@@ -120,6 +120,8 @@ final class AdminController {
 		add_action( 'admin_post_acf_schema_guard_save_approved_exception', array( $this, 'save_approved_exception' ) );
 		add_action( 'admin_post_acf_schema_guard_revoke_approved_exception', array( $this, 'revoke_approved_exception' ) );
 		add_action( 'admin_post_acf_schema_guard_download_release_report', array( $this, 'download_release_report' ) );
+		add_action( 'admin_post_acf_schema_guard_prepare_migration_plan', array( $this, 'prepare_migration_plan' ) );
+		add_action( 'admin_post_acf_schema_guard_review_migration_plan', array( $this, 'review_migration_plan' ) );
 	}
 
 	/**
@@ -556,6 +558,79 @@ final class AdminController {
 		$roots = isset( $_POST['scanner_roots'] ) && is_array( $_POST['scanner_roots'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['scanner_roots'] ) ) : array();
 		if ( class_exists( '\\AcfSchemaGuard\\Scanner\\ScannerConfiguration' ) ) { ( new \AcfSchemaGuard\Scanner\ScannerConfiguration() )->save( is_array( $roots ) ? $roots : array() ); }
 		wp_safe_redirect( admin_url( 'admin.php?page=acf-schema-guard-settings' ) );
+		exit;
+	}
+
+	public function prepare_migration_plan() {
+		$this->assert_migration_plan_access( 'acf_schema_guard_prepare_migration_plan' );
+		$fingerprint = isset( $_POST['finding_fingerprint'] ) ? sanitize_text_field( wp_unslash( $_POST['finding_fingerprint'] ) ) : '';
+		$context     = $this->current_migration_context( $fingerprint );
+		$user        = wp_get_current_user();
+		$plan        = $context && $user && ! empty( $user->ID ) ? \AcfSchemaGuard\Plugin::instance()->migration_plans()->prepare( $context['finding'], $context['rename_plan'], $context['baseline_snapshot_id'], $context['current_schema_hash'], $user->ID ) : null;
+		$this->redirect_to_changes( $plan ? 'migration-plan-prepared' : 'migration-plan-failed' );
+	}
+
+	public function review_migration_plan() {
+		$this->assert_migration_plan_access( 'acf_schema_guard_review_migration_plan' );
+		$plan_id     = isset( $_POST['plan_id'] ) ? sanitize_text_field( wp_unslash( $_POST['plan_id'] ) ) : '';
+		$fingerprint = isset( $_POST['finding_fingerprint'] ) ? sanitize_text_field( wp_unslash( $_POST['finding_fingerprint'] ) ) : '';
+		$note        = isset( $_POST['review_note'] ) ? sanitize_textarea_field( wp_unslash( $_POST['review_note'] ) ) : '';
+		$context     = $this->current_migration_context( $fingerprint );
+		$user        = wp_get_current_user();
+		$result      = $user && ! empty( $user->ID ) ? \AcfSchemaGuard\Plugin::instance()->migration_plans()->review( $plan_id, $context ? $context['finding'] : array(), $context ? $context['current_schema_hash'] : '', $user->ID, $note ) : null;
+		$this->redirect_to_changes( $result && \AcfSchemaGuard\Migrations\MigrationPlan::INVALID === $result->status() ? 'migration-plan-invalid' : ( $result ? 'migration-plan-reviewed' : 'migration-plan-failed' ) );
+	}
+
+	private function assert_migration_plan_access( $nonce_action ) {
+		if ( ! current_user_can( $this->capability ) || ! class_exists( '\\AcfSchemaGuard\\Plugin' ) || ! \AcfSchemaGuard\Plugin::instance()->capabilities()->can( \AcfSchemaGuard\Licensing\ProCapabilities::SAFE_RENAME_MIGRATIONS )->is_allowed() ) {
+			wp_die( esc_html__( 'You do not have permission to prepare a Pro migration plan.', 'acf-schema-guard' ) );
+		}
+
+		check_admin_referer( $nonce_action );
+	}
+
+	private function current_migration_context( $fingerprint ) {
+		if ( ! is_callable( $this->analyze_live_baseline_callback ) || '' === (string) $fingerprint ) {
+			return null;
+		}
+
+		$live = call_user_func( $this->analyze_live_baseline_callback );
+		if ( ! is_object( $live ) || ! $live->is_available() ) {
+			return null;
+		}
+
+		$analysis = $live->analysis()->to_array();
+		$plans    = $this->safe_rename_plans_by_change( isset( $analysis['findings'] ) ? $analysis['findings'] : array() );
+		foreach ( isset( $analysis['findings'] ) ? $analysis['findings'] : array() as $finding ) {
+			if ( ! is_array( $finding ) || ! hash_equals( (string) $fingerprint, \AcfSchemaGuard\Licensing\FindingFingerprint::from_finding( $finding ) ) ) {
+				continue;
+			}
+			$key = $this->change_key( $finding['change'] );
+			if ( empty( $plans[ $key ][0] ) ) {
+				return null;
+			}
+			return array( 'finding' => $finding, 'rename_plan' => $plans[ $key ][0], 'baseline_snapshot_id' => $live->baseline()->id(), 'current_schema_hash' => $this->current_schema_hash() );
+		}
+
+		return null;
+	}
+
+	private function current_schema_hash() {
+		if ( ! class_exists( '\\AcfSchemaGuard\\Plugin' ) ) {
+			return '';
+		}
+
+		try {
+			$schema = \AcfSchemaGuard\Plugin::instance()->current_schema_array();
+			$json   = function_exists( 'wp_json_encode' ) ? wp_json_encode( $schema ) : json_encode( $schema );
+			return is_string( $json ) ? hash( 'sha256', $json ) : '';
+		} catch ( \RuntimeException $exception ) {
+			return '';
+		}
+	}
+
+	private function redirect_to_changes( $notice ) {
+		wp_safe_redirect( add_query_arg( 'acf_schema_guard_notice', sanitize_key( $notice ), admin_url( 'admin.php?page=acf-schema-guard-changes' ) ) );
 		exit;
 	}
 
@@ -1284,7 +1359,8 @@ final class AdminController {
 				</div>
 			</div>
 			<?php if ( class_exists( '\\AcfSchemaGuard\\Plugin' ) && \AcfSchemaGuard\Plugin::instance()->capabilities()->can( \AcfSchemaGuard\Licensing\ProCapabilities::REVIEW_READY_REPORTS )->is_allowed() ) : ?><form class="acf-schema-guard-release-export" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><div><p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Release report', 'acf-schema-guard' ); ?></p><strong><?php echo esc_html__( 'Share a review-ready summary', 'acf-schema-guard' ); ?></strong><span><?php echo esc_html__( 'Download the current baseline comparison for your pull or merge request.', 'acf-schema-guard' ); ?></span></div><input type="hidden" name="action" value="acf_schema_guard_download_release_report" /><?php wp_nonce_field( 'acf_schema_guard_download_release_report' ); ?><label><?php echo esc_html__( 'Format', 'acf-schema-guard' ); ?><select name="format"><option value="markdown">Markdown</option><option value="json">JSON</option></select></label><?php submit_button( __( 'Download report', 'acf-schema-guard' ), 'primary', 'submit', false ); ?></form><?php endif; ?>
-			<?php $this->render_comparison_results( $analysis ); ?>
+			<?php $this->render_changes_notice(); ?>
+			<?php $this->render_comparison_results( $analysis, null, array( 'baseline_snapshot_id' => $baseline->id(), 'current_schema_hash' => $this->current_schema_hash() ) ); ?>
 		</div>
 		<?php
 	}
@@ -1295,13 +1371,29 @@ final class AdminController {
 		<?php
 	}
 
+	private function render_changes_notice() {
+		$notice = isset( $_GET['acf_schema_guard_notice'] ) ? sanitize_key( wp_unslash( $_GET['acf_schema_guard_notice'] ) ) : '';
+		$messages = array(
+			'migration-plan-prepared' => array( 'success', __( 'Pro migration plan prepared. Review it before any future execution feature is available.', 'acf-schema-guard' ) ),
+			'migration-plan-reviewed' => array( 'success', __( 'Pro migration plan reviewed. No data was changed.', 'acf-schema-guard' ) ),
+			'migration-plan-invalid'  => array( 'warning', __( 'The migration plan was invalidated because the live schema changed. No data was changed.', 'acf-schema-guard' ) ),
+			'migration-plan-failed'   => array( 'error', __( 'The migration plan could not be prepared or reviewed. Check the current rename and Pro access.', 'acf-schema-guard' ) ),
+		);
+		if ( ! isset( $messages[ $notice ] ) ) {
+			return;
+		}
+		?>
+		<div class="notice notice-<?php echo esc_attr( $messages[ $notice ][0] ); ?> inline"><p><?php echo esc_html( $messages[ $notice ][1] ); ?></p></div>
+		<?php
+	}
+
 	/**
 	 * Renders classified findings for one validated schema analysis.
 	 *
 	 * @param \AcfSchemaGuard\Diff\SnapshotAnalysis $analysis Classified analysis.
 	 * @return void
 	 */
-	private function render_comparison_results( $analysis, $after_snapshot = null ) {
+	private function render_comparison_results( $analysis, $after_snapshot = null, array $migration_context = array() ) {
 		try {
 			if ( null === $analysis || null !== $after_snapshot ) {
 				$analysis = call_user_func( $this->analyze_snapshots_callback, $analysis, $after_snapshot );
@@ -1367,7 +1459,7 @@ final class AdminController {
 					</tr>
 					<?php if ( ! empty( $impacts ) || ! empty( $data_impacts ) || ! empty( $rename_plans ) ) : ?>
 						<tr class="acf-schema-guard-code-impacts">
-							<td colspan="6"><?php if ( ! empty( $rename_plans ) ) { $this->render_safe_rename_plans( $rename_plans ); } if ( ! empty( $impacts ) ) { $this->render_code_impacts( $impacts ); } if ( ! empty( $data_impacts ) ) { $this->render_stored_data_impacts( $data_impacts ); } ?></td>
+							<td colspan="6"><?php if ( ! empty( $rename_plans ) ) { $this->render_safe_rename_plans( $rename_plans, $finding, $migration_context ); } if ( ! empty( $impacts ) ) { $this->render_code_impacts( $impacts ); } if ( ! empty( $data_impacts ) ) { $this->render_stored_data_impacts( $data_impacts ); } ?></td>
 						</tr>
 					<?php endif; ?>
 				<?php endforeach; ?>
@@ -1504,7 +1596,7 @@ final class AdminController {
 		);
 	}
 
-	private function render_safe_rename_plans( array $plans ) {
+	private function render_safe_rename_plans( array $plans, array $finding = array(), array $migration_context = array() ) {
 		foreach ( $plans as $plan ) {
 			$dry_run = isset( $plan['dry_run'] ) && is_array( $plan['dry_run'] ) ? $plan['dry_run'] : array();
 			$status  = isset( $dry_run['status'] ) ? $dry_run['status'] : 'not_supported';
@@ -1525,9 +1617,50 @@ final class AdminController {
 					<li><?php echo esc_html__( 'If data must be retained, make a separate, reviewed migration decision. This assistant never changes data.', 'acf-schema-guard' ); ?></li>
 					<li><?php echo esc_html__( 'After testing, capture and approve a new baseline.', 'acf-schema-guard' ); ?></li>
 				</ol>
+				<?php $this->render_migration_plan_control( $plan, $finding, $migration_context ); ?>
 			</section>
 			<?php
 		}
+	}
+
+	private function render_migration_plan_control( array $rename_plan, array $finding, array $migration_context ) {
+		if ( empty( $migration_context['baseline_snapshot_id'] ) || empty( $migration_context['current_schema_hash'] ) || ! class_exists( '\\AcfSchemaGuard\\Plugin' ) ) {
+			return;
+		}
+
+		$plugin   = \AcfSchemaGuard\Plugin::instance();
+		$decision = $plugin->capabilities()->can( \AcfSchemaGuard\Licensing\ProCapabilities::SAFE_RENAME_MIGRATIONS );
+		?>
+		<div class="acf-schema-guard-migration-plan-control">
+			<h4><?php echo esc_html__( 'Pro migration plan', 'acf-schema-guard' ); ?></h4>
+			<?php if ( ! $decision->is_allowed() ) : ?>
+				<p><?php echo esc_html__( 'Free includes this evidence and repair guidance. Pro can save a reviewed, value-free migration plan; data execution is not available yet.', 'acf-schema-guard' ); ?></p>
+				<p><strong><?php echo esc_html( $decision->reason() ); ?></strong></p>
+				<?php return; ?>
+			<?php endif; ?>
+			<?php $stored_plan = $plugin->migration_plans()->latest_for( $finding ); ?>
+			<?php if ( $stored_plan && \AcfSchemaGuard\Migrations\MigrationPlan::REVIEWED === $stored_plan->status() ) : ?>
+				<p><strong><?php echo esc_html__( 'Plan reviewed.', 'acf-schema-guard' ); ?></strong> <?php echo esc_html__( 'It records the scope only. This release cannot execute a migration.', 'acf-schema-guard' ); ?></p>
+			<?php elseif ( $stored_plan && \AcfSchemaGuard\Migrations\MigrationPlan::DRAFT === $stored_plan->status() ) : ?>
+				<p><?php echo esc_html__( 'A draft plan is ready for review. Add a note to confirm the scope.', 'acf-schema-guard' ); ?></p>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="acf_schema_guard_review_migration_plan" />
+					<input type="hidden" name="plan_id" value="<?php echo esc_attr( $stored_plan->id() ); ?>" />
+					<input type="hidden" name="finding_fingerprint" value="<?php echo esc_attr( \AcfSchemaGuard\Licensing\FindingFingerprint::from_finding( $finding ) ); ?>" />
+					<?php wp_nonce_field( 'acf_schema_guard_review_migration_plan' ); ?>
+					<label><?php echo esc_html__( 'Review note', 'acf-schema-guard' ); ?><textarea name="review_note" required></textarea></label>
+					<?php submit_button( __( 'Mark plan reviewed', 'acf-schema-guard' ), 'secondary', 'submit', false ); ?>
+				</form>
+			<?php else : ?>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="acf_schema_guard_prepare_migration_plan" />
+					<input type="hidden" name="finding_fingerprint" value="<?php echo esc_attr( \AcfSchemaGuard\Licensing\FindingFingerprint::from_finding( $finding ) ); ?>" />
+					<?php wp_nonce_field( 'acf_schema_guard_prepare_migration_plan' ); ?>
+					<?php submit_button( __( 'Prepare Pro migration plan', 'acf-schema-guard' ), 'secondary', 'submit', false ); ?>
+				</form>
+			<?php endif; ?>
+		</div>
+		<?php
 	}
 
 	private function render_code_impacts( array $impacts ) {

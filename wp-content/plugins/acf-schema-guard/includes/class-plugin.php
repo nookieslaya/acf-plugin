@@ -89,6 +89,11 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-approved-exceptio
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-finding-fingerprint.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-approved-exception-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/licensing/class-review-report-template.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-migration-plan.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/interface-migration-plan-repository.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-migration-plan-table.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-wordpress-migration-plan-repository.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-migration-plan-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/review/class-snapshot-review.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/review/class-snapshot-review-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/admin/class-pro-feature-notice.php';
@@ -151,6 +156,7 @@ final class Plugin {
 	private $risk_policy_service = null;
 	private $approved_exception_service = null;
 	private $snapshot_review_service = null;
+	private $migration_plan_service = null;
 
 	/**
 	 * Gets the plugin instance.
@@ -264,7 +270,19 @@ final class Plugin {
 		 * filter remains the future seam for feature 25, but no current workflow
 		 * is restricted by a customer license.
 		 */
-		$state = \AcfSchemaGuard\Licensing\LicenseState::valid( \AcfSchemaGuard\Licensing\ProCapabilities::all() );
+		$state = \AcfSchemaGuard\Licensing\LicenseState::valid( \AcfSchemaGuard\Licensing\ProCapabilities::free_validation() );
+
+		/*
+		 * The development-only preview is deliberately resolved here, before the
+		 * public extension point. LocalPreviewStateProvider itself refuses to
+		 * return a valid state outside a WordPress "local" environment.
+		 */
+		$local_preview = new \AcfSchemaGuard\Licensing\LocalPreviewStateProvider();
+		$preview_state = $local_preview->state();
+
+		if ( \AcfSchemaGuard\Licensing\LicenseState::VALID === $preview_state->status() ) {
+			$state = $preview_state;
+		}
 
 		/**
 		 * Allows a future licensing client to supply a verified state.
@@ -300,6 +318,19 @@ final class Plugin {
 		}
 
 		return $this->approved_exception_service;
+	}
+
+	public function migration_plans() {
+		if ( null === $this->migration_plan_service ) {
+			global $wpdb;
+			$this->migration_plan_service = new \AcfSchemaGuard\Migrations\MigrationPlanService(
+				new \AcfSchemaGuard\Migrations\WordPressMigrationPlanRepository( $wpdb ),
+				$this->capabilities(),
+				array( \AcfSchemaGuard\Licensing\FindingFingerprint::class, 'from_finding' )
+			);
+		}
+
+		return $this->migration_plan_service;
 	}
 
 	public function snapshot_reviews() {

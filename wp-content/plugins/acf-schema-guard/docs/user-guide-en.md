@@ -39,6 +39,19 @@ review, and records that would require a later migration decision.
 It never reads field values or changes data. Nested ACF fields are shown as not
 safely simulatable, rather than receiving an unreliable migration estimate.
 
+### Pro migration-plan foundation
+
+When a local Pro preview or a future verified Pro entitlement is available, an
+administrator can choose **Prepare Pro migration plan** for an eligible direct
+rename. The saved plan contains only the old and new keys, current schema
+identity, bounded record counts, conflict count, and review metadata. It does
+not contain field values.
+
+Before a future execution feature can use the plan, an administrator must add a
+review note. If the live schema changes first, the plan is invalidated. This
+release cannot execute a migration, copy a value, delete an old key, or roll
+back content data.
+
 ## Team workflow
 
 Use **History** as a small local review queue. The requester explains what a
@@ -60,12 +73,13 @@ files or runs Git commands.
 
 ## Edition status
 
-Version 1.0 makes every currently available workflow Free while the product is
-being validated. The local development preview remains only as preparation for
-future licensing; it does not hide current functionality. A later commercial
-edition may configure the release threshold, create auditable temporary
-exceptions, and export release reports. Use **Changes** to download Markdown or
-JSON; use WP-CLI for CI. A Markdown template may contain these markers:
+Version 1.0 keeps every safety-analysis workflow Free while the product is being
+validated. The local development preview now also demonstrates the future Pro
+migration-plan action; Free keeps its complete read-only Safe Rename Assistant.
+A later commercial edition may configure the release threshold, create
+auditable temporary exceptions, export release reports, and enable controlled
+migration actions. Use **Changes** to download Markdown or JSON; use WP-CLI for
+CI. A Markdown template may contain these markers:
 
 ```md
 <!-- acf-schema-guard:summary -->

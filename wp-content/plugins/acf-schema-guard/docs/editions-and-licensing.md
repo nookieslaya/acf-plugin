@@ -11,7 +11,9 @@ created by those workflows.
 The plugin does not contact a licensing service, accept production license keys,
 or offer a customer activation screen. It has a provider-neutral capability
 boundary for future Pro workflows. Without a verified provider state, every
-public workflow remains available as Free functionality.
+public read-only workflow remains available as Free functionality. The new Pro
+migration-plan action is an intentional exception: it can prepare and review
+plugin-owned plan metadata, but it cannot execute a migration in this release.
 
 ## Internal local preview
 
@@ -222,6 +224,7 @@ repeatable team workflows that make a shared release process easier to enforce.
 | Configurable risk policies and approved exceptions | Pro | Teams can align classifications and release gates with their own deployment policy. |
 | Pull-request and merge-request reports, annotations, and review-ready summaries | Pro | These provide collaboration and review automation beyond the local safety workflow. |
 | Shared team policy distribution and centrally managed project rules | Pro | This is a multi-site, multi-user governance workflow rather than a local analysis requirement. |
+| Direct field-name migration plan preparation and review | Pro | This adds an auditable write-path for plugin plan metadata while Free retains all rename evidence and repair guidance. |
 | Future advanced integrations | Pro, evaluated individually | An integration is Pro only when it adds team automation and does not hide raw safety evidence or block Free exports. |
 
 The current release has no customer-facing Pro activation or production license

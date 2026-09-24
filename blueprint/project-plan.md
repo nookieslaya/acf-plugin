@@ -61,6 +61,9 @@ renamed fields.
 - A read-only Safe Rename Assistant that turns a detected ACF field-name change
   into a concrete repair plan using existing code-reference and stored-data
   evidence, without copying, deleting, or modifying WordPress data.
+- A future Pro safe-migration workflow that retains the Free analysis and repair
+  plan, but lets an administrator review, back up, execute, report, and, where
+  safe, roll back a direct post-meta field-name migration.
 
 ## 4. Data - What are we storing?
 
@@ -85,6 +88,10 @@ renamed fields.
 - Review records for stored snapshots: request author and note, reviewer and
   decision note, timestamps, status, and the snapshot ID. Review records are
   local WordPress data and never modify ACF definitions or content.
+- Future Pro migration plans and execution records: the selected direct rename,
+  explicit record scope, status, administrator identity, timestamps, backup
+  reference, skipped conflicts, and rollback eligibility. No field values are
+  stored in plan or report records.
 
 ## 5. Tech - What stack are we using?
 
@@ -99,8 +106,9 @@ renamed fields.
 
 ## 6. Monetize - How will this make money?
 
-Free provides core schema safety, Local JSON health, PHP code usage, WP-CLI, and
-reports. Pro will add advanced team workflows without blocking access to stored
+Free provides core schema safety, Local JSON health, PHP code usage, WP-CLI,
+reports, and read-only rename analysis. Pro will add advanced team workflows and
+controlled direct field-name migration without blocking access to stored
 snapshots or Free safety features when a license is absent or expires.
 Solo Mode is a Free workflow. It does not require ACF Local JSON and must not
 present its absence as a schema-health error.
