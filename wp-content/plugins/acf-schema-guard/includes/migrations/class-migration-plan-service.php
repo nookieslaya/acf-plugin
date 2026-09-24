@@ -35,11 +35,13 @@ final class MigrationPlanService {
 		}
 
 		$dry_run = $rename_plan['dry_run'];
+		$field_key = isset( $finding['change']['after']['key'] ) ? (string) $finding['change']['after']['key'] : '';
 		$plan    = new MigrationPlan(
 			array(
 				'id'                  => call_user_func( $this->id_callback ),
 				'old_name'            => $rename_plan['old_name'],
 				'new_name'            => $rename_plan['new_name'],
+				'field_key'           => $field_key,
 				'finding_fingerprint' => call_user_func( $this->fingerprint_callback, $finding ),
 				'baseline_snapshot_id' => (string) $baseline_snapshot_id,
 				'current_schema_hash' => (string) $current_schema_hash,
@@ -78,6 +80,8 @@ final class MigrationPlanService {
 		return $this->repository->latest_for_fingerprint( call_user_func( $this->fingerprint_callback, $finding ) );
 	}
 
+	public function find( $plan_id ) { return $this->repository->find( $plan_id ); }
+
 	private function can_manage() {
 		return $this->capabilities->can( ProCapabilities::SAFE_RENAME_MIGRATIONS )->is_allowed();
 	}
@@ -89,6 +93,9 @@ final class MigrationPlanService {
 			&& 'field' === ( isset( $change['node_type'] ) ? $change['node_type'] : '' )
 			&& empty( $change['context']['ancestors'] )
 			&& isset( $change['before']['name'], $change['after']['name'], $rename_plan['old_name'], $rename_plan['new_name'], $dry_run['old_record_count'], $dry_run['conflict_count'], $dry_run['migration_candidate_count'] )
+			&& ! empty( $change['before']['key'] )
+			&& ! empty( $change['after']['key'] )
+			&& $change['before']['key'] === $change['after']['key']
 			&& '' !== (string) $change['before']['name']
 			&& '' !== (string) $change['after']['name']
 			&& $change['before']['name'] !== $change['after']['name']

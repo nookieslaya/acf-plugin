@@ -48,6 +48,15 @@ wyświetla ograniczenie zamiast niewiarygodnego oszacowania migracji.
 
 Gdy dostępny jest lokalny podgląd Pro lub przyszłe zweryfikowane uprawnienie
 Pro, administrator może wybrać **Prepare Pro migration plan** dla poprawnej
+
+### Kontrolowana migracja bezpośrednia
+
+Po zatwierdzeniu planu Pro zakładka Changes pokazuje maksymalnie 20 aktualnych
+rekordów bez konfliktu. Zaznacz rekordy pojedynczo, potwierdź akcję i skopiuj
+tylko ich bezpośrednie wartości pod nową nazwę ACF. Stary klucz, wartość i
+referencja ACF pozostają bez zmian. Rekord konfliktowy, nieaktualny, brakujący
+albo niezaznaczony nie zostanie zmodyfikowany. Dziennik wykonania zawiera tylko
+identyfikatory oraz liczniki, nigdy wartości pól.
 bezpośredniej zmiany nazwy. Zapisany plan zawiera tylko stary i nowy klucz,
 tożsamość bieżącego schematu, ograniczone liczniki rekordów, liczbę konfliktów
 i dane review. Nie zawiera wartości pola.

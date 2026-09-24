@@ -43,6 +43,15 @@ safely simulatable, rather than receiving an unreliable migration estimate.
 
 When a local Pro preview or a future verified Pro entitlement is available, an
 administrator can choose **Prepare Pro migration plan** for an eligible direct
+
+### Controlled direct migration
+
+After a Pro plan is reviewed, Changes lists up to 20 current conflict-free
+records. Select records individually, confirm the action, and copy only those
+direct values to the new ACF name. The old value and its ACF reference remain in
+place. A conflicting, stale, missing, or unselected record is not changed.
+Execution records and the rollback journal contain identifiers and counts only,
+never field values.
 rename. The saved plan contains only the old and new keys, current schema
 identity, bounded record counts, conflict count, and review metadata. It does
 not contain field values.

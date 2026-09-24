@@ -38,5 +38,6 @@ register_activation_hook(
 
 		\AcfSchemaGuard\Snapshots\SnapshotTable::install( $wpdb );
 		\AcfSchemaGuard\Migrations\MigrationPlanTable::install( $wpdb );
+		\AcfSchemaGuard\Migrations\MigrationExecutionTable::install( $wpdb );
 	}
 );

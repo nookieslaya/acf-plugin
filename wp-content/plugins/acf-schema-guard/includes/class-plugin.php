@@ -94,6 +94,14 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/interface-migration-pl
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-migration-plan-table.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-wordpress-migration-plan-repository.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-migration-plan-service.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-migration-execution.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-migration-backup-journal.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-migration-execution-table.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/interface-direct-meta-migration-repository.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-wordpress-direct-meta-migration-repository.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-migration-execution-service.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/interface-migration-execution-audit-repository.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-wordpress-migration-execution-audit-repository.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/review/class-snapshot-review.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/review/class-snapshot-review-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/admin/class-pro-feature-notice.php';
@@ -157,6 +165,7 @@ final class Plugin {
 	private $approved_exception_service = null;
 	private $snapshot_review_service = null;
 	private $migration_plan_service = null;
+	private $migration_execution_service = null;
 
 	/**
 	 * Gets the plugin instance.
@@ -331,6 +340,18 @@ final class Plugin {
 		}
 
 		return $this->migration_plan_service;
+	}
+
+	public function migration_executor() {
+		if ( null === $this->migration_execution_service ) {
+			global $wpdb;
+			$this->migration_execution_service = new \AcfSchemaGuard\Migrations\MigrationExecutionService(
+				new \AcfSchemaGuard\Migrations\WordPressDirectMetaMigrationRepository( $wpdb ),
+				$this->capabilities(),
+				new \AcfSchemaGuard\Migrations\WordPressMigrationExecutionAuditRepository( $wpdb )
+			);
+		}
+		return $this->migration_execution_service;
 	}
 
 	public function snapshot_reviews() {

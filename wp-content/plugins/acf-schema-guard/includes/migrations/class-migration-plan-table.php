@@ -46,6 +46,7 @@ final class MigrationPlanTable {
 id char(36) NOT NULL,
 old_name varchar(191) NOT NULL,
 new_name varchar(191) NOT NULL,
+field_key varchar(191) NOT NULL,
 finding_fingerprint char(64) NOT NULL,
 baseline_snapshot_id char(36) NOT NULL DEFAULT '',
 current_schema_hash char(64) NOT NULL,

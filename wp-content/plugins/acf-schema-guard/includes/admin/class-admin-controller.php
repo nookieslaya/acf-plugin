@@ -122,6 +122,7 @@ final class AdminController {
 		add_action( 'admin_post_acf_schema_guard_download_release_report', array( $this, 'download_release_report' ) );
 		add_action( 'admin_post_acf_schema_guard_prepare_migration_plan', array( $this, 'prepare_migration_plan' ) );
 		add_action( 'admin_post_acf_schema_guard_review_migration_plan', array( $this, 'review_migration_plan' ) );
+		add_action( 'admin_post_acf_schema_guard_execute_migration_plan', array( $this, 'execute_migration_plan' ) );
 	}
 
 	/**
@@ -579,6 +580,19 @@ final class AdminController {
 		$user        = wp_get_current_user();
 		$result      = $user && ! empty( $user->ID ) ? \AcfSchemaGuard\Plugin::instance()->migration_plans()->review( $plan_id, $context ? $context['finding'] : array(), $context ? $context['current_schema_hash'] : '', $user->ID, $note ) : null;
 		$this->redirect_to_changes( $result && \AcfSchemaGuard\Migrations\MigrationPlan::INVALID === $result->status() ? 'migration-plan-invalid' : ( $result ? 'migration-plan-reviewed' : 'migration-plan-failed' ) );
+	}
+
+	public function execute_migration_plan() {
+		$this->assert_migration_plan_access( 'acf_schema_guard_execute_migration_plan' );
+		$plan_id = isset( $_POST['plan_id'] ) ? sanitize_text_field( wp_unslash( $_POST['plan_id'] ) ) : '';
+		$ids = isset( $_POST['post_ids'] ) && is_array( $_POST['post_ids'] ) ? array_map( 'absint', wp_unslash( $_POST['post_ids'] ) ) : array();
+		if ( empty( $_POST['confirm_migration'] ) ) { $this->redirect_to_changes( 'migration-execution-failed' ); }
+		$plan = \AcfSchemaGuard\Plugin::instance()->migration_plans()->find( $plan_id );
+		$user = wp_get_current_user();
+		if ( ! $plan || ! $user || empty( $user->ID ) ) { $this->redirect_to_changes( 'migration-execution-failed' ); }
+		$execution = new \AcfSchemaGuard\Migrations\MigrationExecution( array( 'id' => wp_generate_uuid4(), 'plan_id' => $plan->id(), 'finding_fingerprint' => $plan->fingerprint(), 'current_schema_hash' => $plan->schema_hash(), 'status' => \AcfSchemaGuard\Migrations\MigrationExecution::RUNNING, 'requested_by' => $user->ID, 'requested_at' => gmdate( 'Y-m-d H:i:s' ), 'selected_count' => count( $ids ), 'copied_count' => 0, 'skipped_count' => 0, 'conflict_count' => 0, 'failed_count' => 0 ) );
+		$result = \AcfSchemaGuard\Plugin::instance()->migration_executor()->execute( $execution, $plan, $ids );
+		$this->redirect_to_changes( empty( $result ) ? 'migration-execution-failed' : 'migration-executed' );
 	}
 
 	private function assert_migration_plan_access( $nonce_action ) {
@@ -1378,6 +1392,8 @@ final class AdminController {
 			'migration-plan-reviewed' => array( 'success', __( 'Pro migration plan reviewed. No data was changed.', 'acf-schema-guard' ) ),
 			'migration-plan-invalid'  => array( 'warning', __( 'The migration plan was invalidated because the live schema changed. No data was changed.', 'acf-schema-guard' ) ),
 			'migration-plan-failed'   => array( 'error', __( 'The migration plan could not be prepared or reviewed. Check the current rename and Pro access.', 'acf-schema-guard' ) ),
+			'migration-executed'      => array( 'success', __( 'Selected records were processed. Old keys were retained.', 'acf-schema-guard' ) ),
+			'migration-execution-failed' => array( 'error', __( 'No selected records could be migrated. Review the current candidates and plan.', 'acf-schema-guard' ) ),
 		);
 		if ( ! isset( $messages[ $notice ] ) ) {
 			return;
@@ -1640,7 +1656,17 @@ final class AdminController {
 			<?php endif; ?>
 			<?php $stored_plan = $plugin->migration_plans()->latest_for( $finding ); ?>
 			<?php if ( $stored_plan && \AcfSchemaGuard\Migrations\MigrationPlan::REVIEWED === $stored_plan->status() ) : ?>
-				<p><strong><?php echo esc_html__( 'Plan reviewed.', 'acf-schema-guard' ); ?></strong> <?php echo esc_html__( 'It records the scope only. This release cannot execute a migration.', 'acf-schema-guard' ); ?></p>
+				<p><strong><?php echo esc_html__( 'Plan reviewed.', 'acf-schema-guard' ); ?></strong> <?php echo esc_html__( 'Select current direct records to copy. Existing old keys are retained.', 'acf-schema-guard' ); ?></p>
+				<?php $candidates = $plugin->migration_executor()->candidates( $stored_plan ); ?>
+				<?php if ( empty( $candidates ) ) : ?><p><?php echo esc_html__( 'No conflict-free records are currently available for this plan.', 'acf-schema-guard' ); ?></p>
+				<?php else : ?><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="acf_schema_guard_execute_migration_plan" />
+					<input type="hidden" name="plan_id" value="<?php echo esc_attr( $stored_plan->id() ); ?>" />
+					<?php wp_nonce_field( 'acf_schema_guard_execute_migration_plan' ); ?>
+					<?php foreach ( $candidates as $candidate ) : ?><label><input type="checkbox" name="post_ids[]" value="<?php echo esc_attr( $candidate['post_id'] ); ?>" /> <?php echo esc_html( sprintf( __( 'Record #%d', 'acf-schema-guard' ), $candidate['post_id'] ) ); ?></label><br /><?php endforeach; ?>
+					<label><input type="checkbox" name="confirm_migration" value="1" required /> <?php echo esc_html__( 'I understand that new meta keys will be added and old keys will remain.', 'acf-schema-guard' ); ?></label>
+					<?php submit_button( __( 'Copy selected records', 'acf-schema-guard' ), 'primary', 'submit', false ); ?>
+				</form><?php endif; ?>
 			<?php elseif ( $stored_plan && \AcfSchemaGuard\Migrations\MigrationPlan::DRAFT === $stored_plan->status() ) : ?>
 				<p><?php echo esc_html__( 'A draft plan is ready for review. Add a note to confirm the scope.', 'acf-schema-guard' ); ?></p>
 				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">

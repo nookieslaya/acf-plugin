@@ -54,6 +54,7 @@ final class WordPressMigrationPlanRepository implements MigrationPlanRepository 
 			'id'                  => $data['id'],
 			'old_name'            => $data['old_name'],
 			'new_name'            => $data['new_name'],
+			'field_key'           => $data['field_key'],
 			'finding_fingerprint' => $data['finding_fingerprint'],
 			'baseline_snapshot_id' => $data['baseline_snapshot_id'],
 			'current_schema_hash' => $data['current_schema_hash'],

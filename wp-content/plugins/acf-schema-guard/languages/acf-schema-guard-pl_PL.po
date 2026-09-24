@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ACF Schema Guard 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-22 20:08+0200\n"
+"POT-Creation-Date: 2026-09-24 19:51+0200\n"
 "PO-Revision-Date: 2026-09-14 19:29+0200\n"
 "Last-Translator: ACF Schema Guard contributors\n"
 "Language-Team: Polish\n"
@@ -73,26 +73,26 @@ msgstr "Ustawienia"
 msgid "Configuration controls will appear here when settings are supported."
 msgstr "Opcje konfiguracji pojawią się tutaj, gdy zostaną udostępnione."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:136
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:137
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:138
 msgid "ACF Schema Guard"
 msgstr "ACF Schema Guard"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:183
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:184
 msgid "You do not have permission to access this page."
 msgstr "Nie masz uprawnień do wyświetlenia tej strony."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:190
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:191
 msgid "The requested ACF Schema Guard page is not available."
 msgstr "Żądana strona ACF Schema Guard jest niedostępna."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:231
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:232
 msgid "This read-only section has no data or actions available yet."
 msgstr ""
 "Ta sekcja jest obecnie tylko do odczytu i nie zawiera jeszcze danych ani "
 "dostępnych działań."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:252
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:253
 msgid ""
 "Review the current ACF schema safety posture, then continue with the "
 "workflow that needs attention."
@@ -100,138 +100,138 @@ msgstr ""
 "Sprawdź aktualny stan bezpieczeństwa struktury ACF, a następnie przejdź do "
 "obszaru wymagającego uwagi."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:256
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1251
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1351
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:257
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1265
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1365
 msgid "Approved baseline"
 msgstr "Zatwierdzona wersja bazowa"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:259
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:260
 msgid "Open history"
 msgstr "Otwórz historię"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:263
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:264
 msgid "Live schema comparison"
 msgstr "Porównanie z bieżącą strukturą"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:267
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:268
 msgid "Review changes"
 msgstr "Sprawdź zmiany"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:271
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:272
 msgid "Schema source"
 msgstr "Źródło struktury"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:271
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:272
 msgid "Database and Local JSON"
 msgstr "Baza danych i Local JSON"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:275
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:276
 msgid "Review field groups"
 msgstr "Sprawdź grupy pól"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:279
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1162
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1173
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:280
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1176
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1187
 msgid "Team review"
 msgstr "Przegląd zespołowy"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:282
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:283
 msgid "Open review queue"
 msgstr "Otwórz kolejkę review"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:287
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:288
 msgid "Continue your review"
 msgstr "Kontynuuj sprawdzanie"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:289
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:290
 msgid "Set or review the approved database baseline"
 msgstr "Ustaw lub sprawdź zatwierdzoną wersję bazową z bazy danych"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:290
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:291
 msgid "Record a decision for pending schema reviews"
 msgstr "Zapisz decyzję dla oczekujących przeglądów struktury"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:291
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:292
 msgid "Inspect current PHP ACF references"
 msgstr "Sprawdź bieżące odwołania do ACF w kodzie PHP"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:292
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:293
 msgid "Choose themes and plugins for code analysis"
 msgstr "Wybierz motywy i wtyczki do analizy kodu"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:320
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1803
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:321
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1829
 msgid "Safe"
 msgstr "Bezpieczne"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:321
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1807
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:322
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1833
 msgid "Warning"
 msgstr "Ostrzeżenie"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:322
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1811
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:323
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1837
 msgid "High"
 msgstr "Wysokie"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:323
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1815
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:324
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1841
 msgid "Critical"
 msgstr "Krytyczne"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:324
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1042
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:325
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1056
 msgid "Aligned"
 msgstr "Zgodne"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:325
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1042
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:326
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1056
 msgid "Database only"
 msgstr "Tylko baza danych"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:326
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1042
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:327
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1056
 msgid "Local JSON only"
 msgstr "Tylko Local JSON"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:327
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1042
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:328
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1056
 msgid "Divergent"
 msgstr "Niezgodne"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:342
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:343
 msgid "Choose the themes and plugins to include in code analysis."
 msgstr ""
 "Wybierz motywy i wtyczki, które mają zostać uwzględnione w analizie kodu."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:348
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:349
 msgid "Scanner scope"
 msgstr "Zakres skanowania"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:349
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:350
 msgid "Include source roots"
 msgstr "Uwzględnij katalogi źródłowe"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:350
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:351
 msgid "Only selected locations are scanned for literal PHP ACF calls."
 msgstr ""
 "Tylko wybrane lokalizacje są skanowane pod kątem bezpośrednich wywołań "
 "funkcji ACF w PHP."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:361
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:362
 msgid "Save scanner roots"
 msgstr "Zapisz zakres skanowania"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:367
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:368
 msgid "Edition"
 msgstr "Wersja"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:368
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:369
 msgid "ACF Schema Guard 1.0"
 msgstr "ACF Schema Guard 1.0"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:369
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:370
 msgid ""
 "This release includes all currently available features in the Free edition. "
 "Production Pro licensing is planned for a future release."
@@ -239,24 +239,24 @@ msgstr ""
 "To wydanie zawiera wszystkie obecnie dostępne funkcje w wersji Free. "
 "Produkcyjne licencjonowanie Pro jest planowane w przyszłym wydaniu."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:374
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:375
 msgid "Release policy"
 msgstr "Zasady wydania"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:374
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:375
 msgid "Risk threshold"
 msgstr "Próg ryzyka"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:374
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:375
 msgid "Choose the lowest severity that blocks a release check."
 msgstr ""
 "Wybierz najniższy poziom ryzyka, który ma blokować kontrolę przed wydaniem."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:375
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:376
 msgid "Team policy active"
 msgstr "Aktywne zasady zespołu"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:375
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:376
 #, php-format
 msgid ""
 "The repository file %1$s sets the active %2$s threshold. It takes priority "
@@ -265,23 +265,23 @@ msgstr ""
 "Plik %1$s w repozytorium ustawia aktywny próg %2$s. Ma on pierwszeństwo "
 "przed lokalnym ustawieniem tej witryny."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:376
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:377
 msgid "Save risk policy"
 msgstr "Zapisz zasady ryzyka"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:376
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:377
 msgid "Download team policy JSON"
 msgstr "Pobierz zasady zespołu w JSON"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:381
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:382
 msgid "Local development"
 msgstr "Środowisko lokalne"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:382
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:383
 msgid "Edition preview"
 msgstr "Podgląd wersji"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:383
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:384
 msgid ""
 "All version 1.0 features are currently Free. This local-only switch is "
 "retained to prepare future licensing development and does not hide current "
@@ -291,41 +291,38 @@ msgstr ""
 "tylko lokalnie pozostaje przygotowaniem do przyszłego licencjonowania i nie "
 "ukrywa obecnych funkcji."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:389
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:390
 msgid "Switch to Free preview"
 msgstr "Przełącz na podgląd Free"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:389
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:390
 msgid "Switch to Pro preview"
 msgstr "Przełącz na podgląd Pro"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:426
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:427
 msgid "No reviews pending"
 msgstr "Brak oczekujących przeglądów"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:427
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:428
 msgid "Request a review from History before approving a new baseline."
 msgstr ""
 "Poproś o przegląd w Historii przed zatwierdzeniem nowej wersji bazowej."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:433
-#, php-format
-msgid "%d review pending"
-msgid_plural "%d reviews pending"
-msgstr[0] "%d oczekujący przegląd"
-msgstr[1] "%d oczekujące przeglądy"
-msgstr[2] "%d oczekujących przeglądów"
-
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:434
+#, fuzzy, php-format
+msgid "%d review pending"
+msgstr "%d oczekujący przegląd"
+
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:435
 msgid "A team member needs to approve or reject a stored schema snapshot."
 msgstr ""
 "Członek zespołu musi zatwierdzić albo odrzucić zapisaną migawkę struktury."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:463
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:464
 msgid "Baseline needed"
 msgstr "Wymagana wersja bazowa"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:464
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:465
 msgid ""
 "Choose a stored snapshot as the approved baseline before reviewing live "
 "changes."
@@ -333,54 +330,51 @@ msgstr ""
 "Przed sprawdzaniem bieżących zmian wybierz zapisaną migawkę jako "
 "zatwierdzoną wersję bazową."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:470
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:471
 msgid "Baseline approved"
 msgstr "Wersja bazowa zatwierdzona"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:471
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:472
 #, php-format
 msgid "Captured %s."
 msgstr "Zapisano %s."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:485
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:486
 msgid "Comparison unavailable"
 msgstr "Porównanie niedostępne"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:486
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:487
 msgid "A live schema comparison is not available yet."
 msgstr "Porównanie z bieżącą strukturą nie jest jeszcze dostępne."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:505
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:506
 msgid "Review required"
 msgstr "Wymagane sprawdzenie"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:505
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:506
 msgid "No high-risk changes"
 msgstr "Brak zmian wysokiego ryzyka"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:506
-#, php-format
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:507
+#, fuzzy, php-format
 msgid "%d schema finding detected."
-msgid_plural "%d schema findings detected."
-msgstr[0] "%d wykryta zmiana w strukturze."
-msgstr[1] "%d wykryte zmiany w strukturze."
-msgstr[2] "%d wykrytych zmian w strukturze."
+msgstr "%d wykryta zmiana w strukturze."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:521
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1019
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:522
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1033
 msgid "Source health unavailable"
 msgstr "Stan źródeł niedostępny"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:522
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:523
 msgid "ACF Local JSON could not be inspected."
 msgstr "Nie udało się sprawdzić ACF Local JSON."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:527
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1016
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:528
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1030
 msgid "Database-first mode"
 msgstr "Tryb oparty na bazie danych"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:527
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:528
 msgid ""
 "Local JSON is not configured. Baseline, Changes, Code Usage, and data impact "
 "remain available."
@@ -388,89 +382,86 @@ msgstr ""
 "Local JSON nie jest skonfigurowany. Wersja bazowa, zmiany, użycie w kodzie i "
 "analiza wpływu na dane nadal są dostępne."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:540
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:541
 msgid "Source review needed"
 msgstr "Wymagane sprawdzenie źródeł"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:540
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:541
 msgid "Sources aligned"
 msgstr "Źródła są zgodne"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:541
-#, php-format
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:542
+#, fuzzy, php-format
 msgid "%d field group needs source review."
-msgid_plural "%d field groups need source review."
-msgstr[0] "%d grupa pól wymaga sprawdzenia źródeł."
-msgstr[1] "%d grupy pól wymagają sprawdzenia źródeł."
-msgstr[2] "%d grup pól wymaga sprawdzenia źródeł."
+msgstr "%d grupa pól wymaga sprawdzenia źródeł."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:547
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:548
 #, php-format
 msgid "Theme: %s"
 msgstr "Motyw: %s"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:549
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:550
 #, php-format
 msgid "Plugin: %s"
 msgstr "Wtyczka: %s"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:556
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:557
 msgid "You do not have permission to update scanner settings."
 msgstr "Nie masz uprawnień do zmiany ustawień skanera."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:586
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:600
 msgid "You do not have permission to prepare a Pro migration plan."
 msgstr "Nie masz uprawnień do przygotowania planu migracji Pro."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:638
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:652
 msgid "You do not have permission to update risk policy."
 msgstr "Nie masz uprawnień do zmiany zasad ryzyka."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:646
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:660
 msgid "You do not have permission to change edition preview."
 msgstr "Nie masz uprawnień do zmiany podglądu wersji."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:653
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:667
 msgid "You do not have permission to export risk policy."
 msgstr "Nie masz uprawnień do eksportu zasad ryzyka."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:665
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:679
 msgid "You do not have permission to download the approved baseline."
 msgstr "Nie masz uprawnień do pobrania zatwierdzonego baseline."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:672
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:686
 msgid "Set an approved baseline before downloading a team baseline file."
 msgstr ""
 "Ustaw zatwierdzony baseline przed pobraniem pliku baseline dla zespołu."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:678
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:692
 msgid "The approved baseline could not be encoded as JSON."
 msgstr "Nie udało się zakodować zatwierdzonego baseline jako JSON."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:689
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:703
 msgid "You do not have permission to approve exceptions."
 msgstr "Nie masz uprawnień do zatwierdzania wyjątków."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:695
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:709
 msgid ""
 "This exception could not be saved. Check the reason, expiry, and Pro access."
 msgstr ""
 "Nie udało się zapisać wyjątku. Sprawdź powód, datę wygaśnięcia i dostęp do "
 "wersji Pro."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:700
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:714
 msgid "You do not have permission to revoke exceptions."
 msgstr "Nie masz uprawnień do wycofywania wyjątków."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:708
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:722
 msgid "You do not have permission to download release reports."
 msgstr "Nie masz uprawnień do pobierania raportów wydania."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:711
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:725
 msgid "An approved baseline is required before exporting a report."
 msgstr "Przed eksportem raportu wymagana jest zatwierdzona wersja bazowa."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:744
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:758
 msgid ""
 "Literal PHP ACF references found in the configured themes and plugins as "
 "they exist now. Each field groups all of its real call sites together."
@@ -479,49 +470,46 @@ msgstr ""
 "motywów i wtyczek. Dla każdego pola pokazane są wszystkie wykryte miejsca "
 "użycia."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:748
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:860
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:762
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:874
 msgid "Field"
 msgstr "Pole"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:750
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:860
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:764
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:874
 msgid "All fields"
 msgstr "Wszystkie pola"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:756
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:770
 msgid "File"
 msgstr "Plik"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:758
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:772
 msgid "All files"
 msgstr "Wszystkie pliki"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:764
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:778
 msgid "ACF function"
 msgstr "Funkcja ACF"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:766
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:780
 msgid "All supported functions"
 msgstr "Wszystkie obsługiwane funkcje"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:772
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:786
 msgid "Filter references"
 msgstr "Filtruj odwołania"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:776
-#, php-format
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:790
+#, fuzzy, php-format
 msgid "%d reference shown"
-msgid_plural "%d references shown"
-msgstr[0] "Wyświetlono %d odwołanie."
-msgstr[1] "Wyświetlono %d odwołania."
-msgstr[2] "Wyświetlono %d odwołań."
+msgstr "Wyświetlono %d odwołanie."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:783
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:797
 msgid "No matching references"
 msgstr "Brak pasujących odwołań"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:784
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:798
 msgid ""
 "Try changing the filters, or choose source roots in Settings before scanning "
 "again."
@@ -529,23 +517,20 @@ msgstr ""
 "Zmień filtry albo wybierz katalogi do skanowania w Ustawieniach i uruchom "
 "skanowanie ponownie."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:793
-#, php-format
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:807
+#, fuzzy, php-format
 msgid "%d reference"
-msgid_plural "%d references"
-msgstr[0] "%d odwołanie"
-msgstr[1] "%d odwołania"
-msgstr[2] "%d odwołań"
+msgstr "%d odwołanie"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:795
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:809
 msgid "Show call sites"
 msgstr "Pokaż miejsca użycia"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:803
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:817
 msgid "PHP context around this call."
 msgstr "Fragment kodu PHP wokół tego wywołania."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:859
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:873
 msgid ""
 "This workspace is in development. It complements Code Usage by starting with "
 "ACF fields that have no detected literal PHP reference. Review dynamic "
@@ -556,7 +541,7 @@ msgstr ""
 "struktury sprawdź także wywołania dynamiczne, nieskanowany kod i zapisane "
 "dane."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:860
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:874
 msgid ""
 "These are review signals from configured PHP scanner roots. They never mean "
 "a field is safe to delete."
@@ -564,28 +549,28 @@ msgstr ""
 "To są jedynie wskazówki na podstawie skonfigurowanego skanowania PHP. Brak "
 "odwołań nigdy nie oznacza automatycznie, że pole można bezpiecznie usunąć."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:860
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:874
 msgid "Review state"
 msgstr "Stan weryfikacji"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:860
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:874
 msgid "Potentially unused"
 msgstr "Potencjalnie nieużywane"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:860
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:946
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:874
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:960
 msgid "Manual review required"
 msgstr "Wymagana ręczna weryfikacja"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:860
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:874
 msgid "Filter fields"
 msgstr "Filtruj pola"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:860
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:874
 msgid "No fields available for review"
 msgstr "Brak pól do sprawdzenia"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:860
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:874
 msgid ""
 "Confirm that ACF field groups and scanner roots are available, then scan "
 "again."
@@ -593,19 +578,19 @@ msgstr ""
 "Sprawdź, czy grupy pól ACF i katalogi do skanowania są dostępne, a następnie "
 "uruchom skanowanie ponownie."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:860
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:874
 msgid "Literal references"
 msgstr "Bezpośrednie odwołania"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:860
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:874
 msgid "State"
 msgstr "Stan"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:942
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:956
 msgid "Dynamic ACF calls need manual review"
 msgstr "Dynamiczne wywołania ACF wymagają ręcznej weryfikacji"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:943
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:957
 msgid ""
 "These supported calls use a non-literal field argument. ACF Schema Guard "
 "cannot safely determine which field they access, so they are not linked to a "
@@ -615,17 +600,17 @@ msgstr ""
 "może jednoznacznie ustalić, do którego pola się odwołują, dlatego nie są "
 "przypisywane do konkretnej zmiany struktury."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:970
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1044
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:984
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1058
 msgid "Unknown"
 msgstr "Nieznany"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:983
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:988
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:997
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1002
 msgid "Source preview is unavailable."
 msgstr "Podgląd źródła jest niedostępny."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1014
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1028
 msgid ""
 "Your ACF schema is managed in the WordPress database. Local JSON comparison "
 "is optional and is not required for schema safety."
@@ -634,7 +619,7 @@ msgstr ""
 "JSON jest opcjonalne i nie jest wymagane do kontroli bezpieczeństwa "
 "struktury."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1014
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1028
 msgid ""
 "Checks whether each ACF field group is represented consistently in the "
 "WordPress database and ACF Local JSON."
@@ -642,7 +627,7 @@ msgstr ""
 "Sprawdza, czy każda grupa pól ACF jest zgodna w bazie danych WordPressa i w "
 "ACF Local JSON."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1016
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1030
 msgid ""
 "ACF Local JSON is not configured. This is a supported workflow: set an "
 "approved baseline, review live Changes, and use Code Usage to check current "
@@ -652,16 +637,16 @@ msgstr ""
 "ustaw zatwierdzoną wersję bazową, sprawdzaj bieżące zmiany i używaj analizy "
 "kodu do kontroli odwołań w PHP."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1020
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1034
 msgid "ACF is unavailable, so Source health cannot inspect field groups."
 msgstr ""
 "ACF jest niedostępny, dlatego nie można sprawdzić stanu źródeł grup pól."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1024
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1038
 msgid "No field groups found"
 msgstr "Nie znaleziono grup pól"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1025
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1039
 msgid ""
 "No ACF field groups were found in the database or configured Local JSON "
 "paths."
@@ -669,80 +654,80 @@ msgstr ""
 "Nie znaleziono grup pól ACF w bazie danych ani w skonfigurowanych ścieżkach "
 "Local JSON."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1029
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1030
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1043
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1044
 msgid "Field group"
 msgstr "Grupa pól"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1029
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1030
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1043
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1044
 msgid "Key"
 msgstr "Klucz"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1029
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1030
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1043
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1044
 msgid "Status"
 msgstr "Status"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1029
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1030
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1043
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1044
 msgid "Database"
 msgstr "Baza danych"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1029
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1030
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1043
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1044
 msgid "Local JSON"
 msgstr "Local JSON"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1029
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1030
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1043
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1044
 msgid "Recommended action"
 msgstr "Zalecane działanie"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1049
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1063
 msgid "Missing"
 msgstr "Brak"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1049
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1063
 msgid "Not found"
 msgstr "Nie znaleziono"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1053
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1057
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1061
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1064
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1067
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1071
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1075
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1078
 msgid "Present"
 msgstr "Dostępne"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1053
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1067
 msgid "Matches"
 msgstr "Zgodne"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1057
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1071
 msgid "Same modified time"
 msgstr "Ten sam czas modyfikacji"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1061
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1075
 msgid "Newer schema"
 msgstr "Nowsza struktura"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1064
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1078
 msgid "Review"
 msgstr "Sprawdź"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1071
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1080
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1085
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1094
 msgid "No action needed."
 msgstr "Nie jest wymagane żadne działanie."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1075
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1089
 msgid ""
 "Definitions differ but timestamps are equal. ACF Sync may not be available."
 msgstr ""
 "Definicje różnią się, ale mają ten sam czas modyfikacji. Synchronizacja ACF "
 "może być niedostępna."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1078
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1092
 msgid ""
 "Local JSON is newer. Review it, then use ACF Sync to import it into the "
 "database."
@@ -750,7 +735,7 @@ msgstr ""
 "Local JSON jest nowszy. Sprawdź zmiany, a następnie użyj synchronizacji ACF, "
 "aby zaimportować je do bazy danych."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1079
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1093
 msgid ""
 "The database is newer. Open this group in ACF and save it to refresh Local "
 "JSON before committing."
@@ -758,14 +743,14 @@ msgstr ""
 "Wersja w bazie danych jest nowsza. Otwórz tę grupę w ACF i zapisz ją, aby "
 "zaktualizować Local JSON przed commitem."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1080
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1094
 msgid ""
 "Save or sync this group so it is written to Local JSON and committed to Git."
 msgstr ""
 "Zapisz lub zsynchronizuj tę grupę, aby trafiła do Local JSON i mogła zostać "
 "dodana do Gita."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1080
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1094
 msgid ""
 "Review the JSON definition and import or sync it into the database when "
 "appropriate."
@@ -773,7 +758,7 @@ msgstr ""
 "Sprawdź definicję JSON i w razie potrzeby zaimportuj lub zsynchronizuj ją z "
 "bazą danych."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1080
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1094
 msgid ""
 "Review both definitions before synchronizing. Do not overwrite either source "
 "blindly."
@@ -781,24 +766,24 @@ msgstr ""
 "Przed synchronizacją sprawdź obie definicje. Nie nadpisuj żadnego ze źródeł "
 "bez weryfikacji."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1081
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1095
 msgid "Review this field group manually."
 msgstr "Sprawdź tę grupę pól ręcznie."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1116
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1130
 msgid "Stored immutable schema snapshots, newest first."
 msgstr "Zapisane, niezmienne migawki struktury, od najnowszej."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1120
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1356
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1134
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1370
 msgid "Current schema"
 msgstr "Aktualna struktura"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1121
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1135
 msgid "Capture a checkpoint"
 msgstr "Utwórz punkt kontrolny"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1122
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1136
 msgid ""
 "Save the effective ACF schema as an immutable snapshot before or after a "
 "meaningful change."
@@ -806,19 +791,19 @@ msgstr ""
 "Zapisz aktualną strukturę ACF jako niezmienną migawkę przed ważną zmianą lub "
 "po niej."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1127
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1141
 msgid "Capture current schema"
 msgstr "Zapisz aktualną strukturę"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1132
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1146
 msgid "Team baseline"
 msgstr "Baseline zespołu"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1134
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1148
 msgid "No approved baseline to share"
 msgstr "Brak zatwierdzonego baseline do udostępnienia"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1135
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1149
 msgid ""
 "Approve a reviewed snapshot and set it as the baseline before downloading "
 "the file for your repository."
@@ -826,16 +811,16 @@ msgstr ""
 "Zatwierdź sprawdzoną migawkę i ustaw ją jako baseline przed pobraniem pliku "
 "dla repozytorium."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1137
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1151
 msgid "Download the approved Git baseline"
 msgstr "Pobierz zatwierdzony baseline Git"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1138
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1152
 #, php-format
 msgid "Snapshot %1$s, captured %2$s UTC."
 msgstr "Migawka %1$s, utworzona %2$s UTC."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1139
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1153
 msgid ""
 "Save the downloaded acf-schema-baseline.json in your versioned theme or "
 "plugin, then add and commit it with your normal Git workflow. WordPress does "
@@ -845,15 +830,15 @@ msgstr ""
 "pluginie, a następnie dodaj go i zatwierdź w swoim zwykłym procesie Git. "
 "WordPress nie zapisuje plików repozytorium ani nie uruchamia poleceń Git."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1146
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1160
 msgid "Download baseline JSON"
 msgstr "Pobierz baseline JSON"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1152
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1166
 msgid "No snapshots yet"
 msgstr "Brak zapisanych migawek"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1153
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1167
 msgid ""
 "Capture the current schema to start a durable history and choose a baseline "
 "for live comparison."
@@ -861,154 +846,154 @@ msgstr ""
 "Zapisz aktualną strukturę, aby rozpocząć historię zmian i wybrać wersję "
 "bazową do porównywania bieżącego stanu."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1159
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1170
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1173
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1184
 msgid "Snapshot ID"
 msgstr "ID migawki"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1160
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1171
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1174
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1185
 msgid "Source"
 msgstr "Źródło"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1161
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1172
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1175
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1186
 msgid "Captured (UTC)"
 msgstr "Zapisano (UTC)"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1163
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1174
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1177
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1188
 msgid "Baseline"
 msgstr "Wersja bazowa"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1171
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1185
 msgid "Automatic ACF save"
 msgstr "Automatyczny zapis ACF"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1194
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1208
 msgid "Rejected"
 msgstr "Odrzucone"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1194
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1236
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1208
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1250
 #, php-format
 msgid "By %1$s on %2$s."
 msgstr "Przez %1$s dnia %2$s."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1198
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1212
 msgid "Request another review"
 msgstr "Poproś o kolejny przegląd"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1198
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1205
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1212
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1219
 msgid "Request review"
 msgstr "Poproś o przegląd"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1203
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1217
 msgid "What should be reviewed?"
 msgstr "Co należy sprawdzić?"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1214
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1228
 msgid "Review pending"
 msgstr "Przegląd oczekuje"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1215
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1229
 #, php-format
 msgid "Requested by %1$s on %2$s."
 msgstr "Zgłoszone przez %1$s dnia %2$s."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1217
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1231
 msgid "Record decision"
 msgstr "Zapisz decyzję"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1223
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1237
 msgid "Decision"
 msgstr "Decyzja"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1224
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1238
 msgid "Approve"
 msgstr "Zatwierdź"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1224
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1238
 msgid "Reject"
 msgstr "Odrzuć"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1225
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1239
 msgid "Decision note"
 msgstr "Notatka do decyzji"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1227
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1241
 msgid "Save decision"
 msgstr "Zapisz decyzję"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1235
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1249
 msgid "Approved"
 msgstr "Zatwierdzone"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1256
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1270
 msgid "Requires approved review"
 msgstr "Wymaga zatwierdzonego przeglądu"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1264
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1278
 msgid "Set approved baseline"
 msgstr "Ustaw zatwierdzoną wersję bazową"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1270
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1284
 msgid "You do not have permission to set a baseline."
 msgstr "Nie masz uprawnień do ustawienia wersji bazowej."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1288
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1302
 msgid "You do not have permission to request a review."
 msgstr "Nie masz uprawnień do zgłoszenia przeglądu."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1309
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1323
 msgid "You do not have permission to record a review decision."
 msgstr "Nie masz uprawnień do zapisania decyzji przeglądu."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1332
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1346
 msgid "Live schema comparison is unavailable."
 msgstr "Porównanie z bieżącą strukturą jest niedostępne."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1338
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1352
 msgid "The current ACF schema could not be compared."
 msgstr "Nie udało się porównać aktualnej struktury ACF."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1348
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1362
 msgid "Comparing the approved baseline with the current live schema."
 msgstr "Porównanie zatwierdzonej wersji bazowej z aktualną strukturą."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1357
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1371
 msgid "Live schema"
 msgstr "Bieżąca struktura"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1358
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1372
 msgid "Loaded for this request and not saved as a snapshot."
 msgstr "Wczytana na potrzeby tego sprawdzenia i niezapisana jako migawka."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1361
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1375
 msgid "Release report"
 msgstr "Raport wydania"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1361
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1375
 msgid "Share a review-ready summary"
 msgstr "Udostępnij podsumowanie gotowe do weryfikacji"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1361
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1375
 msgid ""
 "Download the current baseline comparison for your pull or merge request."
 msgstr ""
 "Pobierz porównanie z wersją bazową do użycia w pull requeście lub merge "
 "requeście."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1361
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1375
 msgid "Format"
 msgstr "Format"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1361
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1375
 msgid "Download report"
 msgstr "Pobierz raport"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1377
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1391
 msgid ""
 "Pro migration plan prepared. Review it before any future execution feature "
 "is available."
@@ -1016,11 +1001,11 @@ msgstr ""
 "Plan migracji Pro został przygotowany. Sprawdź go, zanim przyszła funkcja "
 "wykonania stanie się dostępna."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1378
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1392
 msgid "Pro migration plan reviewed. No data was changed."
 msgstr "Plan migracji Pro został sprawdzony. Żadne dane nie zostały zmienione."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1379
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1393
 msgid ""
 "The migration plan was invalidated because the live schema changed. No data "
 "was changed."
@@ -1028,7 +1013,7 @@ msgstr ""
 "Plan migracji został unieważniony, ponieważ zmienił się bieżący schemat. "
 "Żadne dane nie zostały zmienione."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1380
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1394
 msgid ""
 "The migration plan could not be prepared or reviewed. Check the current "
 "rename and Pro access."
@@ -1036,92 +1021,102 @@ msgstr ""
 "Nie udało się przygotować ani sprawdzić planu migracji. Sprawdź bieżącą "
 "zmianę nazwy i dostęp Pro."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1405
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1395
+msgid "Selected records were processed. Old keys were retained."
+msgstr ""
+
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1396
+msgid ""
+"No selected records could be migrated. Review the current candidates and "
+"plan."
+msgstr ""
+
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1421
 msgid "The selected snapshots could not be compared. Try again."
 msgstr "Nie udało się porównać wybranych migawek. Spróbuj ponownie."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1413
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1429
 msgid "No schema changes found between the selected snapshots."
 msgstr "Nie znaleziono zmian w strukturze między wybranymi migawkami."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1426
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1442
 msgid "Detected changes"
 msgstr "Wykryte zmiany"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1427
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1443
 #, php-format
 msgid "%d classified changes need review."
 msgstr "%d sklasyfikowanych zmian wymaga sprawdzenia."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1435
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1453
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1451
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1469
 msgid "Kind"
 msgstr "Rodzaj"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1436
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1454
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1452
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1470
 msgid "Node type"
 msgstr "Typ elementu"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1437
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1455
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1453
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1471
 msgid "Path"
 msgstr "Ścieżka"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1438
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1456
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1454
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1472
 msgid "Change details"
 msgstr "Szczegóły zmiany"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1439
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1457
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1455
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1473
 msgid "Severity"
 msgstr "Poziom ryzyka"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1440
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1458
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1456
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1474
 msgid "Rationale"
 msgstr "Uzasadnienie"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1481
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1497
 msgid "Approved exception"
 msgstr "Zatwierdzony wyjątek"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1483
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1499
 #, php-format
 msgid "Approved by %1$s on %2$s."
 msgstr "Zatwierdzone przez %1$s dnia %2$s."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1484
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1500
 msgid "Revoke exception"
 msgstr "Wycofaj wyjątek"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1495
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1511
 msgid "Approve temporary exception"
 msgstr "Zatwierdź tymczasowy wyjątek"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1500
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1516
 msgid "Reason"
 msgstr "Powód"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1501
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1517
 msgid "Expires at (optional, UTC)"
 msgstr "Wygasa (opcjonalnie, UTC)"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1502
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1518
 msgid "Approve exception"
 msgstr "Zatwierdź wyjątek"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1605
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1621
 msgid "Safe Rename Assistant"
 msgstr "Asystent bezpiecznej zmiany nazwy"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1606
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1622
 #, php-format
 msgid "Plan for renaming %1$s to %2$s."
 msgstr "Plan zmiany nazwy z %1$s na %2$s."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1608
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1624
 msgid ""
 "This field is nested in an ACF structure. The plugin cannot safely simulate "
 "its data migration, so review its storage manually."
@@ -1129,7 +1124,7 @@ msgstr ""
 "To pole jest zagnieżdżone w strukturze ACF. Wtyczka nie może bezpiecznie "
 "zasymulować migracji jego danych, dlatego sprawdź sposób zapisu ręcznie."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1610
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1626
 #, php-format
 msgid ""
 "Dry-run only: %1$d records use the old key, %2$d already use the new key, "
@@ -1138,11 +1133,11 @@ msgstr ""
 "Tylko dry-run: %1$d rekordów używa starego klucza, %2$d ma już nowy klucz, a "
 "%3$d rekordów wymaga decyzji o migracji."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1611
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1627
 msgid "Conflicts need manual review before any future migration."
 msgstr "Konflikty wymagają ręcznego sprawdzenia przed przyszłą migracją."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1612
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1628
 msgid ""
 "No direct post-meta records use the old key. Other storage locations are not "
 "included."
@@ -1150,18 +1145,18 @@ msgstr ""
 "Żaden bezpośredni rekord post-meta nie używa starego klucza. Inne miejsca "
 "zapisu nie są uwzględnione."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1615
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1631
 #, php-format
 msgid "Replace literal PHP calls that use %s with the new field name."
 msgstr "Zastąp literalne wywołania PHP używające %s nową nazwą pola."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1616
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1632
 msgid ""
 "Review the listed code locations and affected content before deployment."
 msgstr ""
 "Sprawdź wskazane miejsca w kodzie i treść objętą zmianą przed wdrożeniem."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1617
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1633
 msgid ""
 "If data must be retained, make a separate, reviewed migration decision. This "
 "assistant never changes data."
@@ -1169,62 +1164,82 @@ msgstr ""
 "Jeśli dane muszą zostać zachowane, podejmij osobną, sprawdzoną decyzję o "
 "migracji. Ten asystent nigdy nie zmienia danych."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1618
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1634
 msgid "After testing, capture and approve a new baseline."
 msgstr "Po testach utwórz i zatwierdź nowy baseline."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1635
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1651
 msgid "Pro migration plan"
 msgstr "Plan migracji Pro"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1637
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1653
 msgid ""
 "Free includes this evidence and repair guidance. Pro can save a reviewed, "
 "value-free migration plan; data execution is not available yet."
 msgstr ""
 "Free zawiera te informacje i wskazówki naprawy. Pro może zapisać sprawdzony "
-"plan migracji bez wartości danych; wykonanie danych nie jest jeszcze dostępne."
+"plan migracji bez wartości danych; wykonanie danych nie jest jeszcze "
+"dostępne."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1643
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1659
 msgid "Plan reviewed."
 msgstr "Plan został sprawdzony."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1643
-msgid "It records the scope only. This release cannot execute a migration."
-msgstr "Zapisuje tylko zakres. Ta wersja nie może wykonać migracji."
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1659
+msgid "Select current direct records to copy. Existing old keys are retained."
+msgstr ""
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1645
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1661
+msgid "No conflict-free records are currently available for this plan."
+msgstr ""
+
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1666
+#, fuzzy, php-format
+msgid "Record #%d"
+msgstr "Zapisz decyzję"
+
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1667
+msgid "I understand that new meta keys will be added and old keys will remain."
+msgstr ""
+
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1668
+msgid "Copy selected records"
+msgstr ""
+
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1671
 msgid "A draft plan is ready for review. Add a note to confirm the scope."
-msgstr "Projekt planu jest gotowy do sprawdzenia. Dodaj notatkę, aby potwierdzić zakres."
+msgstr ""
+"Projekt planu jest gotowy do sprawdzenia. Dodaj notatkę, aby potwierdzić "
+"zakres."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1651
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1677
 msgid "Review note"
 msgstr "Notatka review"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1652
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1678
 msgid "Mark plan reviewed"
 msgstr "Oznacz plan jako sprawdzony"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1659
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1685
 msgid "Prepare Pro migration plan"
 msgstr "Przygotuj plan migracji Pro"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1669
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1695
 msgid "Affected code references"
 msgstr "Powiązane odwołania w kodzie"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1670
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1696
 msgid ""
 "These literal PHP ACF calls still use the field before this schema change."
 msgstr ""
 "Te bezpośrednie wywołania ACF w PHP nadal używają pola w jego poprzedniej "
 "postaci."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1687
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1713
 msgid "Stored data impact"
 msgstr "Wpływ na zapisane dane"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1688
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1714
 msgid ""
 "Evidence identifies records to review. Values are never read or shown, and a "
 "zero result does not confirm that no data exists elsewhere."
@@ -1233,38 +1248,35 @@ msgstr ""
 "ani wyświetlane, a wynik zero nie oznacza, że dane nie występują w innych "
 "miejscach."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1699
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1725
 msgid "Field path"
 msgstr "Ścieżka pola"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1700
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1726
 msgid "Storage pattern"
 msgstr "Sposób zapisu danych"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1704
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1730
 msgid "No storage query was run for this structure."
 msgstr "Dla tej struktury nie wykonano sprawdzenia zapisanych danych."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1708
-#, php-format
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1734
+#, fuzzy, php-format
 msgid "%d matching record found"
-msgid_plural "%d matching records found"
-msgstr[0] "Znaleziono %d pasujący rekord"
-msgstr[1] "Znaleziono %d pasujące rekordy"
-msgstr[2] "Znaleziono %d pasujących rekordów"
+msgstr "Znaleziono %d pasujący rekord"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1731
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1757
 msgid "Nested ACF storage"
 msgstr "Zagnieżdżone dane ACF"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1732
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1758
 msgid ""
 "Records match a storage key derived from this field's ACF parent structure."
 msgstr ""
 "Rekordy pasują do klucza zapisu wynikającego z nadrzędnej struktury tego "
 "pola ACF."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1735
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1761
 msgid ""
 "No matching nested records were found. Other unsupported storage locations "
 "are not included."
@@ -1272,11 +1284,11 @@ msgstr ""
 "Nie znaleziono pasujących zagnieżdżonych rekordów. Inne, nieobsługiwane "
 "miejsca przechowywania danych nie są uwzględniane."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1742
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1768
 msgid "Coverage unknown"
 msgstr "Zakres analizy nieznany"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1743
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1769
 msgid ""
 "This ACF structure does not have a storage pattern the plugin can verify "
 "safely."
@@ -1284,16 +1296,16 @@ msgstr ""
 "Ta struktura ACF nie ma sposobu zapisu, który wtyczka może bezpiecznie "
 "zweryfikować."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1752
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1778
 msgid "Direct storage"
 msgstr "Bezpośredni zapis"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1753
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1779
 msgid "Records use the exact previous field name as their post-meta key."
 msgstr ""
 "Rekordy używają poprzedniej nazwy pola bezpośrednio jako klucza post meta."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1756
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1782
 msgid ""
 "No direct records were found. Nested fields and other storage locations are "
 "not included."
@@ -1301,39 +1313,39 @@ msgstr ""
 "Nie znaleziono bezpośrednich rekordów. Zagnieżdżone pola i inne miejsca "
 "przechowywania danych nie są uwzględniane."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1768
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1794
 msgid "Severity guide"
 msgstr "Znaczenie poziomów ryzyka"
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1804
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1830
 msgid "No breaking impact is expected."
 msgstr "Nie przewiduje się problemów wynikających z tej zmiany."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1808
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1834
 msgid "Review the change before deployment."
 msgstr "Sprawdź zmianę przed wdrożeniem."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1812
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1838
 msgid "The change is likely to break existing usage."
 msgstr "Zmiana może spowodować problemy w istniejącym kodzie."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1816
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1842
 msgid "Resolve the breaking change before deployment."
 msgstr "Napraw niezgodność przed wdrożeniem."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1841
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1867
 msgid "Schema change."
 msgstr "Zmiana struktury."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1872
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1898
 msgid "You do not have permission to capture a schema snapshot."
 msgstr "Nie masz uprawnień do zapisania migawki struktury."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1899
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1925
 msgid "Schema snapshot captured."
 msgstr "Migawka struktury została zapisana."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1905
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1931
 msgid ""
 "The schema snapshot could not be captured. Check that ACF is available and "
 "try again."
@@ -1341,21 +1353,21 @@ msgstr ""
 "Nie udało się zapisać migawki struktury. Sprawdź, czy ACF jest dostępny, i "
 "spróbuj ponownie."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1910
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1936
 msgid "Approved baseline updated."
 msgstr "Zatwierdzona wersja bazowa została zaktualizowana."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1911
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1937
 msgid ""
 "This snapshot needs an approved review before it can become the baseline."
 msgstr ""
 "Ta migawka wymaga zatwierdzonego przeglądu, zanim stanie się wersją bazową."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1912
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1938
 msgid "Schema review requested."
 msgstr "Przegląd struktury został zgłoszony."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1913
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1939
 msgid ""
 "The schema review request could not be saved. A review may already be "
 "pending."
@@ -1363,11 +1375,11 @@ msgstr ""
 "Nie udało się zapisać zgłoszenia przeglądu struktury. Przegląd może już "
 "oczekiwać."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1914
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1940
 msgid "Schema review decision saved."
 msgstr "Decyzja przeglądu struktury została zapisana."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1915
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1941
 msgid ""
 "The schema review decision could not be saved. Refresh the page and try "
 "again."
@@ -1375,9 +1387,11 @@ msgstr ""
 "Nie udało się zapisać decyzji przeglądu struktury. Odśwież stronę i spróbuj "
 "ponownie."
 
-#: wp-content/plugins/acf-schema-guard/includes/admin/class-pro-feature-notice.php:30
-msgid "ACF Schema Guard Pro"
-msgstr "ACF Schema Guard Pro"
+#~ msgid "It records the scope only. This release cannot execute a migration."
+#~ msgstr "Zapisuje tylko zakres. Ta wersja nie może wykonać migracji."
+
+#~ msgid "ACF Schema Guard Pro"
+#~ msgstr "ACF Schema Guard Pro"
 
 #~ msgid "Free edition preview is active for this local site."
 #~ msgstr "Dla tej lokalnej witryny aktywny jest podgląd wersji Free."

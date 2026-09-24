@@ -39,7 +39,7 @@ $service      = new \AcfSchemaGuard\Migrations\MigrationPlanService(
 	static function() { return '2026-09-22 12:00:00'; }
 );
 
-$finding = array( 'change' => array( 'kind' => 'modified', 'node_type' => 'field', 'before' => array( 'name' => 'hero_title' ), 'after' => array( 'name' => 'hero_heading' ) ) );
+$finding = array( 'change' => array( 'kind' => 'modified', 'node_type' => 'field', 'before' => array( 'key' => 'field_hero_title', 'name' => 'hero_title' ), 'after' => array( 'key' => 'field_hero_title', 'name' => 'hero_heading' ) ) );
 $rename  = array( 'old_name' => 'hero_title', 'new_name' => 'hero_heading', 'dry_run' => array( 'old_record_count' => 3, 'conflict_count' => 1, 'migration_candidate_count' => 2 ) );
 $hash    = str_repeat( 'a', 64 );
 $plan    = $service->prepare( $finding, $rename, 'baseline-id', $hash, 12 );

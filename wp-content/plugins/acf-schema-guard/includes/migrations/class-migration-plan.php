@@ -71,7 +71,7 @@ final class MigrationPlan {
 	}
 
 	private function validated_data( array $data ) {
-		$required = array( 'id', 'old_name', 'new_name', 'finding_fingerprint', 'current_schema_hash', 'old_record_count', 'conflict_count', 'candidate_count', 'status', 'created_by', 'created_at' );
+		$required = array( 'id', 'old_name', 'new_name', 'field_key', 'finding_fingerprint', 'current_schema_hash', 'old_record_count', 'conflict_count', 'candidate_count', 'status', 'created_by', 'created_at' );
 		foreach ( $required as $key ) {
 			if ( ! array_key_exists( $key, $data ) ) {
 				throw new InvalidArgumentException( 'Migration plan is missing ' . $key . '.' );
@@ -80,7 +80,8 @@ final class MigrationPlan {
 
 		$old_name = (string) $data['old_name'];
 		$new_name = (string) $data['new_name'];
-		if ( '' === $old_name || '' === $new_name || $old_name === $new_name ) {
+		$field_key = (string) $data['field_key'];
+		if ( '' === $old_name || '' === $new_name || $old_name === $new_name || '' === $field_key ) {
 			throw new InvalidArgumentException( 'Migration plan requires two different field names.' );
 		}
 
@@ -98,6 +99,7 @@ final class MigrationPlan {
 			'id'                  => (string) $data['id'],
 			'old_name'            => $old_name,
 			'new_name'            => $new_name,
+			'field_key'           => $field_key,
 			'finding_fingerprint' => (string) $data['finding_fingerprint'],
 			'baseline_snapshot_id' => $baseline_id,
 			'current_schema_hash' => (string) $data['current_schema_hash'],
