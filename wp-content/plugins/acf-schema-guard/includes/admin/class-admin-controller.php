@@ -1639,7 +1639,7 @@ final class AdminController {
 					<p><?php echo esc_html__( 'This field is nested in an ACF structure. The plugin cannot safely simulate its data migration, so review its storage manually.', 'acf-schema-guard' ); ?></p>
 				<?php else : ?>
 					<p><?php echo esc_html( sprintf( __( 'Dry-run only: %1$d records use the old key, %2$d already use the new key, and %3$d records would require a migration decision.', 'acf-schema-guard' ), $dry_run['old_record_count'], $dry_run['conflict_count'], $dry_run['migration_candidate_count'] ) ); ?></p>
-					<?php if ( 'conflicts' === $status ) : ?><p><strong><?php echo esc_html__( 'Conflicts need manual review before any future migration.', 'acf-schema-guard' ); ?></strong></p><?php endif; ?>
+					<?php if ( 'conflicts' === $status && ! empty( $dry_run['conflict_count'] ) ) : ?><p><strong><?php echo esc_html__( 'Conflicts need manual review before any future migration.', 'acf-schema-guard' ); ?></strong></p><?php endif; ?>
 					<?php if ( 'no_records' === $status ) : ?><p><?php echo esc_html__( 'No direct post-meta records use the old key. Other storage locations are not included.', 'acf-schema-guard' ); ?></p><?php endif; ?>
 				<?php endif; ?>
 				<ol>
@@ -1665,7 +1665,7 @@ final class AdminController {
 		<div class="acf-schema-guard-migration-plan-control">
 			<h4><?php echo esc_html__( 'Pro migration plan', 'acf-schema-guard' ); ?></h4>
 			<?php if ( ! $decision->is_allowed() ) : ?>
-				<p><?php echo esc_html__( 'Free includes this evidence and repair guidance. Pro can save a reviewed, value-free migration plan; data execution is not available yet.', 'acf-schema-guard' ); ?></p>
+				<p><?php echo esc_html__( 'Free includes this evidence and repair guidance. Pro can save a reviewed migration plan without field values; data execution is not available yet.', 'acf-schema-guard' ); ?></p>
 				<p><strong><?php echo esc_html( $decision->reason() ); ?></strong></p>
 				<?php return; ?>
 			<?php endif; ?>

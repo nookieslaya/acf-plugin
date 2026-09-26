@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ACF Schema Guard 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-26 13:07+0200\n"
+"POT-Creation-Date: 2026-09-26 17:06+0200\n"
 "PO-Revision-Date: 2026-09-14 19:29+0200\n"
 "Last-Translator: ACF Schema Guard contributors\n"
 "Language-Team: Polish\n"
@@ -353,9 +353,12 @@ msgstr ""
 "Poproś o przegląd w Historii przed zatwierdzeniem nowej wersji bazowej."
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:441
-#, fuzzy, php-format
+#, php-format
 msgid "%d review pending"
-msgstr "%d oczekujący przegląd"
+msgid_plural "%d reviews pending"
+msgstr[0] "%d oczekujący przegląd"
+msgstr[1] "%d oczekujące przeglądy"
+msgstr[2] "%d oczekujących przeglądów"
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:442
 msgid "A team member needs to approve or reject a stored schema snapshot."
@@ -400,9 +403,12 @@ msgid "No high-risk changes"
 msgstr "Brak zmian wysokiego ryzyka"
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:514
-#, fuzzy, php-format
+#, php-format
 msgid "%d schema finding detected."
-msgstr "%d wykryta zmiana w strukturze."
+msgid_plural "%d schema findings detected."
+msgstr[0] "%d wykryta zmiana w strukturze."
+msgstr[1] "%d wykryte zmiany w strukturze."
+msgstr[2] "%d wykrytych zmian w strukturze."
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:529
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1048
@@ -435,9 +441,12 @@ msgid "Sources aligned"
 msgstr "Źródła są zgodne"
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:549
-#, fuzzy, php-format
+#, php-format
 msgid "%d field group needs source review."
-msgstr "%d grupa pól wymaga sprawdzenia źródeł."
+msgid_plural "%d field groups need source review."
+msgstr[0] "%d grupa pól wymaga sprawdzenia źródeł."
+msgstr[1] "%d grupy pól wymagają sprawdzenia źródeł."
+msgstr[2] "%d grup pól wymaga sprawdzenia źródeł."
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:555
 #, php-format
@@ -545,9 +554,12 @@ msgid "Filter references"
 msgstr "Filtruj odwołania"
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:805
-#, fuzzy, php-format
+#, php-format
 msgid "%d reference shown"
-msgstr "Wyświetlono %d odwołanie."
+msgid_plural "%d references shown"
+msgstr[0] "Wyświetlono %d odwołanie."
+msgstr[1] "Wyświetlono %d odwołania."
+msgstr[2] "Wyświetlono %d odwołań."
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:812
 msgid "No matching references"
@@ -562,9 +574,12 @@ msgstr ""
 "skanowanie ponownie."
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:822
-#, fuzzy, php-format
+#, php-format
 msgid "%d reference"
-msgstr "%d odwołanie"
+msgid_plural "%d references"
+msgstr[0] "%d odwołanie"
+msgstr[1] "%d odwołania"
+msgstr[2] "%d odwołań"
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:824
 msgid "Show call sites"
@@ -1213,12 +1228,12 @@ msgstr "Plan migracji Pro"
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1668
 msgid ""
-"Free includes this evidence and repair guidance. Pro can save a reviewed, "
-"value-free migration plan; data execution is not available yet."
+"Free includes this evidence and repair guidance. Pro can save a reviewed "
+"migration plan without field values; data execution is not available yet."
 msgstr ""
-"Free zawiera te informacje i wskazówki naprawy. Pro może zapisać sprawdzony "
-"plan migracji bez wartości danych; wykonanie danych nie jest jeszcze "
-"dostępne."
+"Wersja Free zawiera te informacje i wskazówki naprawy. Wersja Pro może "
+"zapisać sprawdzony plan migracji bez wartości pól, ale wykonanie migracji "
+"danych nie jest jeszcze dostępne."
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1674
 msgid "Plan reviewed."
@@ -1227,23 +1242,26 @@ msgstr "Plan został sprawdzony."
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1674
 msgid "Select current direct records to copy. Existing old keys are retained."
 msgstr ""
+"Wybierz bieżące bezpośrednie rekordy do skopiowania. Istniejące stare klucze "
+"zostaną zachowane."
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1676
 msgid "No conflict-free records are currently available for this plan."
-msgstr ""
+msgstr "Dla tego planu nie ma obecnie rekordów bez konfliktów."
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1681
-#, fuzzy, php-format
+#, php-format
 msgid "Record #%d"
-msgstr "Zapisz decyzję"
+msgstr "Rekord #%d"
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1682
 msgid "I understand that new meta keys will be added and old keys will remain."
 msgstr ""
+"Rozumiem, że zostaną dodane nowe klucze meta, a stare klucze pozostaną."
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1683
 msgid "Copy selected records"
-msgstr ""
+msgstr "Skopiuj wybrane rekordy"
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1686
 msgid "A draft plan is ready for review. Add a note to confirm the scope."
@@ -1253,7 +1271,7 @@ msgstr ""
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1692
 msgid "Review note"
-msgstr "Notatka review"
+msgstr "Notatka do przeglądu"
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1693
 msgid "Mark plan reviewed"
@@ -1300,9 +1318,12 @@ msgid "No storage query was run for this structure."
 msgstr "Dla tej struktury nie wykonano sprawdzenia zapisanych danych."
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1749
-#, fuzzy, php-format
+#, php-format
 msgid "%d matching record found"
-msgstr "Znaleziono %d pasujący rekord"
+msgid_plural "%d matching records found"
+msgstr[0] "Znaleziono %d pasujący rekord"
+msgstr[1] "Znaleziono %d pasujące rekordy"
+msgstr[2] "Znaleziono %d pasujących rekordów"
 
 #: wp-content/plugins/acf-schema-guard/includes/admin/class-admin-controller.php:1772
 msgid "Nested ACF storage"
@@ -1426,11 +1447,12 @@ msgstr ""
 "Nie udało się zapisać decyzji przeglądu struktury. Odśwież stronę i spróbuj "
 "ponownie."
 
+#: wp-content/plugins/acf-schema-guard/includes/admin/class-pro-feature-notice.php:30
+msgid "ACF Schema Guard Pro"
+msgstr "ACF Schema Guard Pro"
+
 #~ msgid "It records the scope only. This release cannot execute a migration."
 #~ msgstr "Zapisuje tylko zakres. Ta wersja nie może wykonać migracji."
-
-#~ msgid "ACF Schema Guard Pro"
-#~ msgstr "ACF Schema Guard Pro"
 
 #~ msgid "Free edition preview is active for this local site."
 #~ msgstr "Dla tej lokalnej witryny aktywny jest podgląd wersji Free."
