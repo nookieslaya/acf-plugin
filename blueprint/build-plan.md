@@ -146,7 +146,7 @@
 
 ## Pro safe migration
 
-- [ ] 29. **Pro safe rename migration** - let an administrator turn a reviewed, direct field-name rename into a controlled data migration, while retaining all detection and evidence workflows in Free.
+- [x] 29. **Pro safe rename migration** - let an administrator turn a reviewed, direct field-name rename into a controlled data migration, while retaining all detection and evidence workflows in Free.
   - [x] 29a. **Migration plan and entitlement foundation** - create a persistent, reviewable migration-plan contract for eligible direct renames, protect write capabilities behind the existing Pro boundary, and keep Free strictly read-only.
   - [x] 29b. **Backup and controlled execution** - create bounded migration backups, copy only explicitly selected direct post-meta records, skip conflicts, retain old keys, and record an auditable execution report.
-  - [ ] 29c. **Migration review and rollback workspace** - provide the Admin review, execution history, downloadable reports, and a guarded rollback limited to values written by the migration.
+  - [x] 29c. **Migration review and rollback workspace** - provide the Admin review, execution history, downloadable reports, and a guarded rollback limited to values written by the migration.

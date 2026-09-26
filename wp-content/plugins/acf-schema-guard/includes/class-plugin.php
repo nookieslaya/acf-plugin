@@ -102,6 +102,7 @@ require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-wordpress-direct
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-migration-execution-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/interface-migration-execution-audit-repository.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-wordpress-migration-execution-audit-repository.php';
+require_once ACF_SCHEMA_GUARD_PATH . 'includes/migrations/class-migration-rollback-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/review/class-snapshot-review.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/review/class-snapshot-review-service.php';
 require_once ACF_SCHEMA_GUARD_PATH . 'includes/admin/class-pro-feature-notice.php';
@@ -166,6 +167,7 @@ final class Plugin {
 	private $snapshot_review_service = null;
 	private $migration_plan_service = null;
 	private $migration_execution_service = null;
+	private $migration_rollback_service = null;
 
 	/**
 	 * Gets the plugin instance.
@@ -352,6 +354,14 @@ final class Plugin {
 			);
 		}
 		return $this->migration_execution_service;
+	}
+
+	public function migration_rollback() {
+		if ( null === $this->migration_rollback_service ) {
+			global $wpdb;
+			$this->migration_rollback_service = new \AcfSchemaGuard\Migrations\MigrationRollbackService( $wpdb );
+		}
+		return $this->migration_rollback_service;
 	}
 
 	public function snapshot_reviews() {

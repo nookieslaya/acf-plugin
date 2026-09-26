@@ -123,6 +123,7 @@ final class AdminController {
 		add_action( 'admin_post_acf_schema_guard_prepare_migration_plan', array( $this, 'prepare_migration_plan' ) );
 		add_action( 'admin_post_acf_schema_guard_review_migration_plan', array( $this, 'review_migration_plan' ) );
 		add_action( 'admin_post_acf_schema_guard_execute_migration_plan', array( $this, 'execute_migration_plan' ) );
+		add_action( 'admin_post_acf_schema_guard_rollback_migration', array( $this, 'rollback_migration' ) );
 	}
 
 	/**
@@ -293,6 +294,12 @@ final class AdminController {
 					<li><a href="<?php echo esc_url( admin_url( 'admin.php?page=acf-schema-guard-settings' ) ); ?>"><?php echo esc_html__( 'Choose themes and plugins for code analysis', 'acf-schema-guard' ); ?></a></li>
 				</ul>
 			</section>
+			<?php if ( class_exists( '\\AcfSchemaGuard\\Plugin' ) ) : $executions = \AcfSchemaGuard\Plugin::instance()->migration_rollback()->history(); ?>
+			<section class="acf-schema-guard-history-action">
+				<div><p class="acf-schema-guard-overview-eyebrow"><?php echo esc_html__( 'Pro migration history', 'acf-schema-guard' ); ?></p><h2><?php echo esc_html__( 'Controlled executions', 'acf-schema-guard' ); ?></h2><p><?php echo esc_html__( 'Only identifiers and result counts are retained. Field values are never shown.', 'acf-schema-guard' ); ?></p></div>
+				<?php if ( ! empty( $executions ) ) : ?><table class="widefat striped"><thead><tr><th><?php echo esc_html__( 'Execution', 'acf-schema-guard' ); ?></th><th><?php echo esc_html__( 'Status', 'acf-schema-guard' ); ?></th><th><?php echo esc_html__( 'Copied', 'acf-schema-guard' ); ?></th><th><?php echo esc_html__( 'Action', 'acf-schema-guard' ); ?></th></tr></thead><tbody><?php foreach ( $executions as $execution ) : ?><tr><td><code><?php echo esc_html( $execution['id'] ); ?></code></td><td><?php echo esc_html( $execution['status'] ); ?></td><td><?php echo esc_html( $execution['copied_count'] ); ?></td><td><?php if ( \AcfSchemaGuard\Migrations\MigrationExecution::COMPLETED === $execution['status'] ) : ?><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="acf_schema_guard_rollback_migration" /><input type="hidden" name="execution_id" value="<?php echo esc_attr( $execution['id'] ); ?>" /><?php wp_nonce_field( 'acf_schema_guard_rollback_migration' ); submit_button( __( 'Rollback recorded rows', 'acf-schema-guard' ), 'secondary', 'submit', false ); ?></form><?php endif; ?></td></tr><?php endforeach; ?></tbody></table><?php else : ?><p><?php echo esc_html__( 'No controlled migrations have been executed yet.', 'acf-schema-guard' ); ?></p><?php endif; ?>
+			</section>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
@@ -593,6 +600,14 @@ final class AdminController {
 		$execution = new \AcfSchemaGuard\Migrations\MigrationExecution( array( 'id' => wp_generate_uuid4(), 'plan_id' => $plan->id(), 'finding_fingerprint' => $plan->fingerprint(), 'current_schema_hash' => $plan->schema_hash(), 'status' => \AcfSchemaGuard\Migrations\MigrationExecution::RUNNING, 'requested_by' => $user->ID, 'requested_at' => gmdate( 'Y-m-d H:i:s' ), 'selected_count' => count( $ids ), 'copied_count' => 0, 'skipped_count' => 0, 'conflict_count' => 0, 'failed_count' => 0 ) );
 		$result = \AcfSchemaGuard\Plugin::instance()->migration_executor()->execute( $execution, $plan, $ids );
 		$this->redirect_to_changes( empty( $result ) ? 'migration-execution-failed' : 'migration-executed' );
+	}
+
+	public function rollback_migration() {
+		$this->assert_migration_plan_access( 'acf_schema_guard_rollback_migration' );
+		$execution_id = isset( $_POST['execution_id'] ) ? sanitize_text_field( wp_unslash( $_POST['execution_id'] ) ) : '';
+		\AcfSchemaGuard\Plugin::instance()->migration_rollback()->rollback( $execution_id );
+		wp_safe_redirect( admin_url( 'admin.php?page=acf-schema-guard-history' ) );
+		exit;
 	}
 
 	private function assert_migration_plan_access( $nonce_action ) {
